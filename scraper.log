@@ -1508,3 +1508,824 @@ Stacktrace:
 2024-11-11 17:16:45,302 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11b6dea80>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/abb23a0aa8c45906e4d565128b890e4e
 2024-11-11 17:16:45,335 - INFO - Scraping interrupted by user
 2024-11-11 17:16:45,335 - INFO - Scraping completed
+2024-11-11 17:55:01,674 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:55:01,966 - INFO - NSFW detector initialized successfully
+2024-11-11 17:55:03,717 - INFO - Browser setup successful
+2024-11-11 17:55:03,717 - INFO - Starting setup...
+2024-11-11 17:55:03,717 - INFO - Created directory: hentai/raw
+2024-11-11 17:55:03,849 - INFO - Created directory: hentai/processed
+2024-11-11 17:55:03,853 - INFO - Created directory: hentai/metadata
+2024-11-11 17:55:03,853 - INFO - Created directory: hentai/logs
+2024-11-11 17:55:03,854 - INFO - Created directory: hentai/temp
+2024-11-11 17:55:03,910 - INFO - Setup completed successfully
+2024-11-11 17:55:03,910 - INFO - Starting setup...
+2024-11-11 17:55:03,910 - INFO - Created directory: hentai/raw
+2024-11-11 17:55:03,910 - INFO - Created directory: hentai/processed
+2024-11-11 17:55:03,910 - INFO - Created directory: hentai/metadata
+2024-11-11 17:55:03,910 - INFO - Created directory: hentai/logs
+2024-11-11 17:55:03,910 - INFO - Created directory: hentai/temp
+2024-11-11 17:55:03,911 - INFO - Setup completed successfully
+2024-11-11 17:55:03,912 - INFO - Processing search term: uta
+2024-11-11 17:55:03,912 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:55:07,088 - INFO - Found 42 images on page 1
+2024-11-11 17:55:11,366 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:55:12,078 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 17:55:12,078 - INFO - Successfully downloaded NSFW image: img_20241111_175511_jhuyu9.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_175511_jhuyu9.jpg
+2024-11-11 17:55:18,440 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 17:55:18,608 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 17:55:22,935 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 17:55:28,488 - ERROR - Failed to record download: database is locked
+2024-11-11 17:55:28,488 - INFO - Successfully downloaded NSFW image: img_20241111_175522_444fku.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_175522_444fku.jpeg
+2024-11-11 17:55:34,666 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 17:55:40,027 - ERROR - Failed to record download: database is locked
+2024-11-11 17:55:40,028 - INFO - Successfully downloaded NSFW image: img_20241111_175534_bcntx9.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_175534_bcntx9.jpg
+2024-11-11 17:55:46,248 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 17:55:46,423 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 17:55:50,603 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 17:55:50,803 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 17:55:54,954 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 17:55:55,143 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 17:55:59,298 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 17:55:59,451 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 17:56:03,612 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 17:56:03,754 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 17:56:07,925 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 17:56:08,167 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 17:56:12,446 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg
+2024-11-11 17:56:12,613 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg (confidence: 0.00)
+2024-11-11 17:56:16,802 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg
+2024-11-11 17:56:16,960 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg (confidence: 0.00)
+2024-11-11 17:56:21,129 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg
+2024-11-11 17:56:21,328 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg (confidence: 0.00)
+2024-11-11 17:56:25,676 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png
+2024-11-11 17:56:25,872 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png (confidence: 0.00)
+2024-11-11 17:56:30,238 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/59/ab59a92f77f84b68666d8c551d7ef989.png
+2024-11-11 17:56:35,849 - ERROR - Failed to record download: database is locked
+2024-11-11 17:56:35,849 - INFO - Successfully downloaded NSFW image: img_20241111_175630_gm61uw.png (2,851,623 bytes) to hentai/one_piece/uta/img_20241111_175630_gm61uw.png
+2024-11-11 17:56:42,167 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png
+2024-11-11 17:56:42,563 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png (confidence: 0.00)
+2024-11-11 17:56:46,816 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d7/ad/d7ad5466c47d6b0e56b25d8b52444d36.jpg
+2024-11-11 17:56:52,142 - INFO - Processed 4 images successfully
+2024-11-11 17:56:52,166 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104807ad0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/445fd74d313db09a571d2b80f6c60bd7
+2024-11-11 17:56:52,172 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10cafa3f0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/445fd74d313db09a571d2b80f6c60bd7
+2024-11-11 17:56:52,183 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10d27fdd0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/445fd74d313db09a571d2b80f6c60bd7
+2024-11-11 17:56:52,235 - INFO - Scraping interrupted by user
+2024-11-11 17:56:52,236 - INFO - Scraping completed
+2024-11-11 17:57:24,687 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:57:24,868 - INFO - NSFW detector initialized successfully
+2024-11-11 17:57:26,184 - INFO - Browser setup successful
+2024-11-11 17:57:26,185 - INFO - Starting setup...
+2024-11-11 17:57:26,185 - INFO - Created directory: hentai/raw
+2024-11-11 17:57:26,185 - INFO - Created directory: hentai/processed
+2024-11-11 17:57:26,185 - INFO - Created directory: hentai/metadata
+2024-11-11 17:57:26,185 - INFO - Created directory: hentai/logs
+2024-11-11 17:57:26,185 - INFO - Created directory: hentai/temp
+2024-11-11 17:57:26,186 - INFO - Setup completed successfully
+2024-11-11 17:57:26,186 - INFO - Starting setup...
+2024-11-11 17:57:26,186 - INFO - Created directory: hentai/raw
+2024-11-11 17:57:26,186 - INFO - Created directory: hentai/processed
+2024-11-11 17:57:26,186 - INFO - Created directory: hentai/metadata
+2024-11-11 17:57:26,186 - INFO - Created directory: hentai/logs
+2024-11-11 17:57:26,186 - INFO - Created directory: hentai/temp
+2024-11-11 17:57:26,186 - INFO - Setup completed successfully
+2024-11-11 17:57:26,187 - INFO - Processing search term: uta
+2024-11-11 17:57:26,187 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:57:29,865 - INFO - Found 42 images on page 1
+2024-11-11 17:57:34,125 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:57:34,546 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 17:57:34,546 - INFO - Successfully downloaded NSFW image: img_20241111_175734_m9j227.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_175734_m9j227.jpg
+2024-11-11 17:57:41,052 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 17:57:41,180 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 17:57:45,488 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 17:57:51,007 - ERROR - Failed to record download: database is locked
+2024-11-11 17:57:51,008 - INFO - Successfully downloaded NSFW image: img_20241111_175745_t7rvmn.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_175745_t7rvmn.jpeg
+2024-11-11 17:57:57,163 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 17:58:02,825 - ERROR - Failed to record download: database is locked
+2024-11-11 17:58:02,826 - INFO - Successfully downloaded NSFW image: img_20241111_175757_zkiv8o.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_175757_zkiv8o.jpg
+2024-11-11 17:58:09,005 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 17:58:09,202 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 17:58:13,369 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 17:58:13,614 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 17:58:17,826 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 17:58:18,007 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 17:58:22,188 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 17:58:22,318 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 17:58:26,470 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 17:58:26,602 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 17:58:30,774 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 17:58:30,929 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 17:58:35,198 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg
+2024-11-11 17:58:35,363 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg (confidence: 0.00)
+2024-11-11 17:58:39,548 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg
+2024-11-11 17:58:39,703 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg (confidence: 0.00)
+2024-11-11 17:58:43,893 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg
+2024-11-11 17:58:44,166 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg (confidence: 0.00)
+2024-11-11 17:58:48,483 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png
+2024-11-11 17:58:48,669 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png (confidence: 0.00)
+2024-11-11 17:58:53,089 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/59/ab59a92f77f84b68666d8c551d7ef989.png
+2024-11-11 17:58:58,727 - ERROR - Failed to record download: database is locked
+2024-11-11 17:58:58,727 - INFO - Successfully downloaded NSFW image: img_20241111_175853_s7g5a3.png (2,851,623 bytes) to hentai/one_piece/uta/img_20241111_175853_s7g5a3.png
+2024-11-11 17:59:05,020 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png
+2024-11-11 17:59:05,323 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png (confidence: 0.00)
+2024-11-11 17:59:09,602 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d7/ad/d7ad5466c47d6b0e56b25d8b52444d36.jpg
+2024-11-11 17:59:14,934 - INFO - Processed 4 images successfully
+2024-11-11 17:59:14,936 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11eb132f0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/186c5c3aa384ec9f6c6b30c344f2ad75
+2024-11-11 17:59:14,937 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x12af1fc20>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/186c5c3aa384ec9f6c6b30c344f2ad75
+2024-11-11 17:59:14,939 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x12af1ff20>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/186c5c3aa384ec9f6c6b30c344f2ad75
+2024-11-11 17:59:14,951 - INFO - Scraping interrupted by user
+2024-11-11 17:59:14,951 - INFO - Scraping completed
+2024-11-11 17:59:26,966 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:59:27,136 - INFO - NSFW detector initialized successfully
+2024-11-11 17:59:28,384 - INFO - Browser setup successful
+2024-11-11 17:59:28,384 - INFO - Starting setup...
+2024-11-11 17:59:28,384 - INFO - Created directory: hentai/raw
+2024-11-11 17:59:28,384 - INFO - Created directory: hentai/processed
+2024-11-11 17:59:28,384 - INFO - Created directory: hentai/metadata
+2024-11-11 17:59:28,384 - INFO - Created directory: hentai/logs
+2024-11-11 17:59:28,384 - INFO - Created directory: hentai/temp
+2024-11-11 17:59:28,385 - INFO - Setup completed successfully
+2024-11-11 17:59:28,385 - INFO - Starting setup...
+2024-11-11 17:59:28,385 - INFO - Created directory: hentai/raw
+2024-11-11 17:59:28,385 - INFO - Created directory: hentai/processed
+2024-11-11 17:59:28,385 - INFO - Created directory: hentai/metadata
+2024-11-11 17:59:28,385 - INFO - Created directory: hentai/logs
+2024-11-11 17:59:28,385 - INFO - Created directory: hentai/temp
+2024-11-11 17:59:28,386 - INFO - Setup completed successfully
+2024-11-11 17:59:28,386 - INFO - Processing search term: uta
+2024-11-11 17:59:28,386 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:59:31,603 - INFO - Found 42 images on page 1
+2024-11-11 17:59:35,900 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:59:36,245 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 17:59:36,245 - INFO - Successfully downloaded NSFW image: img_20241111_175936_xaf7o0.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_175936_xaf7o0.jpg
+2024-11-11 17:59:42,604 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 17:59:42,774 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 17:59:47,388 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 17:59:52,895 - ERROR - Failed to record download: database is locked
+2024-11-11 17:59:52,895 - INFO - Successfully downloaded NSFW image: img_20241111_175947_1i8ous.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_175947_1i8ous.jpeg
+2024-11-11 17:59:59,077 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 18:00:04,446 - ERROR - Failed to record download: database is locked
+2024-11-11 18:00:04,446 - INFO - Successfully downloaded NSFW image: img_20241111_175959_4yo20o.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_175959_4yo20o.jpg
+2024-11-11 18:00:10,665 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 18:00:10,833 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 18:00:15,027 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 18:00:15,274 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 18:00:19,423 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 18:00:19,583 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 18:00:23,719 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 18:00:23,974 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 18:00:28,142 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 18:00:28,290 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 18:00:32,500 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 18:00:32,770 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 18:00:34,319 - INFO - Processed 3 images successfully
+2024-11-11 18:00:34,335 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x129d3d4f0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/02069fea40676bfac9088ea7266ba0d3
+2024-11-11 18:00:34,336 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x129dd5280>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/02069fea40676bfac9088ea7266ba0d3
+2024-11-11 18:00:34,348 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x129dd4e90>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/02069fea40676bfac9088ea7266ba0d3
+2024-11-11 18:00:34,366 - INFO - Scraping interrupted by user
+2024-11-11 18:00:34,366 - INFO - Scraping completed
+2024-11-11 18:00:36,742 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.3, debug=False, verbose_logging=False)
+2024-11-11 18:00:36,791 - INFO - NSFW detector initialized successfully
+2024-11-11 18:00:38,094 - INFO - Browser setup successful
+2024-11-11 18:00:38,094 - INFO - Starting setup...
+2024-11-11 18:00:38,095 - INFO - Created directory: hentai/raw
+2024-11-11 18:00:38,095 - INFO - Created directory: hentai/processed
+2024-11-11 18:00:38,095 - INFO - Created directory: hentai/metadata
+2024-11-11 18:00:38,095 - INFO - Created directory: hentai/logs
+2024-11-11 18:00:38,095 - INFO - Created directory: hentai/temp
+2024-11-11 18:00:38,096 - INFO - Setup completed successfully
+2024-11-11 18:00:38,096 - INFO - Starting setup...
+2024-11-11 18:00:38,096 - INFO - Created directory: hentai/raw
+2024-11-11 18:00:38,096 - INFO - Created directory: hentai/processed
+2024-11-11 18:00:38,096 - INFO - Created directory: hentai/metadata
+2024-11-11 18:00:38,096 - INFO - Created directory: hentai/logs
+2024-11-11 18:00:38,096 - INFO - Created directory: hentai/temp
+2024-11-11 18:00:38,097 - INFO - Setup completed successfully
+2024-11-11 18:00:38,097 - INFO - Processing search term: uta
+2024-11-11 18:00:38,097 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 18:00:41,329 - INFO - Found 42 images on page 1
+2024-11-11 18:00:45,724 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 18:00:46,025 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 18:00:46,025 - INFO - Successfully downloaded NSFW image: img_20241111_180045_tizhw4.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_180045_tizhw4.jpg
+2024-11-11 18:00:52,308 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 18:00:52,467 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 18:00:56,753 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 18:01:02,198 - ERROR - Failed to record download: database is locked
+2024-11-11 18:01:02,199 - INFO - Successfully downloaded NSFW image: img_20241111_180056_ufgmaf.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_180056_ufgmaf.jpeg
+2024-11-11 18:01:08,391 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 18:01:13,744 - ERROR - Failed to record download: database is locked
+2024-11-11 18:01:13,746 - INFO - Successfully downloaded NSFW image: img_20241111_180108_em50db.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_180108_em50db.jpg
+2024-11-11 18:01:19,938 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 18:01:20,094 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 18:01:24,277 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 18:01:24,455 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 18:01:28,633 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 18:01:28,775 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 18:01:32,964 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 18:01:33,131 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 18:01:37,306 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 18:01:37,440 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 18:01:41,608 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 18:01:41,860 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 18:01:45,998 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg
+2024-11-11 18:01:46,275 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg (confidence: 0.00)
+2024-11-11 18:01:50,442 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg
+2024-11-11 18:01:50,604 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg (confidence: 0.00)
+2024-11-11 18:01:54,744 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg
+2024-11-11 18:01:54,906 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg (confidence: 0.00)
+2024-11-11 18:01:59,071 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png
+2024-11-11 18:01:59,244 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png (confidence: 0.00)
+2024-11-11 18:02:03,612 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/59/ab59a92f77f84b68666d8c551d7ef989.png
+2024-11-11 18:02:09,170 - ERROR - Failed to record download: database is locked
+2024-11-11 18:02:09,186 - INFO - Successfully downloaded NSFW image: img_20241111_180203_t3jsbh.png (2,851,623 bytes) to hentai/one_piece/uta/img_20241111_180203_t3jsbh.png
+2024-11-11 18:02:15,470 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png
+2024-11-11 18:02:15,803 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png (confidence: 0.00)
+2024-11-11 18:02:20,001 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d7/ad/d7ad5466c47d6b0e56b25d8b52444d36.jpg
+2024-11-11 18:02:25,465 - ERROR - Failed to record download: database is locked
+2024-11-11 18:02:25,465 - INFO - Successfully downloaded NSFW image: img_20241111_180220_1qqrbd.jpg (2,648,259 bytes) to hentai/one_piece/uta/img_20241111_180220_1qqrbd.jpg
+2024-11-11 18:02:31,620 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg
+2024-11-11 18:02:31,789 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg (confidence: 0.00)
+2024-11-11 18:02:36,073 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png
+2024-11-11 18:02:36,737 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png (confidence: 0.00)
+2024-11-11 18:02:41,067 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png
+2024-11-11 18:02:41,567 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png (confidence: 0.00)
+2024-11-11 18:02:45,836 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png
+2024-11-11 18:02:46,403 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png (confidence: 0.00)
+2024-11-11 18:02:50,641 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fe/45/fe456ed444f417607b9c64a235d8d77d.png
+2024-11-11 18:02:51,350 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fe/45/fe456ed444f417607b9c64a235d8d77d.png (confidence: 0.00)
+2024-11-11 18:02:52,520 - INFO - Processed 5 images successfully
+2024-11-11 18:02:52,530 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/62ee9957baecbdd17b4ee576937275a3
+2024-11-11 18:02:52,532 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1156d64e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/62ee9957baecbdd17b4ee576937275a3
+2024-11-11 18:02:52,533 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1156d68d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/62ee9957baecbdd17b4ee576937275a3
+2024-11-11 18:02:52,558 - INFO - Scraping interrupted by user
+2024-11-11 18:02:52,558 - INFO - Scraping completed
+2024-11-11 18:02:54,780 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.1, debug=False, verbose_logging=False)
+2024-11-11 18:02:54,929 - INFO - NSFW detector initialized successfully
+2024-11-11 18:02:56,263 - INFO - Browser setup successful
+2024-11-11 18:02:56,263 - INFO - Starting setup...
+2024-11-11 18:02:56,263 - INFO - Created directory: hentai/raw
+2024-11-11 18:02:56,263 - INFO - Created directory: hentai/processed
+2024-11-11 18:02:56,263 - INFO - Created directory: hentai/metadata
+2024-11-11 18:02:56,263 - INFO - Created directory: hentai/logs
+2024-11-11 18:02:56,263 - INFO - Created directory: hentai/temp
+2024-11-11 18:02:56,264 - INFO - Setup completed successfully
+2024-11-11 18:02:56,264 - INFO - Starting setup...
+2024-11-11 18:02:56,264 - INFO - Created directory: hentai/raw
+2024-11-11 18:02:56,264 - INFO - Created directory: hentai/processed
+2024-11-11 18:02:56,264 - INFO - Created directory: hentai/metadata
+2024-11-11 18:02:56,264 - INFO - Created directory: hentai/logs
+2024-11-11 18:02:56,264 - INFO - Created directory: hentai/temp
+2024-11-11 18:02:56,264 - INFO - Setup completed successfully
+2024-11-11 18:02:56,264 - INFO - Processing search term: uta
+2024-11-11 18:02:56,264 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 18:02:59,389 - INFO - Found 42 images on page 1
+2024-11-11 18:03:03,722 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 18:03:04,012 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 18:03:04,012 - INFO - Successfully downloaded NSFW image: img_20241111_180303_kpe53z.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_180303_kpe53z.jpg
+2024-11-11 18:03:10,321 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 18:03:10,472 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 18:03:14,738 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 18:03:20,283 - ERROR - Failed to record download: database is locked
+2024-11-11 18:03:20,284 - INFO - Successfully downloaded NSFW image: img_20241111_180314_ept3wl.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_180314_ept3wl.jpeg
+2024-11-11 18:03:26,460 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 18:03:31,855 - ERROR - Failed to record download: database is locked
+2024-11-11 18:03:31,855 - INFO - Successfully downloaded NSFW image: img_20241111_180326_u2lexz.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_180326_u2lexz.jpg
+2024-11-11 18:03:38,052 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 18:03:38,216 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 18:03:42,366 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 18:03:42,546 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 18:03:46,715 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 18:03:46,962 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 18:03:51,116 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 18:03:51,251 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 18:03:55,396 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 18:03:55,525 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 18:03:59,674 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 18:03:59,843 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 18:04:04,091 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg
+2024-11-11 18:04:04,347 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg (confidence: 0.00)
+2024-11-11 18:04:08,554 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg
+2024-11-11 18:04:08,721 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg (confidence: 0.00)
+2024-11-11 18:04:12,935 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg
+2024-11-11 18:04:13,097 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg (confidence: 0.00)
+2024-11-11 18:04:17,465 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png
+2024-11-11 18:04:17,631 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png (confidence: 0.00)
+2024-11-11 18:04:23,375 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/59/ab59a92f77f84b68666d8c551d7ef989.png
+2024-11-11 18:04:28,928 - ERROR - Failed to record download: database is locked
+2024-11-11 18:04:28,928 - INFO - Successfully downloaded NSFW image: img_20241111_180423_jncjr3.png (2,851,623 bytes) to hentai/one_piece/uta/img_20241111_180423_jncjr3.png
+2024-11-11 18:04:35,257 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png
+2024-11-11 18:04:35,600 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png (confidence: 0.00)
+2024-11-11 18:04:39,840 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d7/ad/d7ad5466c47d6b0e56b25d8b52444d36.jpg
+2024-11-11 18:04:45,284 - ERROR - Failed to record download: database is locked
+2024-11-11 18:04:45,284 - INFO - Successfully downloaded NSFW image: img_20241111_180439_lb7vrl.jpg (2,648,259 bytes) to hentai/one_piece/uta/img_20241111_180439_lb7vrl.jpg
+2024-11-11 18:04:51,446 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg
+2024-11-11 18:04:51,911 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg (confidence: 0.00)
+2024-11-11 18:04:56,687 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png
+2024-11-11 18:04:57,311 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png (confidence: 0.00)
+2024-11-11 18:05:01,628 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png
+2024-11-11 18:05:02,120 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png (confidence: 0.00)
+2024-11-11 18:05:06,431 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png
+2024-11-11 18:05:06,960 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png (confidence: 0.00)
+2024-11-11 18:05:09,784 - WARNING - Navigation attempt 1 failed: Navigation failed - blank page
+2024-11-11 18:05:11,466 - INFO - Processed 5 images successfully
+2024-11-11 18:05:11,468 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/c7f6a0455ac60262e992b448e1467af3
+2024-11-11 18:05:11,471 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11acdb080>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/c7f6a0455ac60262e992b448e1467af3
+2024-11-11 18:05:11,473 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11acdbad0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/c7f6a0455ac60262e992b448e1467af3
+2024-11-11 18:05:11,487 - INFO - Scraping interrupted by user
+2024-11-11 18:05:11,487 - INFO - Scraping completed
+2024-11-11 18:07:12,529 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.1, debug=False, verbose_logging=False)
+2024-11-11 18:07:12,689 - ERROR - Failed to initialize NSFW detector: Detector missing classifier capability
+2024-11-11 18:07:12,689 - ERROR - Scraping failed: Detector missing classifier capability
+2024-11-11 18:07:12,689 - INFO - Scraping completed
+2024-11-11 18:08:02,050 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.1, debug=False, verbose_logging=False)
+2024-11-11 18:08:02,051 - ERROR - Failed to initialize NSFW detector: cannot import name 'NudeClassifier' from 'nudenet' (/Volumes/ExternalHD/workspace/python/hentai-scraper/lib/python3.12/site-packages/nudenet/__init__.py)
+2024-11-11 18:08:02,051 - ERROR - Scraping failed: cannot import name 'NudeClassifier' from 'nudenet' (/Volumes/ExternalHD/workspace/python/hentai-scraper/lib/python3.12/site-packages/nudenet/__init__.py)
+2024-11-11 18:08:02,051 - INFO - Scraping completed
+2024-11-11 18:08:54,892 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.1, debug=False, verbose_logging=False)
+2024-11-11 18:08:55,050 - INFO - NSFW detector initialized successfully
+2024-11-11 18:08:56,476 - INFO - Browser setup successful
+2024-11-11 18:08:56,476 - INFO - Starting setup...
+2024-11-11 18:08:56,476 - INFO - Created directory: hentai/raw
+2024-11-11 18:08:56,476 - INFO - Created directory: hentai/processed
+2024-11-11 18:08:56,476 - INFO - Created directory: hentai/metadata
+2024-11-11 18:08:56,476 - INFO - Created directory: hentai/logs
+2024-11-11 18:08:56,476 - INFO - Created directory: hentai/temp
+2024-11-11 18:08:56,525 - INFO - Setup completed successfully
+2024-11-11 18:08:56,525 - INFO - Starting setup...
+2024-11-11 18:08:56,525 - INFO - Created directory: hentai/raw
+2024-11-11 18:08:56,525 - INFO - Created directory: hentai/processed
+2024-11-11 18:08:56,525 - INFO - Created directory: hentai/metadata
+2024-11-11 18:08:56,525 - INFO - Created directory: hentai/logs
+2024-11-11 18:08:56,525 - INFO - Created directory: hentai/temp
+2024-11-11 18:08:56,526 - INFO - Setup completed successfully
+2024-11-11 18:08:56,526 - INFO - Processing search term: uta
+2024-11-11 18:08:56,526 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 18:08:59,536 - INFO - Found 42 images on page 1
+2024-11-11 18:09:04,041 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 18:09:04,605 - ERROR - Error checking image hentai/temp/temp_img_20241111_180904_xd9uxw.jpg: 'label'
+2024-11-11 18:09:04,607 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 18:09:04,607 - INFO - Successfully downloaded NSFW image: img_20241111_180904_xd9uxw.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_180904_xd9uxw.jpg
+2024-11-11 18:09:10,840 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 18:09:11,027 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 18:09:15,305 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 18:09:15,591 - ERROR - Error checking image hentai/temp/temp_img_20241111_180915_x9v6ok.jpeg: 'label'
+2024-11-11 18:09:20,785 - ERROR - Failed to record download: database is locked
+2024-11-11 18:09:20,785 - INFO - Successfully downloaded NSFW image: img_20241111_180915_x9v6ok.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_180915_x9v6ok.jpeg
+2024-11-11 18:09:26,987 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 18:09:27,143 - ERROR - Error checking image hentai/temp/temp_img_20241111_180926_pv5a64.jpg: 'label'
+2024-11-11 18:09:32,317 - ERROR - Failed to record download: database is locked
+2024-11-11 18:09:32,317 - INFO - Successfully downloaded NSFW image: img_20241111_180926_pv5a64.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_180926_pv5a64.jpg
+2024-11-11 18:09:38,474 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 18:09:38,640 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 18:09:42,789 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 18:09:42,978 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 18:09:47,208 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 18:09:47,434 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 18:09:51,592 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 18:09:51,775 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 18:09:55,924 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 18:09:56,080 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 18:10:00,242 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 18:10:00,439 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 18:10:04,689 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg
+2024-11-11 18:10:04,854 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg (confidence: 0.00)
+2024-11-11 18:10:09,017 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg
+2024-11-11 18:10:09,168 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg (confidence: 0.00)
+2024-11-11 18:10:13,312 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg
+2024-11-11 18:10:13,472 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg (confidence: 0.00)
+2024-11-11 18:10:17,672 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png
+2024-11-11 18:10:17,856 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png (confidence: 0.00)
+2024-11-11 18:10:22,449 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/59/ab59a92f77f84b68666d8c551d7ef989.png
+2024-11-11 18:10:22,810 - ERROR - Error checking image hentai/temp/temp_img_20241111_181022_7q1j7r.png: 'label'
+2024-11-11 18:10:27,997 - ERROR - Failed to record download: database is locked
+2024-11-11 18:10:27,997 - INFO - Successfully downloaded NSFW image: img_20241111_181022_7q1j7r.png (2,851,623 bytes) to hentai/one_piece/uta/img_20241111_181022_7q1j7r.png
+2024-11-11 18:10:34,276 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png
+2024-11-11 18:10:34,582 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png (confidence: 0.00)
+2024-11-11 18:10:38,787 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d7/ad/d7ad5466c47d6b0e56b25d8b52444d36.jpg
+2024-11-11 18:10:39,025 - ERROR - Error checking image hentai/temp/temp_img_20241111_181038_m42we8.jpg: 'label'
+2024-11-11 18:10:44,207 - ERROR - Failed to record download: database is locked
+2024-11-11 18:10:44,207 - INFO - Successfully downloaded NSFW image: img_20241111_181038_m42we8.jpg (2,648,259 bytes) to hentai/one_piece/uta/img_20241111_181038_m42we8.jpg
+2024-11-11 18:10:50,373 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg
+2024-11-11 18:10:50,602 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg (confidence: 0.00)
+2024-11-11 18:10:54,928 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png
+2024-11-11 18:10:55,562 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png (confidence: 0.00)
+2024-11-11 18:10:59,549 - INFO - Processed 5 images successfully
+2024-11-11 18:10:59,550 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/b8dec573a1099480e08dcaa663b60a9e
+2024-11-11 18:10:59,553 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10cc5e780>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/b8dec573a1099480e08dcaa663b60a9e
+2024-11-11 18:10:59,555 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10cc5ea20>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/b8dec573a1099480e08dcaa663b60a9e
+2024-11-11 18:10:59,575 - INFO - Scraping interrupted by user
+2024-11-11 18:10:59,576 - INFO - Scraping completed
+2024-11-11 18:12:06,837 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.1, debug=False, verbose_logging=False)
+2024-11-11 18:12:06,997 - INFO - NSFW detector initialized successfully
+2024-11-11 18:12:08,321 - INFO - Browser setup successful
+2024-11-11 18:12:08,321 - INFO - Starting setup...
+2024-11-11 18:12:08,321 - INFO - Created directory: hentai/raw
+2024-11-11 18:12:08,321 - INFO - Created directory: hentai/processed
+2024-11-11 18:12:08,321 - INFO - Created directory: hentai/metadata
+2024-11-11 18:12:08,321 - INFO - Created directory: hentai/logs
+2024-11-11 18:12:08,321 - INFO - Created directory: hentai/temp
+2024-11-11 18:12:08,322 - INFO - Setup completed successfully
+2024-11-11 18:12:08,322 - INFO - Starting setup...
+2024-11-11 18:12:08,322 - INFO - Created directory: hentai/raw
+2024-11-11 18:12:08,322 - INFO - Created directory: hentai/processed
+2024-11-11 18:12:08,322 - INFO - Created directory: hentai/metadata
+2024-11-11 18:12:08,322 - INFO - Created directory: hentai/logs
+2024-11-11 18:12:08,322 - INFO - Created directory: hentai/temp
+2024-11-11 18:12:08,323 - INFO - Setup completed successfully
+2024-11-11 18:12:08,323 - INFO - Processing search term: uta
+2024-11-11 18:12:08,323 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 18:12:11,456 - INFO - Found 42 images on page 1
+2024-11-11 18:12:15,759 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 18:12:16,214 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 18:12:16,214 - INFO - Successfully downloaded NSFW image: img_20241111_181215_mfl2vq.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_181215_mfl2vq.jpg
+2024-11-11 18:12:22,551 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 18:12:22,721 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 18:12:27,015 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 18:12:32,569 - ERROR - Failed to record download: database is locked
+2024-11-11 18:12:32,569 - INFO - Successfully downloaded NSFW image: img_20241111_181227_mssi58.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_181227_mssi58.jpeg
+2024-11-11 18:12:38,738 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 18:12:44,381 - ERROR - Failed to record download: database is locked
+2024-11-11 18:12:44,382 - INFO - Successfully downloaded NSFW image: img_20241111_181239_nyqgsw.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_181239_nyqgsw.jpg
+2024-11-11 18:12:50,570 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 18:12:51,031 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 18:12:55,208 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 18:12:55,473 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 18:12:59,616 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 18:12:59,765 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 18:13:03,943 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 18:13:04,121 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 18:13:08,291 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 18:13:08,429 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 18:13:12,602 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 18:13:12,764 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 18:13:16,907 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg
+2024-11-11 18:13:17,069 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg (confidence: 0.00)
+2024-11-11 18:13:21,220 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg
+2024-11-11 18:13:21,397 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg (confidence: 0.00)
+2024-11-11 18:13:25,580 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg
+2024-11-11 18:13:25,731 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg (confidence: 0.00)
+2024-11-11 18:13:29,897 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png
+2024-11-11 18:13:30,060 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png (confidence: 0.00)
+2024-11-11 18:13:34,443 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/59/ab59a92f77f84b68666d8c551d7ef989.png
+2024-11-11 18:13:39,991 - ERROR - Failed to record download: database is locked
+2024-11-11 18:13:39,991 - INFO - Successfully downloaded NSFW image: img_20241111_181334_51x5i2.png (2,851,623 bytes) to hentai/one_piece/uta/img_20241111_181334_51x5i2.png
+2024-11-11 18:13:46,291 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png
+2024-11-11 18:13:46,662 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png (confidence: 0.00)
+2024-11-11 18:13:50,799 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d7/ad/d7ad5466c47d6b0e56b25d8b52444d36.jpg
+2024-11-11 18:13:56,199 - ERROR - Failed to record download: database is locked
+2024-11-11 18:13:56,199 - INFO - Successfully downloaded NSFW image: img_20241111_181350_vzc2ur.jpg (2,648,259 bytes) to hentai/one_piece/uta/img_20241111_181350_vzc2ur.jpg
+2024-11-11 18:14:02,387 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg
+2024-11-11 18:14:02,901 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg (confidence: 0.00)
+2024-11-11 18:14:07,281 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png
+2024-11-11 18:14:07,929 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png (confidence: 0.00)
+2024-11-11 18:14:12,613 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png
+2024-11-11 18:14:13,106 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png (confidence: 0.00)
+2024-11-11 18:14:17,365 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png
+2024-11-11 18:14:17,927 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png (confidence: 0.00)
+2024-11-11 18:14:22,166 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fe/45/fe456ed444f417607b9c64a235d8d77d.png
+2024-11-11 18:14:22,661 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fe/45/fe456ed444f417607b9c64a235d8d77d.png (confidence: 0.00)
+2024-11-11 18:14:26,925 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d0/81/d0811cdb2b3f24f6c22ef11b2220e5cc.png
+2024-11-11 18:14:27,465 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d0/81/d0811cdb2b3f24f6c22ef11b2220e5cc.png (confidence: 0.00)
+2024-11-11 18:14:31,729 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/4a/df/4adfb9515f14564cb9ed07005e7ed967.png
+2024-11-11 18:14:32,166 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/4a/df/4adfb9515f14564cb9ed07005e7ed967.png (confidence: 0.00)
+2024-11-11 18:14:36,910 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/4a/6d/4a6daf2a8c4becb26228ea47b9b636b4.png
+2024-11-11 18:14:37,375 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/4a/6d/4a6daf2a8c4becb26228ea47b9b636b4.png (confidence: 0.00)
+2024-11-11 18:14:41,708 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/63/ac/63ac8ecc3ad19439a4010c464da420b2.png
+2024-11-11 18:14:42,214 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/63/ac/63ac8ecc3ad19439a4010c464da420b2.png (confidence: 0.00)
+2024-11-11 18:14:46,445 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/93/90/939002da3a155db9fa82ed8f3788b60e.png
+2024-11-11 18:14:46,970 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/93/90/939002da3a155db9fa82ed8f3788b60e.png (confidence: 0.00)
+2024-11-11 18:14:51,396 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/7b/bf7b45f085db34d90a13b481014ca3d7.png
+2024-11-11 18:14:51,956 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/7b/bf7b45f085db34d90a13b481014ca3d7.png (confidence: 0.00)
+2024-11-11 18:14:56,785 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/24/5b/245b1e2af1812227fc388bb008148a0f.png
+2024-11-11 18:14:57,228 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/24/5b/245b1e2af1812227fc388bb008148a0f.png (confidence: 0.00)
+2024-11-11 18:15:01,535 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/e5/35/e53508d86e06049e3b088346b68fe9da.png
+2024-11-11 18:15:02,102 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/e5/35/e53508d86e06049e3b088346b68fe9da.png (confidence: 0.00)
+2024-11-11 18:15:06,348 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/4b/ce/4bce3c6448f600c5e93f7b90a521ea43.png
+2024-11-11 18:15:06,856 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/4b/ce/4bce3c6448f600c5e93f7b90a521ea43.png (confidence: 0.00)
+2024-11-11 18:15:11,438 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/f8/94/f8949df1e3416efaa0638b60e61ba89f.png
+2024-11-11 18:15:11,877 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/f8/94/f8949df1e3416efaa0638b60e61ba89f.png (confidence: 0.00)
+2024-11-11 18:15:16,140 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/91/49/9149ae96fa00ddfe97a0a52944393681.png
+2024-11-11 18:15:16,713 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/91/49/9149ae96fa00ddfe97a0a52944393681.png (confidence: 0.00)
+2024-11-11 18:15:21,223 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/94/f6/94f694c884e00d713d6c5b2d540aac77.png
+2024-11-11 18:15:21,698 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/94/f6/94f694c884e00d713d6c5b2d540aac77.png (confidence: 0.00)
+2024-11-11 18:15:25,978 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/3f/b3/3fb36269e2cef46493db432f29e2b074.png
+2024-11-11 18:15:26,499 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/3f/b3/3fb36269e2cef46493db432f29e2b074.png (confidence: 0.00)
+2024-11-11 18:15:30,817 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ea/36/ea366b2650858caf7e7badffd47e2c00.png
+2024-11-11 18:15:31,310 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ea/36/ea366b2650858caf7e7badffd47e2c00.png (confidence: 0.00)
+2024-11-11 18:15:35,625 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/0c/1a/0c1a6f87769c652b1cb82540c43f97c0.png
+2024-11-11 18:15:36,030 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/0c/1a/0c1a6f87769c652b1cb82540c43f97c0.png (confidence: 0.00)
+2024-11-11 18:15:40,296 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/e5/47/e5477a56f50338c15890fee154f5844c.png
+2024-11-11 18:15:40,749 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/e5/47/e5477a56f50338c15890fee154f5844c.png (confidence: 0.00)
+2024-11-11 18:15:45,030 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/36/5b/365b6c6852b2130f37eb2ed84d170f30.png
+2024-11-11 18:15:45,494 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/36/5b/365b6c6852b2130f37eb2ed84d170f30.png (confidence: 0.00)
+2024-11-11 18:15:49,744 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/2d/392da52e94713001320151278162e040.png
+2024-11-11 18:15:50,268 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/2d/392da52e94713001320151278162e040.png (confidence: 0.00)
+2024-11-11 18:15:55,051 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/2d/c8/2dc8b0a9c9342c48f1ef221e0625ca97.png
+2024-11-11 18:15:55,486 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/2d/c8/2dc8b0a9c9342c48f1ef221e0625ca97.png (confidence: 0.00)
+2024-11-11 18:15:59,739 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/30/e7/30e7f6f1ce2df2c603ef96f0eb23ed14.png
+2024-11-11 18:16:00,154 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/30/e7/30e7f6f1ce2df2c603ef96f0eb23ed14.png (confidence: 0.00)
+2024-11-11 18:16:01,156 - INFO - Processing page 2: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)&pid=42
+2024-11-11 18:16:03,610 - INFO - Found 42 images on page 2
+2024-11-11 18:16:07,888 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9c/fe/9cfe5277f8778475d95b4fa9fd894441.png
+2024-11-11 18:16:08,318 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9c/fe/9cfe5277f8778475d95b4fa9fd894441.png (confidence: 0.00)
+2024-11-11 18:16:12,600 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/49/ee/49eeeae027d4742bf2dabfa46c003ffb.png
+2024-11-11 18:16:13,521 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/49/ee/49eeeae027d4742bf2dabfa46c003ffb.png (confidence: 0.00)
+2024-11-11 18:16:17,804 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/4e/82/4e824d46118d817c31879cc61cb4de55.png
+2024-11-11 18:16:18,282 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/4e/82/4e824d46118d817c31879cc61cb4de55.png (confidence: 0.00)
+2024-11-11 18:16:22,526 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/7a/31/7a31280c806a06beb825a9ba5dac431f.png
+2024-11-11 18:16:22,938 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/7a/31/7a31280c806a06beb825a9ba5dac431f.png (confidence: 0.00)
+2024-11-11 18:16:27,223 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a0/34/a034706b57df3dded2082151f732dfe0.png
+2024-11-11 18:16:27,653 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a0/34/a034706b57df3dded2082151f732dfe0.png (confidence: 0.00)
+2024-11-11 18:16:31,918 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/dd/4f/dd4f6da5b307d8f99ddb6407d1e08f96.png
+2024-11-11 18:16:32,410 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/dd/4f/dd4f6da5b307d8f99ddb6407d1e08f96.png (confidence: 0.00)
+2024-11-11 18:16:36,652 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/21/ca/21ca76fab1554b35e942772af4d01a59.png
+2024-11-11 18:16:37,089 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/21/ca/21ca76fab1554b35e942772af4d01a59.png (confidence: 0.00)
+2024-11-11 18:16:41,353 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/e6/c8/e6c817460b1182f8cbe9e855ec46786a.png
+2024-11-11 18:16:41,791 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/e6/c8/e6c817460b1182f8cbe9e855ec46786a.png (confidence: 0.00)
+2024-11-11 18:16:46,015 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/f5/71/f571f312bc6c7283a20640a924e02a45.png
+2024-11-11 18:16:46,566 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/f5/71/f571f312bc6c7283a20640a924e02a45.png (confidence: 0.00)
+2024-11-11 18:16:50,832 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/95/ec/95ecb390fa440d5278769c95efc20e77.png
+2024-11-11 18:16:51,265 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/95/ec/95ecb390fa440d5278769c95efc20e77.png (confidence: 0.00)
+2024-11-11 18:16:55,514 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/c0/75/c0753358fbf82e7f77c33d6778083221.png
+2024-11-11 18:16:55,989 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/c0/75/c0753358fbf82e7f77c33d6778083221.png (confidence: 0.00)
+2024-11-11 18:17:00,248 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a0/b4/a0b41a7f33b94167d2c9f993162fdb79.png
+2024-11-11 18:17:00,863 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a0/b4/a0b41a7f33b94167d2c9f993162fdb79.png (confidence: 0.00)
+2024-11-11 18:17:05,476 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/f9/fa/f9fa425fdfe2bb5b217fcffd1f1ee021.png
+2024-11-11 18:17:06,065 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/f9/fa/f9fa425fdfe2bb5b217fcffd1f1ee021.png (confidence: 0.00)
+2024-11-11 18:17:10,534 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/92/c9/92c93a74eefc439d27f2893461841493.png
+2024-11-11 18:17:11,279 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/92/c9/92c93a74eefc439d27f2893461841493.png (confidence: 0.00)
+2024-11-11 18:17:15,766 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/0f/87/0f87c9ecbf3cd539d3af6c07ed0e9437.png
+2024-11-11 18:17:16,363 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/0f/87/0f87c9ecbf3cd539d3af6c07ed0e9437.png (confidence: 0.00)
+2024-11-11 18:17:20,599 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/93/7e/937e37b2a52f30949ecbb57c029aade3.png
+2024-11-11 18:17:21,215 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/93/7e/937e37b2a52f30949ecbb57c029aade3.png (confidence: 0.00)
+2024-11-11 18:17:25,490 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d0/08/d008547226be6e2e5358aa256000eef6.png
+2024-11-11 18:17:26,166 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d0/08/d008547226be6e2e5358aa256000eef6.png (confidence: 0.00)
+2024-11-11 18:17:30,402 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bc/c9/bcc966b7175dbe81f6e69eefec9f7ef6.png
+2024-11-11 18:17:31,059 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bc/c9/bcc966b7175dbe81f6e69eefec9f7ef6.png (confidence: 0.00)
+2024-11-11 18:17:35,326 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/e2/80/e280da6c655d4f5f4d0f1d27c339c63c.png
+2024-11-11 18:17:35,937 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/e2/80/e280da6c655d4f5f4d0f1d27c339c63c.png (confidence: 0.00)
+2024-11-11 18:17:40,247 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/2d/01/2d015b8373df582cf8d57f3a07ddf5bc.png
+2024-11-11 18:17:40,845 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/2d/01/2d015b8373df582cf8d57f3a07ddf5bc.png (confidence: 0.00)
+2024-11-11 18:17:45,443 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ea/f5/eaf5d423d8c647f08d93c33b8ab26d26.png
+2024-11-11 18:17:46,073 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ea/f5/eaf5d423d8c647f08d93c33b8ab26d26.png (confidence: 0.00)
+2024-11-11 18:17:50,314 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fa/c2/fac29be1ab93d4fc2d411f5fd608385f.png
+2024-11-11 18:17:50,991 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fa/c2/fac29be1ab93d4fc2d411f5fd608385f.png (confidence: 0.00)
+2024-11-11 18:17:55,247 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/09/6409664378751576b63d89704fa60957.png
+2024-11-11 18:17:55,822 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/64/09/6409664378751576b63d89704fa60957.png (confidence: 0.00)
+2024-11-11 18:18:00,064 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/f8/3f/f83f1ea5f3e798edf2c02df170de3554.png
+2024-11-11 18:18:00,629 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/f8/3f/f83f1ea5f3e798edf2c02df170de3554.png (confidence: 0.00)
+2024-11-11 18:18:04,889 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/46/85/46856713d5467f2ba73f51c845c5bf85.png
+2024-11-11 18:18:05,480 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/46/85/46856713d5467f2ba73f51c845c5bf85.png (confidence: 0.00)
+2024-11-11 18:18:09,761 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/43/92/439238cdc1f91cfc69e1125cc05d94e0.png
+2024-11-11 18:18:10,332 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/43/92/439238cdc1f91cfc69e1125cc05d94e0.png (confidence: 0.00)
+2024-11-11 18:18:14,889 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/07/76/0776b83e0f2fe64e0b5017d8d6f58da8.png
+2024-11-11 18:18:16,374 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/07/76/0776b83e0f2fe64e0b5017d8d6f58da8.png (confidence: 0.00)
+2024-11-11 18:18:20,733 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/be/b7/beb74dc48442aa062e6567c36838a7f7.png
+2024-11-11 18:18:21,331 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/be/b7/beb74dc48442aa062e6567c36838a7f7.png (confidence: 0.00)
+2024-11-11 18:18:25,800 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/7e/f0/7ef07d9838385f2571903689c106a900.png
+2024-11-11 18:18:26,469 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/7e/f0/7ef07d9838385f2571903689c106a900.png (confidence: 0.00)
+2024-11-11 18:18:30,789 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/62/39/6239801a09751947911f75b63dc9fad0.png
+2024-11-11 18:18:31,415 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/62/39/6239801a09751947911f75b63dc9fad0.png (confidence: 0.00)
+2024-11-11 18:18:35,667 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1f/56/1f56a1c008a8ee7b3a77460c978f4a8d.png
+2024-11-11 18:18:36,337 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1f/56/1f56a1c008a8ee7b3a77460c978f4a8d.png (confidence: 0.00)
+2024-11-11 18:18:40,641 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fe/98/fe987d9fa5392758845ad4c12bc4dd1c.png
+2024-11-11 18:18:41,357 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fe/98/fe987d9fa5392758845ad4c12bc4dd1c.png (confidence: 0.00)
+2024-11-11 18:18:45,631 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/3d/04/3d041c3fb5a358d783120421dbab7b0b.png
+2024-11-11 18:18:46,243 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/3d/04/3d041c3fb5a358d783120421dbab7b0b.png (confidence: 0.00)
+2024-11-11 18:18:50,614 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/87/8d/878d205544fea72e595d13a493bea3ae.png
+2024-11-11 18:18:51,187 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/87/8d/878d205544fea72e595d13a493bea3ae.png (confidence: 0.00)
+2024-11-11 18:18:55,460 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/6e/7c/6e7c0e930cbbe9a7a65fd66a762b9b82.png
+2024-11-11 18:18:56,177 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/6e/7c/6e7c0e930cbbe9a7a65fd66a762b9b82.png (confidence: 0.00)
+2024-11-11 18:19:00,400 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/a0/27a04c491826fe0ec912927d2827c5b7.png
+2024-11-11 18:19:00,989 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/a0/27a04c491826fe0ec912927d2827c5b7.png (confidence: 0.00)
+2024-11-11 18:19:05,289 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1d/14/1d14895b4657c8160ea4c0037abcab0a.png
+2024-11-11 18:19:05,896 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1d/14/1d14895b4657c8160ea4c0037abcab0a.png (confidence: 0.00)
+2024-11-11 18:19:10,350 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a7/45/a74520cb2723bd5a0581f332cf288be7.png
+2024-11-11 18:19:11,214 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a7/45/a74520cb2723bd5a0581f332cf288be7.png (confidence: 0.00)
+2024-11-11 18:19:15,597 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/80/6e/806e984482340f6e61bd8a620e9adaa1.png
+2024-11-11 18:19:16,360 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/80/6e/806e984482340f6e61bd8a620e9adaa1.png (confidence: 0.00)
+2024-11-11 18:19:20,633 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/46/3b/463bdb2f65a61d3f4f3e95332c95c20b.png
+2024-11-11 18:19:21,311 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/46/3b/463bdb2f65a61d3f4f3e95332c95c20b.png (confidence: 0.00)
+2024-11-11 18:19:25,604 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/b3/1a/b31acce3bf3e90983e0ee31ca7572567.png
+2024-11-11 18:19:26,323 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/b3/1a/b31acce3bf3e90983e0ee31ca7572567.png (confidence: 0.00)
+2024-11-11 18:19:30,617 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d0/71/d07186ff97a5c98b2d51a5c6f4a07931.png
+2024-11-11 18:19:31,199 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d0/71/d07186ff97a5c98b2d51a5c6f4a07931.png (confidence: 0.00)
+2024-11-11 18:19:32,204 - INFO - Processing page 3: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)&pid=84
+2024-11-11 18:19:35,164 - INFO - Found 42 images on page 3
+2024-11-11 18:19:39,519 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/7f/90/7f90d7ce6a7387f9db515569d37feec5.png
+2024-11-11 18:19:40,112 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/7f/90/7f90d7ce6a7387f9db515569d37feec5.png (confidence: 0.00)
+2024-11-11 18:19:44,374 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/51/6e/516edcc12c2a39b101afac9abe61be5e.png
+2024-11-11 18:19:45,004 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/51/6e/516edcc12c2a39b101afac9abe61be5e.png (confidence: 0.00)
+2024-11-11 18:19:49,271 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/7d/cb/7dcb882f6f7a921401c8d21eae1d4e2f.png
+2024-11-11 18:19:49,883 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/7d/cb/7dcb882f6f7a921401c8d21eae1d4e2f.png (confidence: 0.00)
+2024-11-11 18:19:54,139 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/3e/e9/3ee9a88b1dc5285ecdd97a12fdb6dacc.png
+2024-11-11 18:19:54,586 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/3e/e9/3ee9a88b1dc5285ecdd97a12fdb6dacc.png (confidence: 0.00)
+2024-11-11 18:19:58,861 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1b/f5/1bf50e4d54aa099c65ff3abefac6b735.png
+2024-11-11 18:19:59,586 - INFO - Successfully downloaded NSFW image: img_20241111_181958_fico42.png (4,825,110 bytes) to hentai/one_piece/uta/img_20241111_181958_fico42.png
+2024-11-11 18:20:05,803 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9d/2e/9d2ea6b5b219dd898f9fab6774bfc57f.jpg
+2024-11-11 18:20:05,916 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9d/2e/9d2ea6b5b219dd898f9fab6774bfc57f.jpg (confidence: 0.00)
+2024-11-11 18:20:10,054 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/e5/08/e5080c6ef08cb3b627e88404a8a32606.jpg
+2024-11-11 18:20:10,222 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/e5/08/e5080c6ef08cb3b627e88404a8a32606.jpg (confidence: 0.00)
+2024-11-11 18:20:14,388 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/2c/10/2c10dfca216ad9d7d87bb37418e343e6.jpg
+2024-11-11 18:20:14,547 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/2c/10/2c10dfca216ad9d7d87bb37418e343e6.jpg (confidence: 0.00)
+2024-11-11 18:20:18,750 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/e6/53/e653bfda0c9b9767666281805ce6fec2.jpg
+2024-11-11 18:20:18,986 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/e6/53/e653bfda0c9b9767666281805ce6fec2.jpg (confidence: 0.00)
+2024-11-11 18:20:23,188 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/36/03/360376a27a5095446e428b0cedb198b6.jpg
+2024-11-11 18:20:23,428 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/36/03/360376a27a5095446e428b0cedb198b6.jpg (confidence: 0.00)
+2024-11-11 18:20:27,743 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ef/6f/ef6fd67fef9dc372145cb469b762667a.png
+2024-11-11 18:20:28,109 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ef/6f/ef6fd67fef9dc372145cb469b762667a.png (confidence: 0.00)
+2024-11-11 18:20:32,408 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/f3/e4/f3e4625c2bc6c3bf28cefb11addc9239.png
+2024-11-11 18:20:32,858 - INFO - Successfully downloaded NSFW image: img_20241111_182032_sec7he.png (3,099,204 bytes) to hentai/one_piece/uta/img_20241111_182032_sec7he.png
+2024-11-11 18:20:39,068 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/5f/18/5f18396300a224c45069ed1ed022b03f.png
+2024-11-11 18:20:39,245 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/5f/18/5f18396300a224c45069ed1ed022b03f.png (confidence: 0.00)
+2024-11-11 18:20:43,437 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/c7/1f/c71fb72cc6a5cd53e08b2cbaa7bbde1d.png
+2024-11-11 18:20:43,697 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/c7/1f/c71fb72cc6a5cd53e08b2cbaa7bbde1d.png (confidence: 0.00)
+2024-11-11 18:20:47,919 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/17/44/1744cd908a6f56c29bcb30cdcfe5cd50.png
+2024-11-11 18:20:48,109 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/17/44/1744cd908a6f56c29bcb30cdcfe5cd50.png (confidence: 0.00)
+2024-11-11 18:20:52,357 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/89/dc/89dc3d71455bf06ff19af41e7a41c6d4.png
+2024-11-11 18:20:52,505 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/89/dc/89dc3d71455bf06ff19af41e7a41c6d4.png (confidence: 0.00)
+2024-11-11 18:20:56,716 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1f/29/1f2922498dff0187f4e194b4a4028e1f.png
+2024-11-11 18:20:56,907 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1f/29/1f2922498dff0187f4e194b4a4028e1f.png (confidence: 0.00)
+2024-11-11 18:21:01,082 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/4c/4b/4c4b73d6fca002630604804bed531019.jpg
+2024-11-11 18:21:01,230 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/4c/4b/4c4b73d6fca002630604804bed531019.jpg (confidence: 0.00)
+2024-11-11 18:21:05,460 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/c4/b8/c4b83ecd5556259fe6730f6b25078163.jpg
+2024-11-11 18:21:05,653 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/c4/b8/c4b83ecd5556259fe6730f6b25078163.jpg (confidence: 0.00)
+2024-11-11 18:21:09,851 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/42/6442a072efa1781340c0856860c8cb36.jpg
+2024-11-11 18:21:10,177 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/64/42/6442a072efa1781340c0856860c8cb36.jpg (confidence: 0.00)
+2024-11-11 18:21:14,394 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/e3/ea/e3ea4326d8026b4e649c0f4dc459e48a.jpg
+2024-11-11 18:21:14,559 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/e3/ea/e3ea4326d8026b4e649c0f4dc459e48a.jpg (confidence: 0.00)
+2024-11-11 18:21:18,814 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/3b/b3/3bb309fd8ccebaa5670c33acecc50640.jpg
+2024-11-11 18:21:19,005 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/3b/b3/3bb309fd8ccebaa5670c33acecc50640.jpg (confidence: 0.00)
+2024-11-11 18:21:19,155 - INFO - Processed 7 images successfully
+2024-11-11 18:21:19,160 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10f15f5f0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4d01ee4ac9507b3798bd074d4e03c51f
+2024-11-11 18:21:19,162 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10f15e2d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4d01ee4ac9507b3798bd074d4e03c51f
+2024-11-11 18:21:19,164 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10f15e510>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4d01ee4ac9507b3798bd074d4e03c51f
+2024-11-11 18:21:19,180 - INFO - Scraping interrupted by user
+2024-11-11 18:21:19,180 - INFO - Scraping completed
+2024-11-11 18:21:21,259 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.1, debug=False, verbose_logging=False)
+2024-11-11 18:21:21,422 - INFO - NSFW detector initialized successfully
+2024-11-11 18:21:22,808 - INFO - Browser setup successful
+2024-11-11 18:21:22,808 - INFO - Starting setup...
+2024-11-11 18:21:22,808 - INFO - Created directory: hentai/raw
+2024-11-11 18:21:22,809 - INFO - Created directory: hentai/processed
+2024-11-11 18:21:22,809 - INFO - Created directory: hentai/metadata
+2024-11-11 18:21:22,809 - INFO - Created directory: hentai/logs
+2024-11-11 18:21:22,809 - INFO - Created directory: hentai/temp
+2024-11-11 18:21:22,830 - INFO - Setup completed successfully
+2024-11-11 18:21:22,830 - INFO - Starting setup...
+2024-11-11 18:21:22,830 - INFO - Created directory: hentai/raw
+2024-11-11 18:21:22,830 - INFO - Created directory: hentai/processed
+2024-11-11 18:21:22,830 - INFO - Created directory: hentai/metadata
+2024-11-11 18:21:22,830 - INFO - Created directory: hentai/logs
+2024-11-11 18:21:22,830 - INFO - Created directory: hentai/temp
+2024-11-11 18:21:22,831 - INFO - Setup completed successfully
+2024-11-11 18:21:22,831 - INFO - Processing search term: uta
+2024-11-11 18:21:22,831 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 18:21:25,980 - INFO - Found 42 images on page 1
+2024-11-11 18:21:30,236 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 18:21:30,593 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 18:21:30,593 - INFO - Successfully downloaded NSFW image: img_20241111_182130_4tu0rs.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_182130_4tu0rs.jpg
+2024-11-11 18:21:36,879 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 18:21:37,046 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 18:21:41,340 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 18:21:46,751 - ERROR - Failed to record download: database is locked
+2024-11-11 18:21:46,752 - INFO - Successfully downloaded NSFW image: img_20241111_182141_h6uyot.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_182141_h6uyot.jpeg
+2024-11-11 18:21:52,940 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 18:21:58,280 - ERROR - Failed to record download: database is locked
+2024-11-11 18:21:58,281 - INFO - Successfully downloaded NSFW image: img_20241111_182152_qc8hcs.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_182152_qc8hcs.jpg
+2024-11-11 18:22:04,498 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 18:22:04,678 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 18:22:08,838 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 18:22:09,024 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 18:22:13,162 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 18:22:13,423 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 18:22:17,586 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 18:22:17,714 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 18:22:21,867 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 18:22:21,999 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 18:22:26,160 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 18:22:26,336 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 18:22:30,586 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg
+2024-11-11 18:22:30,844 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg (confidence: 0.00)
+2024-11-11 18:22:35,085 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg
+2024-11-11 18:22:35,307 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg (confidence: 0.00)
+2024-11-11 18:22:39,461 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg
+2024-11-11 18:22:39,646 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg (confidence: 0.00)
+2024-11-11 18:22:43,832 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png
+2024-11-11 18:22:44,104 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png (confidence: 0.00)
+2024-11-11 18:22:48,567 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/59/ab59a92f77f84b68666d8c551d7ef989.png
+2024-11-11 18:22:54,109 - ERROR - Failed to record download: database is locked
+2024-11-11 18:22:54,109 - INFO - Successfully downloaded NSFW image: img_20241111_182248_ia0acn.png (2,851,623 bytes) to hentai/one_piece/uta/img_20241111_182248_ia0acn.png
+2024-11-11 18:23:00,480 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png
+2024-11-11 18:23:00,801 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png (confidence: 0.00)
+2024-11-11 18:23:04,955 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d7/ad/d7ad5466c47d6b0e56b25d8b52444d36.jpg
+2024-11-11 18:23:10,480 - ERROR - Failed to record download: database is locked
+2024-11-11 18:23:10,481 - INFO - Successfully downloaded NSFW image: img_20241111_182304_vsgwwq.jpg (2,648,259 bytes) to hentai/one_piece/uta/img_20241111_182304_vsgwwq.jpg
+2024-11-11 18:23:16,738 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg
+2024-11-11 18:23:16,918 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg (confidence: 0.00)
+2024-11-11 18:23:21,213 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png
+2024-11-11 18:23:22,044 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png (confidence: 0.00)
+2024-11-11 18:23:26,588 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png
+2024-11-11 18:23:27,036 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png (confidence: 0.00)
+2024-11-11 18:23:31,334 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png
+2024-11-11 18:23:31,799 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png (confidence: 0.00)
+2024-11-11 18:23:36,123 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fe/45/fe456ed444f417607b9c64a235d8d77d.png
+2024-11-11 18:23:36,823 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fe/45/fe456ed444f417607b9c64a235d8d77d.png (confidence: 0.00)
+2024-11-11 18:23:41,139 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d0/81/d0811cdb2b3f24f6c22ef11b2220e5cc.png
+2024-11-11 18:23:41,863 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d0/81/d0811cdb2b3f24f6c22ef11b2220e5cc.png (confidence: 0.00)
+2024-11-11 18:23:46,386 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/4a/df/4adfb9515f14564cb9ed07005e7ed967.png
+2024-11-11 18:23:48,431 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/4a/df/4adfb9515f14564cb9ed07005e7ed967.png (confidence: 0.00)
+2024-11-11 18:23:53,083 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/4a/6d/4a6daf2a8c4becb26228ea47b9b636b4.png
+2024-11-11 18:23:53,783 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/4a/6d/4a6daf2a8c4becb26228ea47b9b636b4.png (confidence: 0.00)
+2024-11-11 18:23:58,249 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/63/ac/63ac8ecc3ad19439a4010c464da420b2.png
+2024-11-11 18:23:58,964 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/63/ac/63ac8ecc3ad19439a4010c464da420b2.png (confidence: 0.00)
+2024-11-11 18:24:03,385 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/93/90/939002da3a155db9fa82ed8f3788b60e.png
+2024-11-11 18:24:03,918 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/93/90/939002da3a155db9fa82ed8f3788b60e.png (confidence: 0.00)
+2024-11-11 18:24:08,675 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/7b/bf7b45f085db34d90a13b481014ca3d7.png
+2024-11-11 18:24:09,207 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/7b/bf7b45f085db34d90a13b481014ca3d7.png (confidence: 0.00)
+2024-11-11 18:24:13,454 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/24/5b/245b1e2af1812227fc388bb008148a0f.png
+2024-11-11 18:24:13,982 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/24/5b/245b1e2af1812227fc388bb008148a0f.png (confidence: 0.00)
+2024-11-11 18:24:18,258 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/e5/35/e53508d86e06049e3b088346b68fe9da.png
+2024-11-11 18:24:18,808 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/e5/35/e53508d86e06049e3b088346b68fe9da.png (confidence: 0.00)
+2024-11-11 18:24:23,127 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/4b/ce/4bce3c6448f600c5e93f7b90a521ea43.png
+2024-11-11 18:24:23,576 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/4b/ce/4bce3c6448f600c5e93f7b90a521ea43.png (confidence: 0.00)
+2024-11-11 18:24:28,068 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/f8/94/f8949df1e3416efaa0638b60e61ba89f.png
+2024-11-11 18:24:28,600 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/f8/94/f8949df1e3416efaa0638b60e61ba89f.png (confidence: 0.00)
+2024-11-11 18:24:31,741 - INFO - Processed 5 images successfully
+2024-11-11 18:24:31,743 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/7befaae4c8b413d407c2558b05020988
+2024-11-11 18:24:31,744 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10eddbcb0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7befaae4c8b413d407c2558b05020988
+2024-11-11 18:24:31,745 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10eddb170>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7befaae4c8b413d407c2558b05020988
+2024-11-11 18:24:31,757 - INFO - Scraping interrupted by user
+2024-11-11 18:24:31,757 - INFO - Scraping completed
+2024-11-11 18:24:33,495 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.0, debug=False, verbose_logging=False)
+2024-11-11 18:24:33,664 - INFO - NSFW detector initialized successfully
+2024-11-11 18:24:35,142 - INFO - Browser setup successful
+2024-11-11 18:24:35,142 - INFO - Starting setup...
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/raw
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/processed
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/metadata
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/logs
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/temp
+2024-11-11 18:24:35,143 - INFO - Setup completed successfully
+2024-11-11 18:24:35,143 - INFO - Starting setup...
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/raw
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/processed
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/metadata
+2024-11-11 18:24:35,143 - INFO - Created directory: hentai/logs
+2024-11-11 18:24:35,144 - INFO - Created directory: hentai/temp
+2024-11-11 18:24:35,144 - INFO - Setup completed successfully
+2024-11-11 18:24:35,144 - INFO - Processing search term: uta
+2024-11-11 18:24:35,144 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 18:24:38,320 - INFO - Found 42 images on page 1
+2024-11-11 18:24:42,583 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 18:24:43,001 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 18:24:43,001 - INFO - Successfully downloaded NSFW image: img_20241111_182442_rlpgfz.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_182442_rlpgfz.jpg
+2024-11-11 18:24:49,200 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 18:24:49,351 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 18:24:53,640 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 18:24:59,035 - ERROR - Failed to record download: database is locked
+2024-11-11 18:24:59,035 - INFO - Successfully downloaded NSFW image: img_20241111_182453_m2kizv.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_182453_m2kizv.jpeg
+2024-11-11 18:25:05,198 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 18:25:10,528 - ERROR - Failed to record download: database is locked
+2024-11-11 18:25:10,528 - INFO - Successfully downloaded NSFW image: img_20241111_182505_tmdm5h.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_182505_tmdm5h.jpg
+2024-11-11 18:25:16,830 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 18:25:16,974 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg (confidence: 0.00)
+2024-11-11 18:25:21,095 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg
+2024-11-11 18:25:21,359 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/cc/19/cc1941843ccc7da2022aea68688b764b.jpg (confidence: 0.00)
+2024-11-11 18:25:25,479 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg
+2024-11-11 18:25:25,651 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d5/7d/d57d41bd3714fc5d80614cabac0aae86.jpg (confidence: 0.00)
+2024-11-11 18:25:29,789 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg
+2024-11-11 18:25:30,050 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/df/1edf92810f5ac6a9d75d3d2351444bcc.jpg (confidence: 0.00)
+2024-11-11 18:25:34,191 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg
+2024-11-11 18:25:34,354 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/bf/dc/bfdc71be929ccefadb4e629d363e8007.jpg (confidence: 0.00)
+2024-11-11 18:25:38,508 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg
+2024-11-11 18:25:38,653 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/1e/01/1e015caf482ebe6337ce24435733fdbb.jpg (confidence: 0.00)
+2024-11-11 18:25:42,964 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg
+2024-11-11 18:25:43,109 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/a6/9b/a69ba12dbfb709ddf1e3c9638e80059e.jpg (confidence: 0.00)
+2024-11-11 18:25:47,295 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg
+2024-11-11 18:25:47,454 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/9e/d6/9ed6de903ac2e4ba5e824b07892de9bf.jpg (confidence: 0.00)
+2024-11-11 18:25:51,670 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg
+2024-11-11 18:25:51,841 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/8e/ff/8effeae88fce24ce5aab58aa79c64ed6.jpg (confidence: 0.00)
+2024-11-11 18:25:56,226 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png
+2024-11-11 18:25:56,391 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/d2/af/d2af2f0c24c6ed8b7f8cd443d7164fba.png (confidence: 0.00)
+2024-11-11 18:26:00,953 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/59/ab59a92f77f84b68666d8c551d7ef989.png
+2024-11-11 18:26:06,492 - ERROR - Failed to record download: database is locked
+2024-11-11 18:26:06,492 - INFO - Successfully downloaded NSFW image: img_20241111_182600_bktzxm.png (2,851,623 bytes) to hentai/one_piece/uta/img_20241111_182600_bktzxm.png
+2024-11-11 18:26:12,812 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png
+2024-11-11 18:26:13,147 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/39/e9/39e91090688c6e55267b8f9b44973cce.png (confidence: 0.00)
+2024-11-11 18:26:17,390 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/d7/ad/d7ad5466c47d6b0e56b25d8b52444d36.jpg
+2024-11-11 18:26:22,930 - ERROR - Failed to record download: database is locked
+2024-11-11 18:26:22,930 - INFO - Successfully downloaded NSFW image: img_20241111_182617_homyb0.jpg (2,648,259 bytes) to hentai/one_piece/uta/img_20241111_182617_homyb0.jpg
+2024-11-11 18:26:29,117 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg
+2024-11-11 18:26:29,624 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/5c/69/5c69bcee1732e01f1a8e5752a17db10f.jpg (confidence: 0.00)
+2024-11-11 18:26:33,987 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png
+2024-11-11 18:26:34,593 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/fc/08/fc08a66194507c715acd84c1a5979489.png (confidence: 0.00)
+2024-11-11 18:26:38,846 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png
+2024-11-11 18:26:39,301 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/dd/ef/ddefe4cfd70fa964ad9d5d575a172a28.png (confidence: 0.00)
+2024-11-11 18:26:43,580 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png
+2024-11-11 18:26:44,176 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/86/21/862123378f20b25f729be4bd05cec20b.png (confidence: 0.00)
+2024-11-11 18:26:45,230 - INFO - Processed 5 images successfully
+2024-11-11 18:26:45,238 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104775460>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/397525aa60ef668fca4604f2736a2452
+2024-11-11 18:26:45,240 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10ce4b650>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/397525aa60ef668fca4604f2736a2452
+2024-11-11 18:26:45,241 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10ce4a390>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/397525aa60ef668fca4604f2736a2452
+2024-11-11 18:26:45,256 - INFO - Scraping interrupted by user
+2024-11-11 18:26:45,256 - INFO - Scraping completed
