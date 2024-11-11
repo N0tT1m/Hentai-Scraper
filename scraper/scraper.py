@@ -1,3 +1,5 @@
+import sqlite3
+
 import requests
 from bs4 import BeautifulSoup
 import random
@@ -5,22 +7,17 @@ import string
 import time
 import os
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import logging
 from dataclasses import dataclass
 from urllib.parse import urljoin, parse_qs, urlparse
-
-
-@dataclass
-class ScraperConfig:
-    """Configuration settings for the scraper"""
-    base_save_path: Path
-    request_timeout: int = 10
-    download_delay: int = 5
-    page_delay: int = 2
-    chunk_size: int = 8192
-    filename_length: int = 6
-
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from nudenet import NudeDetector
+import urllib
 
 class CharacterClassifier:
     """Handles character recognition and classification"""
@@ -36,7 +33,7 @@ class CharacterClassifier:
             "uta": ["uta", "uta_(one_piece)"],
             "rebecca": ["rebecca", "rebecca_(one_piece)"],
             "carrot": ["carrot", "carrot_(one_piece)"],
-            "bonney": ["jewelry bonney", "jewelry_bonney", "bonney"],
+            "bonney": ["jewelry bonney" , "jewelry_bonney", "bonney"],
             "baby_5": ["baby 5", "baby_5", "baby five", "baby_five"],
             "boa_hancock": ["boa hancock", "boa_hancock", "hancock"],
             "vivi": ["nefertari vivi", "nefertari_vivi", "vivi"],
@@ -508,6 +505,41 @@ class CharacterClassifier:
             "miki": ["sf-a2 miki", "sf_a2_miki", "miki", "miki_(vocaloid)"],
             "yukari": ["yuzuki yukari", "yuzuki_yukari", "yukari", "yukari_(vocaloid)"]
         },
+
+        "konosuba": {
+            "aqua": ["aqua", "aqua_(konosuba)", "goddess_aqua", "useless_goddess"],
+            "megumin": ["megumin", "megumin_(konosuba)", "explosion_girl", "crimson_demon_megumin"],
+            "darkness": ["darkness", "darkness_(konosuba)", "dustiness_ford_lalatina", "lalatina", "crusader_darkness"],
+            "wiz": ["wiz", "wiz_(konosuba)", "lich_wiz"],
+            "yunyun": ["yunyun", "yun yun", "yun_yun", "yunyun_(konosuba)"],
+            "chris": ["chris", "chris_(konosuba)", "eris", "eris_(konosuba)", "assistant_goddess"],
+            "luna": ["luna", "luna_(konosuba)", "guild_receptionist"],
+            "sena": ["sena", "sena_(konosuba)"],
+            "wolbach": ["wolbach", "goddess_wolbach", "wolbach_(konosuba)"],
+            "iris": ["iris", "iris_stylish_sword", "iris_(konosuba)"],
+            "komekko": ["komekko", "komekko_(konosuba)", "megumin_sister"],
+            "cecily": ["cecily", "cecily_(konosuba)", "axis_cult_cecily"],
+            "arue": ["arue", "arue_(konosuba)"],
+            "claire": ["claire", "claire_(konosuba)"],
+            "sylvia": ["sylvia", "sylvia_(konosuba)"],
+            "lean": ["lean", "lean_(konosuba)"],
+            "verdia": ["verdia", "verdia_(konosuba)"],
+            "hans": ["hans", "hans_(konosuba)"],
+            "yuiyui": ["yuiyui", "crimson_demon_yuiyui", "yuiyui_(konosuba)"]
+        },
+
+        "lycoris_recoil": {
+            "chisato": ["chisato nishikigi", "chisato_nishikigi", "chisato", "nishikigi"],
+            "takina": ["takina inoue", "takina_inoue", "takina"],
+            "mizuki": ["mizuki nakahara", "mizuki_nakahara", "mizuki"],
+            "kurumi": ["kurumi shinonome", "kurumi_shinonome", "walnut", "kurumi"],
+            "erika": ["erika karuizawa", "erika_karuizawa", "erika"],
+            "sakura": ["sakura otome", "sakura_otome", "sakura"],
+            "himegama": ["fuki himegama", "fuki_himegama", "himegama"],
+            "mika": ["mika"],
+            "robota": ["robota"],
+            "lucy": ["lucy"]
+        },
     }
 
     @classmethod
@@ -526,11 +558,184 @@ class CharacterClassifier:
         return None, None
 
 
+@dataclass
+class ScraperConfig:
+    """Configuration settings for the scraper"""
+    base_save_path: Path
+    request_timeout: int = 30
+    page_delay: float = 2.0
+    download_delay: float = 1.0
+    retry_attempts: int = 3
+    chunk_size: int = 8192
+    headless: bool = True
+    user_agent: Optional[str] = None
+    filename_length: int = 8
+    max_file_size: int = 50 * 1024 * 1024
+    nsfw_threshold: float = 0.6
+    debug: bool = False
+    verbose_logging: bool = False
+
+    def __post_init__(self):
+        """Validate and process configuration after initialization."""
+        # Convert base_save_path to Path object if it's a string
+        if isinstance(self.base_save_path, str):
+            self.base_save_path = Path(self.base_save_path)
+
+        # Set default user agent if none provided
+        if self.user_agent is None:
+            self.user_agent = (
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/91.0.4472.124 Safari/537.36'
+            )
+
+        # Validate numeric parameters
+        if self.request_timeout <= 0:
+            raise ValueError("request_timeout must be positive")
+        if self.page_delay < 0:
+            raise ValueError("page_delay must be non-negative")
+        if self.download_delay < 0:
+            raise ValueError("download_delay must be non-negative")
+        if self.retry_attempts < 1:
+            raise ValueError("retry_attempts must be at least 1")
+        if self.chunk_size <= 0:
+            raise ValueError("chunk_size must be positive")
+        if self.filename_length < 1:
+            raise ValueError("filename_length must be at least 1")
+        if not 0 <= self.nsfw_threshold <= 1:
+            raise ValueError("nsfw_threshold must be between 0 and 1")
+        if self.max_file_size <= 0:
+            raise ValueError("max_file_size must be positive")
+
+    def to_dict(self):
+        """Convert config to dictionary for logging/debugging."""
+        return {
+            'base_save_path': str(self.base_save_path),
+            'request_timeout': self.request_timeout,
+            'page_delay': self.page_delay,
+            'download_delay': self.download_delay,
+            'retry_attempts': self.retry_attempts,
+            'chunk_size': self.chunk_size,
+            'headless': self.headless,
+            'user_agent': self.user_agent,
+            'filename_length': self.filename_length,
+            'max_file_size': self.max_file_size,
+            'nsfw_threshold': self.nsfw_threshold,
+            'debug': self.debug,
+            'verbose_logging': self.verbose_logging
+        }
+
+
+class NSFWDetector:
+    """Handles NSFW content detection"""
+
+    def __init__(self, threshold: float = 0.6):
+        self.threshold = threshold
+        self._setup_logging()
+        self._setup_detector()
+
+    def _setup_logging(self):
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler('nsfw_detector.log'),
+                logging.StreamHandler()
+            ]
+        )
+        self.logger = logging.getLogger(__name__)
+
+    def _setup_detector(self):
+        try:
+            self.detector = NudeDetector()
+            self.logger.info("NSFW detector initialized successfully")
+        except Exception as e:
+            self.logger.error(f"Failed to initialize NSFW detector: {str(e)}")
+            raise
+
+    def check_image(self, image_path: Path) -> Tuple[bool, float]:
+        """
+        Check if image is NSFW
+
+        Returns:
+            Tuple[bool, float]: (is_nsfw, confidence)
+        """
+        try:
+            detections = self.detector.detect(str(image_path))
+
+            # If there are any detections at all, consider it NSFW
+            if detections:
+                # Calculate confidence, but any detection means NSFW
+                total_confidence = sum(det['score'] for det in detections)
+                avg_confidence = total_confidence / len(detections)
+
+                self.logger.debug(
+                    f"NSFW content detected in {image_path}\n"
+                    f"Confidence: {avg_confidence:.2f}\n"
+                    f"Detections: {detections}"
+                )
+
+                # Any detection means NSFW, regardless of confidence
+                return True, avg_confidence
+
+            # No detections
+            return False, 0.0
+
+        except Exception as e:
+            self.logger.error(f"Error checking image {image_path}: {str(e)}")
+            # On error, assume it might be NSFW
+            return True, 1.0
+
 class HentaiScraper:
     def __init__(self, config: ScraperConfig):
-        """Initialize the scraper with configuration settings."""
         self.config = config
+        self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold)
         self._setup_logging()
+        self._setup_browser()
+        self.setup()
+
+    def _setup_safety_model(self):
+        """Set up the safety classification model."""
+        try:
+            from nudenet import NudeDetector
+            self.safety_model = NudeDetector()
+            self.logger.info("Successfully loaded safety classification model")
+        except Exception as e:
+            self.logger.error(f"Failed to load safety model: {str(e)}")
+            raise
+
+    def _check_image_safety(self, image_path: Path) -> bool:
+        """
+        Check if image is safe for processing.
+
+        Args:
+            image_path (Path): Path to image file
+
+        Returns:
+            bool: True if image is safe, False if NSFW
+        """
+        try:
+            # Detect any NSFW content in the image
+            detections = self.safety_model.detect(str(image_path))
+
+            # If no detections, image is safe
+            if not detections:
+                return True
+
+            # Calculate the total confidence of NSFW content
+            total_confidence = sum(det['score'] for det in detections)
+            avg_confidence = total_confidence / len(detections) if detections else 0
+
+            # Log the safety check
+            self.logger.debug(f"Safety check for {image_path}: NSFW confidence = {avg_confidence:.3f}")
+            self.logger.debug(f"Detections: {detections}")
+
+            # Return True if safe (average confidence below threshold)
+            return avg_confidence < self.config.nsfw_threshold
+
+        except Exception as e:
+            self.logger.error(f"Error during safety check for {image_path}: {str(e)}")
+            return False  # Fail safe - reject on error
 
     def _setup_logging(self):
         """Configure logging for the scraper."""
@@ -544,110 +749,633 @@ class HentaiScraper:
         )
         self.logger = logging.getLogger(__name__)
 
-    def setup(self):
-        """Perform initial setup operations."""
-        self.logger.info("Starting setup...")
-        # Create base directory and series subdirectories
-        os.makedirs(self.config.base_save_path, exist_ok=True)
-        for series in CharacterClassifier.CHARACTER_MAPPINGS.keys():
-            series_path = self.config.base_save_path / series
-            os.makedirs(series_path, exist_ok=True)
-            # Create character subdirectories
-            for char_key in CharacterClassifier.CHARACTER_MAPPINGS[series].keys():
-                char_path = series_path / char_key
-                os.makedirs(char_path, exist_ok=True)
-        self.logger.info("Setup completed successfully")
+    def _setup_browser(self):
+        """Set up the Selenium WebDriver with proper configuration."""
+        options = webdriver.ChromeOptions()
+        if self.config.headless:
+            options.add_argument('--headless=new')  # Updated headless argument
 
-    def _generate_filename(self, url: str, tags: str) -> str:
-        """Generate a filename based on character and random string."""
-        series, character = CharacterClassifier.identify_character(tags)
-        prefix = f"{character}_" if character else ""
-        random_suffix = ''.join(random.choices(
-            string.ascii_uppercase + string.digits,
-            k=self.config.filename_length
-        ))
-        return f"{prefix}{random_suffix}.jpg"
+        # Add essential Chrome options for stability
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--disable-software-rasterizer')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--start-maximized')
+        options.add_argument(
+            f'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
 
-    def _get_save_path(self, tags: str) -> Optional[Path]:
-        """Determine the save path based on character classification."""
-        series, character = CharacterClassifier.identify_character(tags)
-        if series and character:
-            return self.config.base_save_path / series / character
-        return self.config.base_save_path / "unclassified"
+        # Create service object for Chrome
+        service = webdriver.ChromeService()
 
-    def _download_file(self, url: str, save_path: Path, filename: str) -> bool:
-        """Download a single file from the given URL."""
         try:
-            full_save_path = save_path / filename
-            with requests.get(url, stream=True, timeout=self.config.request_timeout) as response:
-                response.raise_for_status()
-                save_path.mkdir(parents=True, exist_ok=True)
+            self.browser = webdriver.Chrome(service=service, options=options)
+            self.browser.set_window_size(1920, 1080)
+            self.browser.set_page_load_timeout(30)  # Set page load timeout
+            self.logger.info("Browser setup successful")
+        except Exception as e:
+            self.logger.error(f"Failed to initialize browser: {str(e)}")
+            raise
 
-                with open(full_save_path, 'wb') as f:
-                    for chunk in response.iter_content(chunk_size=self.config.chunk_size):
-                        f.write(chunk)
+    def _wait_for_page_load(self, timeout=30):
+        """Wait for page to load completely."""
+        try:
+            WebDriverWait(self.browser, timeout).until(
+                lambda driver: driver.execute_script("return document.readyState") == "complete"
+            )
+            time.sleep(2)  # Small buffer for dynamic content
+        except TimeoutException:
+            self.logger.warning("Page load timeout - proceeding anyway")
 
-            self.logger.info(f"Successfully downloaded file to {full_save_path}")
-            return True
+    def _safe_navigate(self, url: str, max_retries=3) -> bool:
+        """Safely navigate to a URL with retries."""
+        for attempt in range(max_retries):
+            try:
+                self.browser.get(url)
+                self._wait_for_page_load()
 
-        except requests.exceptions.RequestException as e:
-            self.logger.error(f"Failed to download from {url}: {str(e)}")
+                # Verify we actually reached the page
+                current_url = self.browser.current_url
+                if not current_url or current_url == "about:blank":
+                    raise Exception("Navigation failed - blank page")
+
+                return True
+
+            except Exception as e:
+                self.logger.warning(f"Navigation attempt {attempt + 1} failed: {str(e)}")
+                if attempt == max_retries - 1:
+                    self.logger.error(f"Failed to navigate to {url} after {max_retries} attempts")
+                    return False
+                time.sleep(2 * (attempt + 1))  # Exponential backoff
+
+                # Try to refresh the browser session if we're on the last attempt
+                if attempt == max_retries - 2:
+                    try:
+                        self.browser.quit()
+                        self._setup_browser()
+                    except Exception as e:
+                        self.logger.error(f"Failed to refresh browser session: {str(e)}")
+
+        return False
+
+    def _expand_image(self, page_url: str) -> Optional[str]:
+        """Navigate to page and expand the image to get the full resolution URL."""
+        if not self._safe_navigate(page_url):
+            return None
+
+        try:
+            # Wait for the original image to be present first
+            WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "img#image"))
+            )
+
+            # Execute the resize transition JavaScript function
+            self.browser.execute_script("resizeTransition();")
+
+            # Wait for the expansion animation to complete
+            time.sleep(2)
+
+            try:
+                # Wait for the image src to contain '/images/'
+                def check_image_src(driver):
+                    img = driver.find_element(By.CSS_SELECTOR, "img#image")
+                    src = img.get_attribute("src")
+                    return src and "/images/" in src
+
+                # Wait for the condition to be true
+                WebDriverWait(self.browser, 10).until(check_image_src)
+
+                # Get the expanded image element and its src
+                image = self.browser.find_element(By.CSS_SELECTOR, "img#image")
+                src = image.get_attribute('src')
+
+                # Verify we got a valid full-resolution URL
+                if not src or not '/images/' in src or src.startswith('data:') or src.startswith('blob:'):
+                    self.logger.warning(f"Failed to get full resolution image URL: {src}")
+                    return None
+
+                # Log successful expansion
+                self.logger.info(f"Successfully retrieved full resolution image URL: {src}")
+                return src
+
+            except Exception as wait_error:
+                self.logger.error(f"Error waiting for expanded image: {str(wait_error)}")
+                return None
+
+        except Exception as e:
+            self.logger.error(f"Error expanding image on {page_url}: {str(e)}")
+
+            # Take a screenshot for debugging if enabled
+            if hasattr(self.config, 'debug') and self.config.debug:
+                try:
+                    screenshot_path = self.dirs['logs'] / f"error_screenshot_{int(time.time())}.png"
+                    self.browser.save_screenshot(str(screenshot_path))
+                    self.logger.debug(f"Error screenshot saved to {screenshot_path}")
+
+                    # Also save page source for debugging
+                    page_source_path = self.dirs['logs'] / f"error_source_{int(time.time())}.html"
+                    with open(page_source_path, 'w', encoding='utf-8') as f:
+                        f.write(self.browser.page_source)
+                    self.logger.debug(f"Error page source saved to {page_source_path}")
+                except Exception as screenshot_error:
+                    self.logger.error(f"Failed to save error screenshot: {screenshot_error}")
+
+            return None
+
+    def _get_character_path(self, url: str, source_page: str) -> Path:
+        """Extract character name from URL and create appropriate path."""
+        try:
+            # Extract tags from source page URL
+            if 'tags=' in source_page:
+                tags = source_page.split('tags=')[-1].split('&')[0]
+                tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
+
+                # Parse character name from tags
+                if '(' in tags and ')' in tags:
+                    # Handle tags like "uta_(one_piece)"
+                    character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
+                    if character_tags:
+                        character = character_tags[0]
+                        series = character.split('(')[1].rstrip(')')
+                        character_name = character.split('(')[0].rstrip('_')
+                        return Path(series) / character_name
+
+            # Default to raw directory if no character info found
+            return Path('raw')
+        except Exception as e:
+            self.logger.error(f"Error parsing character path: {str(e)}")
+            return Path('raw')
+
+    def _download_image(self, url: str, source_page: str = None) -> bool:
+        """
+        Download and save an image from the given URL after verifying it's not NSFW.
+
+        Args:
+            url (str): URL of the image to download
+            source_page (str, optional): URL of the page containing the image
+
+        Returns:
+            bool: True if download was successful and image is not NSFW, False otherwise
+        """
+        import hashlib
+        import mimetypes
+        from urllib.parse import urlparse
+        import requests
+        import urllib.parse
+        from requests.exceptions import RequestException
+        from PIL import Image
+
+        def get_file_hash(file_path: Path) -> str:
+            """Calculate MD5 hash of file"""
+            hash_md5 = hashlib.md5()
+            with open(file_path, "rb") as f:
+                for chunk in iter(lambda: f.read(4096), b""):
+                    hash_md5.update(chunk)
+            return hash_md5.hexdigest()
+
+        def verify_image_file(file_path: Path) -> bool:
+            """Verify if file is a valid image using PIL"""
+            try:
+                with Image.open(file_path) as img:
+                    img.verify()
+                    return True
+            except Exception as e:
+                self.logger.error(f"Image verification failed: {str(e)}")
+                return False
+
+        try:
+            # Clean and validate URL
+            if not url:
+                self.logger.error("Invalid URL provided")
+                return False
+
+            # Get character-specific path
+            char_path = self._get_character_path(url, source_page)
+
+            # Generate filename and paths
+            filename = self._generate_filename(url)
+            temp_path = self.dirs['temp'] / f"temp_{filename}"
+            final_path = self.config.base_save_path / char_path / filename
+
+            self.logger.debug(f"Temp path: {temp_path}")
+            self.logger.debug(f"Final path: {final_path}")
+
+            # Create directories if they don't exist
+            temp_path.parent.mkdir(parents=True, exist_ok=True)
+            final_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Check if file already exists
+            if final_path.exists():
+                self.logger.info(f"File already exists at {final_path}")
+                return True
+
+            # Download file
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Referer': source_page if source_page else url
+            }
+
+            response = requests.get(url, stream=True, headers=headers, timeout=30)
+            response.raise_for_status()
+
+            # Get content length if available
+            total_size = int(response.headers.get('content-length', 0))
+
+            # Save to temporary file
+            self.logger.debug(f"Downloading to temporary file: {temp_path}")
+            with open(temp_path, 'wb') as f:
+                if total_size == 0:
+                    f.write(response.content)
+                else:
+                    downloaded = 0
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            downloaded += len(chunk)
+                            f.write(chunk)
+                            if downloaded % (1024 * 1024) == 0:  # Log every MB
+                                self.logger.debug(f"Downloaded: {downloaded // (1024 * 1024)}MB")
+
+            # Verify the temporary file exists and is not empty
+            if not temp_path.exists():
+                raise ValueError(f"Downloaded file not found at {temp_path}")
+
+            if temp_path.stat().st_size == 0:
+                raise ValueError("Downloaded file is empty")
+
+            # Verify it's a valid image
+            if not verify_image_file(temp_path):
+                raise ValueError("Invalid image file")
+
+            # Check if image is NSFW
+            is_nsfw, confidence = self.nsfw_detector.check_image(temp_path)
+            if is_nsfw:  # Changed from "if not is_nsfw" - now we keep NSFW images
+                # Calculate file hash
+                file_hash = get_file_hash(temp_path)
+
+                # Move file to final location
+                self.logger.debug(f"Moving file to final location: {final_path}")
+                temp_path.rename(final_path)
+
+                # Verify final file exists
+                if not final_path.exists():
+                    raise ValueError(f"File not found at final location: {final_path}")
+
+                # Record successful download
+                file_size = final_path.stat().st_size
+                self._record_download(
+                    url=url,
+                    filename=filename,
+                    status='success',
+                    file_size=file_size,
+                    md5_hash=file_hash,
+                    source_page=source_page
+                )
+
+                self.logger.info(
+                    f"Successfully downloaded NSFW image: {filename} ({file_size:,} bytes) to {final_path}")
+                return True
+            else:
+                self.logger.warning(f"Skipping SFW image from {url} (confidence: {confidence:.2f})")
+                temp_path.unlink()  # Delete the temporary file
+                return False
+
+        except Exception as e:
+            self.logger.error(f"Error downloading {url}: {str(e)}")
+            if 'temp_path' in locals() and temp_path.exists():
+                try:
+                    temp_path.unlink()
+                except Exception as cleanup_error:
+                    self.logger.error(f"Error cleaning up temporary file: {cleanup_error}")
             return False
 
-    def _extract_file_urls(self, page_url: str, domain_filter: str, path_filter: str) -> List[tuple[str, str]]:
-        """Extract file URLs and their associated tags from a given page."""
+    def _generate_filename(self, url: str) -> str:
+        """
+        Generate a unique filename for the downloaded image.
+
+        Args:
+            url (str): Source URL of the image
+
+        Returns:
+            str: Generated filename
+        """
+        # Extract original extension if possible
+        ext = os.path.splitext(urlparse(url).path)[1].lower()
+        if not ext or ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
+            ext = '.jpg'  # Default to .jpg if no valid extension found
+
+        # Generate random component
+        random_suffix = ''.join(random.choices(
+            string.ascii_lowercase + string.digits,
+            k=self.config.filename_length
+        ))
+
+        # Create timestamp component
+        timestamp = time.strftime('%Y%m%d_%H%M%S')
+
+        # Combine components
+        filename = f"img_{timestamp}_{random_suffix}{ext}"
+
+        return filename
+
+    def setup(self):
+        """
+        Perform initial setup operations including directory creation and validation.
+        Creates the base directory structure and character subdirectories.
+        """
+        self.logger.info("Starting setup...")
         try:
-            response = requests.get(page_url, timeout=self.config.request_timeout)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.content, 'lxml')
+            # Create base directory
+            self.config.base_save_path.mkdir(parents=True, exist_ok=True)
 
-            file_info = []
-            for img in soup.find_all('img', src=True):
-                if domain_filter in img['src'] and path_filter in img['src']:
-                    # Extract tags from the image or its parent elements
-                    tags = img.get('title', '') or img.get('alt', '')
-                    if tags:
-                        file_info.append((img['src'], tags))
+            # Create subdirectories for organizing content
+            subdirs = {
+                'raw': self.config.base_save_path / 'raw',  # Store original downloads
+                'processed': self.config.base_save_path / 'processed',  # Store processed images
+                'metadata': self.config.base_save_path / 'metadata',  # Store JSON metadata
+                'logs': self.config.base_save_path / 'logs',  # Store detailed logs
+                'temp': self.config.base_save_path / 'temp'  # Temporary storage
+            }
 
-            return file_info
+            # Create each subdirectory
+            for dir_name, path in subdirs.items():
+                path.mkdir(exist_ok=True)
+                self.logger.info(f"Created directory: {path}")
 
-        except requests.exceptions.RequestException as e:
-            self.logger.error(f"Failed to extract from {page_url}: {str(e)}")
-            return []
+            # Create or update metadata index
+            metadata_file = subdirs['metadata'] / 'index.json'
+            if not metadata_file.exists():
+                metadata_file.write_text('{}')
+                self.logger.info("Created new metadata index")
 
-    def download_batch(self, urls_dict: Dict[str, str], max_pages: int = 380):
-        """Download files from multiple URLs with character classification."""
-        page_increment = 48
+            # Validate directory permissions
+            for dir_path in subdirs.values():
+                if not os.access(dir_path, os.W_OK):
+                    raise PermissionError(f"No write permission for directory: {dir_path}")
 
-        for search_term, base_url in urls_dict.items():
-            self.logger.info(f"Starting downloads for search term: {search_term}")
+            # Create .gitignore if using version control
+            gitignore_path = self.config.base_save_path / '.gitignore'
+            if not gitignore_path.exists():
+                gitignore_content = """
+                # Ignore temporary files
+                temp/
+                *.tmp
 
-            for page_num in range(max_pages):
-                page_offset = page_num * page_increment
-                current_url = f"{base_url}&pid={page_offset}" if page_num > 0 else base_url
+                # Ignore logs
+                logs/
+                *.log
 
-                self.logger.info(f"Processing page {page_num + 1}/{max_pages}")
-                self.logger.debug(f"URL: {current_url}")
+                # Ignore raw downloads
+                raw/
 
-                # Extract and process file URLs with tags
-                for file_url, tags in self._extract_file_urls(current_url, "gelbooru.com", "sample"):
-                    save_path = self._get_save_path(tags)
-                    if save_path:
-                        filename = self._generate_filename(file_url, tags)
-                        if self._download_file(file_url, save_path, filename):
-                            time.sleep(self.config.download_delay)
+                # Ignore system files
+                .DS_Store
+                Thumbs.db
+                """
+                gitignore_path.write_text(gitignore_content.strip())
 
-                time.sleep(self.config.page_delay)
+            # Create status tracking file
+            status_file = subdirs['metadata'] / 'status.json'
+            if not status_file.exists():
+                status_content = {
+                    'last_run': None,
+                    'total_downloads': 0,
+                    'successful_downloads': 0,
+                    'failed_downloads': 0,
+                    'last_processed_url': None
+                }
+                import json
+                with open(status_file, 'w') as f:
+                    json.dump(status_content, f, indent=4)
+
+            # Initialize download tracking database
+            import sqlite3
+            db_path = subdirs['metadata'] / 'downloads.db'
+            conn = sqlite3.connect(str(db_path))
+            c = conn.cursor()
+
+            # Create downloads tracking table
+            c.execute('''
+                CREATE TABLE IF NOT EXISTS downloads (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    url TEXT NOT NULL UNIQUE,
+                    filename TEXT NOT NULL,
+                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    status TEXT,
+                    file_size INTEGER,
+                    md5_hash TEXT,
+                    source_page TEXT
+                )
+            ''')
+
+            # Create failed downloads table
+            c.execute('''
+                CREATE TABLE IF NOT EXISTS failed_downloads (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    url TEXT NOT NULL,
+                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    error_message TEXT,
+                    attempts INTEGER DEFAULT 1
+                )
+            ''')
+
+            conn.commit()
+            conn.close()
+
+            # Update scraper attributes
+            self.dirs = subdirs
+            self.db_path = db_path
+
+            self.logger.info("Setup completed successfully")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"Setup failed: {str(e)}")
+            raise
+
+    def _init_database_connection(self):
+        """Initialize database connection and return connection object"""
+        try:
+            conn = sqlite3.connect(str(self.db_path))
+            return conn
+        except Exception as e:
+            self.logger.error(f"Failed to connect to database: {str(e)}")
+            raise
+
+    def _record_download(self, url: str, filename: str, status: str, file_size: int = None,
+                         md5_hash: str = None, source_page: str = None):
+        """Record download attempt in database"""
+        try:
+            conn = self._init_database_connection()
+            c = conn.cursor()
+
+            c.execute('''
+                INSERT INTO downloads 
+                (url, filename, status, file_size, md5_hash, source_page)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (url, filename, status, file_size, md5_hash, source_page))
+
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            self.logger.error(f"Failed to record download: {str(e)}")
+
+    def _record_failure(self, url: str, error_message: str):
+        """Record failed download attempt"""
+        try:
+            conn = self._init_database_connection()
+            c = conn.cursor()
+
+            # Check if URL already exists in failed_downloads
+            c.execute('SELECT attempts FROM failed_downloads WHERE url = ?', (url,))
+            result = c.fetchone()
+
+            if result:
+                # Update existing record
+                c.execute('''
+                    UPDATE failed_downloads 
+                    SET attempts = attempts + 1,
+                        error_message = ?,
+                        timestamp = CURRENT_TIMESTAMP
+                    WHERE url = ?
+                ''', (error_message, url))
+            else:
+                # Create new record
+                c.execute('''
+                    INSERT INTO failed_downloads (url, error_message)
+                    VALUES (?, ?)
+                ''', (url, error_message))
+
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            self.logger.error(f"Failed to record failure: {str(e)}")
+
+    def _get_character_path(self, url: str, source_page: str) -> Path:
+        """Extract character name from URL and create appropriate path."""
+        try:
+            # Extract tags from source page URL
+            if 'tags=' in source_page:
+                tags = source_page.split('tags=')[-1].split('&')[0]
+                tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
+
+                # Parse character name from tags
+                if '(' in tags and ')' in tags:
+                    # Handle tags like "uta_(one_piece)"
+                    character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
+                    if character_tags:
+                        character = character_tags[0]
+                        series = character.split('(')[1].rstrip(')')
+                        character_name = character.split('(')[0].rstrip('_')
+                        return Path(series) / character_name
+
+            # Default to raw directory if no character info found
+            return Path('raw')
+        except Exception as e:
+            self.logger.error(f"Error parsing character path: {str(e)}")
+            return Path('raw')
+
+    def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
+        """Process multiple URLs and download images with improved error handling."""
+        processed_count = 0
+
+        try:
+            for search_term, base_url in urls.items():
+                self.logger.info(f"Processing search term: {search_term}")
+
+                for page_num in range(max_pages):
+                    current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
+                    self.logger.info(f"Processing page {page_num + 1}: {current_url}")
+
+                    # Navigate to page with retry logic
+                    if not self._safe_navigate(current_url):
+                        self.logger.error(f"Skipping page {page_num + 1} due to navigation failure")
+                        continue
+
+                    try:
+                        # Wait for thumbnail container to be present
+                        WebDriverWait(self.browser, 10).until(
+                            EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                        )
+
+                        # Find all image links with explicit wait
+                        links = WebDriverWait(self.browser, 10).until(
+                            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+                        )
+
+                        image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+                        self.logger.info(f"Found {len(image_urls)} images on page {page_num + 1}")
+
+                        for img_url in image_urls:
+                            try:
+                                full_image_url = self._expand_image(img_url)
+                                if full_image_url:
+                                    save_path = self.config.base_save_path
+                                    save_path.mkdir(parents=True, exist_ok=True)
+
+                                    if self._download_image(full_image_url, img_url):
+                                        processed_count += 1
+                                        time.sleep(self.config.download_delay)
+
+                            except Exception as e:
+                                self.logger.error(f"Error processing {img_url}: {str(e)}")
+                                continue
+
+                        # Add a page delay
+                        time.sleep(self.config.page_delay)
+
+                    except TimeoutException:
+                        self.logger.error(f"Timeout on page {page_num + 1}")
+                        continue
+                    except Exception as e:
+                        self.logger.error(f"Error processing page {page_num + 1}: {str(e)}")
+                        continue
+
+        except Exception as e:
+            self.logger.error(f"Fatal error in process_urls: {str(e)}")
+        finally:
+            self.logger.info(f"Processed {processed_count} images successfully")
+            try:
+                self.browser.quit()
+            except Exception as e:
+                self.logger.error(f"Error closing browser: {str(e)}")
 
 def main():
-    config = ScraperConfig(
-        base_save_path=Path("./hentai") # ("/Volumes/ExternalHD/workspace/python/Monke D. Luffy/")
-    )
+    """Main entry point for the scraper"""
+    try:
+        # Setup logging first
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler('scraper.log'),
+                logging.StreamHandler()
+            ]
+        )
+        logger = logging.getLogger(__name__)
 
-    scraper = HentaiScraper(config)
-    scraper.setup()
+        # Setup configuration with proper initialization
+        config = ScraperConfig(
+            base_save_path="./hentai",  # This will be converted to Path in __post_init__
+            request_timeout=30,
+            download_delay=2,
+            page_delay=1,
+            chunk_size=8192,
+            filename_length=6,
+            headless=False,
+            nsfw_threshold=0.6,
+        )
 
-    urls = {'uta': 'https://gelbooru.com/index.php?page=post&s=list&tags=uta_%28one_piece%29',
+        # Log configuration
+        logger.info(f"Starting scraper with config: {config}")
+
+        # Initialize and setup scraper
+        scraper = HentaiScraper(config)
+        scraper.setup()
+
+        urls = {
+                'uta': 'https://gelbooru.com/index.php?page=post&s=list&tags=uta_%28one_piece%29',
                 'rebecca': 'https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_%28one_piece%29+',
                 'carrot': "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_%28one_piece%29+",
                 'bonney': "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+",
@@ -730,9 +1458,442 @@ def main():
                 'vengeful_spirit': "https://gelbooru.com/index.php?page=post&s=list&tags=vengeful_spirit_(dota_2)+",
                 'windranger': "https://gelbooru.com/index.php?page=post&s=list&tags=windranger_(dota)+",
                 'winter_wyrven': "https://gelbooru.com/index.php?page=post&s=list&tags=winter_wyrven+",
+                "lucy": "https://gelbooru.com/index.php?page=post&s=list&tags=lucy_heartfilia",
+                "erza": "https://gelbooru.com/index.php?page=post&s=list&tags=erza_scarlet",
+                "wendy": "https://gelbooru.com/index.php?page=post&s=list&tags=wendy_marvell",
+                "juvia": "https://gelbooru.com/index.php?page=post&s=list&tags=juvia_lockser",
+                "levy": "https://gelbooru.com/index.php?page=post&s=list&tags=levy_mcgarden",
+                "mirajane": "https://gelbooru.com/index.php?page=post&s=list&tags=mirajane_strauss",
+                "lisanna": "https://gelbooru.com/index.php?page=post&s=list&tags=lisanna_strauss",
+                "cana": "https://gelbooru.com/index.php?page=post&s=list&tags=cana_alberona",
+                "evergreen": "https://gelbooru.com/index.php?page=post&s=list&tags=evergreen_%28fairy_tail%29",
+                "bisca": "https://gelbooru.com/index.php?page=post&s=list&tags=bisca_mulan",
+                "laki": "https://gelbooru.com/index.php?page=post&s=list&tags=laki_olietta",
+                "kinana": "https://gelbooru.com/index.php?page=post&s=list&tags=kinana_%28fairy_tail%29",
+                "mavis": "https://gelbooru.com/index.php?page=post&s=list&tags=mavis_vermilion",
+                "meredy": "https://gelbooru.com/index.php?page=post&s=list&tags=meredy_%28fairy_tail%29",
+                "ultear": "https://gelbooru.com/index.php?page=post&s=list&tags=ultear_milkovich",
+                "yukino": "https://gelbooru.com/index.php?page=post&s=list&tags=yukino_agria",
+                "minerva": "https://gelbooru.com/index.php?page=post&s=list&tags=minerva_orlando",
+                "kagura": "https://gelbooru.com/index.php?page=post&s=list&tags=kagura_mikazuchi",
+                "milliana": "https://gelbooru.com/index.php?page=post&s=list&tags=millianna",
+                "flare": "https://gelbooru.com/index.php?page=post&s=list&tags=flare_corona",
+                "jenny": "https://gelbooru.com/index.php?page=post&s=list&tags=jenny_realight",
+                "sherry": "https://gelbooru.com/index.php?page=post&s=list&tags=sherry_blendy",
+                "chelia": "https://gelbooru.com/index.php?page=post&s=list&tags=chelia_blendy",
+                "sorano": "https://gelbooru.com/index.php?page=post&s=list&tags=sorano_aguria",
+                "brandish": "https://gelbooru.com/index.php?page=post&s=list&tags=brandish_mew",
+                "dimaria": "https://gelbooru.com/index.php?page=post&s=list&tags=dimaria_yesta",
+                "irene": "https://api.example.com/images/fairy_tail/irene_main.jpg",
+                "hisui": "https://api.example.com/images/fairy_tail/hisui_main.jpg",
+                "bulma": "https://api.example.com/images/dragon_ball/bulma_main.jpg",
+                "chi_chi": "https://api.example.com/images/dragon_ball/chichi_main.jpg",
+                "videl": "https://api.example.com/images/dragon_ball/videl_main.jpg",
+                "pan": "https://api.example.com/images/dragon_ball/pan_main.jpg",
+                "android_18": "https://api.example.com/images/dragon_ball/18_main.jpg",
+                "bulla": "https://api.example.com/images/dragon_ball/bulla_main.jpg",
+                "launch": "https://api.example.com/images/dragon_ball/launch_main.jpg",
+                "marron": "https://api.example.com/images/dragon_ball/marron_main.jpg",
+                "mai": "https://api.example.com/images/dragon_ball/mai_main.jpg",
+                "ranfan": "https://api.example.com/images/dragon_ball/ranfan_main.jpg",
+                "vados": "https://api.example.com/images/dragon_ball/vados_main.jpg",
+                "caulifla": "https://api.example.com/images/dragon_ball/caulifla_main.jpg",
+                "kale": "https://api.example.com/images/dragon_ball/kale_main.jpg",
+                "ribrianne": "https://api.example.com/images/dragon_ball/ribrianne_main.jpg",
+                "oceanus": "https://api.example.com/images/dragon_ball/oceanus_main.jpg",
+                "gine": "https://api.example.com/images/dragon_ball/gine_main.jpg",
+                "fasha": "https://api.example.com/images/dragon_ball/fasha_main.jpg",
+                "zangya": "https://api.example.com/images/dragon_ball/zangya_main.jpg",
+                "towa": "https://api.example.com/images/dragon_ball/towa_main.jpg",
+                "supreme_kai_of_time": "https://api.example.com/images/dragon_ball/chronoa_main.jpg",
+                "arale": "https://api.example.com/images/dragon_ball/arale_main.jpg",
+                "mikasa": "https://api.example.com/images/aot/mikasa_main.jpg",
+                "annie": "https://api.example.com/images/aot/annie_main.jpg",
+                "historia": "https://api.example.com/images/aot/historia_main.jpg",
+                "sasha": "https://api.example.com/images/aot/sasha_main.jpg",
+                "hange": "https://api.example.com/images/aot/hange_main.jpg",
+                "ymir": "https://api.example.com/images/aot/ymir_main.jpg",
+                "pieck": "https://api.example.com/images/aot/pieck_main.jpg",
+                "gabi": "https://api.example.com/images/aot/gabi_main.jpg",
+                "frieda": "https://api.example.com/images/aot/frieda_main.jpg",
+                "carla": "https://api.example.com/images/aot/carla_main.jpg",
+                "dina": "https://api.example.com/images/aot/dina_main.jpg",
+                "petra": "https://api.example.com/images/aot/petra_main.jpg",
+                "rico": "https://api.example.com/images/aot/rico_main.jpg",
+                "yelena": "https://api.example.com/images/aot/yelena_main.jpg",
+                "kiyomi": "https://api.example.com/images/aot/kiyomi_main.jpg",
+                "louise": "https://api.example.com/images/aot/louise_main.jpg",
+                "nifa": "https://api.example.com/images/aot/nifa_main.jpg",
+                "lynne": "https://api.example.com/images/aot/lynne_main.jpg",
+                "ilse": "https://api.example.com/images/aot/ilse_main.jpg",
+                "nanaba": "https://api.example.com/images/aot/nanaba_main.jpg",
+                "tsunade": "https://api.example.com/images/naruto/tsunade_main.jpg",
+                "sakura": "https://api.example.com/images/naruto/sakura_main.jpg",
+                "hinata": "https://api.example.com/images/naruto/hinata_main.jpg",
+                "tenten": "https://api.example.com/images/naruto/tenten_main.jpg",
+                "temari": "https://api.example.com/images/naruto/temari_main.jpg",
+                "kushina": "https://api.example.com/images/naruto/kushina_main.jpg",
+                "sarada": "https://api.example.com/images/naruto/sarada_main.jpg",
+                "himawari": "https://api.example.com/images/naruto/himawari_main.jpg",
+                "ino": "https://api.example.com/images/naruto/ino_main.jpg",
+                "kurenai": "https://api.example.com/images/naruto/kurenai_main.jpg",
+                "anko": "https://api.example.com/images/naruto/anko_main.jpg",
+                "shizune": "https://api.example.com/images/naruto/shizune_main.jpg",
+                "karin": "https://api.example.com/images/naruto/karin_main.jpg",
+                "konan": "https://api.example.com/images/naruto/konan_main.jpg",
+                "mei": "https://api.example.com/images/naruto/mei_main.jpg",
+                "samui": "https://api.example.com/images/naruto/samui_main.jpg",
+                "karui": "https://api.example.com/images/naruto/karui_main.jpg",
+                "mabui": "https://api.example.com/images/naruto/mabui_main.jpg",
+                "yugao": "https://api.example.com/images/naruto/yugao_main.jpg",
+                "tsume": "https://api.example.com/images/naruto/tsume_main.jpg",
+                "hana": "https://api.example.com/images/naruto/hana_main.jpg",
+                "natsu": "https://api.example.com/images/naruto/natsu_main.jpg",
+                "yakumo": "https://api.example.com/images/naruto/yakumo_main.jpg",
+                "tsunami": "https://api.example.com/images/naruto/tsunami_main.jpg",
+                "ayame": "https://api.example.com/images/naruto/ayame_main.jpg",
+                "yugito": "https://api.example.com/images/naruto/yugito_main.jpg",
+                "fuu": "https://api.example.com/images/naruto/fuu_main.jpg",
+                "hokuto": "https://api.example.com/images/naruto/hokuto_main.jpg",
+                "hanabi": "https://api.example.com/images/naruto/hanabi_main.jpg",
+                "moegi": "https://api.example.com/images/naruto/moegi_main.jpg",
+                "sumire": "https://api.example.com/images/naruto/sumire_main.jpg",
+                "chocho": "https://api.example.com/images/naruto/chocho_main.jpg",
+                "mirai": "https://api.example.com/images/naruto/mirai_main.jpg",
+                "wasabi": "https://api.example.com/images/naruto/wasabi_main.jpg",
+                "namida": "https://api.example.com/images/naruto/namida_main.jpg",
+                "nezuko": "https://api.example.com/images/demon_slayer/nezuko_main.jpg",
+                "kanao": "https://api.example.com/images/demon_slayer/kanao_main.jpg",
+                "shinobu": "https://api.example.com/images/demon_slayer/shinobu_main.jpg",
+                "kanae": "https://api.example.com/images/demon_slayer/kanae_main.jpg",
+                "mitsuri": "https://api.example.com/images/demon_slayer/mitsuri_main.jpg",
+                "daki": "https://api.example.com/images/demon_slayer/daki_main.jpg",
+                "tamayo": "https://api.example.com/images/demon_slayer/tamayo_main.jpg",
+                "makio": "https://api.example.com/images/demon_slayer/makio_main.jpg",
+                "suma": "https://api.example.com/images/demon_slayer/suma_main.jpg",
+                "hinatsuru": "https://api.example.com/images/demon_slayer/hinatsuru_main.jpg",
+                "aoi": "https://api.example.com/images/demon_slayer/aoi_main.jpg",
+                "kiyo": "https://api.example.com/images/demon_slayer/kiyo_main.jpg",
+                "sumi": "https://api.example.com/images/demon_slayer/sumi_main.jpg",
+                "naho": "https://api.example.com/images/demon_slayer/naho_main.jpg",
+                "goto": "https://api.example.com/images/demon_slayer/goto_main.jpg",
+                "amane": "https://api.example.com/images/demon_slayer/amane_main.jpg",
+                "mukago": "https://api.example.com/images/demon_slayer/mukago_main.jpg",
+                "ruka": "https://api.example.com/images/demon_slayer/ruka_main.jpg",
+                "hinaki": "https://api.example.com/images/demon_slayer/hinaki_main.jpg",
+                "nichika": "https://api.example.com/images/demon_slayer/nichika_main.jpg",
+                "kuina": "https://api.example.com/images/demon_slayer/kuina_main.jpg",
+                "nobara": "https://api.example.com/images/jjk/nobara_main.jpg",
+                "maki": "https://api.example.com/images/jjk/maki_main.jpg",
+                "mei_mei": "https://api.example.com/images/jjk/mei_mei_main.jpg",
+                "miwa": "https://api.example.com/images/jjk/miwa_main.jpg",
+                "momo": "https://api.example.com/images/jjk/momo_main.jpg",
+                "mai": "https://api.example.com/images/jjk/mai_main.jpg",
+                "yuki": "https://api.example.com/images/jjk/yuki_main.jpg",
+                "rika": "https://api.example.com/images/jjk/rika_main.jpg",
+                "utahime": "https://api.example.com/images/jjk/utahime_main.jpg",
+                "tsumiki": "https://api.example.com/images/jjk/tsumiki_main.jpg",
+                "manami": "https://api.example.com/images/jjk/manami_main.jpg",
+                "saori": "https://api.example.com/images/jjk/saori_main.jpg",
+                "shoko": "https://api.example.com/images/jjk/shoko_main.jpg",
+                "mimiko": "https://api.example.com/images/jjk/mimiko_main.jpg",
+                "nanako": "https://api.example.com/images/jjk/nanako_main.jpg",
+                "faye": "https://api.example.com/images/cowboy_bebop/faye_main.jpg",
+                "ed": "https://api.example.com/images/cowboy_bebop/ed_main.jpg",
+                "julia": "https://api.example.com/images/cowboy_bebop/julia_main.jpg",
+                "meifa": "https://api.example.com/images/cowboy_bebop/meifa_main.jpg",
+                "judy": "https://api.example.com/images/cowboy_bebop/judy_main.jpg",
+                "annie": "https://api.example.com/images/cowboy_bebop/annie_main.jpg",
+                "alisa": "https://api.example.com/images/cowboy_bebop/alisa_main.jpg",
+                "vip": "https://api.example.com/images/cowboy_bebop/vip_main.jpg",
+                "stella": "https://api.example.com/images/cowboy_bebop/stella_main.jpg",
+                "coffee": "https://api.example.com/images/cowboy_bebop/coffee_main.jpg",
+                "katrina": "https://api.example.com/images/cowboy_bebop/katrina_main.jpg",
+                "yor": "https://api.example.com/images/spy_x_family/yor_main.jpg",
+                "anya": "https://api.example.com/images/spy_x_family/anya_main.jpg",
+                "sylvia": "https://api.example.com/images/spy_x_family/sylvia_main.jpg",
+                "fiona": "https://api.example.com/images/spy_x_family/fiona_main.jpg",
+                "becky": "https://api.example.com/images/spy_x_family/becky_main.jpg",
+                "sharon": "https://api.example.com/images/spy_x_family/sharon_main.jpg",
+                "melinda": "https://api.example.com/images/spy_x_family/melinda_main.jpg",
+                "camilla": "https://api.example.com/images/spy_x_family/camilla_main.jpg",
+                "karen": "https://api.example.com/images/spy_x_family/karen_main.jpg",
+                "dominic": "https://api.example.com/images/spy_x_family/dominic_main.jpg",
+                "martha": "https://api.example.com/images/spy_x_family/martha_main.jpg",
+                "fubuki": "https://api.example.com/images/one_punch_man/fubuki_main.jpg",
+                "tatsumaki": "https://api.example.com/images/one_punch_man/tatsumaki_main.jpg",
+                "psykos": "https://api.example.com/images/one_punch_man/psykos_main.jpg",
+                "suiko": "https://api.example.com/images/one_punch_man/suiko_main.jpg",
+                "lin_lin": "https://api.example.com/images/one_punch_man/lin_lin_main.jpg",
+                "lily": "https://api.example.com/images/one_punch_man/lily_main.jpg",
+                "do_s": "https://api.example.com/images/one_punch_man/do_s_main.jpg",
+                "mosquito_girl": "https://api.example.com/images/one_punch_man/mosquito_girl_main.jpg",
+                "mizuki": "https://api.example.com/images/one_punch_man/mizuki_main.jpg",
+                "shadow_ring": "https://api.example.com/images/one_punch_man/shadow_ring_main.jpg",
+                "zenko": "https://api.example.com/images/one_punch_man/zenko_main.jpg",
+                "madame_shibabawa": "https://api.example.com/images/one_punch_man/madame_shibabawa_main.jpg",
+                "goddess_glasses": "https://api.example.com/images/one_punch_man/goddess_glasses_main.jpg",
+                "swim": "https://api.example.com/images/one_punch_man/swim_main.jpg",
+                "pai": "https://api.example.com/images/one_punch_man/pai_main.jpg",
+                "yor": "https://api.example.com/images/spy_x_family/yor_main.jpg",
+                "anya": "https://api.example.com/images/spy_x_family/anya_main.jpg",
+                "sylvia": "https://api.example.com/images/spy_x_family/sylvia_main.jpg",
+                "fiona": "https://api.example.com/images/spy_x_family/fiona_main.jpg",
+                "becky": "https://api.example.com/images/spy_x_family/becky_main.jpg",
+                "sharon": "https://api.example.com/images/spy_x_family/sharon_main.jpg",
+                "melinda": "https://api.example.com/images/spy_x_family/melinda_main.jpg",
+                "camilla": "https://api.example.com/images/spy_x_family/camilla_main.jpg",
+                "karen": "https://api.example.com/images/spy_x_family/karen_main.jpg",
+                "dominic": "https://api.example.com/images/spy_x_family/dominic_main.jpg",
+                "martha": "https://api.example.com/images/spy_x_family/martha_main.jpg",
+                "fubuki": "https://api.example.com/images/one_punch_man/fubuki_main.jpg",
+                "tatsumaki": "https://api.example.com/images/one_punch_man/tatsumaki_main.jpg",
+                "psykos": "https://api.example.com/images/one_punch_man/psykos_main.jpg",
+                "suiko": "https://api.example.com/images/one_punch_man/suiko_main.jpg",
+                "lin_lin": "https://api.example.com/images/one_punch_man/lin_lin_main.jpg",
+                "lily": "https://api.example.com/images/one_punch_man/lily_main.jpg",
+                "do_s": "https://api.example.com/images/one_punch_man/do_s_main.jpg",
+                "mosquito_girl": "https://api.example.com/images/one_punch_man/mosquito_girl_main.jpg",
+                "mizuki": "https://api.example.com/images/one_punch_man/mizuki_main.jpg",
+                "shadow_ring": "https://api.example.com/images/one_punch_man/shadow_ring_main.jpg",
+                "zenko": "https://api.example.com/images/one_punch_man/zenko_main.jpg",
+                "madame_shibabawa": "https://api.example.com/images/one_punch_man/madame_shibabawa_main.jpg",
+                "goddess_glasses": "https://api.example.com/images/one_punch_man/goddess_glasses_main.jpg",
+                "swim": "https://api.example.com/images/one_punch_man/swim_main.jpg",
+                "pai": "https://api.example.com/images/one_punch_man/pai_main.jpg",
+                "ahri": "https://api.example.com/images/lol/ahri_main.jpg",
+                "lux": "https://api.example.com/images/lol/lux_main.jpg",
+                "jinx": "https://api.example.com/images/lol/jinx_main.jpg",
+                "vi": "https://api.example.com/images/lol/vi_main.jpg",
+                "caitlyn": "https://api.example.com/images/lol/caitlyn_main.jpg",
+                "leona": "https://api.example.com/images/lol/leona_main.jpg",
+                "diana": "https://api.example.com/images/lol/diana_main.jpg",
+                "ashe": "https://api.example.com/images/lol/ashe_main.jpg",
+                "katarina": "https://api.example.com/images/lol/katarina_main.jpg",
+                "miss_fortune": "https://api.example.com/images/lol/miss_fortune_main.jpg",
+                "akali": "https://api.example.com/images/lol/akali_main.jpg",
+                "anivia": "https://api.example.com/images/lol/anivia_main.jpg",
+                "annie": "https://api.example.com/images/lol/annie_main.jpg",
+                "bel_veth": "https://api.example.com/images/lol/bel_veth_main.jpg",
+                "briar": "https://api.example.com/images/lol/briar_main.jpg",
+                "cassiopeia": "https://api.example.com/images/lol/cassiopeia_main.jpg",
+                "elise": "https://api.example.com/images/lol/elise_main.jpg",
+                "evelynn": "https://api.example.com/images/lol/evelynn_main.jpg",
+                "fiora": "https://api.example.com/images/lol/fiora_main.jpg",
+                "gwen": "https://api.example.com/images/lol/gwen_main.jpg",
+                "illaoi": "https://api.example.com/images/lol/illaoi_main.jpg",
+                "irelia": "https://api.example.com/images/lol/irelia_main.jpg",
+                "janna": "https://api.example.com/images/lol/janna_main.jpg",
+                "kai_sa": "https://api.example.com/images/lol/kai_sa_main.jpg",
+                "kalista": "https://api.example.com/images/lol/kalista_main.jpg",
+                "karma": "https://api.example.com/images/lol/karma_main.jpg",
+                "kindred": "https://api.example.com/images/lol/kindred_main.jpg",
+                "leblanc": "https://api.example.com/images/lol/leblanc_main.jpg",
+                "lillia": "https://api.example.com/images/lol/lillia_main.jpg",
+                "lissandra": "https://api.example.com/images/lol/lissandra_main.jpg",
+                "morgana": "https://api.example.com/images/lol/morgana_main.jpg",
+                "nami": "https://api.example.com/images/lol/nami_main.jpg",
+                "neeko": "https://api.example.com/images/lol/neeko_main.jpg",
+                "nidalee": "https://api.example.com/images/lol/nidalee_main.jpg",
+                "nilah": "https://api.example.com/images/lol/nilah_main.jpg",
+                "orianna": "https://api.example.com/images/lol/orianna_main.jpg",
+                "poppy": "https://api.example.com/images/lol/poppy_main.jpg",
+                "qiyana": "https://api.example.com/images/lol/qiyana_main.jpg",
+                "rell": "https://api.example.com/images/lol/rell_main.jpg",
+                "riven": "https://api.example.com/images/lol/riven_main.jpg",
+                "samira": "https://api.example.com/images/lol/samira_main.jpg",
+                "senna": "https://api.example.com/images/lol/senna_main.jpg",
+                "seraphine": "https://api.example.com/images/lol/seraphine_main.jpg",
+                "sejuani": "https://api.example.com/images/lol/sejuani_main.jpg",
+                "shyvana": "https://api.example.com/images/lol/shyvana_main.jpg",
+                "sivir": "https://api.example.com/images/lol/sivir_main.jpg",
+                "sona": "https://api.example.com/images/lol/sona_main.jpg",
+                "soraka": "https://api.example.com/images/lol/soraka_main.jpg",
+                "syndra": "https://api.example.com/images/lol/syndra_main.jpg",
+                "taliyah": "https://api.example.com/images/lol/taliyah_main.jpg",
+                "tristana": "https://api.example.com/images/lol/tristana_main.jpg",
+                "vayne": "https://api.example.com/images/lol/vayne_main.jpg",
+                "vex": "https://api.example.com/images/lol/vex_main.jpg",
+                "xayah": "https://api.example.com/images/lol/xayah_main.jpg",
+                "yuumi": "https://api.example.com/images/lol/yuumi_main.jpg",
+                "zeri": "https://api.example.com/images/lol/zeri_main.jpg",
+                "zoe": "https://api.example.com/images/lol/zoe_main.jpg",
+                "zyra": "https://api.example.com/images/lol/zyra_main.jpg",
+                "biscuit": "https://api.example.com/images/hunter_x_hunter/biscuit_main.jpg",
+                "palm": "https://api.example.com/images/hunter_x_hunter/palm_main.jpg",
+                "machi": "https://api.example.com/images/hunter_x_hunter/machi_main.jpg",
+                "shizuku": "https://api.example.com/images/hunter_x_hunter/shizuku_main.jpg",
+                "canary": "https://api.example.com/images/hunter_x_hunter/canary_main.jpg",
+                "neferpitou": "https://api.example.com/images/hunter_x_hunter/neferpitou_main.jpg",
+                "komugi": "https://api.example.com/images/hunter_x_hunter/komugi_main.jpg",
+                "pakunoda": "https://api.example.com/images/hunter_x_hunter/pakunoda_main.jpg",
+                "melody": "https://api.example.com/images/hunter_x_hunter/melody_main.jpg",
+                "zazan": "https://api.example.com/images/hunter_x_hunter/zazan_main.jpg",
+                "eliza": "https://api.example.com/images/hunter_x_hunter/eliza_main.jpg",
+                "amane": "https://api.example.com/images/hunter_x_hunter/amane_main.jpg",
+                "tsubone": "https://api.example.com/images/hunter_x_hunter/tsubone_main.jpg",
+                "kalluto": "https://api.example.com/images/hunter_x_hunter/kalluto_main.jpg",
+                "kikyo": "https://api.example.com/images/hunter_x_hunter/kikyo_main.jpg",
+                "alluka": "https://api.example.com/images/hunter_x_hunter/alluka_main.jpg",
+                "cheadle": "https://api.example.com/images/hunter_x_hunter/cheadle_main.jpg",
+                "menchi": "https://api.example.com/images/hunter_x_hunter/menchi_main.jpg",
+                "ponzu": "https://api.example.com/images/hunter_x_hunter/ponzu_main.jpg",
+                "winry": "https://api.example.com/images/fma/winry_main.jpg",
+                "riza": "https://api.example.com/images/fma/riza_main.jpg",
+                "olivier": "https://api.example.com/images/fma/olivier_main.jpg",
+                "izumi": "https://api.example.com/images/fma/izumi_main.jpg",
+                "mei": "https://api.example.com/images/fma/mei_main.jpg",
+                "maria": "https://api.example.com/images/fma/maria_main.jpg",
+                "gracia": "https://api.example.com/images/fma/gracia_main.jpg",
+                "elicia": "https://api.example.com/images/fma/elicia_main.jpg",
+                "lan_fan": "https://api.example.com/images/fma/lan_fan_main.jpg",
+                "paninya": "https://api.example.com/images/fma/paninya_main.jpg",
+                "sheska": "https://api.example.com/images/fma/sheska_main.jpg",
+                "rose": "https://api.example.com/images/fma/rose_main.jpg",
+                "catherine": "https://api.example.com/images/fma/catherine_main.jpg",
+                "martel": "https://api.example.com/images/fma/martel_main.jpg",
+                "trisha": "https://api.example.com/images/fma/trisha_main.jpg",
+                "pinako": "https://api.example.com/images/fma/pinako_main.jpg",
+                "lust": "https://api.example.com/images/fma/lust_main.jpg",
+                "dante": "https://api.example.com/images/fma/dante_main.jpg",
+                "clara": "https://api.example.com/images/fma/clara_main.jpg",
+                "uraraka": "https://api.example.com/images/mha/uraraka_main.jpg",
+                "asui": "https://api.example.com/images/mha/asui_main.jpg",
+                "yaoyorozu": "https://api.example.com/images/mha/yaoyorozu_main.jpg",
+                "jirou": "https://api.example.com/images/mha/jirou_main.jpg",
+                "hagakure": "https://api.example.com/images/mha/hagakure_main.jpg",
+                "ashido": "https://api.example.com/images/mha/ashido_main.jpg",
+                "mount_lady": "https://api.example.com/images/mha/mount_lady_main.jpg",
+                "midnight": "https://api.example.com/images/mha/midnight_main.jpg",
+                "mirko": "https://api.example.com/images/mha/mirko_main.jpg",
+                "ryuku": "https://api.example.com/images/mha/ryuku_main.jpg",
+                "nejire": "https://api.example.com/images/mha/nejire_main.jpg",
+                "mandalay": "https://api.example.com/images/mha/mandalay_main.jpg",
+                "pixie_bob": "https://api.example.com/images/mha/pixie_bob_main.jpg",
+                "ragdoll": "https://api.example.com/images/mha/ragdoll_main.jpg",
+                "kendo": "https://api.example.com/images/mha/kendo_main.jpg",
+                "tsunotori": "https://api.example.com/images/mha/tsunotori_main.jpg",
+                "komori": "https://api.example.com/images/mha/komori_main.jpg",
+                "kodai": "https://api.example.com/images/mha/kodai_main.jpg",
+                "yanagi": "https://api.example.com/images/mha/yanagi_main.jpg",
+                "tokage": "https://api.example.com/images/mha/tokage_main.jpg",
+                "melissa": "https://api.example.com/images/mha/melissa_main.jpg",
+                "inko": "https://api.example.com/images/mha/inko_main.jpg",
+                "fuyumi": "https://api.example.com/images/mha/fuyumi_main.jpg",
+                "eri": "https://api.example.com/images/mha/eri_main.jpg",
+                "nana": "https://api.example.com/images/mha/nana_main.jpg",
+                "toga": "https://api.example.com/images/mha/toga_main.jpg",
+                "jolyne": "https://api.example.com/images/jojo/jolyne_main.jpg",
+                "lisa_lisa": "https://api.example.com/images/jojo/lisa_lisa_main.jpg",
+                "erina": "https://api.example.com/images/jojo/erina_main.jpg",
+                "trish": "https://api.example.com/images/jojo/trish_main.jpg",
+                "suzi_q": "https://api.example.com/images/jojo/suzi_q_main.jpg",
+                "holly": "https://api.example.com/images/jojo/holly_main.jpg",
+                "yukako": "https://api.example.com/images/jojo/yukako_main.jpg",
+                "reimi": "https://api.example.com/images/jojo/reimi_main.jpg",
+                "hot_pants": "https://api.example.com/images/jojo/hot_pants_main.jpg",
+                "lucy": "https://api.example.com/images/jojo/lucy_main.jpg",
+                "yasuho": "https://api.example.com/images/jojo/yasuho_main.jpg",
+                "hermes": "https://api.example.com/images/jojo/hermes_main.jpg",
+                "foo_fighters": "https://api.example.com/images/jojo/foo_fighters_main.jpg",
+                "ermes": "https://api.example.com/images/jojo/ermes_main.jpg",
+                "gwess": "https://api.example.com/images/jojo/gwess_main.jpg",
+                "mariah": "https://api.example.com/images/jojo/mariah_main.jpg",
+                "midler": "https://api.example.com/images/jojo/midler_main.jpg",
+                "anne": "https://api.example.com/images/jojo/anne_main.jpg",
+                "tomoko": "https://api.example.com/images/jojo/tomoko_main.jpg",
+                "misty": "https://api.example.com/images/pokemon/misty_main.jpg",
+                "may": "https://api.example.com/images/pokemon/may_main.jpg",
+                "dawn": "https://api.example.com/images/pokemon/dawn_main.jpg",
+                "serena": "https://api.example.com/images/pokemon/serena_main.jpg",
+                "iris": "https://api.example.com/images/pokemon/iris_main.jpg",
+                "lillie": "https://api.example.com/images/pokemon/lillie_main.jpg",
+                "cynthia": "https://api.example.com/images/pokemon/cynthia_main.jpg",
+                "diantha": "https://api.example.com/images/pokemon/diantha_main.jpg",
+                "lusamine": "https://api.example.com/images/pokemon/lusamine_main.jpg",
+                "sabrina": "https://api.example.com/images/pokemon/sabrina_main.jpg",
+                "erika": "https://api.example.com/images/pokemon/erika_main.jpg",
+                "whitney": "https://api.example.com/images/pokemon/whitney_main.jpg",
+                "jasmine": "https://api.example.com/images/pokemon/jasmine_main.jpg",
+                "clair": "https://api.example.com/images/pokemon/clair_main.jpg",
+                "flannery": "https://api.example.com/images/pokemon/flannery_main.jpg",
+                "winona": "https://api.example.com/images/pokemon/winona_main.jpg",
+                "roxanne": "https://api.example.com/images/pokemon/roxanne_main.jpg",
+                "gardenia": "https://api.example.com/images/pokemon/gardenia_main.jpg",
+                "candice": "https://api.example.com/images/pokemon/candice_main.jpg",
+                "fantina": "https://api.example.com/images/pokemon/fantina_main.jpg",
+                "elesa": "https://api.example.com/images/pokemon/elesa_main.jpg",
+                "skyla": "https://api.example.com/images/pokemon/skyla_main.jpg",
+                "korrina": "https://api.example.com/images/pokemon/korrina_main.jpg",
+                "valerie": "https://api.example.com/images/pokemon/valerie_main.jpg",
+                "olympia": "https://api.example.com/images/pokemon/olympia_main.jpg",
+                "mallow": "https://api.example.com/images/pokemon/mallow_main.jpg",
+                "lana": "https://api.example.com/images/pokemon/lana_main.jpg",
+                "nessa": "https://api.example.com/images/pokemon/nessa_main.jpg",
+                "marnie": "https://api.example.com/images/pokemon/marnie_main.jpg",
+                "sonia": "https://api.example.com/images/pokemon/sonia_main.jpg",
+                "professor_juniper": "https://api.example.com/images/pokemon/professor_juniper_main.jpg",
+                "nurse_joy": "https://api.example.com/images/pokemon/nurse_joy_main.jpg",
+                "officer_jenny": "https://api.example.com/images/pokemon/officer_jenny_main.jpg",
+                "jessie": "https://api.example.com/images/pokemon/jessie_main.jpg",
+                "bonnie": "https://api.example.com/images/pokemon/bonnie_main.jpg",
+                "rosa": "https://api.example.com/images/pokemon/rosa_main.jpg",
+                "miku": "https://api.example.com/images/vocaloid/miku_main.jpg",
+                "meiko": "https://api.example.com/images/vocaloid/meiko_main.jpg",
+                "rin": "https://api.example.com/images/vocaloid/rin_main.jpg",
+                "luka": "https://api.example.com/images/vocaloid/luka_main.jpg",
+                "gumi": "https://api.example.com/images/vocaloid/gumi_main.jpg",
+                "teto": "https://api.example.com/images/vocaloid/teto_main.jpg",
+                "neru": "https://api.example.com/images/vocaloid/neru_main.jpg",
+                "haku": "https://api.example.com/images/vocaloid/haku_main.jpg",
+                "una": "https://api.example.com/images/vocaloid/una_main.jpg",
+                "ia": "https://api.example.com/images/vocaloid/ia_main.jpg",
+                "cul": "https://api.example.com/images/vocaloid/cul_main.jpg",
+                "lily": "https://api.example.com/images/vocaloid/lily_main.jpg",
+                "miki": "https://api.example.com/images/vocaloid/miki_main.jpg",
+                "yukari": "https://api.example.com/images/vocaloid/yukari_main.jpg",
+                "aqua": "https://api.example.com/images/konosuba/aqua_main.jpg",
+                "megumin": "https://api.example.com/images/konosuba/megumin_main.jpg",
+                "darkness": "https://api.example.com/images/konosuba/darkness_main.jpg",
+                "wiz": "https://api.example.com/images/konosuba/wiz_main.jpg",
+                "yunyun": "https://api.example.com/images/konosuba/yunyun_main.jpg",
+                "chris": "https://api.example.com/images/konosuba/chris_main.jpg",
+                "luna": "https://api.example.com/images/konosuba/luna_main.jpg",
+                "sena": "https://api.example.com/images/konosuba/sena_main.jpg",
+                "wolbach": "https://api.example.com/images/konosuba/wolbach_main.jpg",
+                "iris": "https://api.example.com/images/konosuba/iris_main.jpg",
+                "komekko": "https://api.example.com/images/konosuba/komekko_main.jpg",
+                "cecily": "https://api.example.com/images/konosuba/cecily_main.jpg",
+                "arue": "https://api.example.com/images/konosuba/arue_main.jpg",
+                "claire": "https://api.example.com/images/konosuba/claire_main.jpg",
+                "sylvia": "https://api.example.com/images/konosuba/sylvia_main.jpg",
+                "lean": "https://api.example.com/images/konosuba/lean_main.jpg",
+                "verdia": "https://api.example.com/images/konosuba/verdia_main.jpg",
+                "hans": "https://api.example.com/images/konosuba/hans_main.jpg",
+                "yuiyui": "https://api.example.com/images/konosuba/yuiyui_main.jpg",
+                "chisato": "https://api.example.com/images/lycoris_recoil/chisato_main.jpg",
+                "takina": "https://api.example.com/images/lycoris_recoil/takina_main.jpg",
+                "mizuki": "https://api.example.com/images/lycoris_recoil/mizuki_main.jpg",
+                "kurumi": "https://api.example.com/images/lycoris_recoil/kurumi_main.jpg",
+                "erika": "https://api.example.com/images/lycoris_recoil/erika_main.jpg",
+                "sakura": "https://api.example.com/images/lycoris_recoil/sakura_main.jpg",
+                "himegama": "https://api.example.com/images/lycoris_recoil/himegama_main.jpg",
+                "mika": "https://api.example.com/images/lycoris_recoil/mika_main.jpg",
+                "robota": "https://api.example.com/images/lycoris_recoil/robota_main.jpg",
+                "lucy": "https://api.example.com/images/lycoris_recoil/lucy_main.jpg",
             }
 
-    scraper.download_batch(urls)
+        scraper.process_urls(urls, max_pages=380)
+
+    # scraper.download_batch(urls)
+    except KeyboardInterrupt:
+        logging.info("Scraping interrupted by user")
+    except Exception as e:
+        logging.error(f"Scraping failed: {str(e)}")
+        raise
+    finally:
+        logging.info("Scraping completed")
+
 
 
 if __name__ == "__main__":

@@ -80,3 +80,1431 @@
 2024-11-11 14:41:26,640 - INFO - Processing page 69/380
 2024-11-11 14:41:28,723 - INFO - Processing page 70/380
 2024-11-11 14:41:30,805 - INFO - Processing page 71/380
+2024-11-11 15:23:16,627 - INFO - Starting setup...
+2024-11-11 15:23:16,792 - INFO - Setup completed successfully
+2024-11-11 15:23:16,792 - INFO - Starting downloads for search term: uta
+2024-11-11 15:23:16,792 - INFO - Processing page 1/380
+2024-11-11 15:23:21,966 - INFO - Processing page 2/380
+2024-11-11 15:23:27,085 - INFO - Processing page 3/380
+2024-11-11 15:23:32,207 - INFO - Processing page 4/380
+2024-11-11 15:23:37,321 - INFO - Processing page 5/380
+2024-11-11 15:23:42,445 - INFO - Processing page 6/380
+2024-11-11 15:23:47,574 - INFO - Processing page 7/380
+2024-11-11 15:23:52,786 - INFO - Processing page 8/380
+2024-11-11 15:23:57,945 - INFO - Processing page 9/380
+2024-11-11 15:24:03,078 - INFO - Processing page 10/380
+2024-11-11 15:24:08,214 - INFO - Processing page 11/380
+2024-11-11 15:24:09,536 - INFO - Starting setup...
+2024-11-11 15:24:09,541 - INFO - Setup completed successfully
+2024-11-11 15:24:09,541 - INFO - Starting downloads for search term: uta
+2024-11-11 15:24:09,541 - INFO - Processing page 1/1
+2024-11-11 15:24:14,680 - INFO - Starting downloads for search term: rebecca
+2024-11-11 15:24:14,680 - INFO - Processing page 1/1
+2024-11-11 15:24:19,831 - INFO - Starting downloads for search term: carrot
+2024-11-11 15:24:19,831 - INFO - Processing page 1/1
+2024-11-11 15:24:32,799 - INFO - Starting setup...
+2024-11-11 15:24:32,803 - INFO - Setup completed successfully
+2024-11-11 15:24:32,803 - INFO - Starting downloads for search term: uta
+2024-11-11 15:24:32,803 - INFO - Processing page 1/1
+2024-11-11 15:24:32,803 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 15:25:38,156 - INFO - Starting setup...
+2024-11-11 15:25:38,197 - INFO - Setup completed successfully
+2024-11-11 15:25:38,197 - INFO - Starting downloads for search term: uta
+2024-11-11 15:25:38,197 - INFO - Processing page 1/1
+2024-11-11 15:25:38,197 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 15:25:43,345 - INFO - Starting downloads for search term: rebecca
+2024-11-11 15:25:43,345 - INFO - Processing page 1/1
+2024-11-11 15:25:43,345 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_(one_piece)
+2024-11-11 15:25:48,526 - INFO - Starting downloads for search term: carrot
+2024-11-11 15:25:48,527 - INFO - Processing page 1/1
+2024-11-11 15:25:48,527 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=carrot_(one_piece)
+2024-11-11 15:25:53,685 - INFO - Starting downloads for search term: bonney
+2024-11-11 15:25:53,685 - INFO - Processing page 1/1
+2024-11-11 15:25:53,685 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+
+2024-11-11 15:25:58,825 - INFO - Starting downloads for search term: baby_5
+2024-11-11 15:25:58,826 - INFO - Processing page 1/1
+2024-11-11 15:25:58,826 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-11 15:26:03,965 - INFO - Starting downloads for search term: robin
+2024-11-11 15:26:03,966 - INFO - Processing page 1/1
+2024-11-11 15:26:03,966 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-11 15:26:09,111 - INFO - Starting downloads for search term: nami
+2024-11-11 15:26:09,111 - INFO - Processing page 1/1
+2024-11-11 15:26:09,111 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nami_(one_piece)+
+2024-11-11 15:26:19,140 - ERROR - Failed to extract from https://gelbooru.com/index.php?page=post&s=list&tags=nami_(one_piece)+: HTTPSConnectionPool(host='gelbooru.com', port=443): Read timed out. (read timeout=10)
+2024-11-11 15:26:24,143 - INFO - Starting downloads for search term: boa_hancock
+2024-11-11 15:26:24,143 - INFO - Processing page 1/1
+2024-11-11 15:26:24,144 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-11 15:26:29,328 - INFO - Starting downloads for search term: vivi
+2024-11-11 15:26:29,328 - INFO - Processing page 1/1
+2024-11-11 15:26:29,328 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nefertari_vivi+
+2024-11-11 15:28:13,893 - INFO - Starting setup...
+2024-11-11 15:28:13,897 - INFO - Setup completed successfully
+2024-11-11 15:28:13,897 - INFO - Starting downloads for search term: uta
+2024-11-11 15:28:13,897 - INFO - Processing page 1/1
+2024-11-11 15:28:13,897 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 15:28:14,057 - WARNING - No images found on page 1
+2024-11-11 15:28:14,057 - INFO - Completed downloads for uta
+2024-11-11 15:28:14,057 - INFO - Starting downloads for search term: rebecca
+2024-11-11 15:28:14,057 - INFO - Processing page 1/1
+2024-11-11 15:28:14,057 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_(one_piece)
+2024-11-11 15:28:14,185 - WARNING - No images found on page 1
+2024-11-11 15:28:14,185 - INFO - Completed downloads for rebecca
+2024-11-11 15:28:14,185 - INFO - Starting downloads for search term: carrot
+2024-11-11 15:28:14,185 - INFO - Processing page 1/1
+2024-11-11 15:28:14,185 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=carrot_(one_piece)
+2024-11-11 15:28:14,329 - WARNING - No images found on page 1
+2024-11-11 15:28:14,329 - INFO - Completed downloads for carrot
+2024-11-11 15:28:14,329 - INFO - Starting downloads for search term: bonney
+2024-11-11 15:28:14,329 - INFO - Processing page 1/1
+2024-11-11 15:28:14,329 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+
+2024-11-11 15:28:14,478 - WARNING - No images found on page 1
+2024-11-11 15:28:14,478 - INFO - Completed downloads for bonney
+2024-11-11 15:28:14,478 - INFO - Starting downloads for search term: baby_5
+2024-11-11 15:28:14,478 - INFO - Processing page 1/1
+2024-11-11 15:28:14,478 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-11 15:28:14,603 - WARNING - No images found on page 1
+2024-11-11 15:28:14,603 - INFO - Completed downloads for baby_5
+2024-11-11 15:28:14,603 - INFO - Starting downloads for search term: robin
+2024-11-11 15:28:14,603 - INFO - Processing page 1/1
+2024-11-11 15:28:14,603 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-11 15:28:14,724 - WARNING - No images found on page 1
+2024-11-11 15:28:14,724 - INFO - Completed downloads for robin
+2024-11-11 15:28:14,724 - INFO - Starting downloads for search term: nami
+2024-11-11 15:28:14,724 - INFO - Processing page 1/1
+2024-11-11 15:28:14,724 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nami_(one_piece)+
+2024-11-11 15:28:14,895 - WARNING - No images found on page 1
+2024-11-11 15:28:14,895 - INFO - Completed downloads for nami
+2024-11-11 15:28:14,895 - INFO - Starting downloads for search term: boa_hancock
+2024-11-11 15:28:14,895 - INFO - Processing page 1/1
+2024-11-11 15:28:14,895 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-11 15:28:15,034 - WARNING - No images found on page 1
+2024-11-11 15:28:15,034 - INFO - Completed downloads for boa_hancock
+2024-11-11 15:28:15,034 - INFO - Starting downloads for search term: vivi
+2024-11-11 15:28:15,034 - INFO - Processing page 1/1
+2024-11-11 15:28:15,035 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nefertari_vivi+
+2024-11-11 15:28:15,176 - WARNING - No images found on page 1
+2024-11-11 15:28:15,176 - INFO - Completed downloads for vivi
+2024-11-11 15:28:15,176 - INFO - Starting downloads for search term: vinsmoke_reiju
+2024-11-11 15:28:15,176 - INFO - Processing page 1/1
+2024-11-11 15:28:15,176 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_reiju+
+2024-11-11 15:28:15,295 - WARNING - No images found on page 1
+2024-11-11 15:28:15,295 - INFO - Completed downloads for vinsmoke_reiju
+2024-11-11 15:28:15,295 - INFO - Starting downloads for search term: charlotte_linlin
+2024-11-11 15:28:15,295 - INFO - Processing page 1/1
+2024-11-11 15:28:15,295 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_linlin+
+2024-11-11 15:28:15,421 - WARNING - No images found on page 1
+2024-11-11 15:28:15,421 - INFO - Completed downloads for charlotte_linlin
+2024-11-11 15:28:15,421 - INFO - Starting downloads for search term: kuina
+2024-11-11 15:28:15,421 - INFO - Processing page 1/1
+2024-11-11 15:28:15,421 - INFO - URL: https://gelbooru.com/index.php?page=post&s=view&id=10840087&tags=kuina+
+2024-11-11 15:28:15,525 - WARNING - No images found on page 1
+2024-11-11 15:28:15,525 - INFO - Completed downloads for kuina
+2024-11-11 15:28:15,525 - INFO - Starting downloads for search term: charlotte_smoothie
+2024-11-11 15:28:15,525 - INFO - Processing page 1/1
+2024-11-11 15:28:15,525 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_smoothie+
+2024-11-11 15:28:15,671 - WARNING - No images found on page 1
+2024-11-11 15:28:15,671 - INFO - Completed downloads for charlotte_smoothie
+2024-11-11 15:28:15,671 - INFO - Starting downloads for search term: shirahoshi
+2024-11-11 15:28:15,671 - INFO - Processing page 1/1
+2024-11-11 15:28:15,671 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=shirahoshi
+2024-11-11 15:28:15,808 - WARNING - No images found on page 1
+2024-11-11 15:28:15,808 - INFO - Completed downloads for shirahoshi
+2024-11-11 15:28:15,808 - INFO - Starting downloads for search term: kouzuki_hiyori
+2024-11-11 15:28:15,808 - INFO - Processing page 1/1
+2024-11-11 15:28:15,808 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kouzuki_hiyori
+2024-11-11 15:28:15,937 - WARNING - No images found on page 1
+2024-11-11 15:28:15,937 - INFO - Completed downloads for kouzuki_hiyori
+2024-11-11 15:28:15,937 - INFO - Starting downloads for search term: catarina_devon
+2024-11-11 15:28:15,937 - INFO - Processing page 1/1
+2024-11-11 15:28:15,937 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=catarina_devon
+2024-11-11 15:28:16,106 - WARNING - No images found on page 1
+2024-11-11 15:28:16,106 - INFO - Completed downloads for catarina_devon
+2024-11-11 15:28:16,106 - INFO - Starting downloads for search term: perona
+2024-11-11 15:28:16,106 - INFO - Processing page 1/1
+2024-11-11 15:28:16,106 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=perona
+2024-11-11 15:28:16,273 - WARNING - No images found on page 1
+2024-11-11 15:28:16,273 - INFO - Completed downloads for perona
+2024-11-11 15:28:16,273 - INFO - Starting downloads for search term: charlotte_flampe
+2024-11-11 15:28:16,273 - INFO - Processing page 1/1
+2024-11-11 15:28:16,273 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_flampe
+2024-11-11 15:28:16,453 - WARNING - No images found on page 1
+2024-11-11 15:28:16,453 - INFO - Completed downloads for charlotte_flampe
+2024-11-11 15:28:16,453 - INFO - Starting downloads for search term: kouzuki_toki
+2024-11-11 15:28:16,453 - INFO - Processing page 1/1
+2024-11-11 15:28:16,453 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kouzuki_toki
+2024-11-11 15:28:16,682 - WARNING - No images found on page 1
+2024-11-11 15:28:16,682 - INFO - Completed downloads for kouzuki_toki
+2024-11-11 15:28:16,682 - INFO - Starting downloads for search term: alvida
+2024-11-11 15:28:16,682 - INFO - Processing page 1/1
+2024-11-11 15:28:16,682 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=alvida_(one_piece)
+2024-11-11 15:28:16,804 - WARNING - No images found on page 1
+2024-11-11 15:28:16,804 - INFO - Completed downloads for alvida
+2024-11-11 15:28:16,804 - INFO - Starting downloads for search term: kikunojo
+2024-11-11 15:28:16,804 - INFO - Processing page 1/1
+2024-11-11 15:28:16,804 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kikunojo_(one_piece)
+2024-11-11 15:28:16,923 - WARNING - No images found on page 1
+2024-11-11 15:28:16,923 - INFO - Completed downloads for kikunojo
+2024-11-11 15:28:16,923 - INFO - Starting downloads for search term: vegapunk_lilith
+2024-11-11 15:28:16,923 - INFO - Processing page 1/1
+2024-11-11 15:28:16,923 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_lilith
+2024-11-11 15:28:17,223 - WARNING - No images found on page 1
+2024-11-11 15:28:17,223 - INFO - Completed downloads for vegapunk_lilith
+2024-11-11 15:28:17,223 - INFO - Starting downloads for search term: kaya
+2024-11-11 15:28:17,223 - INFO - Processing page 1/1
+2024-11-11 15:28:17,224 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kaya_(one_piece)
+2024-11-11 15:28:17,347 - WARNING - No images found on page 1
+2024-11-11 15:28:17,347 - INFO - Completed downloads for kaya
+2024-11-11 15:28:17,347 - INFO - Starting downloads for search term: lily
+2024-11-11 15:28:17,347 - INFO - Processing page 1/1
+2024-11-11 15:28:17,347 - INFO - URL: https://gelbooru.com/index.php?page=post&s=view&id=4939575&tags=lily_(one_piece)
+2024-11-11 15:28:17,524 - WARNING - No images found on page 1
+2024-11-11 15:28:17,524 - INFO - Completed downloads for lily
+2024-11-11 15:28:17,524 - INFO - Starting downloads for search term: monet
+2024-11-11 15:28:17,524 - INFO - Processing page 1/1
+2024-11-11 15:28:17,524 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=monet_(one_piece)
+2024-11-11 15:28:17,712 - WARNING - No images found on page 1
+2024-11-11 15:28:17,712 - INFO - Completed downloads for monet
+2024-11-11 15:28:17,712 - INFO - Starting downloads for search term: wanda
+2024-11-11 15:28:17,712 - INFO - Processing page 1/1
+2024-11-11 15:28:17,712 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=wanda_(one_piece)
+2024-11-11 15:28:17,903 - WARNING - No images found on page 1
+2024-11-11 15:28:17,904 - INFO - Completed downloads for wanda
+2024-11-11 15:28:17,904 - INFO - Starting downloads for search term: nico_olvia
+2024-11-11 15:28:17,904 - INFO - Processing page 1/1
+2024-11-11 15:28:17,904 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nico_olvia
+2024-11-11 15:28:18,049 - WARNING - No images found on page 1
+2024-11-11 15:28:18,049 - INFO - Completed downloads for nico_olvia
+2024-11-11 15:28:18,049 - INFO - Starting downloads for search term: nojiko
+2024-11-11 15:28:18,049 - INFO - Processing page 1/1
+2024-11-11 15:28:18,049 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nojiko
+2024-11-11 15:28:18,172 - WARNING - No images found on page 1
+2024-11-11 15:28:18,172 - INFO - Completed downloads for nojiko
+2024-11-11 15:28:18,172 - INFO - Starting downloads for search term: charlotte_pudding
+2024-11-11 15:28:18,172 - INFO - Processing page 1/1
+2024-11-11 15:28:18,172 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_pudding
+2024-11-11 15:28:18,303 - WARNING - No images found on page 1
+2024-11-11 15:28:18,303 - INFO - Completed downloads for charlotte_pudding
+2024-11-11 15:28:18,303 - INFO - Starting downloads for search term: charlotte_prim
+2024-11-11 15:28:18,303 - INFO - Processing page 1/1
+2024-11-11 15:28:18,303 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_prim
+2024-11-11 15:28:18,428 - WARNING - No images found on page 1
+2024-11-11 15:28:18,428 - INFO - Completed downloads for charlotte_prim
+2024-11-11 15:28:18,428 - INFO - Starting downloads for search term: charlotte_poire
+2024-11-11 15:28:18,428 - INFO - Processing page 1/1
+2024-11-11 15:28:18,428 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_poire
+2024-11-11 15:28:18,570 - WARNING - No images found on page 1
+2024-11-11 15:28:18,570 - INFO - Completed downloads for charlotte_poire
+2024-11-11 15:28:18,570 - INFO - Starting downloads for search term: charlotte_anana
+2024-11-11 15:28:18,570 - INFO - Processing page 1/1
+2024-11-11 15:28:18,570 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_anana
+2024-11-11 15:28:18,742 - WARNING - No images found on page 1
+2024-11-11 15:28:18,742 - INFO - Completed downloads for charlotte_anana
+2024-11-11 15:28:18,742 - INFO - Starting downloads for search term: charlotte_amande
+2024-11-11 15:28:18,742 - INFO - Processing page 1/1
+2024-11-11 15:28:18,742 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_amande
+2024-11-11 15:28:18,849 - WARNING - No images found on page 1
+2024-11-11 15:28:18,849 - INFO - Completed downloads for charlotte_amande
+2024-11-11 15:28:18,849 - INFO - Starting downloads for search term: charlotte_meukle
+2024-11-11 15:28:18,849 - INFO - Processing page 1/1
+2024-11-11 15:28:18,849 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_meukle
+2024-11-11 15:28:18,943 - WARNING - No images found on page 1
+2024-11-11 15:28:18,944 - INFO - Completed downloads for charlotte_meukle
+2024-11-11 15:28:18,944 - INFO - Starting downloads for search term: bellett
+2024-11-11 15:28:18,944 - INFO - Processing page 1/1
+2024-11-11 15:28:18,944 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=bellett
+2024-11-11 15:28:19,064 - WARNING - No images found on page 1
+2024-11-11 15:28:19,064 - INFO - Completed downloads for bellett
+2024-11-11 15:28:19,064 - INFO - Starting downloads for search term: bellemere
+2024-11-11 15:28:19,064 - INFO - Processing page 1/1
+2024-11-11 15:28:19,064 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=bellemere
+2024-11-11 15:28:19,192 - WARNING - No images found on page 1
+2024-11-11 15:28:19,192 - INFO - Completed downloads for bellemere
+2024-11-11 15:28:19,192 - INFO - Starting downloads for search term: vegapunk_atlas
+2024-11-11 15:28:19,193 - INFO - Processing page 1/1
+2024-11-11 15:28:19,193 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_atlas
+2024-11-11 15:28:19,325 - WARNING - No images found on page 1
+2024-11-11 15:28:19,325 - INFO - Completed downloads for vegapunk_atlas
+2024-11-11 15:28:19,325 - INFO - Starting downloads for search term: vegapunk_york
+2024-11-11 15:28:19,325 - INFO - Processing page 1/1
+2024-11-11 15:28:19,325 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_york
+2024-11-11 15:28:19,452 - WARNING - No images found on page 1
+2024-11-11 15:28:19,452 - INFO - Completed downloads for vegapunk_york
+2024-11-11 15:28:19,452 - INFO - Starting downloads for search term: gion
+2024-11-11 15:28:19,452 - INFO - Processing page 1/1
+2024-11-11 15:28:19,452 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=gion_(one_piece)
+2024-11-11 15:28:19,567 - WARNING - No images found on page 1
+2024-11-11 15:28:19,567 - INFO - Completed downloads for gion
+2024-11-11 15:28:19,567 - INFO - Starting downloads for search term: stussy
+2024-11-11 15:28:19,567 - INFO - Processing page 1/1
+2024-11-11 15:28:19,567 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=stussy_(one_piece)
+2024-11-11 15:28:19,745 - WARNING - No images found on page 1
+2024-11-11 15:28:19,745 - INFO - Completed downloads for stussy
+2024-11-11 15:28:19,745 - INFO - Starting downloads for search term: isuka
+2024-11-11 15:28:19,745 - INFO - Processing page 1/1
+2024-11-11 15:28:19,745 - INFO - URL: https://gelbooru.com/index.php?page=post&s=view&id=7661332&tags=isuka_(one_piece)
+2024-11-11 15:28:19,916 - WARNING - No images found on page 1
+2024-11-11 15:28:19,916 - INFO - Completed downloads for isuka
+2024-11-11 15:28:19,916 - INFO - Starting downloads for search term: tashigi
+2024-11-11 15:28:19,916 - INFO - Processing page 1/1
+2024-11-11 15:28:19,917 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=tashigi
+2024-11-11 15:28:20,064 - WARNING - No images found on page 1
+2024-11-11 15:28:20,064 - INFO - Completed downloads for tashigi
+2024-11-11 15:28:20,064 - INFO - Starting downloads for search term: hina
+2024-11-11 15:28:20,064 - INFO - Processing page 1/1
+2024-11-11 15:28:20,064 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=hina_(one_piece)
+2024-11-11 15:28:20,200 - WARNING - No images found on page 1
+2024-11-11 15:28:20,201 - INFO - Completed downloads for hina
+2024-11-11 15:28:20,201 - INFO - Starting downloads for search term: kujaku
+2024-11-11 15:28:20,201 - INFO - Processing page 1/1
+2024-11-11 15:28:20,201 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kujaku_(one_piece)
+2024-11-11 15:28:20,320 - WARNING - No images found on page 1
+2024-11-11 15:28:20,320 - INFO - Completed downloads for kujaku
+2024-11-11 15:28:20,320 - INFO - Starting downloads for search term: hibari
+2024-11-11 15:28:20,320 - INFO - Processing page 1/1
+2024-11-11 15:28:20,320 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=hibari_(one_piece)+
+2024-11-11 15:28:20,431 - WARNING - No images found on page 1
+2024-11-11 15:28:20,431 - INFO - Completed downloads for hibari
+2024-11-11 15:28:20,431 - INFO - Starting downloads for search term: doll
+2024-11-11 15:28:20,431 - INFO - Processing page 1/1
+2024-11-11 15:28:20,431 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=doll_(one_piece)
+2024-11-11 15:28:20,559 - WARNING - No images found on page 1
+2024-11-11 15:28:20,560 - INFO - Completed downloads for doll
+2024-11-11 15:28:20,560 - INFO - Starting downloads for search term: viola
+2024-11-11 15:28:20,560 - INFO - Processing page 1/1
+2024-11-11 15:28:20,560 - INFO - URL: 
+2024-11-11 15:28:20,560 - ERROR - Failed to extract from : Invalid URL '': No scheme supplied. Perhaps you meant https://?
+2024-11-11 15:28:20,560 - WARNING - No images found on page 1
+2024-11-11 15:28:20,560 - INFO - Completed downloads for viola
+2024-11-11 15:28:20,560 - INFO - Starting downloads for search term: one_piece
+2024-11-11 15:28:20,560 - INFO - Processing page 1/1
+2024-11-11 15:28:20,560 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=one_piece
+2024-11-11 15:28:20,760 - WARNING - No images found on page 1
+2024-11-11 15:28:20,760 - INFO - Completed downloads for one_piece
+2024-11-11 15:28:20,760 - INFO - Starting downloads for search term: marci
+2024-11-11 15:28:20,760 - INFO - Processing page 1/1
+2024-11-11 15:28:20,760 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=marci_(dota)+
+2024-11-11 15:28:20,895 - WARNING - No images found on page 1
+2024-11-11 15:28:20,895 - INFO - Completed downloads for marci
+2024-11-11 15:28:20,895 - INFO - Starting downloads for search term: dark_willow
+2024-11-11 15:28:20,895 - INFO - Processing page 1/1
+2024-11-11 15:28:20,895 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=dark_willow
+2024-11-11 15:28:53,883 - INFO - Starting setup...
+2024-11-11 15:28:53,887 - INFO - Setup completed successfully
+2024-11-11 15:28:53,887 - INFO - Starting downloads for search term: uta
+2024-11-11 15:28:53,887 - INFO - Processing page 1/1
+2024-11-11 15:28:53,887 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 15:28:54,009 - WARNING - No images found on page 1
+2024-11-11 15:28:54,009 - INFO - Completed downloads for uta
+2024-11-11 15:28:54,009 - INFO - Starting downloads for search term: rebecca
+2024-11-11 15:28:54,009 - INFO - Processing page 1/1
+2024-11-11 15:28:54,009 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_(one_piece)
+2024-11-11 15:28:54,172 - WARNING - No images found on page 1
+2024-11-11 15:28:54,172 - INFO - Completed downloads for rebecca
+2024-11-11 15:28:54,172 - INFO - Starting downloads for search term: carrot
+2024-11-11 15:28:54,172 - INFO - Processing page 1/1
+2024-11-11 15:28:54,172 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=carrot_(one_piece)
+2024-11-11 15:28:54,306 - WARNING - No images found on page 1
+2024-11-11 15:28:54,306 - INFO - Completed downloads for carrot
+2024-11-11 15:28:54,306 - INFO - Starting downloads for search term: bonney
+2024-11-11 15:28:54,306 - INFO - Processing page 1/1
+2024-11-11 15:28:54,306 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+
+2024-11-11 15:28:54,461 - WARNING - No images found on page 1
+2024-11-11 15:28:54,461 - INFO - Completed downloads for bonney
+2024-11-11 15:28:54,461 - INFO - Starting downloads for search term: baby_5
+2024-11-11 15:28:54,461 - INFO - Processing page 1/1
+2024-11-11 15:28:54,461 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-11 15:28:54,628 - WARNING - No images found on page 1
+2024-11-11 15:28:54,628 - INFO - Completed downloads for baby_5
+2024-11-11 15:28:54,628 - INFO - Starting downloads for search term: robin
+2024-11-11 15:28:54,628 - INFO - Processing page 1/1
+2024-11-11 15:28:54,629 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-11 15:28:54,804 - WARNING - No images found on page 1
+2024-11-11 15:28:54,804 - INFO - Completed downloads for robin
+2024-11-11 15:28:54,804 - INFO - Starting downloads for search term: nami
+2024-11-11 15:28:54,804 - INFO - Processing page 1/1
+2024-11-11 15:28:54,804 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nami_(one_piece)+
+2024-11-11 15:28:54,939 - WARNING - No images found on page 1
+2024-11-11 15:28:54,939 - INFO - Completed downloads for nami
+2024-11-11 15:28:54,939 - INFO - Starting downloads for search term: boa_hancock
+2024-11-11 15:28:54,939 - INFO - Processing page 1/1
+2024-11-11 15:28:54,939 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-11 15:28:55,043 - WARNING - No images found on page 1
+2024-11-11 15:28:55,044 - INFO - Completed downloads for boa_hancock
+2024-11-11 15:28:55,044 - INFO - Starting downloads for search term: vivi
+2024-11-11 15:28:55,044 - INFO - Processing page 1/1
+2024-11-11 15:28:55,044 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nefertari_vivi+
+2024-11-11 15:28:55,195 - WARNING - No images found on page 1
+2024-11-11 15:28:55,195 - INFO - Completed downloads for vivi
+2024-11-11 15:28:55,195 - INFO - Starting downloads for search term: vinsmoke_reiju
+2024-11-11 15:28:55,195 - INFO - Processing page 1/1
+2024-11-11 15:28:55,195 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_reiju+
+2024-11-11 15:28:55,349 - WARNING - No images found on page 1
+2024-11-11 15:28:55,349 - INFO - Completed downloads for vinsmoke_reiju
+2024-11-11 15:28:55,349 - INFO - Starting downloads for search term: charlotte_linlin
+2024-11-11 15:28:55,349 - INFO - Processing page 1/1
+2024-11-11 15:28:55,349 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_linlin+
+2024-11-11 15:28:55,484 - WARNING - No images found on page 1
+2024-11-11 15:28:55,484 - INFO - Completed downloads for charlotte_linlin
+2024-11-11 15:28:55,484 - INFO - Starting downloads for search term: kuina
+2024-11-11 15:28:55,484 - INFO - Processing page 1/1
+2024-11-11 15:28:55,484 - INFO - URL: https://gelbooru.com/index.php?page=post&s=view&id=10840087&tags=kuina+
+2024-11-11 15:28:55,613 - WARNING - No images found on page 1
+2024-11-11 15:28:55,613 - INFO - Completed downloads for kuina
+2024-11-11 15:28:55,613 - INFO - Starting downloads for search term: charlotte_smoothie
+2024-11-11 15:28:55,613 - INFO - Processing page 1/1
+2024-11-11 15:28:55,613 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_smoothie+
+2024-11-11 15:28:55,734 - WARNING - No images found on page 1
+2024-11-11 15:28:55,734 - INFO - Completed downloads for charlotte_smoothie
+2024-11-11 15:28:55,734 - INFO - Starting downloads for search term: shirahoshi
+2024-11-11 15:28:55,734 - INFO - Processing page 1/1
+2024-11-11 15:28:55,734 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=shirahoshi
+2024-11-11 15:28:55,847 - WARNING - No images found on page 1
+2024-11-11 15:28:55,847 - INFO - Completed downloads for shirahoshi
+2024-11-11 15:28:55,847 - INFO - Starting downloads for search term: kouzuki_hiyori
+2024-11-11 15:28:55,847 - INFO - Processing page 1/1
+2024-11-11 15:28:55,847 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kouzuki_hiyori
+2024-11-11 15:28:55,958 - WARNING - No images found on page 1
+2024-11-11 15:28:55,958 - INFO - Completed downloads for kouzuki_hiyori
+2024-11-11 15:28:55,958 - INFO - Starting downloads for search term: catarina_devon
+2024-11-11 15:28:55,958 - INFO - Processing page 1/1
+2024-11-11 15:28:55,958 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=catarina_devon
+2024-11-11 15:28:56,086 - WARNING - No images found on page 1
+2024-11-11 15:28:56,087 - INFO - Completed downloads for catarina_devon
+2024-11-11 15:28:56,087 - INFO - Starting downloads for search term: perona
+2024-11-11 15:28:56,087 - INFO - Processing page 1/1
+2024-11-11 15:28:56,087 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=perona
+2024-11-11 15:28:56,223 - WARNING - No images found on page 1
+2024-11-11 15:28:56,223 - INFO - Completed downloads for perona
+2024-11-11 15:28:56,223 - INFO - Starting downloads for search term: charlotte_flampe
+2024-11-11 15:28:56,223 - INFO - Processing page 1/1
+2024-11-11 15:28:56,223 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_flampe
+2024-11-11 15:28:56,349 - WARNING - No images found on page 1
+2024-11-11 15:28:56,349 - INFO - Completed downloads for charlotte_flampe
+2024-11-11 15:28:56,349 - INFO - Starting downloads for search term: kouzuki_toki
+2024-11-11 15:28:56,349 - INFO - Processing page 1/1
+2024-11-11 15:28:56,349 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kouzuki_toki
+2024-11-11 15:28:56,486 - WARNING - No images found on page 1
+2024-11-11 15:28:56,486 - INFO - Completed downloads for kouzuki_toki
+2024-11-11 15:28:56,486 - INFO - Starting downloads for search term: alvida
+2024-11-11 15:28:56,486 - INFO - Processing page 1/1
+2024-11-11 15:28:56,486 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=alvida_(one_piece)
+2024-11-11 15:28:56,629 - WARNING - No images found on page 1
+2024-11-11 15:28:56,629 - INFO - Completed downloads for alvida
+2024-11-11 15:28:56,629 - INFO - Starting downloads for search term: kikunojo
+2024-11-11 15:28:56,629 - INFO - Processing page 1/1
+2024-11-11 15:28:56,629 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kikunojo_(one_piece)
+2024-11-11 15:28:56,750 - WARNING - No images found on page 1
+2024-11-11 15:28:56,750 - INFO - Completed downloads for kikunojo
+2024-11-11 15:28:56,750 - INFO - Starting downloads for search term: vegapunk_lilith
+2024-11-11 15:28:56,750 - INFO - Processing page 1/1
+2024-11-11 15:28:56,750 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_lilith
+2024-11-11 15:28:56,907 - WARNING - No images found on page 1
+2024-11-11 15:28:56,907 - INFO - Completed downloads for vegapunk_lilith
+2024-11-11 15:28:56,908 - INFO - Starting downloads for search term: kaya
+2024-11-11 15:28:56,908 - INFO - Processing page 1/1
+2024-11-11 15:28:56,908 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=kaya_(one_piece)
+2024-11-11 15:28:57,058 - WARNING - No images found on page 1
+2024-11-11 15:28:57,058 - INFO - Completed downloads for kaya
+2024-11-11 15:28:57,058 - INFO - Starting downloads for search term: lily
+2024-11-11 15:28:57,058 - INFO - Processing page 1/1
+2024-11-11 15:28:57,058 - INFO - URL: https://gelbooru.com/index.php?page=post&s=view&id=4939575&tags=lily_(one_piece)
+2024-11-11 15:28:57,176 - WARNING - No images found on page 1
+2024-11-11 15:28:57,176 - INFO - Completed downloads for lily
+2024-11-11 15:28:57,176 - INFO - Starting downloads for search term: monet
+2024-11-11 15:28:57,177 - INFO - Processing page 1/1
+2024-11-11 15:28:57,177 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=monet_(one_piece)
+2024-11-11 15:28:57,353 - WARNING - No images found on page 1
+2024-11-11 15:28:57,354 - INFO - Completed downloads for monet
+2024-11-11 15:28:57,354 - INFO - Starting downloads for search term: wanda
+2024-11-11 15:28:57,354 - INFO - Processing page 1/1
+2024-11-11 15:28:57,354 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=wanda_(one_piece)
+2024-11-11 15:28:57,499 - WARNING - No images found on page 1
+2024-11-11 15:28:57,499 - INFO - Completed downloads for wanda
+2024-11-11 15:28:57,499 - INFO - Starting downloads for search term: nico_olvia
+2024-11-11 15:28:57,499 - INFO - Processing page 1/1
+2024-11-11 15:28:57,499 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nico_olvia
+2024-11-11 15:28:57,626 - WARNING - No images found on page 1
+2024-11-11 15:28:57,626 - INFO - Completed downloads for nico_olvia
+2024-11-11 15:28:57,626 - INFO - Starting downloads for search term: nojiko
+2024-11-11 15:28:57,626 - INFO - Processing page 1/1
+2024-11-11 15:28:57,626 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=nojiko
+2024-11-11 15:28:57,725 - WARNING - No images found on page 1
+2024-11-11 15:28:57,725 - INFO - Completed downloads for nojiko
+2024-11-11 15:28:57,725 - INFO - Starting downloads for search term: charlotte_pudding
+2024-11-11 15:28:57,725 - INFO - Processing page 1/1
+2024-11-11 15:28:57,725 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_pudding
+2024-11-11 15:28:57,855 - WARNING - No images found on page 1
+2024-11-11 15:28:57,855 - INFO - Completed downloads for charlotte_pudding
+2024-11-11 15:28:57,855 - INFO - Starting downloads for search term: charlotte_prim
+2024-11-11 15:28:57,855 - INFO - Processing page 1/1
+2024-11-11 15:28:57,855 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_prim
+2024-11-11 15:28:57,995 - WARNING - No images found on page 1
+2024-11-11 15:28:57,995 - INFO - Completed downloads for charlotte_prim
+2024-11-11 15:28:57,995 - INFO - Starting downloads for search term: charlotte_poire
+2024-11-11 15:28:57,995 - INFO - Processing page 1/1
+2024-11-11 15:28:57,995 - INFO - URL: https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_poire
+2024-11-11 15:49:35,727 - INFO - Starting setup...
+2024-11-11 15:49:35,757 - INFO - Created directory: hentai/raw
+2024-11-11 15:49:35,758 - INFO - Created directory: hentai/processed
+2024-11-11 15:49:35,758 - INFO - Created directory: hentai/metadata
+2024-11-11 15:49:35,758 - INFO - Created directory: hentai/logs
+2024-11-11 15:49:35,758 - INFO - Created directory: hentai/temp
+2024-11-11 15:49:35,758 - INFO - Created new metadata index
+2024-11-11 15:49:35,852 - INFO - Setup completed successfully
+2024-11-11 15:49:35,852 - INFO - Processing: uta
+2024-11-11 15:49:47,147 - ERROR - Error processing https://gelbooru.com/index.php?page=post&s=view&id=10976675&tags=uta_%28one_piece%29: No module named 'magic'
+2024-11-11 15:49:51,693 - ERROR - Error processing https://gelbooru.com/index.php?page=post&s=view&id=10975452&tags=uta_%28one_piece%29: No module named 'magic'
+2024-11-11 15:49:54,736 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/8e3b430eb2e192e8b61aa6f6fab4b956
+2024-11-11 15:49:54,744 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103de6120>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/8e3b430eb2e192e8b61aa6f6fab4b956
+2024-11-11 15:49:54,750 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103de5f40>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/8e3b430eb2e192e8b61aa6f6fab4b956
+2024-11-11 16:18:51,295 - ERROR - Failed to load safety model: No module named 'tensorflow'
+2024-11-11 16:20:37,930 - ERROR - Failed to load safety model: No module named 'tensorflow_hub'
+2024-11-11 16:21:14,450 - INFO - Using /var/folders/6d/l6pp_zg53tb37npcsjpbjnzr0000gn/T/tfhub_modules to cache modules.
+2024-11-11 16:21:14,497 - INFO - Downloading TF-Hub Module 'https://tfhub.dev/google/nsfwjs/1'.
+2024-11-11 16:21:14,780 - ERROR - Failed to load safety model: https://tfhub.dev/google/nsfwjs/1 does not appear to be a valid module.
+2024-11-11 16:26:20,414 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('downloads'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:26:32,892 - INFO - Scraping interrupted by user
+2024-11-11 16:26:32,902 - INFO - Scraping completed
+2024-11-11 16:26:51,436 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:26:53,501 - ERROR - Failed to load safety model: cannot import name 'NudeClassifier' from 'nudenet' (/Volumes/ExternalHD/workspace/python/hentai-scraper/lib/python3.12/site-packages/nudenet/__init__.py)
+2024-11-11 16:26:53,501 - ERROR - Scraping failed: cannot import name 'NudeClassifier' from 'nudenet' (/Volumes/ExternalHD/workspace/python/hentai-scraper/lib/python3.12/site-packages/nudenet/__init__.py)
+2024-11-11 16:26:53,501 - INFO - Scraping completed
+2024-11-11 16:27:33,245 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:27:35,295 - ERROR - Failed to load safety model: cannot import name 'NudeClassifier' from 'nudenet' (/Volumes/ExternalHD/workspace/python/hentai-scraper/lib/python3.12/site-packages/nudenet/__init__.py)
+2024-11-11 16:27:35,295 - ERROR - Scraping failed: cannot import name 'NudeClassifier' from 'nudenet' (/Volumes/ExternalHD/workspace/python/hentai-scraper/lib/python3.12/site-packages/nudenet/__init__.py)
+2024-11-11 16:27:35,295 - INFO - Scraping completed
+2024-11-11 16:28:39,534 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:28:42,125 - ERROR - Failed to load safety model: cannot import name 'NudeClassifier' from 'nudenet' (/Volumes/ExternalHD/workspace/python/hentai-scraper/lib/python3.12/site-packages/nudenet/__init__.py)
+2024-11-11 16:28:42,125 - ERROR - Scraping failed: cannot import name 'NudeClassifier' from 'nudenet' (/Volumes/ExternalHD/workspace/python/hentai-scraper/lib/python3.12/site-packages/nudenet/__init__.py)
+2024-11-11 16:28:42,125 - INFO - Scraping completed
+2024-11-11 16:29:06,866 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:29:07,921 - INFO - Successfully loaded safety classification model
+2024-11-11 16:29:07,921 - INFO - Starting setup...
+2024-11-11 16:29:07,921 - INFO - Created directory: hentai/raw
+2024-11-11 16:29:07,921 - INFO - Created directory: hentai/processed
+2024-11-11 16:29:07,921 - INFO - Created directory: hentai/metadata
+2024-11-11 16:29:07,921 - INFO - Created directory: hentai/logs
+2024-11-11 16:29:07,921 - INFO - Created directory: hentai/temp
+2024-11-11 16:29:07,934 - INFO - Setup completed successfully
+2024-11-11 16:29:07,934 - INFO - Processing: uta
+2024-11-11 16:29:14,880 - ERROR - Error processing https://gelbooru.com/index.php?page=post&s=view&id=10976675&tags=uta_%28one_piece%29: failed to find libmagic.  Check your installation
+2024-11-11 16:29:19,073 - ERROR - Error processing https://gelbooru.com/index.php?page=post&s=view&id=10975452&tags=uta_%28one_piece%29: failed to find libmagic.  Check your installation
+2024-11-11 16:29:19,082 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10fd7cb60>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/31171376f5748b8aa5c7c4b2c95de4e5
+2024-11-11 16:29:19,085 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10fd7cb90>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/31171376f5748b8aa5c7c4b2c95de4e5
+2024-11-11 16:29:19,086 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10fd7cf20>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/31171376f5748b8aa5c7c4b2c95de4e5
+2024-11-11 16:29:19,107 - INFO - Scraping interrupted by user
+2024-11-11 16:29:19,107 - INFO - Scraping completed
+2024-11-11 16:29:36,652 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:29:37,769 - INFO - Successfully loaded safety classification model
+2024-11-11 16:29:37,770 - INFO - Starting setup...
+2024-11-11 16:29:37,770 - INFO - Created directory: hentai/raw
+2024-11-11 16:29:37,770 - INFO - Created directory: hentai/processed
+2024-11-11 16:29:37,770 - INFO - Created directory: hentai/metadata
+2024-11-11 16:29:37,770 - INFO - Created directory: hentai/logs
+2024-11-11 16:29:37,770 - INFO - Created directory: hentai/temp
+2024-11-11 16:29:37,770 - INFO - Setup completed successfully
+2024-11-11 16:29:37,770 - INFO - Processing: uta
+2024-11-11 16:29:44,265 - ERROR - Error processing https://gelbooru.com/index.php?page=post&s=view&id=10976675&tags=uta_%28one_piece%29: failed to find libmagic.  Check your installation
+2024-11-11 16:29:47,534 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/7b15d4cead8e41f8d34a696f2362334a
+2024-11-11 16:29:47,535 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11467b980>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7b15d4cead8e41f8d34a696f2362334a
+2024-11-11 16:29:47,537 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11467bbf0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7b15d4cead8e41f8d34a696f2362334a
+2024-11-11 16:29:47,552 - INFO - Scraping interrupted by user
+2024-11-11 16:29:47,552 - INFO - Scraping completed
+2024-11-11 16:30:56,227 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:30:57,167 - INFO - Successfully loaded safety classification model
+2024-11-11 16:30:57,167 - INFO - Starting setup...
+2024-11-11 16:30:57,167 - INFO - Created directory: hentai/raw
+2024-11-11 16:30:57,167 - INFO - Created directory: hentai/processed
+2024-11-11 16:30:57,167 - INFO - Created directory: hentai/metadata
+2024-11-11 16:30:57,167 - INFO - Created directory: hentai/logs
+2024-11-11 16:30:57,167 - INFO - Created directory: hentai/temp
+2024-11-11 16:30:57,177 - INFO - Setup completed successfully
+2024-11-11 16:30:57,177 - INFO - Processing: uta
+2024-11-11 16:31:03,673 - ERROR - Error processing https://gelbooru.com/index.php?page=post&s=view&id=10976675&tags=uta_%28one_piece%29: No module named 'PIL'
+2024-11-11 16:31:07,093 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/6d68aae7faa6982227d62ad477ed219b
+2024-11-11 16:31:07,098 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10784d1c0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/6d68aae7faa6982227d62ad477ed219b
+2024-11-11 16:31:07,099 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10ef6f7d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/6d68aae7faa6982227d62ad477ed219b
+2024-11-11 16:31:07,116 - INFO - Scraping interrupted by user
+2024-11-11 16:31:07,116 - INFO - Scraping completed
+2024-11-11 16:31:49,217 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:31:50,317 - INFO - Successfully loaded safety classification model
+2024-11-11 16:31:50,317 - INFO - Starting setup...
+2024-11-11 16:31:50,318 - INFO - Created directory: hentai/raw
+2024-11-11 16:31:50,318 - INFO - Created directory: hentai/processed
+2024-11-11 16:31:50,318 - INFO - Created directory: hentai/metadata
+2024-11-11 16:31:50,318 - INFO - Created directory: hentai/logs
+2024-11-11 16:31:50,318 - INFO - Created directory: hentai/temp
+2024-11-11 16:31:50,328 - INFO - Setup completed successfully
+2024-11-11 16:31:50,328 - INFO - Processing: uta
+2024-11-11 16:31:58,337 - ERROR - Network error downloading https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg: Header part (PosixPath('hentai')) from ('Referer', PosixPath('hentai')) must be of type str or bytes, not <class 'pathlib.PosixPath'>
+2024-11-11 16:32:00,433 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/2f8344d3d0fcc09b3015b8a1c9441c43
+2024-11-11 16:32:00,437 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102d1c0e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2f8344d3d0fcc09b3015b8a1c9441c43
+2024-11-11 16:32:00,439 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x113f3b860>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2f8344d3d0fcc09b3015b8a1c9441c43
+2024-11-11 16:32:00,457 - INFO - Scraping interrupted by user
+2024-11-11 16:32:00,457 - INFO - Scraping completed
+2024-11-11 16:35:15,470 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=True, nsfw_threshold=0.6)
+2024-11-11 16:35:16,345 - INFO - Browser setup successful
+2024-11-11 16:35:18,531 - INFO - Successfully loaded safety classification model
+2024-11-11 16:35:18,531 - INFO - Starting setup...
+2024-11-11 16:35:18,531 - INFO - Created directory: hentai/raw
+2024-11-11 16:35:18,531 - INFO - Created directory: hentai/processed
+2024-11-11 16:35:18,531 - INFO - Created directory: hentai/metadata
+2024-11-11 16:35:18,532 - INFO - Created directory: hentai/logs
+2024-11-11 16:35:18,532 - INFO - Created directory: hentai/temp
+2024-11-11 16:35:18,539 - INFO - Setup completed successfully
+2024-11-11 16:35:18,539 - INFO - Processing search term: uta
+2024-11-11 16:35:18,539 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:35:21,999 - INFO - Found 42 images on page 1
+2024-11-11 16:35:26,145 - INFO - Processed 0 images successfully
+2024-11-11 16:35:26,149 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/ea0c56e076f030b3fbbab8d2ad573557
+2024-11-11 16:35:26,155 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x110a151c0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/ea0c56e076f030b3fbbab8d2ad573557
+2024-11-11 16:35:26,158 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x12093b740>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/ea0c56e076f030b3fbbab8d2ad573557
+2024-11-11 16:35:26,187 - INFO - Scraping interrupted by user
+2024-11-11 16:35:26,187 - INFO - Scraping completed
+2024-11-11 16:35:27,649 - ERROR - Scraping failed: name 'false' is not defined
+2024-11-11 16:35:27,649 - INFO - Scraping completed
+2024-11-11 16:35:33,383 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=10, download_delay=2, page_delay=1, chunk_size=8192, filename_length=6, headless=False, nsfw_threshold=0.6)
+2024-11-11 16:35:34,460 - INFO - Browser setup successful
+2024-11-11 16:35:34,748 - INFO - Successfully loaded safety classification model
+2024-11-11 16:35:34,748 - INFO - Starting setup...
+2024-11-11 16:35:34,748 - INFO - Created directory: hentai/raw
+2024-11-11 16:35:34,748 - INFO - Created directory: hentai/processed
+2024-11-11 16:35:34,748 - INFO - Created directory: hentai/metadata
+2024-11-11 16:35:34,748 - INFO - Created directory: hentai/logs
+2024-11-11 16:35:34,748 - INFO - Created directory: hentai/temp
+2024-11-11 16:35:34,749 - INFO - Setup completed successfully
+2024-11-11 16:35:34,749 - INFO - Processing search term: uta
+2024-11-11 16:35:34,749 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:35:37,866 - INFO - Found 42 images on page 1
+2024-11-11 16:35:50,464 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10976675&tags=uta_%28one_piece%29: Message: 
+Stacktrace:
+0   chromedriver                        0x00000001013d55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001013cde3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100e38100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000100e7a41c cxxbridge1$string$len + 359536
+4   chromedriver                        0x0000000100eb3ba8 cxxbridge1$string$len + 594940
+5   chromedriver                        0x0000000100e6f0fc cxxbridge1$string$len + 313680
+6   chromedriver                        0x0000000100e6fd4c cxxbridge1$string$len + 316832
+7   chromedriver                        0x00000001013a064c cxxbridge1$str$ptr + 3436672
+8   chromedriver                        0x00000001013a3988 cxxbridge1$str$ptr + 3449788
+9   chromedriver                        0x0000000101387a5c cxxbridge1$str$ptr + 3335312
+10  chromedriver                        0x00000001013a424c cxxbridge1$str$ptr + 3452032
+11  chromedriver                        0x0000000101378ce8 cxxbridge1$str$ptr + 3274524
+12  chromedriver                        0x00000001013be9dc cxxbridge1$str$ptr + 3560464
+13  chromedriver                        0x00000001013beb58 cxxbridge1$str$ptr + 3560844
+14  chromedriver                        0x00000001013cdad4 cxxbridge1$str$ptr + 3622152
+15  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:35:59,731 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10975452&tags=uta_%28one_piece%29: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001013d55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001013cde3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100e38100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000100e13b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000100ea0664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000100eb3630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x0000000100e6f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000100e6fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x00000001013a064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x00000001013a3988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000101387a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x00000001013a424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000101378ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001013be9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x00000001013beb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001013cdad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:35:59,732 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001013d55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001013cde3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100e38100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000100e13b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000100ea0664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000100eb3630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x0000000100e6f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000100e6fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x00000001013a064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x00000001013a3988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000101387a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x00000001013a424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000101378ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001013be9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x00000001013beb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001013cdad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:36:01,738 - WARNING - Navigation attempt 2 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001013d55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001013cde3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100e38100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000100e13b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000100ea0664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000100eb3630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x0000000100e6f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000100e6fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x00000001013a064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x00000001013a3988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000101387a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x00000001013a424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000101378ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001013be9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x00000001013beb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001013cdad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:36:03,354 - INFO - Processed 0 images successfully
+2024-11-11 16:36:03,358 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/9d90a1d67522ab9ab9852f7e8a0e3540
+2024-11-11 16:36:03,359 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11ec4a030>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9d90a1d67522ab9ab9852f7e8a0e3540
+2024-11-11 16:36:03,361 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11ec4a1e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9d90a1d67522ab9ab9852f7e8a0e3540
+2024-11-11 16:36:03,381 - INFO - Scraping interrupted by user
+2024-11-11 16:36:03,381 - INFO - Scraping completed
+2024-11-11 16:38:15,732 - ERROR - Scraping failed: ScraperConfig.__init__() got an unexpected keyword argument 'request_timeout'
+2024-11-11 16:38:15,733 - INFO - Scraping completed
+2024-11-11 16:39:55,626 - ERROR - Scraping failed: ScraperConfig.__init__() got an unexpected keyword argument 'request_timeout'
+2024-11-11 16:39:55,629 - INFO - Scraping completed
+2024-11-11 16:42:50,606 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 16:42:52,207 - INFO - Browser setup successful
+2024-11-11 16:42:54,443 - INFO - Successfully loaded safety classification model
+2024-11-11 16:42:54,443 - INFO - Starting setup...
+2024-11-11 16:42:54,443 - INFO - Created directory: hentai/raw
+2024-11-11 16:42:54,443 - INFO - Created directory: hentai/processed
+2024-11-11 16:42:54,443 - INFO - Created directory: hentai/metadata
+2024-11-11 16:42:54,443 - INFO - Created directory: hentai/logs
+2024-11-11 16:42:54,443 - INFO - Created directory: hentai/temp
+2024-11-11 16:42:54,481 - INFO - Setup completed successfully
+2024-11-11 16:42:54,481 - INFO - Processing search term: uta
+2024-11-11 16:42:54,481 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:42:57,801 - INFO - Found 42 images on page 1
+2024-11-11 16:43:00,248 - INFO - Successfully retrieved image URL: https://img3.gelbooru.com//samples/44/40/sample_4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 16:43:01,077 - INFO - Successfully downloaded and verified safe image: img_20241111_164300_2vesor.jpg (254,812 bytes)
+2024-11-11 16:43:05,418 - INFO - Successfully retrieved image URL: https://img3.gelbooru.com//samples/ab/e8/sample_abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 16:43:05,577 - INFO - Successfully downloaded and verified safe image: img_20241111_164305_40hdd1.jpg (93,805 bytes)
+2024-11-11 16:43:09,686 - INFO - Processed 2 images successfully
+2024-11-11 16:43:09,693 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/1e806bd9613e80e7187d16ec32318fed
+2024-11-11 16:43:09,696 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x117b531d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/1e806bd9613e80e7187d16ec32318fed
+2024-11-11 16:43:09,697 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x112d97ce0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/1e806bd9613e80e7187d16ec32318fed
+2024-11-11 16:43:09,708 - INFO - Scraping interrupted by user
+2024-11-11 16:43:09,709 - INFO - Scraping completed
+2024-11-11 16:45:59,783 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 16:46:01,168 - INFO - Browser setup successful
+2024-11-11 16:46:03,467 - INFO - Successfully loaded safety classification model
+2024-11-11 16:46:03,467 - INFO - Starting setup...
+2024-11-11 16:46:03,467 - INFO - Created directory: hentai/raw
+2024-11-11 16:46:03,467 - INFO - Created directory: hentai/processed
+2024-11-11 16:46:03,467 - INFO - Created directory: hentai/metadata
+2024-11-11 16:46:03,468 - INFO - Created directory: hentai/logs
+2024-11-11 16:46:03,468 - INFO - Created directory: hentai/temp
+2024-11-11 16:46:03,512 - INFO - Setup completed successfully
+2024-11-11 16:46:03,512 - INFO - Processing search term: uta
+2024-11-11 16:46:03,513 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:46:06,636 - INFO - Found 42 images on page 1
+2024-11-11 16:46:08,866 - WARNING - Invalid image source found: https://img3.gelbooru.com//samples/44/40/sample_4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 16:46:10,984 - WARNING - Invalid image source found: https://img3.gelbooru.com//samples/ab/e8/sample_abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 16:46:13,259 - WARNING - Invalid image source found: https://img3.gelbooru.com//samples/64/1f/sample_641f998378289f4b7b67ffad3d8191aa.jpg
+2024-11-11 16:46:15,207 - INFO - Processed 0 images successfully
+2024-11-11 16:46:15,209 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/ccb7232becb551b84bc5c6a8aef8df54
+2024-11-11 16:46:15,212 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1079637d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/ccb7232becb551b84bc5c6a8aef8df54
+2024-11-11 16:46:15,213 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x107963830>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/ccb7232becb551b84bc5c6a8aef8df54
+2024-11-11 16:46:15,232 - INFO - Scraping interrupted by user
+2024-11-11 16:46:15,232 - INFO - Scraping completed
+2024-11-11 16:47:24,443 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 16:47:25,731 - INFO - Browser setup successful
+2024-11-11 16:47:26,368 - INFO - Successfully loaded safety classification model
+2024-11-11 16:47:26,368 - INFO - Starting setup...
+2024-11-11 16:47:26,368 - INFO - Created directory: hentai/raw
+2024-11-11 16:47:26,368 - INFO - Created directory: hentai/processed
+2024-11-11 16:47:26,368 - INFO - Created directory: hentai/metadata
+2024-11-11 16:47:26,368 - INFO - Created directory: hentai/logs
+2024-11-11 16:47:26,368 - INFO - Created directory: hentai/temp
+2024-11-11 16:47:26,369 - INFO - Setup completed successfully
+2024-11-11 16:47:26,369 - INFO - Processing search term: uta
+2024-11-11 16:47:26,369 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:47:29,603 - INFO - Found 42 images on page 1
+2024-11-11 16:47:42,040 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10976675&tags=uta_%28one_piece%29: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000104c855dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104c7de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x00000001046e8100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x000000010472a41c cxxbridge1$string$len + 359536
+4   chromedriver                        0x0000000104763ba8 cxxbridge1$string$len + 594940
+5   chromedriver                        0x000000010471f0fc cxxbridge1$string$len + 313680
+6   chromedriver                        0x000000010471fd4c cxxbridge1$string$len + 316832
+7   chromedriver                        0x0000000104c5064c cxxbridge1$str$ptr + 3436672
+8   chromedriver                        0x0000000104c53988 cxxbridge1$str$ptr + 3449788
+9   chromedriver                        0x0000000104c37a5c cxxbridge1$str$ptr + 3335312
+10  chromedriver                        0x0000000104c5424c cxxbridge1$str$ptr + 3452032
+11  chromedriver                        0x0000000104c28ce8 cxxbridge1$str$ptr + 3274524
+12  chromedriver                        0x0000000104c6e9dc cxxbridge1$str$ptr + 3560464
+13  chromedriver                        0x0000000104c6eb58 cxxbridge1$str$ptr + 3560844
+14  chromedriver                        0x0000000104c7dad4 cxxbridge1$str$ptr + 3622152
+15  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:47:49,308 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10975452&tags=uta_%28one_piece%29: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104c855dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104c7de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x00000001046e8100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001046c3b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000104750664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000104763630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010471f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010471fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000104c5064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000104c53988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000104c37a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000104c5424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000104c28ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000104c6e9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000104c6eb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000104c7dad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:47:49,310 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104c855dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104c7de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x00000001046e8100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001046c3b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000104750664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000104763630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010471f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010471fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000104c5064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000104c53988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000104c37a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000104c5424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000104c28ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000104c6e9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000104c6eb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000104c7dad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:47:51,314 - WARNING - Navigation attempt 2 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104c855dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104c7de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x00000001046e8100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001046c3b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000104750664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000104763630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010471f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010471fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000104c5064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000104c53988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000104c37a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000104c5424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000104c28ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000104c6e9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000104c6eb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000104c7dad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:47:56,559 - INFO - Browser setup successful
+2024-11-11 16:48:09,600 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10971869&tags=uta_%28one_piece%29: Message: 
+Stacktrace:
+0   chromedriver                        0x00000001026a95dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001026a1e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x000000010210c100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x000000010214e41c cxxbridge1$string$len + 359536
+4   chromedriver                        0x0000000102187ba8 cxxbridge1$string$len + 594940
+5   chromedriver                        0x00000001021430fc cxxbridge1$string$len + 313680
+6   chromedriver                        0x0000000102143d4c cxxbridge1$string$len + 316832
+7   chromedriver                        0x000000010267464c cxxbridge1$str$ptr + 3436672
+8   chromedriver                        0x0000000102677988 cxxbridge1$str$ptr + 3449788
+9   chromedriver                        0x000000010265ba5c cxxbridge1$str$ptr + 3335312
+10  chromedriver                        0x000000010267824c cxxbridge1$str$ptr + 3452032
+11  chromedriver                        0x000000010264cce8 cxxbridge1$str$ptr + 3274524
+12  chromedriver                        0x00000001026929dc cxxbridge1$str$ptr + 3560464
+13  chromedriver                        0x0000000102692b58 cxxbridge1$str$ptr + 3560844
+14  chromedriver                        0x00000001026a1ad4 cxxbridge1$str$ptr + 3622152
+15  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:48:15,368 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10970867&tags=uta_%28one_piece%29: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001026a95dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001026a1e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x000000010210c100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001020e7b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000102174664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000102187630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x00000001021430fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000102143d4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x000000010267464c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000102677988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x000000010265ba5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x000000010267824c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x000000010264cce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001026929dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000102692b58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001026a1ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:48:15,369 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001026a95dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001026a1e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x000000010210c100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001020e7b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000102174664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000102187630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x00000001021430fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000102143d4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x000000010267464c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000102677988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x000000010265ba5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x000000010267824c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x000000010264cce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001026929dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000102692b58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001026a1ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:48:15,870 - INFO - Processed 0 images successfully
+2024-11-11 16:48:15,875 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/45a47bafe8bde67dde7e9afae5d2ab29
+2024-11-11 16:48:15,876 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10a5f2ea0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/45a47bafe8bde67dde7e9afae5d2ab29
+2024-11-11 16:48:15,877 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10a5f2db0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/45a47bafe8bde67dde7e9afae5d2ab29
+2024-11-11 16:48:15,879 - INFO - Scraping interrupted by user
+2024-11-11 16:48:15,879 - INFO - Scraping completed
+2024-11-11 16:49:41,627 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 16:49:42,786 - INFO - Browser setup successful
+2024-11-11 16:49:44,670 - INFO - Successfully loaded safety classification model
+2024-11-11 16:49:44,670 - INFO - Starting setup...
+2024-11-11 16:49:44,670 - INFO - Created directory: hentai/raw
+2024-11-11 16:49:44,670 - INFO - Created directory: hentai/processed
+2024-11-11 16:49:44,670 - INFO - Created directory: hentai/metadata
+2024-11-11 16:49:44,670 - INFO - Created directory: hentai/logs
+2024-11-11 16:49:44,670 - INFO - Created directory: hentai/temp
+2024-11-11 16:49:44,695 - INFO - Setup completed successfully
+2024-11-11 16:49:44,695 - INFO - Processing search term: uta
+2024-11-11 16:49:44,695 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:49:48,670 - INFO - Found 42 images on page 1
+2024-11-11 16:49:50,933 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10976675&tags=uta_%28one_piece%29: Message: javascript error: Post.toggle_notes is not a function
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000102d6d5dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000102d65e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x00000001027d0100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001027d519c cxxbridge1$string$len + 109040
+4   chromedriver                        0x00000001027d6b0c cxxbridge1$string$len + 115552
+5   chromedriver                        0x000000010284c800 cxxbridge1$string$len + 598100
+6   chromedriver                        0x000000010284bba8 cxxbridge1$string$len + 594940
+7   chromedriver                        0x00000001028070fc cxxbridge1$string$len + 313680
+8   chromedriver                        0x0000000102807d4c cxxbridge1$string$len + 316832
+9   chromedriver                        0x0000000102d3864c cxxbridge1$str$ptr + 3436672
+10  chromedriver                        0x0000000102d3b988 cxxbridge1$str$ptr + 3449788
+11  chromedriver                        0x0000000102d1fa5c cxxbridge1$str$ptr + 3335312
+12  chromedriver                        0x0000000102d3c24c cxxbridge1$str$ptr + 3452032
+13  chromedriver                        0x0000000102d10ce8 cxxbridge1$str$ptr + 3274524
+14  chromedriver                        0x0000000102d569dc cxxbridge1$str$ptr + 3560464
+15  chromedriver                        0x0000000102d56b58 cxxbridge1$str$ptr + 3560844
+16  chromedriver                        0x0000000102d65ad4 cxxbridge1$str$ptr + 3622152
+17  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+18  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:49:53,085 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10975452&tags=uta_%28one_piece%29: Message: javascript error: Post.toggle_notes is not a function
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000102d6d5dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000102d65e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x00000001027d0100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001027d519c cxxbridge1$string$len + 109040
+4   chromedriver                        0x00000001027d6b0c cxxbridge1$string$len + 115552
+5   chromedriver                        0x000000010284c800 cxxbridge1$string$len + 598100
+6   chromedriver                        0x000000010284bba8 cxxbridge1$string$len + 594940
+7   chromedriver                        0x00000001028070fc cxxbridge1$string$len + 313680
+8   chromedriver                        0x0000000102807d4c cxxbridge1$string$len + 316832
+9   chromedriver                        0x0000000102d3864c cxxbridge1$str$ptr + 3436672
+10  chromedriver                        0x0000000102d3b988 cxxbridge1$str$ptr + 3449788
+11  chromedriver                        0x0000000102d1fa5c cxxbridge1$str$ptr + 3335312
+12  chromedriver                        0x0000000102d3c24c cxxbridge1$str$ptr + 3452032
+13  chromedriver                        0x0000000102d10ce8 cxxbridge1$str$ptr + 3274524
+14  chromedriver                        0x0000000102d569dc cxxbridge1$str$ptr + 3560464
+15  chromedriver                        0x0000000102d56b58 cxxbridge1$str$ptr + 3560844
+16  chromedriver                        0x0000000102d65ad4 cxxbridge1$str$ptr + 3622152
+17  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+18  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:49:55,326 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10971869&tags=uta_%28one_piece%29: Message: javascript error: Post.toggle_notes is not a function
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000102d6d5dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000102d65e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x00000001027d0100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001027d519c cxxbridge1$string$len + 109040
+4   chromedriver                        0x00000001027d6b0c cxxbridge1$string$len + 115552
+5   chromedriver                        0x000000010284c800 cxxbridge1$string$len + 598100
+6   chromedriver                        0x000000010284bba8 cxxbridge1$string$len + 594940
+7   chromedriver                        0x00000001028070fc cxxbridge1$string$len + 313680
+8   chromedriver                        0x0000000102807d4c cxxbridge1$string$len + 316832
+9   chromedriver                        0x0000000102d3864c cxxbridge1$str$ptr + 3436672
+10  chromedriver                        0x0000000102d3b988 cxxbridge1$str$ptr + 3449788
+11  chromedriver                        0x0000000102d1fa5c cxxbridge1$str$ptr + 3335312
+12  chromedriver                        0x0000000102d3c24c cxxbridge1$str$ptr + 3452032
+13  chromedriver                        0x0000000102d10ce8 cxxbridge1$str$ptr + 3274524
+14  chromedriver                        0x0000000102d569dc cxxbridge1$str$ptr + 3560464
+15  chromedriver                        0x0000000102d56b58 cxxbridge1$str$ptr + 3560844
+16  chromedriver                        0x0000000102d65ad4 cxxbridge1$str$ptr + 3622152
+17  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+18  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:49:57,015 - INFO - Processed 0 images successfully
+2024-11-11 16:49:57,016 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/b72093331bd61daab993bf1d0b95efbd
+2024-11-11 16:49:57,017 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10cea3c20>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/b72093331bd61daab993bf1d0b95efbd
+2024-11-11 16:49:57,019 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10cea3c50>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/b72093331bd61daab993bf1d0b95efbd
+2024-11-11 16:49:57,033 - INFO - Scraping interrupted by user
+2024-11-11 16:49:57,033 - INFO - Scraping completed
+2024-11-11 16:51:44,318 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 16:51:45,647 - INFO - Browser setup successful
+2024-11-11 16:51:47,792 - INFO - Successfully loaded safety classification model
+2024-11-11 16:51:47,792 - INFO - Starting setup...
+2024-11-11 16:51:47,792 - INFO - Created directory: hentai/raw
+2024-11-11 16:51:47,792 - INFO - Created directory: hentai/processed
+2024-11-11 16:51:47,792 - INFO - Created directory: hentai/metadata
+2024-11-11 16:51:47,792 - INFO - Created directory: hentai/logs
+2024-11-11 16:51:47,792 - INFO - Created directory: hentai/temp
+2024-11-11 16:51:47,798 - INFO - Setup completed successfully
+2024-11-11 16:51:47,799 - INFO - Processing search term: uta
+2024-11-11 16:51:47,799 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:51:50,842 - INFO - Found 42 images on page 1
+2024-11-11 16:51:55,086 - ERROR - Error waiting for expanded image: 'bool' object has no attribute 'get_attribute'
+2024-11-11 16:51:59,368 - ERROR - Error waiting for expanded image: 'bool' object has no attribute 'get_attribute'
+2024-11-11 16:52:03,625 - ERROR - Error waiting for expanded image: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104ffd5dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104ff5e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000104a60100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000104a3bb78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000104ac8664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000104adb630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x0000000104a970fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000104a97d4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000104fc864c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000104fcb988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000104fafa5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000104fcc24c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000104fa0ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000104fe69dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000104fe6b58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000104ff5ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:52:03,626 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104ffd5dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104ff5e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000104a60100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000104a3bb78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000104ac8664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000104adb630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x0000000104a970fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000104a97d4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000104fc864c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000104fcb988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000104fafa5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000104fcc24c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000104fa0ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000104fe69dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000104fe6b58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000104ff5ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 16:52:03,664 - INFO - Processed 0 images successfully
+2024-11-11 16:52:03,666 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/011cbd6e259dc054350f3c8b306b85d4
+2024-11-11 16:52:03,668 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1028c9c40>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/011cbd6e259dc054350f3c8b306b85d4
+2024-11-11 16:52:03,670 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10aacfce0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/011cbd6e259dc054350f3c8b306b85d4
+2024-11-11 16:52:03,692 - INFO - Scraping interrupted by user
+2024-11-11 16:52:03,692 - INFO - Scraping completed
+2024-11-11 16:53:55,941 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 16:53:57,373 - INFO - Browser setup successful
+2024-11-11 16:53:59,586 - INFO - Successfully loaded safety classification model
+2024-11-11 16:53:59,586 - INFO - Starting setup...
+2024-11-11 16:53:59,587 - INFO - Created directory: hentai/raw
+2024-11-11 16:53:59,587 - INFO - Created directory: hentai/processed
+2024-11-11 16:53:59,587 - INFO - Created directory: hentai/metadata
+2024-11-11 16:53:59,587 - INFO - Created directory: hentai/logs
+2024-11-11 16:53:59,587 - INFO - Created directory: hentai/temp
+2024-11-11 16:53:59,601 - INFO - Setup completed successfully
+2024-11-11 16:53:59,602 - INFO - Processing search term: uta
+2024-11-11 16:53:59,602 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:54:02,777 - INFO - Found 42 images on page 1
+2024-11-11 16:54:07,067 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 16:54:07,969 - INFO - Successfully downloaded and verified safe image: img_20241111_165407_s3jscl.jpg (479,545 bytes)
+2024-11-11 16:54:14,153 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 16:54:14,544 - INFO - Successfully downloaded and verified safe image: img_20241111_165414_eywl0m.jpg (223,946 bytes)
+2024-11-11 16:54:16,338 - INFO - Processed 2 images successfully
+2024-11-11 16:54:16,342 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/66645505735fb8411d6d7ccccf2f38ff
+2024-11-11 16:54:16,346 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103449700>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/66645505735fb8411d6d7ccccf2f38ff
+2024-11-11 16:54:16,348 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11389c350>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/66645505735fb8411d6d7ccccf2f38ff
+2024-11-11 16:54:16,369 - INFO - Scraping interrupted by user
+2024-11-11 16:54:16,369 - INFO - Scraping completed
+2024-11-11 16:56:19,637 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 16:56:21,052 - INFO - Browser setup successful
+2024-11-11 16:56:21,624 - INFO - Successfully loaded safety classification model
+2024-11-11 16:56:21,624 - INFO - Starting setup...
+2024-11-11 16:56:21,624 - INFO - Created directory: hentai/raw
+2024-11-11 16:56:21,624 - INFO - Created directory: hentai/processed
+2024-11-11 16:56:21,624 - INFO - Created directory: hentai/metadata
+2024-11-11 16:56:21,624 - INFO - Created directory: hentai/logs
+2024-11-11 16:56:21,625 - INFO - Created directory: hentai/temp
+2024-11-11 16:56:21,625 - INFO - Setup completed successfully
+2024-11-11 16:56:21,625 - INFO - Processing search term: uta
+2024-11-11 16:56:21,625 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 16:56:24,906 - INFO - Found 42 images on page 1
+2024-11-11 16:56:29,165 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 16:56:29,731 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 16:56:29,731 - INFO - Successfully downloaded and verified image: img_20241111_165629_e17bsc.jpg (479,545 bytes) to hentai/raw/img_20241111_165629_e17bsc.jpg
+2024-11-11 16:56:36,058 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 16:56:41,368 - ERROR - Failed to record download: database is locked
+2024-11-11 16:56:41,369 - INFO - Successfully downloaded and verified image: img_20241111_165636_9hbyhb.jpg (223,946 bytes) to hentai/raw/img_20241111_165636_9hbyhb.jpg
+2024-11-11 16:56:47,701 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 16:56:53,332 - ERROR - Failed to record download: database is locked
+2024-11-11 16:56:53,332 - INFO - Successfully downloaded and verified image: img_20241111_165647_1x8jbo.jpeg (1,410,921 bytes) to hentai/raw/img_20241111_165647_1x8jbo.jpeg
+2024-11-11 16:56:59,513 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 16:57:04,987 - ERROR - Failed to record download: database is locked
+2024-11-11 16:57:04,987 - INFO - Successfully downloaded and verified image: img_20241111_165659_5qyeq3.jpg (326,043 bytes) to hentai/raw/img_20241111_165659_5qyeq3.jpg
+2024-11-11 16:57:11,199 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/27/32/273224753812c89e39be16d2af341892.jpg
+2024-11-11 16:57:16,559 - ERROR - Failed to record download: database is locked
+2024-11-11 16:57:16,559 - INFO - Successfully downloaded and verified image: img_20241111_165711_0h6ayj.jpg (345,834 bytes) to hentai/raw/img_20241111_165711_0h6ayj.jpg
+2024-11-11 16:57:16,753 - INFO - Processed 5 images successfully
+2024-11-11 16:57:16,761 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/587f03b490589b17df000c0eec7a8b54
+2024-11-11 16:57:16,774 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1180dca70>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/587f03b490589b17df000c0eec7a8b54
+2024-11-11 16:57:16,779 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1180dccb0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/587f03b490589b17df000c0eec7a8b54
+2024-11-11 16:57:16,821 - INFO - Scraping interrupted by user
+2024-11-11 16:57:16,821 - INFO - Scraping completed
+2024-11-11 17:04:22,680 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:04:24,028 - INFO - Browser setup successful
+2024-11-11 17:04:25,959 - INFO - Successfully loaded safety classification model
+2024-11-11 17:04:25,959 - INFO - Starting setup...
+2024-11-11 17:04:25,959 - INFO - Created directory: hentai/raw
+2024-11-11 17:04:25,959 - INFO - Created directory: hentai/processed
+2024-11-11 17:04:25,959 - INFO - Created directory: hentai/metadata
+2024-11-11 17:04:25,959 - INFO - Created directory: hentai/logs
+2024-11-11 17:04:25,959 - INFO - Created directory: hentai/temp
+2024-11-11 17:04:26,020 - INFO - Setup completed successfully
+2024-11-11 17:04:26,020 - INFO - Processing search term: uta
+2024-11-11 17:04:26,020 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:04:29,187 - INFO - Found 42 images on page 1
+2024-11-11 17:04:33,466 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:04:33,692 - ERROR - Error parsing character path: name 'urllib' is not defined
+2024-11-11 17:04:33,885 - ERROR - Error downloading https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg: 'HentaiScraper' object has no attribute 'nsfw_detector'
+2024-11-11 17:04:38,058 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 17:04:38,058 - ERROR - Error parsing character path: name 'urllib' is not defined
+2024-11-11 17:04:38,182 - ERROR - Error downloading https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg: 'HentaiScraper' object has no attribute 'nsfw_detector'
+2024-11-11 17:04:40,410 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000100dad5dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000100da5e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100810100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x00000001007ebb78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000100878664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x000000010088b630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x00000001008470fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000100847d4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000100d7864c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000100d7b988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000100d5fa5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000100d7c24c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000100d50ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000100d969dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000100d96b58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000100da5ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 17:04:40,468 - INFO - Processed 0 images successfully
+2024-11-11 17:04:40,470 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/2c1384d7b45a1883731251982d86173a
+2024-11-11 17:04:40,471 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x112f2e120>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2c1384d7b45a1883731251982d86173a
+2024-11-11 17:04:40,472 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x112f2d850>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2c1384d7b45a1883731251982d86173a
+2024-11-11 17:04:40,484 - INFO - Scraping interrupted by user
+2024-11-11 17:04:40,484 - INFO - Scraping completed
+2024-11-11 17:07:16,340 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:07:16,340 - ERROR - Failed to initialize NSFW detector: name 'NudeDetector' is not defined
+2024-11-11 17:07:16,340 - ERROR - Scraping failed: name 'NudeDetector' is not defined
+2024-11-11 17:07:16,340 - INFO - Scraping completed
+2024-11-11 17:07:54,605 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:07:54,605 - ERROR - Scraping failed: NSFWDetector.__init__() got an unexpected keyword argument 'nsfw_threshold'
+2024-11-11 17:07:54,605 - INFO - Scraping completed
+2024-11-11 17:08:48,887 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:08:48,887 - ERROR - Scraping failed: NSFWDetector.__init__() got an unexpected keyword argument 'nsfw_threshold'
+2024-11-11 17:08:48,887 - INFO - Scraping completed
+2024-11-11 17:09:36,303 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:09:36,303 - ERROR - Failed to initialize NSFW detector: name 'NudeDetector' is not defined
+2024-11-11 17:09:36,303 - ERROR - Scraping failed: name 'NudeDetector' is not defined
+2024-11-11 17:09:36,303 - INFO - Scraping completed
+2024-11-11 17:10:07,344 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:10:07,394 - INFO - NSFW detector initialized successfully
+2024-11-11 17:10:08,600 - INFO - Browser setup successful
+2024-11-11 17:10:08,600 - INFO - Starting setup...
+2024-11-11 17:10:08,600 - INFO - Created directory: hentai/raw
+2024-11-11 17:10:08,600 - INFO - Created directory: hentai/processed
+2024-11-11 17:10:08,600 - INFO - Created directory: hentai/metadata
+2024-11-11 17:10:08,600 - INFO - Created directory: hentai/logs
+2024-11-11 17:10:08,600 - INFO - Created directory: hentai/temp
+2024-11-11 17:10:08,692 - INFO - Setup completed successfully
+2024-11-11 17:10:08,692 - INFO - Starting setup...
+2024-11-11 17:10:08,692 - INFO - Created directory: hentai/raw
+2024-11-11 17:10:08,692 - INFO - Created directory: hentai/processed
+2024-11-11 17:10:08,692 - INFO - Created directory: hentai/metadata
+2024-11-11 17:10:08,692 - INFO - Created directory: hentai/logs
+2024-11-11 17:10:08,692 - INFO - Created directory: hentai/temp
+2024-11-11 17:10:08,693 - INFO - Setup completed successfully
+2024-11-11 17:10:08,693 - INFO - Processing search term: uta
+2024-11-11 17:10:08,693 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:10:11,865 - INFO - Found 42 images on page 1
+2024-11-11 17:10:16,215 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:10:16,357 - ERROR - Error parsing character path: module 'urllib3' has no attribute 'parse'
+2024-11-11 17:10:17,224 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 17:10:17,224 - INFO - Successfully downloaded SFW image: img_20241111_171016_1vf90s.jpg (479,545 bytes) to hentai/raw/img_20241111_171016_1vf90s.jpg
+2024-11-11 17:10:18,752 - INFO - Processed 1 images successfully
+2024-11-11 17:10:18,755 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11622acc0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/74984df2a9770f1dc192c45b2cf06719
+2024-11-11 17:10:18,756 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1162a0bc0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/74984df2a9770f1dc192c45b2cf06719
+2024-11-11 17:10:18,758 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1162a0950>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/74984df2a9770f1dc192c45b2cf06719
+2024-11-11 17:10:18,770 - INFO - Scraping interrupted by user
+2024-11-11 17:10:18,771 - INFO - Scraping completed
+2024-11-11 17:10:52,402 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:10:52,560 - INFO - NSFW detector initialized successfully
+2024-11-11 17:10:53,794 - INFO - Browser setup successful
+2024-11-11 17:10:53,794 - INFO - Starting setup...
+2024-11-11 17:10:53,794 - INFO - Created directory: hentai/raw
+2024-11-11 17:10:53,794 - INFO - Created directory: hentai/processed
+2024-11-11 17:10:53,794 - INFO - Created directory: hentai/metadata
+2024-11-11 17:10:53,794 - INFO - Created directory: hentai/logs
+2024-11-11 17:10:53,794 - INFO - Created directory: hentai/temp
+2024-11-11 17:10:53,795 - INFO - Setup completed successfully
+2024-11-11 17:10:53,795 - INFO - Starting setup...
+2024-11-11 17:10:53,795 - INFO - Created directory: hentai/raw
+2024-11-11 17:10:53,795 - INFO - Created directory: hentai/processed
+2024-11-11 17:10:53,795 - INFO - Created directory: hentai/metadata
+2024-11-11 17:10:53,795 - INFO - Created directory: hentai/logs
+2024-11-11 17:10:53,795 - INFO - Created directory: hentai/temp
+2024-11-11 17:10:53,795 - INFO - Setup completed successfully
+2024-11-11 17:10:53,795 - INFO - Processing search term: uta
+2024-11-11 17:10:53,795 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:10:57,364 - INFO - Found 42 images on page 1
+2024-11-11 17:11:01,712 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:11:01,831 - ERROR - Error parsing character path: name 'urllib' is not defined
+2024-11-11 17:11:02,077 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 17:11:02,077 - INFO - Successfully downloaded SFW image: img_20241111_171101_ugqhbn.jpg (479,545 bytes) to hentai/raw/img_20241111_171101_ugqhbn.jpg
+2024-11-11 17:11:03,656 - INFO - Processed 1 images successfully
+2024-11-11 17:11:03,659 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'RemoteDisconnected('Remote end closed connection without response')': /session/44ec8594fbe3edc4ef3498c9bcb04691
+2024-11-11 17:11:03,664 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11d2a0cb0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/44ec8594fbe3edc4ef3498c9bcb04691
+2024-11-11 17:11:03,668 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11d2a0bc0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/44ec8594fbe3edc4ef3498c9bcb04691
+2024-11-11 17:11:03,684 - INFO - Scraping interrupted by user
+2024-11-11 17:11:03,684 - INFO - Scraping completed
+2024-11-11 17:11:18,033 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:11:18,187 - INFO - NSFW detector initialized successfully
+2024-11-11 17:11:19,387 - INFO - Browser setup successful
+2024-11-11 17:11:19,387 - INFO - Starting setup...
+2024-11-11 17:11:19,387 - INFO - Created directory: hentai/raw
+2024-11-11 17:11:19,387 - INFO - Created directory: hentai/processed
+2024-11-11 17:11:19,387 - INFO - Created directory: hentai/metadata
+2024-11-11 17:11:19,387 - INFO - Created directory: hentai/logs
+2024-11-11 17:11:19,387 - INFO - Created directory: hentai/temp
+2024-11-11 17:11:19,388 - INFO - Setup completed successfully
+2024-11-11 17:11:19,388 - INFO - Starting setup...
+2024-11-11 17:11:19,388 - INFO - Created directory: hentai/raw
+2024-11-11 17:11:19,388 - INFO - Created directory: hentai/processed
+2024-11-11 17:11:19,388 - INFO - Created directory: hentai/metadata
+2024-11-11 17:11:19,388 - INFO - Created directory: hentai/logs
+2024-11-11 17:11:19,388 - INFO - Created directory: hentai/temp
+2024-11-11 17:11:19,388 - INFO - Setup completed successfully
+2024-11-11 17:11:19,388 - INFO - Processing search term: uta
+2024-11-11 17:11:19,388 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:11:22,605 - INFO - Found 42 images on page 1
+2024-11-11 17:11:26,905 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:11:27,341 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 17:11:27,342 - INFO - Successfully downloaded SFW image: img_20241111_171127_s4yjo2.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_171127_s4yjo2.jpg
+2024-11-11 17:11:32,179 - INFO - Processed 1 images successfully
+2024-11-11 17:11:32,181 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/83eff546d2fdcb5773b69e947369b782
+2024-11-11 17:11:32,182 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10c6d5fa0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83eff546d2fdcb5773b69e947369b782
+2024-11-11 17:11:32,184 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10c6d66c0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83eff546d2fdcb5773b69e947369b782
+2024-11-11 17:11:32,195 - INFO - Scraping interrupted by user
+2024-11-11 17:11:32,195 - INFO - Scraping completed
+2024-11-11 17:11:45,832 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:11:46,042 - INFO - NSFW detector initialized successfully
+2024-11-11 17:11:47,222 - INFO - Browser setup successful
+2024-11-11 17:11:47,222 - INFO - Starting setup...
+2024-11-11 17:11:47,223 - INFO - Created directory: hentai/raw
+2024-11-11 17:11:47,223 - INFO - Created directory: hentai/processed
+2024-11-11 17:11:47,223 - INFO - Created directory: hentai/metadata
+2024-11-11 17:11:47,223 - INFO - Created directory: hentai/logs
+2024-11-11 17:11:47,223 - INFO - Created directory: hentai/temp
+2024-11-11 17:11:47,223 - INFO - Setup completed successfully
+2024-11-11 17:11:47,223 - INFO - Starting setup...
+2024-11-11 17:11:47,224 - INFO - Created directory: hentai/raw
+2024-11-11 17:11:47,224 - INFO - Created directory: hentai/processed
+2024-11-11 17:11:47,224 - INFO - Created directory: hentai/metadata
+2024-11-11 17:11:47,224 - INFO - Created directory: hentai/logs
+2024-11-11 17:11:47,224 - INFO - Created directory: hentai/temp
+2024-11-11 17:11:47,224 - INFO - Setup completed successfully
+2024-11-11 17:11:47,224 - INFO - Processing search term: uta
+2024-11-11 17:11:47,224 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:11:50,310 - INFO - Found 42 images on page 1
+2024-11-11 17:11:54,558 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:11:54,750 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 17:11:54,750 - INFO - Successfully downloaded SFW image: img_20241111_171154_k0w2wk.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_171154_k0w2wk.jpg
+2024-11-11 17:12:00,928 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 17:12:06,256 - ERROR - Failed to record download: database is locked
+2024-11-11 17:12:06,256 - INFO - Successfully downloaded SFW image: img_20241111_171200_xknvj8.jpg (223,946 bytes) to hentai/one_piece/uta/img_20241111_171200_xknvj8.jpg
+2024-11-11 17:12:10,519 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001034015dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001033f9e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000102e64100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000102e3fb78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000102ecc664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000102edf630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x0000000102e9b0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000102e9bd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x00000001033cc64c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x00000001033cf988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x00000001033b3a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x00000001033d024c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x00000001033a4ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001033ea9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x00000001033eab58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001033f9ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 17:12:12,524 - WARNING - Navigation attempt 2 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001034015dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001033f9e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000102e64100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000102e3fb78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x0000000102ecc664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x0000000102edf630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x0000000102e9b0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x0000000102e9bd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x00000001033cc64c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x00000001033cf988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x00000001033b3a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x00000001033d024c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x00000001033a4ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001033ea9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x00000001033eab58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001033f9ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x00000001983a72e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001983a20fc thread_start + 8
+
+2024-11-11 17:12:17,681 - INFO - Browser setup successful
+2024-11-11 17:12:20,358 - INFO - Processed 2 images successfully
+2024-11-11 17:12:20,360 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/be6d4b9f2cfb916f5570d442a0d96700
+2024-11-11 17:12:20,361 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x107cea420>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/be6d4b9f2cfb916f5570d442a0d96700
+2024-11-11 17:12:20,364 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x107cea480>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/be6d4b9f2cfb916f5570d442a0d96700
+2024-11-11 17:12:20,367 - INFO - Scraping interrupted by user
+2024-11-11 17:12:20,367 - INFO - Scraping completed
+2024-11-11 17:15:02,913 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:15:03,014 - INFO - NSFW detector initialized successfully
+2024-11-11 17:15:04,217 - INFO - Browser setup successful
+2024-11-11 17:15:04,217 - INFO - Starting setup...
+2024-11-11 17:15:04,217 - INFO - Created directory: hentai/raw
+2024-11-11 17:15:04,217 - INFO - Created directory: hentai/processed
+2024-11-11 17:15:04,217 - INFO - Created directory: hentai/metadata
+2024-11-11 17:15:04,217 - INFO - Created directory: hentai/logs
+2024-11-11 17:15:04,217 - INFO - Created directory: hentai/temp
+2024-11-11 17:15:04,218 - INFO - Setup completed successfully
+2024-11-11 17:15:04,218 - INFO - Starting setup...
+2024-11-11 17:15:04,218 - INFO - Created directory: hentai/raw
+2024-11-11 17:15:04,218 - INFO - Created directory: hentai/processed
+2024-11-11 17:15:04,218 - INFO - Created directory: hentai/metadata
+2024-11-11 17:15:04,218 - INFO - Created directory: hentai/logs
+2024-11-11 17:15:04,218 - INFO - Created directory: hentai/temp
+2024-11-11 17:15:04,219 - INFO - Setup completed successfully
+2024-11-11 17:15:04,219 - INFO - Processing search term: uta
+2024-11-11 17:15:04,219 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:15:07,630 - INFO - Found 42 images on page 1
+2024-11-11 17:15:11,907 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:15:12,298 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg (confidence: 0.54)
+2024-11-11 17:15:16,468 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 17:15:16,592 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 17:15:20,883 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 17:15:21,112 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg (confidence: 0.39)
+2024-11-11 17:15:25,273 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 17:15:25,525 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg (confidence: 0.28)
+2024-11-11 17:15:25,712 - INFO - Processed 0 images successfully
+2024-11-11 17:15:25,713 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/cef48b204b391f573b4d7ed80166af49
+2024-11-11 17:15:25,713 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x115c56270>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/cef48b204b391f573b4d7ed80166af49
+2024-11-11 17:15:25,714 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x115cecec0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/cef48b204b391f573b4d7ed80166af49
+2024-11-11 17:15:25,727 - INFO - Scraping interrupted by user
+2024-11-11 17:15:25,727 - INFO - Scraping completed
+2024-11-11 17:16:08,114 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.6, debug=False, verbose_logging=False)
+2024-11-11 17:16:08,174 - INFO - NSFW detector initialized successfully
+2024-11-11 17:16:09,726 - INFO - Browser setup successful
+2024-11-11 17:16:09,726 - INFO - Starting setup...
+2024-11-11 17:16:09,726 - INFO - Created directory: hentai/raw
+2024-11-11 17:16:09,726 - INFO - Created directory: hentai/processed
+2024-11-11 17:16:09,726 - INFO - Created directory: hentai/metadata
+2024-11-11 17:16:09,727 - INFO - Created directory: hentai/logs
+2024-11-11 17:16:09,727 - INFO - Created directory: hentai/temp
+2024-11-11 17:16:09,847 - INFO - Setup completed successfully
+2024-11-11 17:16:09,847 - INFO - Starting setup...
+2024-11-11 17:16:09,847 - INFO - Created directory: hentai/raw
+2024-11-11 17:16:09,847 - INFO - Created directory: hentai/processed
+2024-11-11 17:16:09,847 - INFO - Created directory: hentai/metadata
+2024-11-11 17:16:09,847 - INFO - Created directory: hentai/logs
+2024-11-11 17:16:09,847 - INFO - Created directory: hentai/temp
+2024-11-11 17:16:09,847 - INFO - Setup completed successfully
+2024-11-11 17:16:09,848 - INFO - Processing search term: uta
+2024-11-11 17:16:09,848 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)
+2024-11-11 17:16:12,828 - INFO - Found 42 images on page 1
+2024-11-11 17:16:17,135 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/44/40/4440ddaaa687949974b73ed6d0d916dd.jpg
+2024-11-11 17:16:17,493 - ERROR - Failed to record download: UNIQUE constraint failed: downloads.url
+2024-11-11 17:16:17,493 - INFO - Successfully downloaded SFW image: img_20241111_171617_gl85s0.jpg (479,545 bytes) to hentai/one_piece/uta/img_20241111_171617_gl85s0.jpg
+2024-11-11 17:16:23,711 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg
+2024-11-11 17:16:23,854 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/ab/e8/abe87f27d5a086a3da45e33a6a1c097a.jpg (confidence: 0.00)
+2024-11-11 17:16:28,129 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/64/1f/641f998378289f4b7b67ffad3d8191aa.jpeg
+2024-11-11 17:16:33,640 - ERROR - Failed to record download: database is locked
+2024-11-11 17:16:33,640 - INFO - Successfully downloaded SFW image: img_20241111_171628_ualb9j.jpeg (1,410,921 bytes) to hentai/one_piece/uta/img_20241111_171628_ualb9j.jpeg
+2024-11-11 17:16:39,780 - INFO - Successfully retrieved full resolution image URL: https://img3.gelbooru.com/images/47/d2/47d2dede9bc87b83b9c7cb5a40c1e2a1.jpg
+2024-11-11 17:16:45,167 - ERROR - Failed to record download: database is locked
+2024-11-11 17:16:45,167 - INFO - Successfully downloaded SFW image: img_20241111_171639_5i6ym7.jpg (326,043 bytes) to hentai/one_piece/uta/img_20241111_171639_5i6ym7.jpg
+2024-11-11 17:16:45,291 - INFO - Processed 3 images successfully
+2024-11-11 17:16:45,293 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/abb23a0aa8c45906e4d565128b890e4e
+2024-11-11 17:16:45,297 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11b6de780>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/abb23a0aa8c45906e4d565128b890e4e
+2024-11-11 17:16:45,302 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x11b6dea80>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/abb23a0aa8c45906e4d565128b890e4e
+2024-11-11 17:16:45,335 - INFO - Scraping interrupted by user
+2024-11-11 17:16:45,335 - INFO - Scraping completed
