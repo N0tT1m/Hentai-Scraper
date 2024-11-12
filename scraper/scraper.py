@@ -1586,10 +1586,8 @@ def main():
     try:
         model_path = downloader.get_model()
         print(f"Model ready at: {model_path}")
-        return model_path
     except Exception as e:
         print(f"Failed to get model: {e}")
-        return None
 
     """Main entry point for the scraper"""
     try:
