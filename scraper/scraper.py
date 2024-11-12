@@ -669,12 +669,11 @@ class NSFWDetector:
                 except:
                     self.logger.warning("NVCC not found in PATH")
 
-                self.device = torch.device("cpu")
-                self.logger.warning("Falling back to CPU")
+                self.device = "cpu"
+                self.logger.warning("Using CPU for processing")
                 return
 
             # CUDA is available, set up device
-            self.device = torch.device("cuda")
             cuda_device = torch.cuda.get_device_properties(0)
             self.logger.info(f"Using CUDA device: {cuda_device.name}")
             self.logger.info(f"CUDA capability: {cuda_device.major}.{cuda_device.minor}")
@@ -683,32 +682,23 @@ class NSFWDetector:
             # Enable cuDNN auto-tuner
             torch.backends.cudnn.benchmark = True
             self.logger.info("cuDNN benchmark enabled")
+            self.device = "cuda"
 
         except ImportError as e:
             self.logger.error(f"Error importing PyTorch: {str(e)}")
             self.device = "cpu"
-            self.logger.warning("PyTorch not found, defaulting to CPU")
+            self.logger.warning("PyTorch not found, using CPU")
         except Exception as e:
             self.logger.error(f"Error setting up device: {str(e)}")
             self.device = "cpu"
-            self.logger.warning("Error occurred, defaulting to CPU")
+            self.logger.warning("Error occurred, using CPU")
 
     def _setup_detector(self):
-        """Initialize the NSFW detector with CUDA support if available"""
+        """Initialize the NSFW detector"""
         try:
-            # Initialize detector with CUDA if available
-            if hasattr(self, 'device') and str(self.device) != "cpu":
-                # Try to explicitly set CUDA device
-                if hasattr(self.device, 'index'):
-                    cuda_device = f"cuda:{self.device.index}"
-                else:
-                    cuda_device = "cuda:0"
-
-                self.detector = NudeDetector(device=cuda_device)
-                self.logger.info(f"NSFW detector initialized with CUDA device: {cuda_device}")
-            else:
-                self.detector = NudeDetector()
-                self.logger.info("NSFW detector initialized on CPU")
+            # Initialize detector (no device parameter needed)
+            self.detector = NudeDetector()
+            self.logger.info(f"NSFW detector initialized (using {'CUDA' if self.device == 'cuda' else 'CPU'})")
 
             # Test the detector with a small operation
             try:
@@ -725,7 +715,7 @@ class NSFWDetector:
             raise
 
     def check_gif(self, gif_path: Path) -> Tuple[bool, float]:
-        """Check if a GIF contains NSFW content by analyzing frames using GPU acceleration if available"""
+        """Check if a GIF contains NSFW content by analyzing frames"""
         try:
             from PIL import Image
             import tempfile
@@ -739,8 +729,8 @@ class NSFWDetector:
             # Create temporary directory for frame extraction
             with tempfile.TemporaryDirectory() as temp_dir:
                 try:
-                    # Process frames in batches for GPU efficiency
-                    batch_size = 8 if hasattr(self, 'device') and str(self.device) != "cpu" else 1
+                    # Process frames in batches
+                    batch_size = 8 if self.device == "cuda" else 1
                     batch_paths = []
 
                     while True:
@@ -752,8 +742,8 @@ class NSFWDetector:
 
                             if len(batch_paths) >= batch_size:
                                 # Process batch
-                                batch_results = self.detector.detect(batch_paths)
-                                for result in batch_results:
+                                results = [self.detector.detect(path) for path in batch_paths]
+                                for result in results:
                                     score = max([det.get('score', 0) for det in result]) if result else 0
                                     frame_scores.append(score)
                                     max_score = max(max_score, score)
@@ -772,8 +762,8 @@ class NSFWDetector:
 
                     # Process remaining frames
                     if batch_paths:
-                        batch_results = self.detector.detect(batch_paths)
-                        for result in batch_results:
+                        results = [self.detector.detect(path) for path in batch_paths]
+                        for result in results:
                             score = max([det.get('score', 0) for det in result]) if result else 0
                             frame_scores.append(score)
                             max_score = max(max_score, score)
@@ -797,7 +787,7 @@ class NSFWDetector:
             return True, 1.0  # Err on side of caution
 
     def check_image(self, image_path: Path) -> Tuple[bool, float]:
-        """Enhanced NSFW detection with GPU acceleration if available"""
+        """Enhanced NSFW detection"""
         try:
             detections = self.detector.detect(str(image_path))
 
