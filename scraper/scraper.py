@@ -29,6 +29,7 @@ import torch.nn as nn
 import torchvision.models as models
 import requests
 import os
+import gdown
 
 from torchvision.transforms import transforms
 from tqdm import tqdm
@@ -676,82 +677,110 @@ class NSFW3Classifier(nn.Module):
         return x
 
 
-class NSFWModelDownloader:
-    """Downloads and converts NSFW model weights"""
+# class NSFWModelDownloader:
+#     """Downloads and converts NSFW model weights"""
+#
+#     WEIGHTS_URL = "https://github.com/yahoo/open_nsfw/raw/master/nsfw_model.caffemodel"
+#     BACKUP_URL = "https://huggingface.co/mplushnikov/OpenNSFW/resolve/main/model.pth"
+#
+#     def __init__(self, save_dir: str = "./models"):
+#         self.save_dir = save_dir
+#         os.makedirs(save_dir, exist_ok=True)
+#
+#     def download_file(self, url: str, filename: str) -> str:
+#         """Download file with progress bar"""
+#         local_path = os.path.join(self.save_dir, filename)
+#
+#         if os.path.exists(local_path):
+#             print(f"File already exists at {local_path}")
+#             return local_path
+#
+#         print(f"Downloading from {url}")
+#         response = requests.get(url, stream=True)
+#         total_size = int(response.headers.get('content-length', 0))
+#
+#         with open(local_path, 'wb') as file, tqdm(
+#                 desc=filename,
+#                 total=total_size,
+#                 unit='iB',
+#                 unit_scale=True,
+#                 unit_divisor=1024,
+#         ) as pbar:
+#             for data in response.iter_content(chunk_size=1024):
+#                 size = file.write(data)
+#                 pbar.update(size)
+#
+#         return local_path
+#
+#     def convert_to_pytorch(self, caffemodel_path: str) -> None:
+#         """Convert Caffe model to PyTorch"""
+#         # Initialize PyTorch model
+#         model = models.resnet50(pretrained=False)
+#         model.fc = nn.Linear(model.fc.in_features, 1)
+#
+#         # Load weights from Caffe model
+#         # This is a simplified version - you'd need to properly map the layers
+#         # between Caffe and PyTorch models
+#
+#         # Save PyTorch model
+#         torch_path = os.path.join(self.save_dir, "nsfw_model.pth")
+#         torch.save(model.state_dict(), torch_path)
+#         print(f"Converted model saved to {torch_path}")
+#
+#     def download_pretrained(self) -> str:
+#         """Download pre-converted PyTorch model"""
+#         try:
+#             # Try downloading from backup source
+#             model_path = self.download_file(self.BACKUP_URL, "nsfw_model.pth")
+#             print("Successfully downloaded pre-converted PyTorch model")
+#             return model_path
+#         except Exception as e:
+#             print(f"Error downloading pre-converted model: {e}")
+#             return None
+#
+#     def get_model(self) -> str:
+#         """Get model weights, downloading if necessary"""
+#         # First try to download pre-converted PyTorch model
+#         model_path = self.download_pretrained()
+#         if model_path:
+#             return model_path
+#
+#         # If that fails, try downloading and converting Caffe model
+#         try:
+#             caffemodel_path = self.download_file(self.WEIGHTS_URL, "nsfw_model.caffemodel")
+#             self.convert_to_pytorch(caffemodel_path)
+#             return os.path.join(self.save_dir, "nsfw_model.pth")
+#         except Exception as e:
+#             print(f"Error downloading/converting model: {e}")
+#             raise
 
-    WEIGHTS_URL = "https://github.com/yahoo/open_nsfw/raw/master/nsfw_model.caffemodel"
-    BACKUP_URL = "https://huggingface.co/mplushnikov/OpenNSFW/resolve/main/model.pth"
+class NSFWModelDownloader:
+    """Downloads and prepares NSFW model weights"""
+
+    # Direct Google Drive link to the model
+    MODEL_URL = "https://drive.google.com/uc?id=1M6y8NVeIVZTP8QNP4T1xP9T3sIXAdrOt"
 
     def __init__(self, save_dir: str = "./models"):
         self.save_dir = save_dir
         os.makedirs(save_dir, exist_ok=True)
 
-    def download_file(self, url: str, filename: str) -> str:
-        """Download file with progress bar"""
-        local_path = os.path.join(self.save_dir, filename)
+    def download_model(self) -> str:
+        """Download model from Google Drive"""
+        output_path = os.path.join(self.save_dir, "nsfw_model.pth")
 
-        if os.path.exists(local_path):
-            print(f"File already exists at {local_path}")
-            return local_path
+        if os.path.exists(output_path):
+            print(f"Model already exists at {output_path}")
+            return output_path
 
-        print(f"Downloading from {url}")
-        response = requests.get(url, stream=True)
-        total_size = int(response.headers.get('content-length', 0))
+        print("Downloading NSFW model...")
+        gdown.download(self.MODEL_URL, output_path, quiet=False)
 
-        with open(local_path, 'wb') as file, tqdm(
-                desc=filename,
-                total=total_size,
-                unit='iB',
-                unit_scale=True,
-                unit_divisor=1024,
-        ) as pbar:
-            for data in response.iter_content(chunk_size=1024):
-                size = file.write(data)
-                pbar.update(size)
+        if os.path.exists(output_path):
+            print(f"Model successfully downloaded to {output_path}")
+            return output_path
+        else:
+            raise Exception("Failed to download model")
 
-        return local_path
-
-    def convert_to_pytorch(self, caffemodel_path: str) -> None:
-        """Convert Caffe model to PyTorch"""
-        # Initialize PyTorch model
-        model = models.resnet50(pretrained=False)
-        model.fc = nn.Linear(model.fc.in_features, 1)
-
-        # Load weights from Caffe model
-        # This is a simplified version - you'd need to properly map the layers
-        # between Caffe and PyTorch models
-
-        # Save PyTorch model
-        torch_path = os.path.join(self.save_dir, "nsfw_model.pth")
-        torch.save(model.state_dict(), torch_path)
-        print(f"Converted model saved to {torch_path}")
-
-    def download_pretrained(self) -> str:
-        """Download pre-converted PyTorch model"""
-        try:
-            # Try downloading from backup source
-            model_path = self.download_file(self.BACKUP_URL, "nsfw_model.pth")
-            print("Successfully downloaded pre-converted PyTorch model")
-            return model_path
-        except Exception as e:
-            print(f"Error downloading pre-converted model: {e}")
-            return None
-
-    def get_model(self) -> str:
-        """Get model weights, downloading if necessary"""
-        # First try to download pre-converted PyTorch model
-        model_path = self.download_pretrained()
-        if model_path:
-            return model_path
-
-        # If that fails, try downloading and converting Caffe model
-        try:
-            caffemodel_path = self.download_file(self.WEIGHTS_URL, "nsfw_model.caffemodel")
-            self.convert_to_pytorch(caffemodel_path)
-            return os.path.join(self.save_dir, "nsfw_model.pth")
-        except Exception as e:
-            print(f"Error downloading/converting model: {e}")
-            raise
 
 class NSFWDetector:
     """Handles NSFW content detection using OpenNSFW3"""
@@ -1584,7 +1613,7 @@ def main():
     """Download and prepare NSFW model"""
     downloader = NSFWModelDownloader()
     try:
-        model_path = downloader.get_model()
+        model_path = downloader.download_model()
         print(f"Model ready at: {model_path}")
     except Exception as e:
         print(f"Failed to get model: {e}")
