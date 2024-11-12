@@ -1386,14 +1386,20 @@ class HentaiScraper:
             return Path('raw')
 
     def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
-        """Process multiple URLs and download images with improved error handling."""
+        """Process multiple URLs and download images with improved error handling and timeout management."""
         processed_count = 0
 
         try:
             for search_term, base_url in urls.items():
                 self.logger.info(f"Processing search term: {search_term}")
+                timeout_occurred = False
 
                 for page_num in range(max_pages):
+                    # Check if timeout occurred for this character
+                    if timeout_occurred:
+                        self.logger.info(f"Skipping remaining pages for {search_term} due to timeout")
+                        break
+
                     current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
                     self.logger.info(f"Processing page {page_num + 1}: {current_url}")
 
@@ -1435,11 +1441,18 @@ class HentaiScraper:
                         time.sleep(self.config.page_delay)
 
                     except TimeoutException:
-                        self.logger.error(f"Timeout on page {page_num + 1}")
-                        continue
+                        self.logger.error(f"Timeout on page {page_num + 1} for character {search_term}")
+                        timeout_occurred = True  # Set flag to skip to next character
+                        break  # Break the page loop to move to next character
                     except Exception as e:
                         self.logger.error(f"Error processing page {page_num + 1}: {str(e)}")
                         continue
+
+                # Log completion or timeout for current character
+                if timeout_occurred:
+                    self.logger.info(f"Moving to next character due to timeout on {search_term}")
+                else:
+                    self.logger.info(f"Completed processing for {search_term}")
 
         except Exception as e:
             self.logger.error(f"Fatal error in process_urls: {str(e)}")
@@ -1486,7 +1499,7 @@ def main():
         # https://danbooru.donmai.us/
 
         urls = {
-                'uta': 'https://gelbooru.com/index.php?page=post&s=list&tags=uta_%28one_piece%29',
+                # 'uta': 'https://gelbooru.com/index.php?page=post&s=list&tags=uta_%28one_piece%29',
                 'rebecca': 'https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_%28one_piece%29+',
                 'carrot': "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_%28one_piece%29+",
                 'bonney': "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+",
