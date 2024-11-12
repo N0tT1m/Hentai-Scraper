@@ -654,6 +654,96 @@ class NSFWDetector:
             self.logger.error(f"Failed to initialize NSFW detector: {str(e)}")
             raise
 
+    def check_gif(self, gif_path: Path) -> Tuple[bool, float]:
+        """
+        Check if a GIF contains NSFW content by analyzing frames
+
+        Returns:
+            Tuple[bool, float]: (is_nsfw, max_confidence)
+        """
+        try:
+            from PIL import Image
+            import tempfile
+
+            # Open the GIF
+            gif = Image.open(str(gif_path))
+            max_score = 0.0
+            frames_checked = 0
+            frame_scores = []
+
+            # Create temporary directory for frame extraction
+            with tempfile.TemporaryDirectory() as temp_dir:
+                try:
+                    # Process every nth frame (e.g., every 5th frame)
+                    while gif:
+                        if frames_checked % 5 == 0:  # Check every 5th frame
+                            # Save current frame
+                            frame_path = Path(temp_dir) / f"frame_{frames_checked}.png"
+                            gif.save(str(frame_path))
+
+                            # Check frame for NSFW content
+                            is_frame_nsfw, frame_score = self.check_image(frame_path)
+                            frame_scores.append(frame_score)
+                            max_score = max(max_score, frame_score)
+
+                            # Early exit if we find definite NSFW content
+                            if frame_score > self.threshold * 1.5:
+                                return True, frame_score
+
+                        frames_checked += 1
+                        try:
+                            gif.seek(gif.tell() + 1)
+                        except EOFError:
+                            break
+
+                    # Calculate final results
+                    avg_score = sum(frame_scores) / len(frame_scores) if frame_scores else 0
+                    is_nsfw = (
+                            max_score > self.threshold or
+                            avg_score > self.threshold * 0.8 or
+                            len([s for s in frame_scores if s > self.threshold]) >= 2
+                    )
+
+                    self.logger.debug(
+                        f"GIF analysis results for {gif_path}:\n"
+                        f"Max score: {max_score:.2f}\n"
+                        f"Avg score: {avg_score:.2f}\n"
+                        f"Frames checked: {frames_checked}\n"
+                        f"NSFW frames: {len([s for s in frame_scores if s > self.threshold])}"
+                    )
+
+                    return is_nsfw, max_score
+
+                except Exception as e:
+                    self.logger.error(f"Error processing GIF frames: {str(e)}")
+                    return True, 1.0  # Err on side of caution
+
+        except Exception as e:
+            self.logger.error(f"Error analyzing GIF {gif_path}: {str(e)}")
+            return True, 1.0  # Err on side of caution
+
+    def check_content(self, file_path: Path) -> Tuple[bool, float]:
+        """
+        Universal checker that handles both static images and GIFs
+
+        Returns:
+            Tuple[bool, float]: (is_nsfw, confidence)
+        """
+        try:
+            # Determine if file is a GIF
+            from PIL import Image
+            with Image.open(str(file_path)) as img:
+                is_gif = getattr(img, "is_animated", False)
+
+            if is_gif:
+                return self.check_gif(file_path)
+            else:
+                return self.check_image(file_path)
+
+        except Exception as e:
+            self.logger.error(f"Error determining file type: {str(e)}")
+            return True, 1.0  # Err on side of caution
+
     def check_image(self, image_path: Path) -> Tuple[bool, float]:
         """
         Enhanced NSFW detection with better sensitivity
@@ -922,41 +1012,15 @@ class HentaiScraper:
 
     def _download_image(self, url: str, source_page: str = None) -> bool:
         """
-        Download and save an image from the given URL after verifying it's not NSFW.
+        Download and save an image or GIF from the given URL after verifying it's not SFW.
 
         Args:
             url (str): URL of the image to download
             source_page (str, optional): URL of the page containing the image
 
         Returns:
-            bool: True if download was successful and image is not NSFW, False otherwise
+            bool: True if download was successful and content is NSFW, False otherwise
         """
-        import hashlib
-        import mimetypes
-        from urllib.parse import urlparse
-        import requests
-        import urllib.parse
-        from requests.exceptions import RequestException
-        from PIL import Image
-
-        def get_file_hash(file_path: Path) -> str:
-            """Calculate MD5 hash of file"""
-            hash_md5 = hashlib.md5()
-            with open(file_path, "rb") as f:
-                for chunk in iter(lambda: f.read(4096), b""):
-                    hash_md5.update(chunk)
-            return hash_md5.hexdigest()
-
-        def verify_image_file(file_path: Path) -> bool:
-            """Verify if file is a valid image using PIL"""
-            try:
-                with Image.open(file_path) as img:
-                    img.verify()
-                    return True
-            except Exception as e:
-                self.logger.error(f"Image verification failed: {str(e)}")
-                return False
-
         try:
             # Clean and validate URL
             if not url:
@@ -983,58 +1047,48 @@ class HentaiScraper:
                 self.logger.info(f"File already exists at {final_path}")
                 return True
 
-            # Download file
+            # Download file with proper headers
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-                'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+                'User-Agent': self.config.user_agent,
+                'Accept': 'image/webp,image/apng,image/gif,image/*,*/*;q=0.8',
                 'Accept-Language': 'en-US,en;q=0.9',
                 'Referer': source_page if source_page else url
             }
 
-            response = requests.get(url, stream=True, headers=headers, timeout=30)
+            response = requests.get(url, stream=True, headers=headers, timeout=self.config.request_timeout)
             response.raise_for_status()
-
-            # Get content length if available
-            total_size = int(response.headers.get('content-length', 0))
 
             # Save to temporary file
             self.logger.debug(f"Downloading to temporary file: {temp_path}")
             with open(temp_path, 'wb') as f:
-                if total_size == 0:
-                    f.write(response.content)
-                else:
-                    downloaded = 0
-                    for chunk in response.iter_content(chunk_size=8192):
-                        if chunk:
-                            downloaded += len(chunk)
-                            f.write(chunk)
-                            if downloaded % (1024 * 1024) == 0:  # Log every MB
-                                self.logger.debug(f"Downloaded: {downloaded // (1024 * 1024)}MB")
+                for chunk in response.iter_content(chunk_size=self.config.chunk_size):
+                    if chunk:
+                        f.write(chunk)
 
-            # Verify the temporary file exists and is not empty
-            if not temp_path.exists():
-                raise ValueError(f"Downloaded file not found at {temp_path}")
+            # Verify the file exists and is not empty
+            if not temp_path.exists() or temp_path.stat().st_size == 0:
+                raise ValueError("Downloaded file is empty or missing")
 
-            if temp_path.stat().st_size == 0:
-                raise ValueError("Downloaded file is empty")
+            # Verify it's a valid image/GIF file
+            try:
+                with Image.open(temp_path) as img:
+                    img.verify()
+                    is_gif = getattr(img, "is_animated", False)
+            except Exception as e:
+                self.logger.error(f"Invalid image file: {str(e)}")
+                temp_path.unlink()
+                return False
 
-            # Verify it's a valid image
-            if not verify_image_file(temp_path):
-                raise ValueError("Invalid image file")
+            # Check if content is NSFW
+            is_nsfw, confidence = self.nsfw_detector.check_content(temp_path)
 
-            # Check if image is NSFW
-            is_nsfw, confidence = self.nsfw_detector.check_image(temp_path)
-            if is_nsfw:  # Changed from "if not is_nsfw" - now we keep NSFW images
+            if is_nsfw:  # Keep NSFW content
                 # Calculate file hash
-                file_hash = get_file_hash(temp_path)
+                file_hash = self._get_file_hash(temp_path)
 
                 # Move file to final location
                 self.logger.debug(f"Moving file to final location: {final_path}")
                 temp_path.rename(final_path)
-
-                # Verify final file exists
-                if not final_path.exists():
-                    raise ValueError(f"File not found at final location: {final_path}")
 
                 # Record successful download
                 file_size = final_path.stat().st_size
@@ -1048,12 +1102,26 @@ class HentaiScraper:
                 )
 
                 self.logger.info(
-                    f"Successfully downloaded NSFW image: {filename} ({file_size:,} bytes) to {final_path}")
+                    f"Successfully downloaded NSFW {'GIF' if is_gif else 'image'}: "
+                    f"{filename} ({file_size:,} bytes) to {final_path}"
+                )
                 return True
             else:
-                self.logger.warning(f"Skipping SFW image from {url} (confidence: {confidence:.2f})")
-                temp_path.unlink()  # Delete the temporary file
+                self.logger.warning(
+                    f"Skipping SFW {'GIF' if is_gif else 'image'} from {url} "
+                    f"(confidence: {confidence:.2f})"
+                )
+                temp_path.unlink()
                 return False
+
+        except Exception as e:
+            self.logger.error(f"Error downloading {url}: {str(e)}")
+            if 'temp_path' in locals() and temp_path.exists():
+                try:
+                    temp_path.unlink()
+                except Exception as cleanup_error:
+                    self.logger.error(f"Error cleaning up temporary file: {cleanup_error}")
+            return False
 
         except Exception as e:
             self.logger.error(f"Error downloading {url}: {str(e)}")
