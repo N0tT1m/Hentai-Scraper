@@ -574,7 +574,7 @@ class ScraperConfig:
     user_agent: Optional[str] = None
     filename_length: int = 8
     max_file_size: int = 50 * 1024 * 1024
-    nsfw_threshold: float = 0.5
+    nsfw_threshold: float = 0.2
     debug: bool = False
     verbose_logging: bool = False
 
@@ -632,7 +632,7 @@ class ScraperConfig:
 class NSFWDetector:
     """Handles NSFW content detection with CUDA support"""
 
-    def __init__(self, threshold: float = 0.5):
+    def __init__(self, threshold: float = 0.2):
         self.threshold = threshold
         self._setup_logging()
         self._setup_device()
@@ -800,7 +800,7 @@ class NSFWDetector:
             avg_score = sum(scores) / len(scores) if scores else 0
 
             # Count significant detections
-            significant_detections = sum(1 for score in scores if score > 0.5)
+            significant_detections = sum(1 for score in scores if score > 0.2)
 
             # Check for multiple detections
             is_nsfw = (
@@ -1533,7 +1533,7 @@ def main():
             chunk_size=8192,
             filename_length=6,
             headless=False,
-            nsfw_threshold=0.5,
+            nsfw_threshold=0.2,
         )
 
         # Log configuration
