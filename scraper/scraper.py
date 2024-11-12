@@ -628,6 +628,7 @@ class ScraperConfig:
             'verbose_logging': self.verbose_logging
         }
 
+
 class NSFWDetector:
     """Handles NSFW content detection with CUDA support"""
 
@@ -652,28 +653,72 @@ class NSFWDetector:
         """Setup CUDA device if available, otherwise use CPU"""
         try:
             import torch
-            if torch.cuda.is_available():
-                self.device = torch.device("cuda")
-                cuda_device = torch.cuda.get_device_properties(0)
-                self.logger.info(f"Using CUDA device: {cuda_device.name} ({torch.cuda.get_device_capability()})")
-                torch.backends.cudnn.benchmark = True  # Enable cuDNN auto-tuner
-            else:
+
+            # Log PyTorch version and CUDA information
+            self.logger.info(f"PyTorch version: {torch.__version__}")
+            self.logger.info(f"CUDA version: {torch.version.cuda}")
+            self.logger.info(f"CUDA available: {torch.cuda.is_available()}")
+
+            if not torch.cuda.is_available():
+                # Log detailed CUDA availability information
+                import subprocess
+                try:
+                    nvcc_output = subprocess.check_output(['nvcc', '--version']).decode()
+                    self.logger.info(f"NVCC version found:\n{nvcc_output}")
+                    self.logger.warning("CUDA found on system but not available to PyTorch")
+                except:
+                    self.logger.warning("NVCC not found in PATH")
+
                 self.device = torch.device("cpu")
-                self.logger.info("CUDA not available, using CPU")
-        except ImportError:
+                self.logger.warning("Falling back to CPU")
+                return
+
+            # CUDA is available, set up device
+            self.device = torch.device("cuda")
+            cuda_device = torch.cuda.get_device_properties(0)
+            self.logger.info(f"Using CUDA device: {cuda_device.name}")
+            self.logger.info(f"CUDA capability: {cuda_device.major}.{cuda_device.minor}")
+            self.logger.info(f"Total memory: {cuda_device.total_memory / 1024 ** 3:.2f} GB")
+
+            # Enable cuDNN auto-tuner
+            torch.backends.cudnn.benchmark = True
+            self.logger.info("cuDNN benchmark enabled")
+
+        except ImportError as e:
+            self.logger.error(f"Error importing PyTorch: {str(e)}")
             self.device = "cpu"
             self.logger.warning("PyTorch not found, defaulting to CPU")
+        except Exception as e:
+            self.logger.error(f"Error setting up device: {str(e)}")
+            self.device = "cpu"
+            self.logger.warning("Error occurred, defaulting to CPU")
 
     def _setup_detector(self):
         """Initialize the NSFW detector with CUDA support if available"""
         try:
             # Initialize detector with CUDA if available
             if hasattr(self, 'device') and str(self.device) != "cpu":
-                self.detector = NudeDetector(device=str(self.device))
-                self.logger.info("NSFW detector initialized with CUDA support")
+                # Try to explicitly set CUDA device
+                if hasattr(self.device, 'index'):
+                    cuda_device = f"cuda:{self.device.index}"
+                else:
+                    cuda_device = "cuda:0"
+
+                self.detector = NudeDetector(device=cuda_device)
+                self.logger.info(f"NSFW detector initialized with CUDA device: {cuda_device}")
             else:
                 self.detector = NudeDetector()
                 self.logger.info("NSFW detector initialized on CPU")
+
+            # Test the detector with a small operation
+            try:
+                import numpy as np
+                test_image = np.zeros((100, 100, 3), dtype=np.uint8)
+                self.detector.detect(test_image)
+                self.logger.info("NSFW detector test passed successfully")
+            except Exception as e:
+                self.logger.error(f"Detector test failed: {str(e)}")
+                raise
 
         except Exception as e:
             self.logger.error(f"Failed to initialize NSFW detector: {str(e)}")
