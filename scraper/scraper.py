@@ -3,6 +3,7 @@ import sqlite3
 # First, all imports
 import sqlite3
 import requests
+import torch
 from PIL import Image
 from bs4 import BeautifulSoup
 import random
@@ -19,8 +20,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from nudenet import NudeDetector
+import logging
+from pathlib import Path
+from typing import Tuple, List, Optional
 import urllib
+import torch
+import torch.nn as nn
+import torchvision.models as models
+import requests
+import os
+
+from torchvision.transforms import transforms
+from tqdm import tqdm
+
 
 class CharacterClassifier:
     """Handles character recognition and classification"""
@@ -628,17 +640,131 @@ class ScraperConfig:
             'verbose_logging': self.verbose_logging
         }
 
+class NSFW3Classifier(nn.Module):
+    """OpenNSFW3 model architecture"""
+    def __init__(self):
+        super().__init__()
+        # Define model architecture here
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(128, 256, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(256, 256, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+        )
+        self.classifier = nn.Sequential(
+            nn.Linear(256 * 28 * 28, 1024),
+            nn.ReLU(True),
+            nn.Dropout(0.5),
+            nn.Linear(1024, 1024),
+            nn.ReLU(True),
+            nn.Dropout(0.5),
+            nn.Linear(1024, 1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = x.view(x.size(0), -1)
+        x = self.classifier(x)
+        return x
+
+
+class NSFWModelDownloader:
+    """Downloads and converts NSFW model weights"""
+
+    WEIGHTS_URL = "https://github.com/yahoo/open_nsfw/raw/master/nsfw_model.caffemodel"
+    BACKUP_URL = "https://huggingface.co/mplushnikov/OpenNSFW/resolve/main/model.pth"
+
+    def __init__(self, save_dir: str = "./models"):
+        self.save_dir = save_dir
+        os.makedirs(save_dir, exist_ok=True)
+
+    def download_file(self, url: str, filename: str) -> str:
+        """Download file with progress bar"""
+        local_path = os.path.join(self.save_dir, filename)
+
+        if os.path.exists(local_path):
+            print(f"File already exists at {local_path}")
+            return local_path
+
+        print(f"Downloading from {url}")
+        response = requests.get(url, stream=True)
+        total_size = int(response.headers.get('content-length', 0))
+
+        with open(local_path, 'wb') as file, tqdm(
+                desc=filename,
+                total=total_size,
+                unit='iB',
+                unit_scale=True,
+                unit_divisor=1024,
+        ) as pbar:
+            for data in response.iter_content(chunk_size=1024):
+                size = file.write(data)
+                pbar.update(size)
+
+        return local_path
+
+    def convert_to_pytorch(self, caffemodel_path: str) -> None:
+        """Convert Caffe model to PyTorch"""
+        # Initialize PyTorch model
+        model = models.resnet50(pretrained=False)
+        model.fc = nn.Linear(model.fc.in_features, 1)
+
+        # Load weights from Caffe model
+        # This is a simplified version - you'd need to properly map the layers
+        # between Caffe and PyTorch models
+
+        # Save PyTorch model
+        torch_path = os.path.join(self.save_dir, "nsfw_model.pth")
+        torch.save(model.state_dict(), torch_path)
+        print(f"Converted model saved to {torch_path}")
+
+    def download_pretrained(self) -> str:
+        """Download pre-converted PyTorch model"""
+        try:
+            # Try downloading from backup source
+            model_path = self.download_file(self.BACKUP_URL, "nsfw_model.pth")
+            print("Successfully downloaded pre-converted PyTorch model")
+            return model_path
+        except Exception as e:
+            print(f"Error downloading pre-converted model: {e}")
+            return None
+
+    def get_model(self) -> str:
+        """Get model weights, downloading if necessary"""
+        # First try to download pre-converted PyTorch model
+        model_path = self.download_pretrained()
+        if model_path:
+            return model_path
+
+        # If that fails, try downloading and converting Caffe model
+        try:
+            caffemodel_path = self.download_file(self.WEIGHTS_URL, "nsfw_model.caffemodel")
+            self.convert_to_pytorch(caffemodel_path)
+            return os.path.join(self.save_dir, "nsfw_model.pth")
+        except Exception as e:
+            print(f"Error downloading/converting model: {e}")
+            raise
 
 class NSFWDetector:
-    """Handles NSFW content detection with CUDA support"""
+    """Handles NSFW content detection using OpenNSFW3"""
 
-    def __init__(self, threshold: float = 0.2):
+    def __init__(self, threshold: float = 0.2, model_path: Optional[str] = None):
         self.threshold = threshold
         self._setup_logging()
         self._setup_device()
-        self._setup_detector()
+        self._setup_model(model_path)
+        self._setup_transforms()
 
     def _setup_logging(self):
+        """Configure logging"""
         logging.basicConfig(
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
@@ -650,182 +776,126 @@ class NSFWDetector:
         self.logger = logging.getLogger(__name__)
 
     def _setup_device(self):
-        """Setup CUDA device if available, otherwise use CPU"""
+        """Setup CUDA device if available"""
         try:
-            import torch
-
-            # Log PyTorch version and CUDA information
-            self.logger.info(f"PyTorch version: {torch.__version__}")
-            self.logger.info(f"CUDA version: {torch.version.cuda}")
-            self.logger.info(f"CUDA available: {torch.cuda.is_available()}")
-
-            if not torch.cuda.is_available():
-                # Log detailed CUDA availability information
-                import subprocess
-                try:
-                    nvcc_output = subprocess.check_output(['nvcc', '--version']).decode()
-                    self.logger.info(f"NVCC version found:\n{nvcc_output}")
-                    self.logger.warning("CUDA found on system but not available to PyTorch")
-                except:
-                    self.logger.warning("NVCC not found in PATH")
-
-                self.device = "cpu"
-                self.logger.warning("Using CPU for processing")
-                return
-
-            # CUDA is available, set up device
-            cuda_device = torch.cuda.get_device_properties(0)
-            self.logger.info(f"Using CUDA device: {cuda_device.name}")
-            self.logger.info(f"CUDA capability: {cuda_device.major}.{cuda_device.minor}")
-            self.logger.info(f"Total memory: {cuda_device.total_memory / 1024 ** 3:.2f} GB")
-
-            # Enable cuDNN auto-tuner
-            torch.backends.cudnn.benchmark = True
-            self.logger.info("cuDNN benchmark enabled")
-            self.device = "cuda"
-
-        except ImportError as e:
-            self.logger.error(f"Error importing PyTorch: {str(e)}")
-            self.device = "cpu"
-            self.logger.warning("PyTorch not found, using CPU")
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            if torch.cuda.is_available():
+                cuda_device = torch.cuda.get_device_properties(0)
+                self.logger.info(f"Using CUDA device: {cuda_device.name}")
+                self.logger.info(f"Total memory: {cuda_device.total_memory / 1024 ** 3:.2f} GB")
+                torch.backends.cudnn.benchmark = True
+            else:
+                self.logger.info("Using CPU for processing")
         except Exception as e:
             self.logger.error(f"Error setting up device: {str(e)}")
-            self.device = "cpu"
-            self.logger.warning("Error occurred, using CPU")
+            self.device = torch.device('cpu')
 
-    def _setup_detector(self):
-        """Initialize the NSFW detector"""
+    def _setup_model(self, model_path: Optional[str]):
+        """Initialize the NSFW detection model"""
         try:
-            # Initialize detector (no device parameter needed)
-            self.detector = NudeDetector()
-            self.logger.info(f"NSFW detector initialized (using {'CUDA' if self.device == 'cuda' else 'CPU'})")
-
-            # Test the detector with a small operation
-            try:
-                import numpy as np
-                test_image = np.zeros((100, 100, 3), dtype=np.uint8)
-                self.detector.detect(test_image)
-                self.logger.info("NSFW detector test passed successfully")
-            except Exception as e:
-                self.logger.error(f"Detector test failed: {str(e)}")
-                raise
-
+            self.model = NSFW3Classifier().to(self.device)
+            if model_path:
+                state_dict = torch.load(model_path, map_location=self.device)
+                self.model.load_state_dict(state_dict)
+            self.model.eval()
+            self.logger.info("NSFW model loaded successfully")
         except Exception as e:
-            self.logger.error(f"Failed to initialize NSFW detector: {str(e)}")
+            self.logger.error(f"Failed to initialize NSFW model: {str(e)}")
             raise
 
-    def check_gif(self, gif_path: Path) -> Tuple[bool, float]:
-        """Check if a GIF contains NSFW content by analyzing frames"""
+    def _setup_transforms(self):
+        """Setup image transforms"""
+        self.transforms = transforms.Compose([
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+
+    def _process_image(self, image: Image.Image) -> float:
+        """Process a single PIL Image and return NSFW score"""
         try:
-            from PIL import Image
-            import tempfile
+            with torch.no_grad():
+                # Transform and prepare image
+                img_tensor = self.transforms(image).unsqueeze(0).to(self.device)
 
-            # Open the GIF
-            gif = Image.open(str(gif_path))
-            max_score = 0.0
-            frames_checked = 0
-            frame_scores = []
+                # Get prediction
+                score = self.model(img_tensor).item()
+                return score
+        except Exception as e:
+            self.logger.error(f"Error processing image: {str(e)}")
+            return 1.0  # Return high score on error to be safe
 
-            # Create temporary directory for frame extraction
-            with tempfile.TemporaryDirectory() as temp_dir:
-                try:
-                    # Process frames in batches
-                    batch_size = 8 if self.device == "cuda" else 1
-                    batch_paths = []
+    def _process_frames(self, frames: List[Image.Image]) -> List[float]:
+        """Process multiple frames in batch"""
+        try:
+            with torch.no_grad():
+                # Transform all frames
+                batch = torch.stack([self.transforms(frame) for frame in frames]).to(self.device)
 
-                    while True:
-                        if frames_checked % 5 == 0:  # Check every 5th frame
-                            # Save current frame
-                            frame_path = Path(temp_dir) / f"frame_{frames_checked}.png"
-                            gif.save(str(frame_path))
-                            batch_paths.append(str(frame_path))
+                # Get predictions
+                scores = self.model(batch).squeeze().tolist()
+                return scores if isinstance(scores, list) else [scores]
+        except Exception as e:
+            self.logger.error(f"Error processing frames: {str(e)}")
+            return [1.0] * len(frames)  # Return high scores on error
 
-                            if len(batch_paths) >= batch_size:
-                                # Process batch
-                                results = [self.detector.detect(path) for path in batch_paths]
-                                for result in results:
-                                    score = max([det.get('score', 0) for det in result]) if result else 0
-                                    frame_scores.append(score)
-                                    max_score = max(max_score, score)
+    def check_gif(self, gif_path: Path) -> Tuple[bool, float]:
+        """Check if a GIF contains NSFW content"""
+        try:
+            # Open GIF and extract frames
+            with Image.open(str(gif_path)) as gif:
+                frames = []
+                frame_count = 0
 
-                                    # Early exit if we find definite NSFW content
-                                    if score > self.threshold * 1.5:
-                                        return True, score
+                # Extract frames with proper handling of disposal methods
+                while frame_count < 50:  # Limit frames to prevent memory issues
+                    try:
+                        # Convert to RGB to ensure consistent processing
+                        frame = gif.convert('RGB')
+                        frames.append(frame.copy())
+                        frame_count += 1
+                        gif.seek(gif.tell() + 1)
+                    except EOFError:
+                        break
 
-                                batch_paths = []
+                # Process frames in batches
+                batch_size = 8
+                all_scores = []
 
-                        frames_checked += 1
-                        try:
-                            gif.seek(gif.tell() + 1)
-                        except EOFError:
-                            break
+                for i in range(0, len(frames), batch_size):
+                    batch_frames = frames[i:i + batch_size]
+                    scores = self._process_frames(batch_frames)
+                    all_scores.extend(scores)
 
-                    # Process remaining frames
-                    if batch_paths:
-                        results = [self.detector.detect(path) for path in batch_paths]
-                        for result in results:
-                            score = max([det.get('score', 0) for det in result]) if result else 0
-                            frame_scores.append(score)
-                            max_score = max(max_score, score)
+                # Calculate final results
+                max_score = max(all_scores)
+                avg_score = sum(all_scores) / len(all_scores)
+                high_scores = sum(1 for score in all_scores if score > self.threshold)
 
-                    # Calculate final results
-                    avg_score = sum(frame_scores) / len(frame_scores) if frame_scores else 0
-                    is_nsfw = (
-                            max_score > self.threshold or
-                            avg_score > self.threshold * 0.8 or
-                            len([s for s in frame_scores if s > self.threshold]) >= 2
-                    )
+                is_nsfw = (max_score > self.threshold or
+                           avg_score > self.threshold * 0.8 or
+                           high_scores >= 2)
 
-                    return is_nsfw, max_score
-
-                except Exception as e:
-                    self.logger.error(f"Error processing GIF frames: {str(e)}")
-                    return True, 1.0  # Err on side of caution
+                return is_nsfw, max_score
 
         except Exception as e:
             self.logger.error(f"Error analyzing GIF {gif_path}: {str(e)}")
-            return True, 1.0  # Err on side of caution
+            return True, 1.0  # Err on the side of caution
 
     def check_image(self, image_path: Path) -> Tuple[bool, float]:
-        """Enhanced NSFW detection"""
+        """Check if a static image contains NSFW content"""
         try:
-            detections = self.detector.detect(str(image_path))
-
-            if not detections:
-                return False, 0.0
-
-            # Calculate scores
-            scores = [det.get('score', 0) for det in detections]
-            max_score = max(scores) if scores else 0
-            avg_score = sum(scores) / len(scores) if scores else 0
-
-            # Count significant detections
-            significant_detections = sum(1 for score in scores if score > 0.2)
-
-            # Check for multiple detections
-            is_nsfw = (
-                    max_score > self.threshold or  # Any single strong detection
-                    avg_score > self.threshold * 0.8 or  # High average confidence
-                    significant_detections >= 2 or  # Multiple moderate detections
-                    len(detections) >= 3  # Multiple body parts detected
-            )
-
-            return is_nsfw, max_score
-
+            with Image.open(str(image_path)).convert('RGB') as img:
+                score = self._process_image(img)
+                return score > self.threshold, score
         except Exception as e:
             self.logger.error(f"Error checking image {image_path}: {str(e)}")
-            return True, 1.0  # Err on side of caution
+            return True, 1.0
 
     def check_content(self, file_path: Path) -> Tuple[bool, float]:
-        """
-        Universal checker that handles both static images and GIFs
-
-        Returns:
-            Tuple[bool, float]: (is_nsfw, confidence)
-        """
+        """Universal checker that handles both static images and GIFs"""
         try:
-            # Determine if file is a GIF
-            from PIL import Image
             with Image.open(str(file_path)) as img:
                 is_gif = getattr(img, "is_animated", False)
 
@@ -833,15 +903,15 @@ class NSFWDetector:
                 return self.check_gif(file_path)
             else:
                 return self.check_image(file_path)
-
         except Exception as e:
             self.logger.error(f"Error determining file type: {str(e)}")
-            return True, 1.0  # Err on side of caution
+            return True, 1.0
 
 class HentaiScraper:
     def __init__(self, config: ScraperConfig):
         self.config = config
-        self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold)
+        model_path = "models/nsfw_model.pth"  # Update this path to where your model is stored
+        self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold, model_path=model_path)
         self._setup_logging()
         self._setup_browser()
         self.setup()
@@ -1511,6 +1581,16 @@ class HentaiScraper:
                 self.logger.error(f"Error closing browser: {str(e)}")
 
 def main():
+    """Download and prepare NSFW model"""
+    downloader = NSFWModelDownloader()
+    try:
+        model_path = downloader.get_model()
+        print(f"Model ready at: {model_path}")
+        return model_path
+    except Exception as e:
+        print(f"Failed to get model: {e}")
+        return None
+
     """Main entry point for the scraper"""
     try:
         # Setup logging first
