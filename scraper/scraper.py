@@ -1,5 +1,7 @@
 import sqlite3
 
+# First, all imports
+import sqlite3
 import requests
 from PIL import Image
 from bs4 import BeautifulSoup
