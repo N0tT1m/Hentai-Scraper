@@ -1,7 +1,7 @@
 import sqlite3
 
 import requests
-from PIL.Image import Image
+from PIL import Image
 from bs4 import BeautifulSoup
 import random
 import string
@@ -1022,6 +1022,32 @@ class HentaiScraper:
         Returns:
             bool: True if download was successful and content is NSFW, False otherwise
         """
+        import hashlib
+        import mimetypes
+        from urllib.parse import urlparse
+        import requests
+        import urllib.parse
+        from requests.exceptions import RequestException
+        from PIL import Image
+
+        def _get_file_hash(file_path: Path) -> str:
+            """Calculate MD5 hash of file"""
+            hash_md5 = hashlib.md5()
+            with open(file_path, "rb") as f:
+                for chunk in iter(lambda: f.read(4096), b""):
+                    hash_md5.update(chunk)
+            return hash_md5.hexdigest()
+
+        def _verify_image_file(file_path: Path) -> bool:
+            """Verify if file is a valid image using PIL"""
+            try:
+                with Image.open(file_path) as img:
+                    img.verify()
+                    return True
+            except Exception as e:
+                self.logger.error(f"Image verification failed: {str(e)}")
+                return False
+
         try:
             # Clean and validate URL
             if not url:
@@ -1085,7 +1111,7 @@ class HentaiScraper:
 
             if is_nsfw:  # Keep NSFW content
                 # Calculate file hash
-                file_hash = self._get_file_hash(temp_path)
+                file_hash = _get_file_hash(temp_path)
 
                 # Move file to final location
                 self.logger.debug(f"Moving file to final location: {final_path}")
