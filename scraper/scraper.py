@@ -665,11 +665,9 @@ class ScraperConfig:
         def _setup_detector(self):
             """Initialize the NSFW detector with CUDA support if available"""
             try:
-                from nudenet import NudeDetector
-
                 # Initialize detector with CUDA if available
-                if hasattr(self, 'device') and self.device != "cpu":
-                    self.detector = NudeDetector(device=self.device)
+                if hasattr(self, 'device') and str(self.device) != "cpu":
+                    self.detector = NudeDetector(device=str(self.device))
                     self.logger.info("NSFW detector initialized with CUDA support")
                 else:
                     self.detector = NudeDetector()
@@ -680,16 +678,10 @@ class ScraperConfig:
                 raise
 
         def check_gif(self, gif_path: Path) -> Tuple[bool, float]:
-            """
-            Check if a GIF contains NSFW content by analyzing frames using GPU acceleration if available
-
-            Returns:
-                Tuple[bool, float]: (is_nsfw, max_confidence)
-            """
+            """Check if a GIF contains NSFW content by analyzing frames using GPU acceleration if available"""
             try:
                 from PIL import Image
                 import tempfile
-                import torch
 
                 # Open the GIF
                 gif = Image.open(str(gif_path))
@@ -701,16 +693,15 @@ class ScraperConfig:
                 with tempfile.TemporaryDirectory() as temp_dir:
                     try:
                         # Process frames in batches for GPU efficiency
-                        batch_size = 8 if hasattr(self, 'device') and self.device != "cpu" else 1
-                        frame_batch = []
+                        batch_size = 8 if hasattr(self, 'device') and str(self.device) != "cpu" else 1
                         batch_paths = []
 
-                        while gif:
+                        while True:
                             if frames_checked % 5 == 0:  # Check every 5th frame
                                 # Save current frame
                                 frame_path = Path(temp_dir) / f"frame_{frames_checked}.png"
                                 gif.save(str(frame_path))
-                                batch_paths.append(frame_path)
+                                batch_paths.append(str(frame_path))
 
                                 if len(batch_paths) >= batch_size:
                                     # Process batch
@@ -748,14 +739,6 @@ class ScraperConfig:
                                 len([s for s in frame_scores if s > self.threshold]) >= 2
                         )
 
-                        self.logger.debug(
-                            f"GIF analysis results for {gif_path}:\n"
-                            f"Max score: {max_score:.2f}\n"
-                            f"Avg score: {avg_score:.2f}\n"
-                            f"Frames checked: {frames_checked}\n"
-                            f"NSFW frames: {len([s for s in frame_scores if s > self.threshold])}"
-                        )
-
                         return is_nsfw, max_score
 
                     except Exception as e:
@@ -767,14 +750,8 @@ class ScraperConfig:
                 return True, 1.0  # Err on side of caution
 
         def check_image(self, image_path: Path) -> Tuple[bool, float]:
-            """
-            Enhanced NSFW detection with GPU acceleration if available
-
-            Returns:
-                Tuple[bool, float]: (is_nsfw, confidence)
-            """
+            """Enhanced NSFW detection with GPU acceleration if available"""
             try:
-                # Batch process for better GPU utilization
                 detections = self.detector.detect(str(image_path))
 
                 if not detections:
@@ -795,16 +772,6 @@ class ScraperConfig:
                         significant_detections >= 2 or  # Multiple moderate detections
                         len(detections) >= 3  # Multiple body parts detected
                 )
-
-                if is_nsfw:
-                    self.logger.debug(
-                        f"NSFW content in {image_path}:\n"
-                        f"Max score: {max_score:.2f}\n"
-                        f"Avg score: {avg_score:.2f}\n"
-                        f"Significant detections: {significant_detections}\n"
-                        f"Total detections: {len(detections)}\n"
-                        f"Raw detections: {detections}"
-                    )
 
                 return is_nsfw, max_score
 
