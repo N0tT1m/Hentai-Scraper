@@ -571,7 +571,7 @@ class ScraperConfig:
     user_agent: Optional[str] = None
     filename_length: int = 8
     max_file_size: int = 50 * 1024 * 1024
-    nsfw_threshold: float = 0.6
+    nsfw_threshold: float = 0.3
     debug: bool = False
     verbose_logging: bool = False
 
@@ -629,7 +629,7 @@ class ScraperConfig:
 class NSFWDetector:
     """Handles NSFW content detection"""
 
-    def __init__(self, threshold: float = 0.6):
+    def __init__(self, threshold: float = 0.3):
         self.threshold = threshold
         self._setup_logging()
         self._setup_detector()
@@ -1364,7 +1364,7 @@ def main():
             chunk_size=8192,
             filename_length=6,
             headless=False,
-            nsfw_threshold=0.6,
+            nsfw_threshold=0.3,
         )
 
         # Log configuration
