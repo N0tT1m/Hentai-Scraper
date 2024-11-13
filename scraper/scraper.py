@@ -1,3 +1,4 @@
+import json
 import sqlite3
 
 # First, all imports
@@ -36,7 +37,7 @@ import logging
 from pathlib import Path
 from typing import List, Tuple
 import opennsfw2 as n2
-from PIL import Image
+import psutil
 import numpy as np
 from torchvision.transforms import transforms
 from tqdm import tqdm
@@ -997,60 +998,181 @@ class NSFWDetector:
             return True, 1.0
 
 
-class HentaiScraper(ABC):
-    """Abstract base class for scrapers"""
-
-    def __init__(self, config: ScraperConfig):
-        self.config = config
-        self._setup_logging()
-
-    def _setup_logging(self):
-        """Configure logging"""
-        logging.basicConfig(
-            level=logging.INFO if not self.config.verbose_logging else logging.DEBUG,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(f'{self.__class__.__name__.lower()}.log'),
-                logging.StreamHandler()
-            ]
-        )
-        self.logger = logging.getLogger(self.__class__.__name__)
-
-    @abstractmethod
-    def setup(self):
-        """Setup scraper-specific requirements"""
-        pass
-
-    @abstractmethod
-    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
-        """Process URLs specific to this scraper type"""
-        pass
+from abc import ABC, abstractmethod
+import logging
+from typing import Dict, List, Optional
+import threading
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass, field
+from threading import Lock
+from pathlib import Path
+import time
 
 
 @dataclass
 class ScraperState:
-    """Thread-safe state tracking for the scraper"""
+    """Thread-safe state tracking for scraper"""
     active_characters: Set[str] = field(default_factory=set)
     completed_characters: Set[str] = field(default_factory=set)
-    lock: Lock = field(default_factory=Lock)
-    browser_lock: Lock = field(default_factory=Lock)
+    lock: threading.Lock = field(default_factory=threading.Lock)
+    browser_lock: threading.Lock = field(default_factory=threading.Lock)
+    logger: logging.Logger = field(default=None)
+
+    def __post_init__(self):
+        """Initialize logger after creation"""
+        self.logger = logging.getLogger(__name__)
 
     def is_character_available(self, character: str) -> bool:
+        """Check if character is available for processing"""
+        self.logger.debug(f"Checking availability for {character}")
         with self.lock:
-            return character not in self.active_characters and character not in self.completed_characters
+            is_available = character not in self.active_characters and character not in self.completed_characters
+            self.logger.debug(f"{character} availability: {is_available}")
+            return is_available
 
     def start_character(self, character: str) -> bool:
-        with self.lock:
-            if self.is_character_available(character):
-                self.active_characters.add(character)
-                return True
+        """Mark character as being processed"""
+        self.logger.debug(f"Attempting to start {character}")
+        try:
+            with self.lock:
+                if character not in self.active_characters and character not in self.completed_characters:
+                    self.active_characters.add(character)
+                    self.logger.debug(f"Successfully started {character}")
+                    return True
+                self.logger.debug(f"Could not start {character} - already active or completed")
+                return False
+        except Exception as e:
+            self.logger.error(f"Error starting {character}: {str(e)}")
             return False
 
-    def complete_character(self, character: str):
-        with self.lock:
-            if character in self.active_characters:
-                self.active_characters.remove(character)
-                self.completed_characters.add(character)
+    def complete_character(self, character: str) -> None:
+        """Mark character as completed"""
+        self.logger.debug(f"Attempting to complete {character}")
+        try:
+            with self.lock:
+                if character in self.active_characters:
+                    self.active_characters.remove(character)
+                    self.completed_characters.add(character)
+                    self.logger.debug(f"Successfully completed {character}")
+        except Exception as e:
+            self.logger.error(f"Error completing {character}: {str(e)}")
+
+class HentaiScraper(ABC):
+    """Enhanced abstract base class for scrapers with threading support"""
+
+    def __init__(self, config: ScraperConfig):
+        """Initialize the scraper with configuration"""
+        self.config = config
+        self.state = ScraperState()
+        self.thread_local = threading.local()
+        self._setup_logging()
+
+    def _setup_logging(self):
+        """Configure logging with thread information"""
+        log_format = '%(asctime)s - %(threadName)s - %(name)s - %(levelname)s - %(message)s'
+        log_level = logging.DEBUG if self.config.verbose_logging else logging.INFO
+
+        # Create a unique log file for each scraper class
+        log_file = Path(f'{self.__class__.__name__.lower()}.log')
+
+        # Configure root logger
+        logging.basicConfig(
+            level=log_level,
+            format=log_format,
+            handlers=[
+                logging.FileHandler(log_file),
+                logging.StreamHandler()
+            ]
+        )
+
+        # Create logger specific to this instance
+        self.logger = logging.getLogger(self.__class__.__name__)
+
+    @abstractmethod
+    def setup(self) -> bool:
+        """
+        Setup scraper-specific requirements
+
+        Returns:
+            bool: True if setup was successful, False otherwise
+        """
+        pass
+
+    @abstractmethod
+    def process_character(self, character: str, urls: List[str], max_pages: int) -> None:
+        """
+        Process a single character's URLs
+
+        Args:
+            character (str): Character name being processed
+            urls (List[str]): List of URLs to process for this character
+            max_pages (int): Maximum number of pages to process per URL
+        """
+        pass
+
+    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380, max_workers: Optional[int] = None) -> None:
+        """
+        Process multiple URLs using thread pool
+
+        Args:
+            urls (Dict[str, List[str]]): Dictionary mapping character names to lists of URLs
+            max_pages (int): Maximum number of pages to process per URL
+            max_workers (Optional[int]): Maximum number of worker threads to use
+        """
+        if max_workers is None:
+            max_workers = min(20, len(urls))  # Default to 20 threads or number of characters if less
+
+        self.logger.info(f"Starting scraping with {max_workers} threads")
+
+        # Ensure URLs are in correct format
+        processed_urls = {
+            char: [url] if isinstance(url, str) else url
+            for char, url in urls.items()
+        }
+
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_char = {}
+
+            # Submit jobs to thread pool
+            for character, url_list in processed_urls.items():
+                if self.state.start_character(character):
+                    future = executor.submit(self.process_character, character, url_list, max_pages)
+                    future_to_char[future] = character
+
+            # Process completed jobs
+            for future in concurrent.futures.as_completed(future_to_char):
+                character = future_to_char[future]
+                try:
+                    future.result()
+                    self.logger.info(f"Completed processing for {character}")
+                except Exception as e:
+                    self.logger.error(f"Error processing {character}: {str(e)}")
+                finally:
+                    self.state.complete_character(character)
+
+        self.logger.info(f"Completed scraping {len(self.state.completed_characters)} characters")
+        self.logger.info("Completed characters: " + ", ".join(sorted(self.state.completed_characters)))
+
+    @abstractmethod
+    def cleanup(self) -> None:
+        """
+        Clean up resources used by the scraper.
+        Should be called when scraping is complete or when handling errors.
+        """
+        pass
+
+    def __enter__(self):
+        """Context manager entry"""
+        self.setup()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit"""
+        self.cleanup()
+        if exc_type is not None:
+            self.logger.error(f"Error during scraping: {exc_type.__name__}: {exc_val}")
+            return False
+        return True
 
 class GelbooruScraper(HentaiScraper):
     def __init__(self, config: ScraperConfig):
@@ -2380,40 +2502,204 @@ class URLManager:
 class ThreadedGelbooruScraper(HentaiScraper):
     def __init__(self, config: ScraperConfig):
         super().__init__(config)
+        self.logger.info("Initializing ThreadedGelbooruScraper")
         self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold)
-        self.state = ScraperState()
-        self.thread_local = threading.local()
-        self.setup()
         self.character_classifier = CharacterClassifier()
+        self.thread_local = threading.local()
+        self.state = ScraperState()
+        self.setup()
+        self.logger.info("ThreadedGelbooruScraper initialized")
+
+    def setup(self) -> bool:
+        """Implementation of abstract setup method"""
+        self.logger.info("Starting setup...")
+        try:
+            # Create base directory
+            self.config.base_save_path.mkdir(parents=True, exist_ok=True)
+
+            # Create subdirectories for organizing content
+            self.dirs = {
+                'raw': self.config.base_save_path / 'raw',
+                'processed': self.config.base_save_path / 'processed',
+                'metadata': self.config.base_save_path / 'metadata',
+                'logs': self.config.base_save_path / 'logs',
+                'temp': self.config.base_save_path / 'temp'
+            }
+
+            # Create directories
+            for dir_name, path in self.dirs.items():
+                path.mkdir(exist_ok=True)
+                self.logger.info(f"Created directory: {path}")
+
+            # Create metadata index
+            metadata_file = self.dirs['metadata'] / 'index.json'
+            if not metadata_file.exists():
+                metadata_file.write_text('{}')
+                self.logger.info("Created new metadata index")
+
+            # Validate permissions
+            for dir_path in self.dirs.values():
+                if not os.access(dir_path, os.W_OK):
+                    raise PermissionError(f"No write permission for directory: {dir_path}")
+
+            # Create status file
+            status_file = self.dirs['metadata'] / 'status.json'
+            if not status_file.exists():
+                status_content = {
+                    'last_run': None,
+                    'total_downloads': 0,
+                    'successful_downloads': 0,
+                    'failed_downloads': 0,
+                    'last_processed_url': None
+                }
+                with open(status_file, 'w') as f:
+                    json.dump(status_content, f, indent=4)
+
+            # Initialize database
+            self.db_path = self.dirs['metadata'] / 'downloads.db'
+            conn = sqlite3.connect(str(self.db_path))
+            c = conn.cursor()
+
+            # Create tables
+            c.execute('''
+                CREATE TABLE IF NOT EXISTS downloads (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    url TEXT NOT NULL UNIQUE,
+                    filename TEXT NOT NULL,
+                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    status TEXT,
+                    file_size INTEGER,
+                    md5_hash TEXT,
+                    source_page TEXT
+                )
+            ''')
+
+            c.execute('''
+                CREATE TABLE IF NOT EXISTS failed_downloads (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    url TEXT NOT NULL,
+                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    error_message TEXT,
+                    attempts INTEGER DEFAULT 1
+                )
+            ''')
+
+            conn.commit()
+            conn.close()
+
+            self.logger.info("Setup completed successfully")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"Setup failed: {str(e)}")
+            raise
+
+    def cleanup(self) -> None:
+        """Implementation of abstract cleanup method"""
+        self.logger.info("Starting cleanup...")
+        try:
+            # Close all thread-local browsers
+            if hasattr(self, 'thread_local'):
+                for thread_id, thread in threading._active.items():
+                    try:
+                        if hasattr(thread, '_thread_local'):
+                            browser = getattr(thread._thread_local, 'browser', None)
+                            if browser:
+                                browser.quit()
+                    except Exception as e:
+                        self.logger.error(f"Error cleaning up browser for thread {thread_id}: {str(e)}")
+
+            # Clean up temporary files
+            if hasattr(self, 'dirs') and 'temp' in self.dirs:
+                temp_dir = self.dirs['temp']
+                for temp_file in temp_dir.glob('*'):
+                    try:
+                        temp_file.unlink()
+                    except Exception as e:
+                        self.logger.error(f"Error removing temporary file {temp_file}: {str(e)}")
+
+            # Update status file
+            if hasattr(self, 'dirs') and 'metadata' in self.dirs:
+                status_file = self.dirs['metadata'] / 'status.json'
+                if status_file.exists():
+                    try:
+                        with open(status_file, 'r') as f:
+                            status = json.load(f)
+
+                        status['last_run'] = time.strftime('%Y-%m-%d %H:%M:%S')
+                        status['completed_characters'] = list(self.state.completed_characters)
+
+                        with open(status_file, 'w') as f:
+                            json.dump(status, f, indent=4)
+                    except Exception as e:
+                        self.logger.error(f"Error updating status file: {str(e)}")
+
+            self.logger.info("Cleanup completed successfully")
+
+        except Exception as e:
+            self.logger.error(f"Cleanup failed: {str(e)}")
+            raise
 
     def _get_thread_browser(self):
-        """Get or create a browser instance for the current thread"""
+        """Get or create a browser instance for the current thread with enhanced error handling"""
+        browser_id = id(threading.current_thread())
+        self.logger.debug(f"Getting browser for thread {threading.current_thread().name} (ID: {browser_id})")
+
         if not hasattr(self.thread_local, 'browser'):
-            with self.state.browser_lock:
-                options = webdriver.ChromeOptions()
-                if self.config.headless:
-                    options.add_argument('--headless=new')
+            try:
+                with self.state.browser_lock:
+                    self.logger.info(f"Creating new browser for thread {threading.current_thread().name}")
 
-                options.add_argument('--no-sandbox')
-                options.add_argument('--disable-dev-shm-usage')
-                options.add_argument('--disable-gpu')
-                options.add_argument('--disable-software-rasterizer')
-                options.add_argument('--disable-extensions')
-                options.add_argument('--start-maximized')
-                options.add_argument(f'user-agent={self.config.user_agent}')
+                    options = webdriver.ChromeOptions()
+                    if self.config.headless:
+                        options.add_argument('--headless=new')
 
-                service = webdriver.ChromeService()
-                self.thread_local.browser = webdriver.Chrome(service=service, options=options)
-                self.thread_local.browser.set_window_size(1920, 1080)
-                self.thread_local.browser.set_page_load_timeout(30)
+                    options.add_argument('--no-sandbox')
+                    options.add_argument('--disable-dev-shm-usage')
+                    options.add_argument('--disable-gpu')
+                    options.add_argument('--disable-software-rasterizer')
+                    options.add_argument('--disable-extensions')
+                    options.add_argument('--start-maximized')
+                    options.add_argument(f'user-agent={self.config.user_agent}')
 
-                self.logger.info(f"Created new browser for thread {threading.current_thread().name}")
+                    # Add more stability options
+                    options.add_argument('--disable-features=NetworkService')
+                    options.add_argument('--disable-features=VizDisplayCompositor')
+                    options.add_argument('--disable-dev-shm-usage')
+                    options.add_argument('--no-first-run')
+                    options.add_argument('--no-default-browser-check')
+                    options.add_argument('--disable-background-networking')
+                    options.add_argument('--disable-sync')
+                    options.add_argument('--disable-translate')
+                    options.add_argument('--hide-scrollbars')
+                    options.add_argument('--metrics-recording-only')
+                    options.add_argument('--mute-audio')
+                    options.add_argument('--no-first-run')
+                    options.add_argument('--safebrowsing-disable-auto-update')
+                    options.add_argument('--password-store=basic')
+
+                    service = webdriver.ChromeService()
+                    browser = webdriver.Chrome(service=service, options=options)
+
+                    # Set timeouts
+                    browser.set_page_load_timeout(30)
+                    browser.set_script_timeout(30)
+                    browser.implicitly_wait(10)
+
+                    self.thread_local.browser = browser
+                    self.logger.info(f"Successfully created browser for thread {threading.current_thread().name}")
+
+            except Exception as e:
+                self.logger.error(f"Failed to create browser for thread {threading.current_thread().name}: {str(e)}")
+                self.logger.exception("Full traceback:")
+                raise
 
         return self.thread_local.browser
 
     def _safe_navigate(self, url: str, max_retries=3) -> bool:
-        """Safely navigate to a URL with retries using thread-local browser"""
+        """Safely navigate to a URL with retries"""
         browser = self._get_thread_browser()
+        self.logger.debug(f"Navigating to {url}")
 
         for attempt in range(max_retries):
             try:
@@ -2438,114 +2724,29 @@ class ThreadedGelbooruScraper(HentaiScraper):
                         browser = self._get_thread_browser()
                     except Exception as e:
                         self.logger.error(f"Failed to refresh browser: {str(e)}")
+
         return False
 
-    def process_character(self, character: str, urls: List[str], max_pages: int = 380) -> None:
-        """Process a single character's URLs"""
-        try:
-            self.logger.info(f"Thread {threading.current_thread().name} starting to scrape {character}")
-            timeout_occurred = False
-
-            for base_url in urls:
-                if timeout_occurred:
-                    break
-
-                for page_num in range(max_pages):
-                    current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
-                    self.logger.info(
-                        f"Thread {threading.current_thread().name} processing {character} page {page_num + 1}")
-
-                    if not self._safe_navigate(current_url):
-                        continue
-
-                    browser = self._get_thread_browser()
-                    try:
-                        WebDriverWait(browser, 10).until(
-                            EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
-                        )
-
-                        links = WebDriverWait(browser, 10).until(
-                            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
-                        )
-
-                        image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
-                        self.logger.info(f"Found {len(image_urls)} images for {character} on page {page_num + 1}")
-
-                        for img_url in image_urls:
-                            try:
-                                full_image_url = self._expand_image(img_url)
-                                if full_image_url:
-                                    if self._download_image(full_image_url, img_url):
-                                        time.sleep(self.config.download_delay)
-                            except Exception as e:
-                                self.logger.error(f"Error processing {img_url}: {str(e)}")
-                                continue
-
-                        time.sleep(self.config.page_delay)
-
-                    except TimeoutException:
-                        self.logger.error(f"Timeout on page {page_num + 1} for {character}")
-                        timeout_occurred = True
-                        break
-
-        except Exception as e:
-            self.logger.error(f"Error processing character {character}: {str(e)}")
-        finally:
-            try:
-                if hasattr(self.thread_local, 'browser'):
-                    self.thread_local.browser.quit()
-                    delattr(self.thread_local, 'browser')
-            except Exception as e:
-                self.logger.error(f"Error closing browser for {character}: {str(e)}")
-
-            self.state.complete_character(character)
-            self.logger.info(f"Thread {threading.current_thread().name} completed scraping {character}")
-
-    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
-        """Process multiple URLs using thread pool"""
-        max_workers = min(20, len(urls))  # Use 20 threads or less if fewer characters
-        self.logger.info(f"Starting scraping with {max_workers} threads")
-
-        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-            future_to_char = {}
-
-            # Convert single URLs to lists if necessary
-            processed_urls = {
-                char: [url] if isinstance(url, str) else url
-                for char, url in urls.items()
-            }
-
-            for character, url_list in processed_urls.items():
-                if self.state.start_character(character):
-                    future = executor.submit(self.process_character, character, url_list, max_pages)
-                    future_to_char[future] = character
-
-            for future in concurrent.futures.as_completed(future_to_char):
-                character = future_to_char[future]
-                try:
-                    future.result()
-                except Exception as e:
-                    self.logger.error(f"Character {character} generated an exception: {str(e)}")
-
-        self.logger.info(f"Completed scraping {len(self.state.completed_characters)} characters")
-        self.logger.info("Completed characters: " + ", ".join(sorted(self.state.completed_characters)))
-
     def _expand_image(self, page_url: str) -> Optional[str]:
-        """Navigate to page and expand the image to get the full resolution URL using thread-local browser"""
+        """Navigate to page and expand the image to get the full resolution URL"""
         browser = self._get_thread_browser()
+        self.logger.debug(f"Expanding image from {page_url}")
 
         if not self._safe_navigate(page_url):
             return None
 
         try:
+            # Wait for the original image
             WebDriverWait(browser, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "img#image"))
             )
 
+            # Execute resize transition
             browser.execute_script("resizeTransition();")
             time.sleep(2)
 
             try:
+                # Wait for the expanded image
                 WebDriverWait(browser, 10).until(
                     lambda driver: driver.find_element(By.CSS_SELECTOR, "img#image").get_attribute("src")
                                    and "/images/" in driver.find_element(By.CSS_SELECTOR, "img#image").get_attribute(
@@ -2556,8 +2757,10 @@ class ThreadedGelbooruScraper(HentaiScraper):
                 src = image.get_attribute('src')
 
                 if not src or not '/images/' in src:
+                    self.logger.warning(f"Invalid image source: {src}")
                     return None
 
+                self.logger.debug(f"Successfully expanded image: {src}")
                 return src
 
             except Exception as wait_error:
@@ -2568,7 +2771,203 @@ class ThreadedGelbooruScraper(HentaiScraper):
             self.logger.error(f"Error expanding image on {page_url}: {str(e)}")
             return None
 
-    # Rest of your existing methods...
+    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
+        """Process multiple URLs using thread pool with batch processing"""
+        try:
+            max_workers = min(20, len(urls))
+            self.logger.info(f"Starting scraping with {max_workers} threads")
+            self.logger.info(f"Total characters to process: {len(urls)}")
+
+            # System diagnostics
+            process = psutil.Process()
+            self.logger.info(f"Current memory usage: {process.memory_info().rss / 1024 / 1024:.2f} MB")
+            self.logger.info(f"Available CPU cores: {psutil.cpu_count()}")
+            self.logger.info(f"Current thread count: {threading.active_count()}")
+            self.logger.info("Current threads: " + ", ".join([t.name for t in threading.enumerate()]))
+
+            # Create thread pool
+            self.logger.info("Creating thread pool executor...")
+            with concurrent.futures.ThreadPoolExecutor(
+                    max_workers=max_workers,
+                    thread_name_prefix="scraper"
+            ) as executor:
+                self.logger.info("Thread pool executor created")
+
+                # Process all characters in batches
+                all_items = list(urls.items())
+                total_characters = len(all_items)
+                processed_count = 0
+                batch_size = max_workers  # Process max_workers characters at a time
+
+                while processed_count < total_characters:
+                    # Get next batch of characters
+                    batch_start = processed_count
+                    batch_end = min(batch_start + batch_size, total_characters)
+                    current_batch = all_items[batch_start:batch_end]
+
+                    self.logger.info(
+                        f"Processing batch of {len(current_batch)} characters ({batch_start + 1} to {batch_end} of {total_characters})")
+
+                    # Submit batch tasks
+                    future_to_char = {}
+                    for character, url_list in current_batch:
+                        try:
+                            self.logger.info(f"Processing {character}")
+
+                            url_list = [url_list] if isinstance(url_list, str) else url_list
+                            self.logger.info(f"Submitting {character} with {len(url_list)} URLs")
+
+                            if self.state.start_character(character):
+                                self.logger.info(f"Lock acquired for {character}")
+                                future = executor.submit(self._process_character_wrapper, character, url_list,
+                                                         max_pages)
+                                future_to_char[future] = character
+                                self.logger.info(f"Task submitted for {character}")
+                            else:
+                                self.logger.warning(f"Could not acquire lock for {character} - skipping")
+
+                        except Exception as e:
+                            self.logger.error(f"Error submitting {character}: {str(e)}")
+                            self.logger.exception("Submission error traceback:")
+
+                    self.logger.info(f"Submitted {len(future_to_char)} tasks for current batch")
+
+                    # Process batch results
+                    completed_in_batch = []
+                    try:
+                        for future in concurrent.futures.as_completed(future_to_char):
+                            character = future_to_char[future]
+                            try:
+                                future.result(timeout=300)  # 5-minute timeout per character
+                                completed_in_batch.append(character)
+                                self.logger.info(
+                                    f"Completed {character} ({len(completed_in_batch)}/{len(future_to_char)} in current batch)")
+                            except concurrent.futures.TimeoutError:
+                                self.logger.error(f"Timeout processing {character}")
+                            except Exception as e:
+                                self.logger.error(f"Error processing {character}: {str(e)}")
+                                self.logger.exception("Processing error traceback:")
+                            finally:
+                                self.state.complete_character(character)
+
+                    except Exception as e:
+                        self.logger.error(f"Error processing batch results: {str(e)}")
+                        self.logger.exception("Batch processing error traceback:")
+
+                    self.logger.info(f"Completed batch of {len(completed_in_batch)} characters")
+                    processed_count += len(current_batch)
+                    self.logger.info(f"Total progress: {processed_count}/{total_characters} characters processed")
+
+                    # Log memory usage after batch
+                    self.logger.info(f"Memory usage after batch: {process.memory_info().rss / 1024 / 1024:.2f} MB")
+
+                self.logger.info(f"All batches processed. Total characters completed: {processed_count}")
+                self.logger.info(f"Completed characters: {sorted(self.state.completed_characters)}")
+
+        except Exception as e:
+            self.logger.error(f"Fatal error in process_urls: {str(e)}")
+            self.logger.exception("Fatal error traceback:")
+            raise
+        finally:
+            self.logger.info("Shutting down executor")
+            executor.shutdown(wait=False)
+            self.logger.info("Executor shutdown complete")
+
+    def _process_character_wrapper(self, character: str, urls: List[str], max_pages: int) -> None:
+        """Wrapper for process_character with enhanced error handling"""
+        thread = threading.current_thread()
+        self.logger.info(f"Thread {thread.name} starting {character}")
+
+        try:
+            result = self.process_character(character, urls, max_pages)
+            self.logger.info(f"Thread {thread.name} completed {character}")
+            return result
+        except Exception as e:
+            self.logger.error(f"Thread {thread.name} error processing {character}: {str(e)}")
+            self.logger.exception("Error traceback:")
+            raise
+
+    def process_character(self, character: str, urls: List[str], max_pages: int = 380) -> None:
+        """Process a single character's URLs with full implementation"""
+        thread = threading.current_thread()
+        self.logger.info(f"Thread {thread.name} processing {character}")
+
+        try:
+            browser = self._get_thread_browser()
+            self.logger.info(f"Browser acquired for {character}")
+
+            for url_index, base_url in enumerate(urls, 1):
+                self.logger.info(f"Processing URL {url_index}/{len(urls)} for {character}: {base_url}")
+                timeout_occurred = False
+
+                for page_num in range(max_pages):
+                    if timeout_occurred:
+                        self.logger.info(f"Timeout occurred for {character}, moving to next URL")
+                        break
+
+                    current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
+                    self.logger.info(f"Processing page {page_num + 1} for {character}: {current_url}")
+
+                    if not self._safe_navigate(current_url):
+                        self.logger.error(f"Navigation failed for {character} on page {page_num + 1}")
+                        continue
+
+                    try:
+                        # Wait for thumbnail container
+                        self.logger.debug(f"Waiting for thumbnail container on {current_url}")
+                        WebDriverWait(browser, 10).until(
+                            EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                        )
+
+                        # Find all image links
+                        self.logger.debug(f"Finding image links on {current_url}")
+                        links = WebDriverWait(browser, 10).until(
+                            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+                        )
+
+                        image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+                        self.logger.info(f"Found {len(image_urls)} images for {character} on page {page_num + 1}")
+
+                        # Process each image
+                        for img_index, img_url in enumerate(image_urls, 1):
+                            try:
+                                self.logger.debug(f"Processing image {img_index}/{len(image_urls)} from {img_url}")
+                                full_image_url = self._expand_image(img_url)
+
+                                if full_image_url:
+                                    if self._download_image(full_image_url, img_url):
+                                        self.logger.info(f"Successfully downloaded image {img_index} for {character}")
+                                    else:
+                                        self.logger.warning(f"Failed to download image {img_index} for {character}")
+                                    time.sleep(self.config.download_delay)
+
+                            except Exception as e:
+                                self.logger.error(f"Error processing image {img_url} for {character}: {str(e)}")
+                                continue
+
+                        time.sleep(self.config.page_delay)
+
+                    except TimeoutException:
+                        self.logger.error(f"Timeout on page {page_num + 1} for {character}")
+                        timeout_occurred = True
+                        break
+                    except Exception as e:
+                        self.logger.error(f"Error processing page {page_num + 1} for {character}: {str(e)}")
+                        continue
+
+        except Exception as e:
+            self.logger.error(f"Fatal error processing {character}: {str(e)}")
+            self.logger.exception("Error traceback:")
+            raise
+        finally:
+            try:
+                if hasattr(self.thread_local, 'browser'):
+                    self.logger.info(f"Cleaning up browser for {character}")
+                    self.thread_local.browser.quit()
+                    delattr(self.thread_local, 'browser')
+                    self.logger.info(f"Browser cleanup complete for {character}")
+            except Exception as e:
+                self.logger.error(f"Error cleaning up browser for {character}: {str(e)}")
 
 class DanbooruScraper(HentaiScraper):
     """Scraper specifically for Danbooru"""
@@ -10970,7 +11369,7 @@ def main():
         # danbooru_scraper.process_urls(danbooru_urls)
 
         # scraper.download_batch(urls)
-        threaded_gelbooru_scraper.process_urls(urls, max_pages=380, max_workers=24)
+        # threaded_gelbooru_scraper.process_urls(urls, max_pages=380, max_workers=4)
 
     except KeyboardInterrupt:
         logger.info("Scraping interrupted by user")

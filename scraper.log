@@ -13540,3 +13540,1132 @@ Stacktrace:
 2024-11-13 15:58:42,919 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17775fcb0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/c0936014e2e2872edbce57f20e6f2a9b
 2024-11-13 15:58:42,935 - INFO - Scraping interrupted by user
 2024-11-13 15:58:42,936 - INFO - Scraping completed
+2024-11-13 16:26:41,430 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:26:41,430 - MainThread - ERROR - Scraping failed: Can't instantiate abstract class ThreadedGelbooruScraper without an implementation for abstract methods 'cleanup', 'setup'
+2024-11-13 16:26:41,430 - MainThread - INFO - Scraping completed
+2024-11-13 16:28:05,224 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:28:05,746 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:28:05,746 - MainThread - INFO - Starting setup...
+2024-11-13 16:28:05,746 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:28:05,746 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:28:05,746 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:28:05,746 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:28:05,746 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:28:05,864 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:28:05,864 - MainThread - INFO - Starting scraping with 1 threads
+2024-11-13 16:31:40,599 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 16:31:40,599 - MainThread - INFO - Scraping completed
+2024-11-13 16:31:47,002 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:31:47,003 - MainThread - INFO - Initializing ThreadedGelbooruScraper...
+2024-11-13 16:31:47,987 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:31:47,987 - MainThread - INFO - Starting setup...
+2024-11-13 16:31:47,988 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:31:47,988 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:31:47,989 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:31:47,989 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:31:47,989 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:31:47,990 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:31:47,990 - MainThread - INFO - ThreadedGelbooruScraper initialization complete
+2024-11-13 16:31:47,990 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:31:47,990 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:31:47,990 - MainThread - INFO - Characters: robin, baby_5, nami, boa_hancock, vivi, vinsmoke_reiju, charlotte_linlin, kuina, charlotte_smoothie, shirahoshi, kouzuki_hiyori, catarina_devon, perona, charlotte_flampe, kouzuki_toki, alvida, kikunojo, vegapunk_lilith, kaya, lily, monet, wanda, rebecca, nico_olvia, nojiko, charlotte_pudding, charlotte_prim, charlotte_poire, charlotte_anana, charlotte_amande, charlotte_meukle, carrot, bellett, bellemere, vegapunk_atlas, vegapunk_york, gion, stussy, uta, isuka, tashigi, hina, kujaku, hibari, doll, viola, one_piece, marci, dark_willow, drow_ranger, mirana, crystal_maiden, dota_2, broodmother, dawnbreaker, death_prophet, enchantress, legion_commander, luna, dota_2_girls, naga_siren, phantom_assassin, queen_of_pain, snapfire, spectre, templar_assassin, vengeful_spirit, windranger, winter_wyrven, lucy, erza, wendy, juvia, levy, mirajane, lisanna, cana, evergreen, bisca, laki, kinana, mavis, meredy, ultear, yukino, minerva, kagura, milliana, flare, jenny, sherry, chelia, sorano, brandish, dimaria, irene, hisui, bulma, chi_chi, videl, pan, android_18, bulla, launch, marron, mai, ranfan, vados, caulifla, kale, ribrianne, oceanus, gine, fasha, zangya, towa, supreme_kai_of_time, arale, mikasa, annie, historia, sasha, hange, ymir, pieck, gabi, frieda, carla, dina, petra, rico, yelena, kiyomi, louise, nifa, lynne, ilse, nanaba, tsunade, sakura, hinata, tenten, temari, kushina, sarada, himawari, ino, kurenai, anko, shizune, karin, konan, mei, samui, karui, mabui, yugao, tsume, hana, natsu, yakumo, tsunami, ayame, yugito, fuu, hokuto, hanabi, moegi, sumire, chocho, mirai, wasabi, namida, nezuko, kanao, shinobu, kanae, mitsuri, daki, tamayo, makio, suma, hinatsuru, aoi, kiyo, sumi, naho, goto, amane, mukago, ruka, hinaki, nichika, nobara, maki, mei_mei, miwa, momo, yuki, rika, utahime, tsumiki, manami, saori, shoko, mimiko, nanako, faye, ed, julia, meifa, judy, alisa, katrina, yor, anya, sylvia, fiona, becky, sharon, melinda, camilla, dominic, martha, fubuki, tatsumaki, psykos, suiko, lin_lin, do_s, mosquito_girl, mizuki, shadow_ring, zenko, ahri, lux, jinx, vi, caitlyn, leona, diana, ashe, katarina, miss_fortune, akali, anivia, bel_veth, briar, cassiopeia, elise, evelynn, fiora, gwen, illaoi, irelia, janna, kai_sa, kalista, karma, kindred, leblanc, lillia, lissandra, morgana, neeko, nidalee, nilah, orianna, poppy, qiyana, rell, riven, samira, senna, seraphine, sejuani, shyvana, sivir, sona, soraka, syndra, taliyah, tristana, vayne, vex, xayah, yuumi, zeri, zoe, zyra, biscuit, palm, machi, shizuku, canary, neferpitou, komugi, pakunoda, melody, zazan, eliza, tsubone, kalluto, kikyo, alluka, cheadle, menchi, ponzu, winry, riza, olivier, izumi, maria, gracia, elicia, lan_fan, paninya, sheska, rose, catherine, martel, trisha, pinako, lust, dante, clara, uraraka, asui, yaoyorozu, jirou, hagakure, ashido, mount_lady, midnight, mirko, ryuku, nejire, mandalay, pixie_bob, ragdoll, kendo, tsunotori, komori, kodai, yanagi, tokage, melissa, inko, fuyumi, eri, nana, toga, jolyne, lisa_lisa, erina, trish, suzi_q, holly, yukako, reimi, hot_pants, yasuho, hermes, foo_fighters, ermes, gwess, mariah, midler, anne, tomoko, misty, may, dawn, serena, iris, lillie, cynthia, diantha, lusamine, sabrina, erika, whitney, jasmine, clair, flannery, winona, roxanne, gardenia, candice, fantina, elesa, skyla, korrina, valerie, olympia, mallow, lana, lanas_mother, nessa, marnie, sonia, professor_juniper, nurse_joy, officer_jenny, jessie, bonnie, rosa, miku, meiko, rin, luka, gumi, teto, neru, haku, una, ia, cul, miki, yukari, aqua, megumin, darkness, wiz, yunyun, chris, sena, wolbach, komekko, cecily, arue, claire, lean, verdia, hans, yuiyui, chisato, takina, kurumi, himegama, mika, robota
+2024-11-13 16:31:47,992 - MainThread - INFO - Processed URL format - Characters and URL counts:
+2024-11-13 16:31:47,992 - MainThread - INFO - robin: 1 URLs
+2024-11-13 16:31:47,992 - MainThread - INFO - baby_5: 1 URLs
+2024-11-13 16:31:47,995 - MainThread - INFO - nami: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - boa_hancock: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - vivi: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - vinsmoke_reiju: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - charlotte_linlin: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - kuina: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - charlotte_smoothie: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - shirahoshi: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - kouzuki_hiyori: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - catarina_devon: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - perona: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - charlotte_flampe: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - kouzuki_toki: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - alvida: 1 URLs
+2024-11-13 16:31:47,996 - MainThread - INFO - kikunojo: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - vegapunk_lilith: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - kaya: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - lily: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - monet: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - wanda: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - rebecca: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - nico_olvia: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - nojiko: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - charlotte_pudding: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - charlotte_prim: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - charlotte_poire: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - charlotte_anana: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - charlotte_amande: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - charlotte_meukle: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - carrot: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - bellett: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - bellemere: 1 URLs
+2024-11-13 16:31:47,997 - MainThread - INFO - vegapunk_atlas: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - vegapunk_york: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - gion: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - stussy: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - uta: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - isuka: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - tashigi: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - hina: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - kujaku: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - hibari: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - doll: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - viola: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - one_piece: 1 URLs
+2024-11-13 16:31:47,998 - MainThread - INFO - marci: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - dark_willow: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - drow_ranger: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - mirana: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - crystal_maiden: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - dota_2: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - broodmother: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - dawnbreaker: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - death_prophet: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - enchantress: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - legion_commander: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - luna: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - dota_2_girls: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - naga_siren: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - phantom_assassin: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - queen_of_pain: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - snapfire: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - spectre: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - templar_assassin: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - vengeful_spirit: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - windranger: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - winter_wyrven: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - lucy: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - erza: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - wendy: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - juvia: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - levy: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - mirajane: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - lisanna: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - cana: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - evergreen: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - bisca: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - laki: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - kinana: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - mavis: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - meredy: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - ultear: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - yukino: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - minerva: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - kagura: 1 URLs
+2024-11-13 16:31:47,999 - MainThread - INFO - milliana: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - flare: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - jenny: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - sherry: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - chelia: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - sorano: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - brandish: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - dimaria: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - irene: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - hisui: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - bulma: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - chi_chi: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - videl: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - pan: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - android_18: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - bulla: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - launch: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - marron: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - mai: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - ranfan: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - vados: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - caulifla: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - kale: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - ribrianne: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - oceanus: 1 URLs
+2024-11-13 16:31:48,000 - MainThread - INFO - gine: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - fasha: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - zangya: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - towa: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - supreme_kai_of_time: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - arale: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - mikasa: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - annie: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - historia: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - sasha: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - hange: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - ymir: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - pieck: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - gabi: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - frieda: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - carla: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - dina: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - petra: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - rico: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - yelena: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - kiyomi: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - louise: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - nifa: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - lynne: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - ilse: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - nanaba: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - tsunade: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - sakura: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - hinata: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - tenten: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - temari: 1 URLs
+2024-11-13 16:31:48,001 - MainThread - INFO - kushina: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - sarada: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - himawari: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - ino: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - kurenai: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - anko: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - shizune: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - karin: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - konan: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - mei: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - samui: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - karui: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - mabui: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - yugao: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - tsume: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - hana: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - natsu: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - yakumo: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - tsunami: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - ayame: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - yugito: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - fuu: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - hokuto: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - hanabi: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - moegi: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - sumire: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - chocho: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - mirai: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - wasabi: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - namida: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - nezuko: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - kanao: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - shinobu: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - kanae: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - mitsuri: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - daki: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - tamayo: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - makio: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - suma: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - hinatsuru: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - aoi: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - kiyo: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - sumi: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - naho: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - goto: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - amane: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - mukago: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - ruka: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - hinaki: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - nichika: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - nobara: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - maki: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - mei_mei: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - miwa: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - momo: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - yuki: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - rika: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - utahime: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - tsumiki: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - manami: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - saori: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - shoko: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - mimiko: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - nanako: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - faye: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - ed: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - julia: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - meifa: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - judy: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - alisa: 1 URLs
+2024-11-13 16:31:48,002 - MainThread - INFO - katrina: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - yor: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - anya: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - sylvia: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - fiona: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - becky: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - sharon: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - melinda: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - camilla: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - dominic: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - martha: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - fubuki: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - tatsumaki: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - psykos: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - suiko: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - lin_lin: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - do_s: 1 URLs
+2024-11-13 16:31:48,003 - MainThread - INFO - mosquito_girl: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - mizuki: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - shadow_ring: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - zenko: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - ahri: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - lux: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - jinx: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - vi: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - caitlyn: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - leona: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - diana: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - ashe: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - katarina: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - miss_fortune: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - akali: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - anivia: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - bel_veth: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - briar: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - cassiopeia: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - elise: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - evelynn: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - fiora: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - gwen: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - illaoi: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - irelia: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - janna: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - kai_sa: 1 URLs
+2024-11-13 16:31:48,004 - MainThread - INFO - kalista: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - karma: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - kindred: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - leblanc: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - lillia: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - lissandra: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - morgana: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - neeko: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - nidalee: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - nilah: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - orianna: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - poppy: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - qiyana: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - rell: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - riven: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - samira: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - senna: 1 URLs
+2024-11-13 16:31:48,005 - MainThread - INFO - seraphine: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - sejuani: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - shyvana: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - sivir: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - sona: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - soraka: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - syndra: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - taliyah: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - tristana: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - vayne: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - vex: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - xayah: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - yuumi: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - zeri: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - zoe: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - zyra: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - biscuit: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - palm: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - machi: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - shizuku: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - canary: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - neferpitou: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - komugi: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - pakunoda: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - melody: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - zazan: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - eliza: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - tsubone: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - kalluto: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - kikyo: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - alluka: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - cheadle: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - menchi: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - ponzu: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - winry: 1 URLs
+2024-11-13 16:31:48,006 - MainThread - INFO - riza: 1 URLs
+2024-11-13 16:31:48,007 - MainThread - INFO - olivier: 1 URLs
+2024-11-13 16:31:48,007 - MainThread - INFO - izumi: 1 URLs
+2024-11-13 16:31:48,007 - MainThread - INFO - maria: 1 URLs
+2024-11-13 16:31:48,007 - MainThread - INFO - gracia: 1 URLs
+2024-11-13 16:31:48,007 - MainThread - INFO - elicia: 1 URLs
+2024-11-13 16:31:48,007 - MainThread - INFO - lan_fan: 1 URLs
+2024-11-13 16:31:48,007 - MainThread - INFO - paninya: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - sheska: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - rose: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - catherine: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - martel: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - trisha: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - pinako: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - lust: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - dante: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - clara: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - uraraka: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - asui: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - yaoyorozu: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - jirou: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - hagakure: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - ashido: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - mount_lady: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - midnight: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - mirko: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - ryuku: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - nejire: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - mandalay: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - pixie_bob: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - ragdoll: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - kendo: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - tsunotori: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - komori: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - kodai: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - yanagi: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - tokage: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - melissa: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - inko: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - fuyumi: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - eri: 1 URLs
+2024-11-13 16:31:48,008 - MainThread - INFO - nana: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - toga: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - jolyne: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - lisa_lisa: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - erina: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - trish: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - suzi_q: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - holly: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - yukako: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - reimi: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - hot_pants: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - yasuho: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - hermes: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - foo_fighters: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - ermes: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - gwess: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - mariah: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - midler: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - anne: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - tomoko: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - misty: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - may: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - dawn: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - serena: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - iris: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - lillie: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - cynthia: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - diantha: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - lusamine: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - sabrina: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - erika: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - whitney: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - jasmine: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - clair: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - flannery: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - winona: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - roxanne: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - gardenia: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - candice: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - fantina: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - elesa: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - skyla: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - korrina: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - valerie: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - olympia: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - mallow: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - lana: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - lanas_mother: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - nessa: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - marnie: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - sonia: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - professor_juniper: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - nurse_joy: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - officer_jenny: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - jessie: 1 URLs
+2024-11-13 16:31:48,009 - MainThread - INFO - bonnie: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - rosa: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - miku: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - meiko: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - rin: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - luka: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - gumi: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - teto: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - neru: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - haku: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - una: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - ia: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - cul: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - miki: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - yukari: 1 URLs
+2024-11-13 16:31:48,010 - MainThread - INFO - aqua: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - megumin: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - darkness: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - wiz: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - yunyun: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - chris: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - sena: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - wolbach: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - komekko: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - cecily: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - arue: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - claire: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - lean: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - verdia: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - hans: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - yuiyui: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - chisato: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - takina: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - kurumi: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - himegama: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - mika: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - robota: 1 URLs
+2024-11-13 16:31:48,011 - MainThread - INFO - Thread pool executor created
+2024-11-13 16:31:48,011 - MainThread - INFO - Attempting to start character: robin
+2024-11-13 16:35:11,886 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 16:35:11,886 - MainThread - INFO - Scraping completed
+2024-11-13 16:35:18,212 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:35:18,212 - MainThread - INFO - Initializing ThreadedGelbooruScraper...
+2024-11-13 16:35:18,853 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:35:18,853 - MainThread - INFO - Starting setup...
+2024-11-13 16:35:18,853 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:35:18,853 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:35:18,853 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:35:18,853 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:35:18,853 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:35:18,854 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:35:18,854 - MainThread - INFO - ThreadedGelbooruScraper initialization complete
+2024-11-13 16:35:18,854 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:35:18,854 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:35:18,854 - MainThread - ERROR - Scraping failed: No module named 'psutil'
+2024-11-13 16:35:18,854 - MainThread - INFO - Scraping completed
+2024-11-13 16:35:35,004 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:35:35,004 - MainThread - INFO - Initializing ThreadedGelbooruScraper...
+2024-11-13 16:35:35,684 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:35:35,684 - MainThread - INFO - Starting setup...
+2024-11-13 16:35:35,685 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:35:35,685 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:35:35,685 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:35:35,685 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:35:35,685 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:35:35,685 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:35:35,685 - MainThread - INFO - ThreadedGelbooruScraper initialization complete
+2024-11-13 16:35:35,685 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:35:35,685 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:35:35,685 - MainThread - INFO - Current memory usage: 653.28 MB
+2024-11-13 16:35:35,685 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 16:35:35,686 - MainThread - INFO - Thread pool executor created
+2024-11-13 16:35:35,686 - MainThread - INFO - Attempting to start character: robin
+2024-11-13 16:35:48,917 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 16:35:48,917 - MainThread - INFO - Scraping completed
+2024-11-13 16:36:09,370 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:36:09,370 - MainThread - INFO - Initializing ThreadedGelbooruScraper...
+2024-11-13 16:36:10,031 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:36:10,031 - MainThread - INFO - Starting setup...
+2024-11-13 16:36:10,031 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:36:10,031 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:36:10,031 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:36:10,031 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:36:10,031 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:36:10,032 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:36:10,032 - MainThread - INFO - ThreadedGelbooruScraper initialization complete
+2024-11-13 16:36:10,032 - MainThread - INFO - Starting scraping with 4 threads
+2024-11-13 16:36:10,032 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:36:10,032 - MainThread - INFO - Current memory usage: 657.12 MB
+2024-11-13 16:36:10,032 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 16:36:10,032 - MainThread - INFO - Thread pool executor created
+2024-11-13 16:36:10,032 - MainThread - INFO - Attempting to start character: robin
+2024-11-13 16:38:33,507 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 16:38:33,507 - MainThread - INFO - Scraping completed
+2024-11-13 16:38:40,160 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:38:40,160 - MainThread - INFO - Initializing ThreadedGelbooruScraper...
+2024-11-13 16:38:40,881 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:38:40,881 - MainThread - INFO - Starting setup...
+2024-11-13 16:38:40,881 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:38:40,881 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:38:40,881 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:38:40,881 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:38:40,881 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:38:40,882 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:38:40,882 - MainThread - INFO - ThreadedGelbooruScraper initialization complete
+2024-11-13 16:38:40,882 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:38:40,882 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:38:40,882 - MainThread - ERROR - Fatal error in process_urls: name 'psutil' is not defined
+2024-11-13 16:38:40,882 - MainThread - ERROR - Fatal error traceback:
+Traceback (most recent call last):
+  File "/Volumes/ExternalHD/workspace/python/hentai-scraper/scraper/scraper.py", line 2775, in process_urls
+    process = psutil.Process()
+              ^^^^^^
+NameError: name 'psutil' is not defined
+2024-11-13 16:38:40,887 - MainThread - ERROR - Scraping failed: name 'psutil' is not defined
+2024-11-13 16:38:40,888 - MainThread - INFO - Scraping completed
+2024-11-13 16:39:08,602 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:39:08,603 - MainThread - INFO - Initializing ThreadedGelbooruScraper...
+2024-11-13 16:39:09,345 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:39:09,345 - MainThread - INFO - Starting setup...
+2024-11-13 16:39:09,346 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:39:09,346 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:39:09,346 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:39:09,346 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:39:09,346 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:39:09,346 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:39:09,346 - MainThread - INFO - ThreadedGelbooruScraper initialization complete
+2024-11-13 16:39:09,346 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:39:09,346 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:39:09,346 - MainThread - INFO - Current memory usage: 650.66 MB
+2024-11-13 16:39:09,349 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 16:39:09,349 - MainThread - INFO - Current thread count: 1
+2024-11-13 16:39:09,350 - MainThread - INFO - Current threads: MainThread
+2024-11-13 16:39:09,350 - MainThread - INFO - Processing URLs into batches...
+2024-11-13 16:39:09,351 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 16:39:09,351 - MainThread - INFO - Thread pool executor created successfully
+2024-11-13 16:39:09,351 - MainThread - INFO - Starting character submission to thread pool...
+2024-11-13 16:39:09,351 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 16:39:09,351 - MainThread - INFO - Preparing to submit robin...
+2024-11-13 16:40:28,315 - MainThread - INFO - Shutting down thread pool...
+2024-11-13 16:40:28,315 - MainThread - INFO - Thread pool shutdown complete
+2024-11-13 16:40:28,315 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 16:40:28,315 - MainThread - INFO - Scraping completed
+2024-11-13 16:40:35,925 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:40:36,556 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:40:36,556 - MainThread - INFO - Starting setup...
+2024-11-13 16:40:36,557 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:40:36,557 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:40:36,557 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:40:36,557 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:40:36,557 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:40:36,596 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:40:36,597 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:41:22,469 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 16:41:22,469 - MainThread - INFO - Scraping completed
+2024-11-13 16:41:30,079 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:41:30,756 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:41:30,756 - MainThread - INFO - Starting setup...
+2024-11-13 16:41:30,756 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:41:30,756 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:41:30,756 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:41:30,757 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:41:30,757 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:41:30,757 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:41:30,757 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:41:30,757 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:41:30,757 - MainThread - INFO - Current memory usage: 652.03 MB
+2024-11-13 16:41:30,757 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 16:41:30,757 - MainThread - INFO - Current thread count: 1
+2024-11-13 16:41:30,757 - MainThread - INFO - Current threads: MainThread
+2024-11-13 16:41:30,758 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 16:41:30,758 - MainThread - INFO - Thread pool executor created successfully
+2024-11-13 16:41:30,758 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 16:41:30,758 - MainThread - INFO - Starting submission process for robin
+2024-11-13 16:41:30,758 - MainThread - INFO - Checking if robin is available
+2024-11-13 16:41:30,758 - MainThread - INFO - Attempting to acquire lock for robin
+2024-11-13 16:45:29,514 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 16:45:29,515 - MainThread - INFO - Scraping completed
+2024-11-13 16:45:36,297 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:45:36,297 - MainThread - INFO - Initializing ThreadedGelbooruScraper
+2024-11-13 16:45:36,979 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:45:36,979 - MainThread - INFO - Starting setup...
+2024-11-13 16:45:36,980 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:45:36,980 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:45:36,980 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:45:36,980 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:45:36,980 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:45:36,980 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:45:36,980 - MainThread - INFO - ThreadedGelbooruScraper initialized
+2024-11-13 16:45:36,980 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:45:36,980 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:45:36,980 - MainThread - INFO - Current memory usage: 653.38 MB
+2024-11-13 16:45:36,980 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 16:45:36,980 - MainThread - INFO - Current thread count: 1
+2024-11-13 16:45:36,980 - MainThread - INFO - Current threads: MainThread
+2024-11-13 16:45:36,980 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 16:45:36,980 - MainThread - INFO - Thread pool executor created
+2024-11-13 16:45:36,981 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 16:45:36,981 - MainThread - INFO - Processing robin
+2024-11-13 16:45:36,981 - MainThread - INFO - Submitting robin with 1 URLs
+2024-11-13 16:45:36,981 - MainThread - INFO - Lock acquired for robin
+2024-11-13 16:45:36,981 - scraper_0 - INFO - Thread scraper_0 starting robin
+2024-11-13 16:45:36,981 - scraper_0 - INFO - Thread scraper_0 processing robin
+2024-11-13 16:45:36,981 - scraper_0 - INFO - Creating new browser for thread scraper_0
+2024-11-13 16:45:36,995 - MainThread - INFO - Task submitted for robin
+2024-11-13 16:45:36,995 - MainThread - INFO - Processing baby_5
+2024-11-13 16:45:36,995 - MainThread - INFO - Submitting baby_5 with 1 URLs
+2024-11-13 16:45:36,995 - MainThread - INFO - Lock acquired for baby_5
+2024-11-13 16:45:37,005 - scraper_1 - INFO - Thread scraper_1 starting baby_5
+2024-11-13 16:45:37,005 - scraper_1 - INFO - Thread scraper_1 processing baby_5
+2024-11-13 16:45:37,005 - MainThread - INFO - Task submitted for baby_5
+2024-11-13 16:45:37,005 - MainThread - INFO - Processing nami
+2024-11-13 16:45:37,005 - MainThread - INFO - Submitting nami with 1 URLs
+2024-11-13 16:45:37,005 - MainThread - INFO - Lock acquired for nami
+2024-11-13 16:45:37,006 - scraper_2 - INFO - Thread scraper_2 starting nami
+2024-11-13 16:45:37,006 - MainThread - INFO - Task submitted for nami
+2024-11-13 16:45:37,006 - MainThread - INFO - Processing boa_hancock
+2024-11-13 16:45:37,006 - MainThread - INFO - Submitting boa_hancock with 1 URLs
+2024-11-13 16:45:37,006 - MainThread - INFO - Lock acquired for boa_hancock
+2024-11-13 16:45:37,006 - scraper_2 - INFO - Thread scraper_2 processing nami
+2024-11-13 16:45:37,007 - scraper_3 - INFO - Thread scraper_3 starting boa_hancock
+2024-11-13 16:45:37,007 - scraper_3 - INFO - Thread scraper_3 processing boa_hancock
+2024-11-13 16:45:37,007 - MainThread - INFO - Task submitted for boa_hancock
+2024-11-13 16:45:37,008 - MainThread - INFO - Submitted 4 tasks
+2024-11-13 16:45:38,839 - scraper_0 - INFO - Successfully created browser for thread scraper_0
+2024-11-13 16:45:38,840 - scraper_0 - INFO - Browser acquired for robin
+2024-11-13 16:45:38,840 - scraper_1 - INFO - Creating new browser for thread scraper_1
+2024-11-13 16:45:38,840 - scraper_0 - INFO - Cleanup for robin
+2024-11-13 16:45:38,840 - scraper_0 - INFO - Closing browser for robin
+2024-11-13 16:45:38,917 - scraper_0 - INFO - Browser closed for robin
+2024-11-13 16:45:38,919 - scraper_0 - INFO - Thread scraper_0 completed robin
+2024-11-13 16:45:38,919 - MainThread - INFO - Completed processing robin
+2024-11-13 16:45:39,679 - scraper_1 - INFO - Successfully created browser for thread scraper_1
+2024-11-13 16:45:39,680 - scraper_1 - INFO - Browser acquired for baby_5
+2024-11-13 16:45:39,680 - scraper_1 - INFO - Cleanup for baby_5
+2024-11-13 16:45:39,680 - scraper_1 - INFO - Closing browser for baby_5
+2024-11-13 16:45:39,680 - scraper_2 - INFO - Creating new browser for thread scraper_2
+2024-11-13 16:45:39,764 - scraper_1 - INFO - Browser closed for baby_5
+2024-11-13 16:45:39,766 - scraper_1 - INFO - Thread scraper_1 completed baby_5
+2024-11-13 16:45:39,767 - MainThread - INFO - Completed processing baby_5
+2024-11-13 16:45:40,487 - scraper_2 - INFO - Successfully created browser for thread scraper_2
+2024-11-13 16:45:40,487 - scraper_2 - INFO - Browser acquired for nami
+2024-11-13 16:45:40,487 - scraper_2 - INFO - Cleanup for nami
+2024-11-13 16:45:40,487 - scraper_2 - INFO - Closing browser for nami
+2024-11-13 16:45:40,489 - scraper_3 - INFO - Creating new browser for thread scraper_3
+2024-11-13 16:45:40,573 - scraper_2 - INFO - Browser closed for nami
+2024-11-13 16:45:40,574 - scraper_2 - INFO - Thread scraper_2 completed nami
+2024-11-13 16:45:40,575 - MainThread - INFO - Completed processing nami
+2024-11-13 16:45:41,258 - scraper_3 - INFO - Successfully created browser for thread scraper_3
+2024-11-13 16:45:41,258 - scraper_3 - INFO - Browser acquired for boa_hancock
+2024-11-13 16:45:41,258 - scraper_3 - INFO - Cleanup for boa_hancock
+2024-11-13 16:45:41,258 - scraper_3 - INFO - Closing browser for boa_hancock
+2024-11-13 16:45:41,337 - scraper_3 - INFO - Browser closed for boa_hancock
+2024-11-13 16:45:41,338 - scraper_3 - INFO - Thread scraper_3 completed boa_hancock
+2024-11-13 16:45:41,340 - MainThread - INFO - Completed processing boa_hancock
+2024-11-13 16:45:41,340 - MainThread - INFO - Shutting down executor
+2024-11-13 16:45:41,340 - MainThread - INFO - Executor shutdown complete
+2024-11-13 16:45:41,340 - MainThread - ERROR - Scraping failed: ThreadedGelbooruScraper.process_urls() got an unexpected keyword argument 'max_workers'
+2024-11-13 16:45:41,340 - MainThread - INFO - Scraping completed
+2024-11-13 16:46:03,920 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:46:03,920 - MainThread - INFO - Initializing ThreadedGelbooruScraper
+2024-11-13 16:46:04,600 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:46:04,600 - MainThread - INFO - Starting setup...
+2024-11-13 16:46:04,600 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:46:04,600 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:46:04,600 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:46:04,600 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:46:04,600 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:46:04,701 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:46:04,701 - MainThread - INFO - ThreadedGelbooruScraper initialized
+2024-11-13 16:46:04,701 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:46:04,701 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:46:04,701 - MainThread - INFO - Current memory usage: 650.33 MB
+2024-11-13 16:46:04,701 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 16:46:04,701 - MainThread - INFO - Current thread count: 1
+2024-11-13 16:46:04,701 - MainThread - INFO - Current threads: MainThread
+2024-11-13 16:46:04,701 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 16:46:04,702 - MainThread - INFO - Thread pool executor created
+2024-11-13 16:46:04,702 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 16:46:04,702 - MainThread - INFO - Processing robin
+2024-11-13 16:46:04,702 - MainThread - INFO - Submitting robin with 1 URLs
+2024-11-13 16:46:04,702 - MainThread - INFO - Lock acquired for robin
+2024-11-13 16:46:04,702 - scraper_0 - INFO - Thread scraper_0 starting robin
+2024-11-13 16:46:04,702 - MainThread - INFO - Task submitted for robin
+2024-11-13 16:46:04,702 - scraper_0 - INFO - Thread scraper_0 processing robin
+2024-11-13 16:46:04,702 - MainThread - INFO - Processing baby_5
+2024-11-13 16:46:04,702 - scraper_0 - INFO - Creating new browser for thread scraper_0
+2024-11-13 16:46:04,702 - MainThread - INFO - Submitting baby_5 with 1 URLs
+2024-11-13 16:46:04,703 - MainThread - INFO - Lock acquired for baby_5
+2024-11-13 16:46:04,703 - scraper_1 - INFO - Thread scraper_1 starting baby_5
+2024-11-13 16:46:04,703 - scraper_1 - INFO - Thread scraper_1 processing baby_5
+2024-11-13 16:46:04,703 - MainThread - INFO - Task submitted for baby_5
+2024-11-13 16:46:04,715 - MainThread - INFO - Processing nami
+2024-11-13 16:46:04,716 - MainThread - INFO - Submitting nami with 1 URLs
+2024-11-13 16:46:04,716 - MainThread - INFO - Lock acquired for nami
+2024-11-13 16:46:04,717 - scraper_2 - INFO - Thread scraper_2 starting nami
+2024-11-13 16:46:04,717 - scraper_2 - INFO - Thread scraper_2 processing nami
+2024-11-13 16:46:04,717 - MainThread - INFO - Task submitted for nami
+2024-11-13 16:46:04,717 - MainThread - INFO - Processing boa_hancock
+2024-11-13 16:46:04,717 - MainThread - INFO - Submitting boa_hancock with 1 URLs
+2024-11-13 16:46:04,718 - MainThread - INFO - Lock acquired for boa_hancock
+2024-11-13 16:46:04,718 - scraper_3 - INFO - Thread scraper_3 starting boa_hancock
+2024-11-13 16:46:04,718 - scraper_3 - INFO - Thread scraper_3 processing boa_hancock
+2024-11-13 16:46:04,718 - MainThread - INFO - Task submitted for boa_hancock
+2024-11-13 16:46:04,718 - MainThread - INFO - Submitted 4 tasks
+2024-11-13 16:46:05,554 - scraper_0 - INFO - Successfully created browser for thread scraper_0
+2024-11-13 16:46:05,554 - scraper_0 - INFO - Browser acquired for robin
+2024-11-13 16:46:05,554 - scraper_0 - INFO - Cleanup for robin
+2024-11-13 16:46:05,554 - scraper_0 - INFO - Closing browser for robin
+2024-11-13 16:46:05,555 - scraper_1 - INFO - Creating new browser for thread scraper_1
+2024-11-13 16:46:05,626 - scraper_0 - INFO - Browser closed for robin
+2024-11-13 16:46:05,627 - scraper_0 - INFO - Thread scraper_0 completed robin
+2024-11-13 16:46:05,628 - MainThread - INFO - Completed processing robin
+2024-11-13 16:46:06,345 - scraper_1 - INFO - Successfully created browser for thread scraper_1
+2024-11-13 16:46:06,345 - scraper_1 - INFO - Browser acquired for baby_5
+2024-11-13 16:46:06,345 - scraper_1 - INFO - Cleanup for baby_5
+2024-11-13 16:46:06,345 - scraper_1 - INFO - Closing browser for baby_5
+2024-11-13 16:46:06,346 - scraper_2 - INFO - Creating new browser for thread scraper_2
+2024-11-13 16:46:06,419 - scraper_1 - INFO - Browser closed for baby_5
+2024-11-13 16:46:06,420 - scraper_1 - INFO - Thread scraper_1 completed baby_5
+2024-11-13 16:46:06,421 - MainThread - INFO - Completed processing baby_5
+2024-11-13 16:46:07,031 - scraper_2 - INFO - Successfully created browser for thread scraper_2
+2024-11-13 16:46:07,031 - scraper_2 - INFO - Browser acquired for nami
+2024-11-13 16:46:07,031 - scraper_2 - INFO - Cleanup for nami
+2024-11-13 16:46:07,031 - scraper_2 - INFO - Closing browser for nami
+2024-11-13 16:46:07,032 - scraper_3 - INFO - Creating new browser for thread scraper_3
+2024-11-13 16:46:07,119 - scraper_2 - INFO - Browser closed for nami
+2024-11-13 16:46:07,120 - scraper_2 - INFO - Thread scraper_2 completed nami
+2024-11-13 16:46:07,121 - MainThread - INFO - Completed processing nami
+2024-11-13 16:46:07,831 - scraper_3 - INFO - Successfully created browser for thread scraper_3
+2024-11-13 16:46:07,831 - scraper_3 - INFO - Browser acquired for boa_hancock
+2024-11-13 16:46:07,831 - scraper_3 - INFO - Cleanup for boa_hancock
+2024-11-13 16:46:07,831 - scraper_3 - INFO - Closing browser for boa_hancock
+2024-11-13 16:46:07,904 - scraper_3 - INFO - Browser closed for boa_hancock
+2024-11-13 16:46:07,911 - scraper_3 - INFO - Thread scraper_3 completed boa_hancock
+2024-11-13 16:46:07,915 - MainThread - INFO - Completed processing boa_hancock
+2024-11-13 16:46:07,915 - MainThread - INFO - Shutting down executor
+2024-11-13 16:46:07,915 - MainThread - INFO - Executor shutdown complete
+2024-11-13 16:46:07,915 - MainThread - ERROR - Scraping failed: ThreadedGelbooruScraper.process_urls() got an unexpected keyword argument 'max_workers'
+2024-11-13 16:46:07,915 - MainThread - INFO - Scraping completed
+2024-11-13 16:46:39,776 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:46:39,776 - MainThread - INFO - Initializing ThreadedGelbooruScraper
+2024-11-13 16:46:40,500 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:46:40,500 - MainThread - INFO - Starting setup...
+2024-11-13 16:46:40,501 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:46:40,501 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:46:40,501 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:46:40,501 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:46:40,501 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:46:40,501 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:46:40,501 - MainThread - INFO - ThreadedGelbooruScraper initialized
+2024-11-13 16:46:40,501 - MainThread - ERROR - Scraping failed: ThreadedGelbooruScraper.process_urls() got an unexpected keyword argument 'max_workers'
+2024-11-13 16:46:40,501 - MainThread - INFO - Scraping completed
+2024-11-13 16:47:20,549 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:47:20,549 - MainThread - INFO - Initializing ThreadedGelbooruScraper
+2024-11-13 16:47:21,078 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:47:21,078 - MainThread - INFO - Starting setup...
+2024-11-13 16:47:21,078 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:47:21,078 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:47:21,078 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:47:21,078 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:47:21,078 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:47:21,079 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:47:21,079 - MainThread - INFO - ThreadedGelbooruScraper initialized
+2024-11-13 16:47:21,079 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:47:21,079 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:47:21,079 - MainThread - INFO - Current memory usage: 643.06 MB
+2024-11-13 16:47:21,079 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 16:47:21,079 - MainThread - INFO - Current thread count: 1
+2024-11-13 16:47:21,079 - MainThread - INFO - Current threads: MainThread
+2024-11-13 16:47:21,079 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 16:47:21,079 - MainThread - INFO - Thread pool executor created
+2024-11-13 16:47:21,079 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 16:47:21,079 - MainThread - INFO - Processing robin
+2024-11-13 16:47:21,079 - MainThread - INFO - Submitting robin with 1 URLs
+2024-11-13 16:47:21,079 - MainThread - INFO - Lock acquired for robin
+2024-11-13 16:47:21,079 - scraper_0 - INFO - Thread scraper_0 starting robin
+2024-11-13 16:47:21,080 - scraper_0 - INFO - Thread scraper_0 processing robin
+2024-11-13 16:47:21,080 - scraper_0 - INFO - Creating new browser for thread scraper_0
+2024-11-13 16:47:21,080 - MainThread - INFO - Task submitted for robin
+2024-11-13 16:47:21,080 - MainThread - INFO - Processing baby_5
+2024-11-13 16:47:21,080 - MainThread - INFO - Submitting baby_5 with 1 URLs
+2024-11-13 16:47:21,080 - MainThread - INFO - Lock acquired for baby_5
+2024-11-13 16:47:21,080 - scraper_1 - INFO - Thread scraper_1 starting baby_5
+2024-11-13 16:47:21,080 - scraper_1 - INFO - Thread scraper_1 processing baby_5
+2024-11-13 16:47:21,092 - MainThread - INFO - Task submitted for baby_5
+2024-11-13 16:47:21,093 - MainThread - INFO - Processing nami
+2024-11-13 16:47:21,093 - MainThread - INFO - Submitting nami with 1 URLs
+2024-11-13 16:47:21,093 - MainThread - INFO - Lock acquired for nami
+2024-11-13 16:47:21,093 - scraper_2 - INFO - Thread scraper_2 starting nami
+2024-11-13 16:47:21,093 - scraper_2 - INFO - Thread scraper_2 processing nami
+2024-11-13 16:47:21,093 - MainThread - INFO - Task submitted for nami
+2024-11-13 16:47:21,094 - MainThread - INFO - Processing boa_hancock
+2024-11-13 16:47:21,094 - MainThread - INFO - Submitting boa_hancock with 1 URLs
+2024-11-13 16:47:21,094 - MainThread - INFO - Lock acquired for boa_hancock
+2024-11-13 16:47:21,095 - scraper_3 - INFO - Thread scraper_3 starting boa_hancock
+2024-11-13 16:47:21,095 - scraper_3 - INFO - Thread scraper_3 processing boa_hancock
+2024-11-13 16:47:21,095 - MainThread - INFO - Task submitted for boa_hancock
+2024-11-13 16:47:21,095 - MainThread - INFO - Submitted 4 tasks
+2024-11-13 16:47:21,841 - scraper_0 - INFO - Successfully created browser for thread scraper_0
+2024-11-13 16:47:21,841 - scraper_0 - INFO - Browser acquired for robin
+2024-11-13 16:47:21,841 - scraper_1 - INFO - Creating new browser for thread scraper_1
+2024-11-13 16:47:21,842 - scraper_0 - INFO - Cleanup for robin
+2024-11-13 16:47:21,843 - scraper_0 - INFO - Closing browser for robin
+2024-11-13 16:47:21,927 - scraper_0 - INFO - Browser closed for robin
+2024-11-13 16:47:21,929 - scraper_0 - INFO - Thread scraper_0 completed robin
+2024-11-13 16:47:21,929 - MainThread - INFO - Completed processing robin
+2024-11-13 16:47:22,427 - scraper_1 - INFO - Successfully created browser for thread scraper_1
+2024-11-13 16:47:22,427 - scraper_1 - INFO - Browser acquired for baby_5
+2024-11-13 16:47:22,427 - scraper_1 - INFO - Cleanup for baby_5
+2024-11-13 16:47:22,427 - scraper_1 - INFO - Closing browser for baby_5
+2024-11-13 16:47:22,427 - scraper_2 - INFO - Creating new browser for thread scraper_2
+2024-11-13 16:47:22,500 - scraper_1 - INFO - Browser closed for baby_5
+2024-11-13 16:47:22,502 - scraper_1 - INFO - Thread scraper_1 completed baby_5
+2024-11-13 16:47:22,502 - MainThread - INFO - Completed processing baby_5
+2024-11-13 16:47:23,008 - scraper_2 - INFO - Successfully created browser for thread scraper_2
+2024-11-13 16:47:23,009 - scraper_2 - INFO - Browser acquired for nami
+2024-11-13 16:47:23,009 - scraper_3 - INFO - Creating new browser for thread scraper_3
+2024-11-13 16:47:23,009 - scraper_2 - INFO - Cleanup for nami
+2024-11-13 16:47:23,009 - scraper_2 - INFO - Closing browser for nami
+2024-11-13 16:47:23,091 - scraper_2 - INFO - Browser closed for nami
+2024-11-13 16:47:23,092 - scraper_2 - INFO - Thread scraper_2 completed nami
+2024-11-13 16:47:23,092 - MainThread - INFO - Completed processing nami
+2024-11-13 16:47:23,589 - scraper_3 - INFO - Successfully created browser for thread scraper_3
+2024-11-13 16:47:23,589 - scraper_3 - INFO - Browser acquired for boa_hancock
+2024-11-13 16:47:23,589 - scraper_3 - INFO - Cleanup for boa_hancock
+2024-11-13 16:47:23,589 - scraper_3 - INFO - Closing browser for boa_hancock
+2024-11-13 16:47:23,663 - scraper_3 - INFO - Browser closed for boa_hancock
+2024-11-13 16:47:23,664 - scraper_3 - INFO - Thread scraper_3 completed boa_hancock
+2024-11-13 16:47:23,664 - MainThread - INFO - Completed processing boa_hancock
+2024-11-13 16:47:23,665 - MainThread - INFO - Shutting down executor
+2024-11-13 16:47:23,665 - MainThread - INFO - Executor shutdown complete
+2024-11-13 16:47:23,665 - MainThread - INFO - Scraping completed
+2024-11-13 16:50:41,653 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 16:50:41,654 - MainThread - INFO - Initializing ThreadedGelbooruScraper
+2024-11-13 16:50:42,089 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 16:50:42,089 - MainThread - INFO - Starting setup...
+2024-11-13 16:50:42,089 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 16:50:42,089 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 16:50:42,089 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 16:50:42,089 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 16:50:42,089 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 16:50:42,090 - MainThread - INFO - Setup completed successfully
+2024-11-13 16:50:42,090 - MainThread - INFO - ThreadedGelbooruScraper initialized
+2024-11-13 16:50:42,090 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 16:50:42,090 - MainThread - INFO - Total characters to process: 442
+2024-11-13 16:50:42,090 - MainThread - INFO - Current memory usage: 641.69 MB
+2024-11-13 16:50:42,090 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 16:50:42,090 - MainThread - INFO - Current thread count: 1
+2024-11-13 16:50:42,093 - MainThread - INFO - Current threads: MainThread
+2024-11-13 16:50:42,093 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 16:50:42,093 - MainThread - INFO - Thread pool executor created
+2024-11-13 16:50:42,093 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 16:50:42,093 - MainThread - INFO - Processing robin
+2024-11-13 16:50:42,093 - MainThread - INFO - Submitting robin with 1 URLs
+2024-11-13 16:50:42,093 - MainThread - INFO - Lock acquired for robin
+2024-11-13 16:50:42,093 - scraper_0 - INFO - Thread scraper_0 starting robin
+2024-11-13 16:50:42,093 - scraper_0 - INFO - Thread scraper_0 processing robin
+2024-11-13 16:50:42,094 - scraper_0 - INFO - Creating new browser for thread scraper_0
+2024-11-13 16:50:42,093 - MainThread - INFO - Task submitted for robin
+2024-11-13 16:50:42,094 - MainThread - INFO - Processing baby_5
+2024-11-13 16:50:42,094 - MainThread - INFO - Submitting baby_5 with 1 URLs
+2024-11-13 16:50:42,094 - MainThread - INFO - Lock acquired for baby_5
+2024-11-13 16:50:42,094 - scraper_1 - INFO - Thread scraper_1 starting baby_5
+2024-11-13 16:50:42,094 - MainThread - INFO - Task submitted for baby_5
+2024-11-13 16:50:42,095 - scraper_1 - INFO - Thread scraper_1 processing baby_5
+2024-11-13 16:50:42,095 - MainThread - INFO - Processing nami
+2024-11-13 16:50:42,095 - MainThread - INFO - Submitting nami with 1 URLs
+2024-11-13 16:50:42,095 - MainThread - INFO - Lock acquired for nami
+2024-11-13 16:50:42,095 - scraper_2 - INFO - Thread scraper_2 starting nami
+2024-11-13 16:50:42,095 - scraper_2 - INFO - Thread scraper_2 processing nami
+2024-11-13 16:50:42,095 - MainThread - INFO - Task submitted for nami
+2024-11-13 16:50:42,095 - MainThread - INFO - Processing boa_hancock
+2024-11-13 16:50:42,095 - MainThread - INFO - Submitting boa_hancock with 1 URLs
+2024-11-13 16:50:42,095 - MainThread - INFO - Lock acquired for boa_hancock
+2024-11-13 16:50:42,096 - scraper_3 - INFO - Thread scraper_3 starting boa_hancock
+2024-11-13 16:50:42,096 - MainThread - INFO - Task submitted for boa_hancock
+2024-11-13 16:50:42,096 - scraper_3 - INFO - Thread scraper_3 processing boa_hancock
+2024-11-13 16:50:42,096 - MainThread - INFO - Submitted 4 tasks
+2024-11-13 16:50:42,913 - scraper_0 - INFO - Successfully created browser for thread scraper_0
+2024-11-13 16:50:42,914 - scraper_0 - INFO - Browser acquired for robin
+2024-11-13 16:50:42,914 - scraper_0 - INFO - Processing URL 1/1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 16:50:42,914 - scraper_1 - INFO - Creating new browser for thread scraper_1
+2024-11-13 16:50:42,914 - scraper_0 - INFO - Processing page 1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 16:50:43,739 - scraper_1 - INFO - Successfully created browser for thread scraper_1
+2024-11-13 16:50:43,740 - scraper_1 - INFO - Browser acquired for baby_5
+2024-11-13 16:50:43,740 - scraper_1 - INFO - Processing URL 1/1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 16:50:43,740 - scraper_1 - INFO - Processing page 1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 16:50:43,740 - scraper_2 - INFO - Creating new browser for thread scraper_2
+2024-11-13 16:50:44,900 - scraper_2 - INFO - Successfully created browser for thread scraper_2
+2024-11-13 16:50:44,901 - scraper_2 - INFO - Browser acquired for nami
+2024-11-13 16:50:44,901 - scraper_2 - INFO - Processing URL 1/1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 16:50:44,901 - scraper_2 - INFO - Processing page 1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 16:50:44,901 - scraper_3 - INFO - Creating new browser for thread scraper_3
+2024-11-13 16:50:46,253 - scraper_3 - INFO - Successfully created browser for thread scraper_3
+2024-11-13 16:50:46,254 - scraper_3 - INFO - Browser acquired for boa_hancock
+2024-11-13 16:50:46,254 - scraper_3 - INFO - Processing URL 1/1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 16:50:46,254 - scraper_3 - INFO - Processing page 1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 16:50:46,799 - scraper_0 - INFO - Found 42 images for robin on page 1
+2024-11-13 16:50:47,579 - scraper_1 - INFO - Found 42 images for baby_5 on page 1
+2024-11-13 16:50:48,324 - scraper_2 - INFO - Found 42 images for nami on page 1
+2024-11-13 16:50:49,607 - scraper_3 - INFO - Found 42 images for boa_hancock on page 1
+2024-11-13 16:50:50,993 - scraper_0 - ERROR - Error processing image https://gelbooru.com/index.php?page=post&s=view&id=10975771&tags=nico_robin_%28alabasta%29 for robin: 'ThreadedGelbooruScraper' object has no attribute '_download_image'
+2024-11-13 16:50:51,717 - scraper_1 - ERROR - Error waiting for expanded image: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104d015dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104cf9e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000104764100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x000000010473fb78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x00000001047cc664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x00000001047df630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010479b0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010479bd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000104ccc64c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000104ccf988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000104cb3a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000104cd024c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000104ca4ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000104cea9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000104ceab58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000104cf9ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 16:50:51,719 - scraper_1 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104d015dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104cf9e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000104764100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x000000010473fb78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x00000001047cc664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x00000001047df630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010479b0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010479bd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000104ccc64c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000104ccf988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000104cb3a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000104cd024c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000104ca4ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000104cea9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000104ceab58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000104cf9ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 16:50:52,511 - scraper_2 - ERROR - Error processing image https://gelbooru.com/index.php?page=post&s=view&id=10912147&tags=nami_%28league_of_legends%29 for nami: 'ThreadedGelbooruScraper' object has no attribute '_download_image'
+2024-11-13 16:50:53,724 - scraper_1 - WARNING - Navigation attempt 2 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104d015dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000104cf9e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000104764100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x000000010473fb78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x00000001047cc664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x00000001047df630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010479b0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010479bd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000104ccc64c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000104ccf988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000104cb3a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000104cd024c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000104ca4ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000104cea9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000104ceab58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000104cf9ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 16:50:54,082 - scraper_3 - ERROR - Error processing image https://gelbooru.com/index.php?page=post&s=view&id=10989905&tags=boa_hancock+ for boa_hancock: 'ThreadedGelbooruScraper' object has no attribute '_download_image'
+2024-11-13 16:50:54,854 - scraper_2 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10757368&tags=nami_%28league_of_legends%29: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001029e55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001029dde3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000102448100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000102423b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x00000001024b0664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x00000001024c3630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010247f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010247fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x00000001029b064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x00000001029b3988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000102997a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x00000001029b424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000102988ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001029ce9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x00000001029ceb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001029ddad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 16:50:54,856 - scraper_2 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001029e55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001029dde3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000102448100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000102423b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x00000001024b0664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x00000001024c3630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010247f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010247fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x00000001029b064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x00000001029b3988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000102997a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x00000001029b424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000102988ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001029ce9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x00000001029ceb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001029ddad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 16:50:55,179 - scraper_0 - ERROR - Error processing image https://gelbooru.com/index.php?page=post&s=view&id=10971402&tags=nico_robin_%28alabasta%29 for robin: 'ThreadedGelbooruScraper' object has no attribute '_download_image'
+2024-11-13 16:50:56,458 - scraper_3 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10989903&tags=boa_hancock+: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000100c095dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000100c01e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x000000010066c100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000100647b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x00000001006d4664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x00000001006e7630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x00000001006a30fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x00000001006a3d4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000100bd464c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000100bd7988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000100bbba5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000100bd824c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000100bacce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000100bf29dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000100bf2b58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000100c01ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 16:50:56,460 - scraper_3 - WARNING - Navigation attempt 1 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000100c095dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000100c01e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x000000010066c100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000100647b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x00000001006d4664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x00000001006e7630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x00000001006a30fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x00000001006a3d4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x0000000100bd464c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x0000000100bd7988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000100bbba5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x0000000100bd824c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000100bacce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x0000000100bf29dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x0000000100bf2b58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x0000000100c01ad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 16:50:56,858 - scraper_2 - WARNING - Navigation attempt 2 failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001029e55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x00000001029dde3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000102448100 cxxbridge1$string$len + 88404
+3   chromedriver                        0x0000000102423b78 core::str::slice_error_fail::h1cab30ac4b13c655 + 3792
+4   chromedriver                        0x00000001024b0664 cxxbridge1$string$len + 515768
+5   chromedriver                        0x00000001024c3630 cxxbridge1$string$len + 593540
+6   chromedriver                        0x000000010247f0fc cxxbridge1$string$len + 313680
+7   chromedriver                        0x000000010247fd4c cxxbridge1$string$len + 316832
+8   chromedriver                        0x00000001029b064c cxxbridge1$str$ptr + 3436672
+9   chromedriver                        0x00000001029b3988 cxxbridge1$str$ptr + 3449788
+10  chromedriver                        0x0000000102997a5c cxxbridge1$str$ptr + 3335312
+11  chromedriver                        0x00000001029b424c cxxbridge1$str$ptr + 3452032
+12  chromedriver                        0x0000000102988ce8 cxxbridge1$str$ptr + 3274524
+13  chromedriver                        0x00000001029ce9dc cxxbridge1$str$ptr + 3560464
+14  chromedriver                        0x00000001029ceb58 cxxbridge1$str$ptr + 3560844
+15  chromedriver                        0x00000001029ddad4 cxxbridge1$str$ptr + 3622152
+16  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 16:50:56,929 - MainThread - INFO - Shutting down executor
+2024-11-13 16:50:56,929 - MainThread - INFO - Executor shutdown complete
+2024-11-13 16:50:56,929 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 16:50:56,930 - MainThread - INFO - Scraping completed
