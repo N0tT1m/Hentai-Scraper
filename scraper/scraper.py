@@ -1223,14 +1223,20 @@ class GelbooruScraper(HentaiScraper):
                 tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
 
                 # Parse character name from tags
-                if '(' in tags and ')' in tags:
-                    # Handle tags like "uta_(one_piece)"
-                    character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
-                    if character_tags:
-                        character = character_tags[0]
-                        series = character.split('(')[1].rstrip(')')
-                        character_name = character.split('(')[0].rstrip('_')
-                        return Path(series) / character_name
+                character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
+                if character_tags:
+                    character = character_tags[0]
+                    series = character.split('(')[1].rstrip(')')
+                    character_name = character.split('(')[0].rstrip('_')
+
+                    # Check if the character name matches any of the names in the CHARACTER_MAPPINGS
+                    for franchise, characters in self.CHARACTER_MAPPINGS.items():
+                        for primary_name, aliases in characters.items():
+                            if character_name.lower() in [alias.lower() for alias in aliases]:
+                                return Path(franchise) / primary_name
+
+                    # If the character name is not found in the aliases, use the series as the folder name
+                    return Path(series) / character_name
 
             # Default to raw directory if no character info found
             return Path('raw')
@@ -2500,5336 +2506,5336 @@ class DanbooruScraper(HentaiScraper):
             except Exception as e:
                 self.logger.error(f"Error closing browser: {str(e)}")
 
-class CharacterTags:
-    """Character tag mappings between different image boards"""
-
-    ONE_PIECE_TAGS = {
-        # Original characters with expanded tags
-        "nami": {
-            "gelbooru": [
-                # Base names and identifiers
-                "nami", "nami_(one_piece)", "cat_burglar_nami",
-                "straw_hat_navigator", "weather_witch",
-
-                # Titles and positions
-                "cat_burglar", "straw_hat_navigator", "weather_queen",
-                "cartographer", "third_nakama", "bell-mère's_daughter",
-
-                # Special abilities and techniques
-                "weather_techniques", "climatact_user", "zeus_wielder",
-                "thunder_breeder", "weather_egg", "mirage_tempo",
-                "thunderbolt_tempo", "weather_manipulation",
-
-                # Forms and states
-                "weather_control", "mirage_form", "zeus_combination",
-                "climatact_mode", "thunder_mode", "heat_mode",
-
-                # Teams and affiliations
-                "straw_hat_pirates", "arlong_pirates_(former)",
-                "weatheria_student", "east_blue_natives",
-
-                # Combat specialties
-                "staff_wielder", "weather_control", "thunder_specialist",
-                "strategy_expert", "climatact_master",
-
-                # Time periods and versions
-                "east_blue_saga", "grand_line_nami", "new_world_nami",
-                "post_timeskip", "pre_timeskip", "wano_nami",
-
-                # Outfits and appearances
-                "bikini", "casual_wear", "fighting_outfit",
-                "winter_clothes", "wano_outfit", "zou_outfit",
-                "dressrosa_disguise", "whole_cake_outfit",
-
-                # Emotional states
-                "angry_nami", "happy_nami", "fighting_nami",
-                "navigator_mode", "money_loving", "protective_nami",
-
-                # Specific arcs and events
-                "arlong_park_arc", "weatheria_training",
-                "zou_arc", "whole_cake_island", "wano_country"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "nami_(one_piece)", "cat_burglar",
-
-                # Abilities and roles
-                "weather_control", "climatact", "navigator",
-
-                # Time periods
-                "pre_timeskip", "post_timeskip", "wano_arc",
-
-                # Specific forms
-                "zeus_wielder", "mirage_tempo"
-            ]
-        },
-
-        "robin": {
-            "gelbooru": [
-                # Base names and identifiers
-                "nico_robin", "robin_(one_piece)", "devil_child",
-                "light_of_the_revolution", "ohara_survivor",
-
-                # Titles and positions
-                "devil_child", "miss_all_sunday_(former)",
-                "archaeologist", "poneglyph_reader", "ohara_scholar",
-
-                # Special abilities and techniques
-                "hana_hana_no_mi", "flower_flower_fruit",
-                "cien_fleur", "mil_fleur", "gigantesco_mano",
-                "demonio_fleur", "wing_form", "spider_form",
-
-                # Forms and states
-                "demon_form", "wing_sprouted", "multiple_arms",
-                "giant_limbs", "spider_form", "clutch_pose",
-
-                # Teams and affiliations
-                "straw_hat_pirates", "baroque_works_(former)",
-                "revolutionary_army", "ohara_scholars",
-
-                # Combat specialties
-                "limb_multiplication", "assassination_techniques",
-                "grappling_specialist", "intelligence_gathering",
-
-                # Time periods and versions
-                "pre_timeskip", "post_timeskip", "ohara_robin",
-                "baroque_works_era", "enies_lobby", "wano_robin",
-
-                # Outfits and appearances
-                "casual_wear", "battle_outfit", "wano_kimono",
-                "dressrosa_disguise", "zou_outfit", "formal_dress",
-
-                # Emotional states
-                "serious_robin", "mysterious_robin", "smiling_robin",
-                "fighting_robin", "reading_robin", "protective_robin",
-
-                # Specific arcs and events
-                "alabasta_arc", "water_7", "enies_lobby",
-                "thriller_bark", "dressrosa", "wano_country"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "nico_robin", "robin_(one_piece)",
-
-                # Abilities and roles
-                "hana_hana_no_mi", "archaeologist",
-
-                # Time periods
-                "pre_timeskip", "post_timeskip", "wano_arc",
-
-                # Specific forms
-                "demon_form", "wing_form", "multiple_arms"
-            ]
-        },
-
-        "yamato": {
-            "gelbooru": [
-                # Base names and identifiers
-                "yamato", "yamato_(one_piece)", "oni_princess",
-                "kaido's_daughter", "oden's_successor",
-
-                # Titles and positions
-                "oni_princess", "self_proclaimed_oden",
-                "guardian_of_wano", "samurai_aspirant",
-
-                # Special abilities and techniques
-                "mythical_zoan", "dog_dog_fruit", "divine_dog",
-                "thunder_bagua", "ice_oni", "frozen_blast",
-
-                # Forms and states
-                "hybrid_form", "full_beast_form", "human_form",
-                "fighting_stance", "ice_oni_mode", "guardian_mode",
-
-                # Combat abilities
-                "thunder_techniques", "ice_abilities", "club_wielder",
-                "advanced_haki", "moon_following",
-
-                # Teams and affiliations
-                "beast_pirates_(former)", "wano_ally",
-                "samurai_alliance", "onigashima_defender",
-
-                # Time periods and versions
-                "young_yamato", "prisoner_yamato", "freed_yamato",
-                "alliance_yamato", "current_yamato",
-
-                # Outfits and appearances
-                "traditional_clothes", "battle_outfit", "casual_wear",
-                "oni_mask", "samurai_armor", "festival_attire",
-
-                # Emotional states
-                "determined_yamato", "fighting_yamato", "proud_yamato",
-                "excited_yamato", "serious_yamato", "friendly_yamato"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "yamato_(one_piece)", "oni_princess",
-
-                # Abilities and forms
-                "mythical_zoan", "hybrid_form", "ice_oni",
-
-                # Relationships
-                "kaido's_child", "oden's_successor",
-
-                # Time periods
-                "prisoner_era", "alliance_era", "current_era"
-            ]
-        },
-
-        # Charlotte Family with expanded tags
-        "big_mom": {
-            "gelbooru": [
-                # Base names and identifiers
-                "charlotte_linlin", "big_mom", "big_mom_(one_piece)",
-                "queen_of_totland", "emperor_big_mom",
-
-                # Titles and positions
-                "yonko", "emperor", "queen_of_totland", "pirate_empress",
-                "captain_of_big_mom_pirates", "rocks_pirates_former",
-
-                # Special abilities and powers
-                "soul_soul_fruit", "soru_soru_no_mi", "zeus_creator",
-                "prometheus_creator", "napoleon_creator", "life_or_death",
-                "soul_pocus", "ikoku_sovereignty",
-
-                # Forms and states
-                "normal_form", "skinny_form", "young_form",
-                "hunger_pangs", "rage_mode", "amnesia_state",
-                "soul_power", "homie_control",
-
-                # Combat abilities
-                "sword_techniques", "zeus_lightning", "prometheus_fire",
-                "napoleon_blade", "life_force_drain", "soul_manipulation",
-
-                # Time periods and versions
-                "rocks_era", "young_linlin", "mother_caramel_era",
-                "yonko_era", "current_big_mom", "wano_big_mom",
-
-                # Homies and creations
-                "zeus_wielder", "prometheus_wielder", "napoleon_wielder",
-                "homie_creator", "soul_collector",
-
-                # Emotional states
-                "hunger_mode", "angry_big_mom", "motherly_mode",
-                "empress_mode", "rampage_mode", "calm_big_mom",
-
-                # Specific arcs and events
-                "whole_cake_island", "wano_country", "rocks_flashback",
-                "mother_caramel_flashback"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "charlotte_linlin", "big_mom_(one_piece)", "yonko",
-
-                # Powers and abilities
-                "soul_soul_fruit", "homie_creator", "emperor",
-
-                # Forms and states
-                "normal_form", "skinny_form", "young_form",
-
-                # Time periods
-                "rocks_era", "yonko_era", "current_era"
-            ]
-        },
-
-        "smoothie": {
-            "gelbooru": [
-                # Base names and identifiers
-                "charlotte_smoothie", "smoothie_(one_piece)",
-                "minister_of_juice", "sweet_commander",
-
-                # Titles and positions
-                "sweet_commander", "minister_of_juice",
-                "big_mom_pirates_executive", "charlotte_family",
-
-                # Special abilities and powers
-                "wring_wring_fruit", "shibo_shibo_no_mi",
-                "liquid_manipulation", "size_manipulation",
-                "juice_extraction", "sword_techniques",
-
-                # Forms and states
-                "normal_size", "giant_form", "battle_mode",
-                "juice_extraction_mode", "sword_stance",
-
-                # Combat specialties
-                "sword_fighter", "liquid_manipulator",
-                "size_enhancer", "long-range_fighter",
-
-                # Teams and affiliations
-                "big_mom_pirates", "charlotte_family",
-                "sweet_commanders", "totland_ministers",
-
-                # Time periods and versions
-                "pre_wedding", "wedding_ceremony", "escape_pursuit",
-                "current_smoothie",
-
-                # Outfits and appearances
-                "minister_outfit", "battle_gear", "casual_clothes",
-                "formal_dress", "sword_bearer",
-
-                # Emotional states
-                "serious_smoothie", "commander_mode", "battle_ready",
-                "calculating_smoothie", "dutiful_smoothie"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "charlotte_smoothie", "smoothie_(one_piece)",
-
-                # Abilities and roles
-                "wring_wring_fruit", "sweet_commander",
-
-                # States and forms
-                "normal_form", "giant_form", "battle_mode"
-            ]
-        },
-
-        "pudding": {
-            "gelbooru": [
-                # Base names and identifiers
-                "charlotte_pudding", "pudding_(one_piece)",
-                "three_eye_tribe", "minister_of_chocolate",
-
-                # Titles and positions
-                "minister_of_chocolate", "cafe_owner",
-                "third_eye_wielder", "charlotte_family",
-
-                # Special abilities and powers
-                "memory_manipulation", "third_eye_powers",
-                "memo_memo_no_mi", "memory_alteration",
-                "potential_poneglyph_reader",
-
-                # Racial traits
-                "three_eye_tribe", "third_eye", "hybrid_human",
-                "special_lineage",
-
-                # Forms and states
-                "normal_mode", "third_eye_revealed", "memory_manipulation_mode",
-                "chef_mode", "crying_state", "true_personality",
-
-                # Teams and affiliations
-                "charlotte_family", "cafe_staff", "big_mom_pirates",
-                "sanji's_arranged_bride",
-
-                # Time periods and versions
-                "pre_wedding", "wedding_ceremony", "post_wedding",
-                "childhood_pudding", "current_pudding",
-
-                # Outfits and appearances
-                "wedding_dress", "cafe_uniform", "casual_clothes",
-                "formal_wear", "chef_outfit",
-
-                # Emotional states
-                "sweet_persona", "dark_personality", "crying_pudding",
-                "loving_pudding", "conflicted_pudding", "true_feelings"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "charlotte_pudding", "pudding_(one_piece)",
-
-                # Traits and abilities
-                "three_eye_tribe", "memory_manipulation",
-
-                # States and versions
-                "sweet_persona", "dark_personality", "true_self"
-            ]
-        },
-
-        "brulee": {
-            "gelbooru": [
-                # Base names and identifiers
-                "charlotte_brulee", "brulee_(one_piece)",
-                "mirror_witch", "mirror_world_master",
-
-                # Special abilities and powers
-                "mirror_mirror_fruit", "mira_mira_no_mi",
-                "mirror_world_access", "mirror_creation",
-                "reflection_powers", "mirror_transportation",
-
-                # Forms and states
-                "normal_form", "mirror_form", "reflection_form",
-                "mirror_world_mode", "disguise_form",
-
-                # Combat abilities
-                "mirror_manipulation", "reflection_copying",
-                "mirror_world_transport", "disguise_power",
-
-                # Teams and affiliations
-                "charlotte_family", "big_mom_pirates",
-                "seducing_woods_guardian",
-
-                # Locations and domains
-                "mirror_world", "seducing_woods", "whole_cake_island",
-
-                # Time periods and versions
-                "pre_invasion", "mirror_world_battle", "current_brulee",
-
-                # Emotional states
-                "scared_brulee", "loyal_brulee", "angry_brulee",
-                "sister_mode", "protective_brulee"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "charlotte_brulee", "brulee_(one_piece)",
-
-                # Powers and abilities
-                "mirror_mirror_fruit", "mirror_world",
-
-                # States and forms
-                "normal_form", "mirror_form", "disguise_form"
-            ]
-        },
-
-        "komurasaki": {
-            "gelbooru": [
-                # Base names and identifiers
-                "kozuki_hiyori", "komurasaki", "hiyori_(one_piece)",
-                "wano_courtesan", "kozuki_princess", "lady_komurasaki",
-
-                # Titles and positions
-                "number_one_courtesan", "kozuki_heir", "oiran",
-                "princess_of_wano", "shamisen_master", "flower_capital_beauty",
-
-                # Family relationships
-                "kozuki_clan", "oden's_daughter", "momonosuke's_sister",
-                "toki's_daughter", "wano_royalty", "kozuki_bloodline",
-
-                # Forms and identities
-                "courtesan_form", "princess_form", "disguised_identity",
-                "true_identity", "performing_artist", "oiran_persona",
-
-                # Special skills
-                "shamisen_playing", "dancing_skills", "royal_etiquette",
-                "survival_skills", "deception_mastery", "musical_talent",
-
-                # Time periods and versions
-                "childhood_hiyori", "komurasaki_era", "revealed_identity",
-                "current_hiyori", "wano_liberation", "twenty_years_later",
-
-                # Locations
-                "flower_capital", "wano_country", "pleasure_district",
-                "kozuki_castle", "hidden_location",
-
-                # Outfits and appearances
-                "courtesan_kimono", "princess_attire", "casual_kimono",
-                "disguise_outfit", "formal_wear", "battle_clothes",
-                "oiran_makeup", "traditional_hairstyle",
-
-                # Emotional states
-                "elegant_komurasaki", "determined_hiyori", "proud_princess",
-                "vengeful_hiyori", "caring_sister", "performer_mode",
-                "true_feelings", "hidden_anger"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "kozuki_hiyori", "komurasaki", "hiyori_(one_piece)",
-
-                # Roles and positions
-                "courtesan", "princess", "kozuki_clan", "oiran",
-
-                # States and forms
-                "disguised_form", "true_identity", "performer_mode",
-
-                # Time periods
-                "past_era", "present_era", "wano_arc"
-            ]
-        },
-
-        "ulti": {
-            "gelbooru": [
-                # Base names and identifiers
-                "ulti", "ulti_(one_piece)", "tobi_roppo_member",
-                "ancient_zoan_user", "headbutt_specialist",
-
-                # Titles and positions
-                "tobi_roppo", "beast_pirates_executive", "flying_six",
-                "dinosaur_zoan", "pay-pay's_sister",
-
-                # Special abilities and powers
-                "ancient_zoan", "pachycephalosaurus_fruit",
-                "headbutt_techniques", "dinosaur_form", "armament_haki",
-                "observation_haki", "enhanced_strength",
-
-                # Forms and states
-                "human_form", "hybrid_form", "full_beast_form",
-                "headbutt_mode", "rage_mode", "battle_mode",
-
-                # Combat techniques
-                "headbutt_smash", "ancient_power", "dinosaur_rush",
-                "ulti_meteor", "sister_combination", "haki_enhanced_attacks",
-
-                # Teams and affiliations
-                "beast_pirates", "tobi_roppo", "kaido's_crew",
-                "onigashima_forces", "animal_kingdom_pirates",
-
-                # Relationships
-                "page_one's_sister", "kaido's_subordinate",
-                "flying_six_member", "beast_pirate_executive",
-
-                # Time periods and versions
-                "pre_raid", "onigashima_raid", "current_ulti",
-                "beast_pirates_era", "wano_arc",
-
-                # Outfits and appearances
-                "beast_pirate_outfit", "battle_gear", "casual_clothes",
-                "horned_headpiece", "dinosaur_features",
-
-                # Emotional states
-                "angry_ulti", "fighting_ulti", "protective_sister",
-                "aggressive_mode", "playful_ulti", "serious_ulti"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "ulti", "ulti_(one_piece)", "tobi_roppo",
-
-                # Powers and forms
-                "ancient_zoan", "dinosaur_form", "hybrid_form",
-
-                # Relations and roles
-                "beast_pirates", "page_one's_sister", "flying_six",
-
-                # States
-                "battle_mode", "rage_mode", "normal_form"
-            ]
-        },
-
-        "black_maria": {
-            "gelbooru": [
-                # Base names and identifiers
-                "black_maria", "black_maria_(one_piece)",
-                "pleasure_hall_queen", "tobi_roppo_member",
-
-                # Titles and positions
-                "tobi_roppo", "pleasure_hall_owner", "flying_six",
-                "beast_pirates_executive", "ancient_zoan_user",
-
-                # Special abilities and powers
-                "ancient_zoan", "spider_spider_fruit", "marys_control",
-                "rosamygale_grauvogeli", "spider_form",
-                "fire_techniques", "web_creation", "venom_abilities",
-
-                # Forms and states
-                "human_form", "hybrid_form", "full_beast_form",
-                "spider_mode", "battle_stance", "entertainment_mode",
-
-                # Combat techniques
-                "web_binding", "fire_manipulation", "spider_thread",
-                "poison_mist", "weapon_master", "marys_surveillance",
-
-                # Teams and affiliations
-                "beast_pirates", "tobi_roppo", "kaido's_crew",
-                "onigashima_forces", "pleasure_hall_staff",
-
-                # Locations and domains
-                "pleasure_hall", "onigashima", "wano_country",
-                "entertainment_district", "spider_lair",
-
-                # Time periods and versions
-                "pre_raid", "onigashima_raid", "current_maria",
-                "beast_pirates_era", "wano_arc",
-
-                # Outfits and appearances
-                "traditional_clothes", "battle_outfit", "pleasure_hall_attire",
-                "spider_features", "hybrid_appearance",
-
-                # Emotional states
-                "sadistic_maria", "calculating_maria", "fighting_maria",
-                "entertainer_mode", "serious_maria", "playful_maria"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "black_maria", "black_maria_(one_piece)",
-
-                # Powers and roles
-                "spider_spider_fruit", "tobi_roppo", "flying_six",
-
-                # Forms and states
-                "human_form", "hybrid_form", "spider_form",
-
-                # Locations
-                "pleasure_hall", "onigashima", "wano"
-            ]
-        },
-
-        "okiku": {
-            "gelbooru": [
-                # Base names and identifiers
-                "kikunojo", "o_kiku", "kiku_(one_piece)",
-                "red_scabbard_member", "kawamatsu's_companion",
-
-                # Titles and positions
-                "red_scabbard", "akazaya_nine", "tea_house_worker",
-                "samurai_of_wano", "oden's_retainer",
-
-                # Special abilities and techniques
-                "sword_techniques", "two_sword_style",
-                "samurai_arts", "snow_country_style",
-                "oden_two_sword_style",
-
-                # Combat specialties
-                "swordsmanship", "dual_wielding", "precision_strikes",
-                "samurai_techniques", "armor_breaker",
-
-                # Teams and affiliations
-                "red_scabbards", "kozuki_clan", "wano_resistance",
-                "tea_house_staff", "oden's_followers",
-
-                # Time periods and versions
-                "past_kiku", "present_kiku", "tea_house_kiku",
-                "battle_kiku", "time_travel_survivor",
-
-                # Outfits and appearances
-                "kimono", "battle_armor", "tea_house_uniform",
-                "samurai_gear", "traditional_clothes",
-                "red_scabbard_attire",
-
-                # Emotional states
-                "gentle_kiku", "warrior_mode", "protective_kiku",
-                "loyal_retainer", "determined_kiku"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "kikunojo", "o_kiku", "kiku_(one_piece)",
-
-                # Roles and positions
-                "red_scabbard", "samurai", "tea_house_worker",
-
-                # Combat styles
-                "swordsman", "two_sword_style", "samurai_arts"
-            ]
-        },
-
-        "otoko": {
-            "gelbooru": [
-                # Base names and identifiers
-                "toko", "o_toko", "toko_(one_piece)",
-                "yasuie's_daughter", "ebisu_town_resident",
-
-                # Roles and positions
-                "kamuro", "komurasaki's_attendant",
-                "ebisu_town_survivor", "smile_victim's_child",
-
-                # Special characteristics
-                "forced_smile", "smile_effect", "perpetual_laughter",
-                "ebisu_condition", "tragic_past",
-
-                # Relationships
-                "yasuie's_daughter", "komurasaki's_helper",
-                "hiyori's_friend", "tonoyasu's_child",
-
-                # Time periods and versions
-                "early_wano", "post_yasuie", "current_toko",
-                "flower_capital_era", "rebellion_era",
-
-                # Locations
-                "ebisu_town", "flower_capital", "pleasure_district",
-                "hidden_refuge",
-
-                # Outfits and appearances
-                "kamuro_outfit", "casual_clothes", "worker_attire",
-                "flower_capital_dress", "poor_town_clothes",
-
-                # Emotional states
-                "laughing_toko", "grieving_toko", "brave_toko",
-                "supportive_toko", "determined_toko"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "toko", "o_toko", "toko_(one_piece)",
-
-                # Roles and relationships
-                "kamuro", "yasuie's_daughter", "smile_victim",
-
-                # States
-                "forced_smile", "ebisu_condition"
-            ]
-        },
-
-        "otsuru": {
-            "gelbooru": [
-                # Base names and identifiers
-                "tsuru", "o_tsuru", "tsuru_(one_piece_wano)",
-                "tea_house_owner", "wano_citizen",
-
-                # Roles and positions
-                "tea_house_proprietor", "resistance_supporter",
-                "information_gatherer", "kiku's_employer",
-
-                # Relationships
-                "kinemon's_friend", "resistance_ally",
-                "wano_citizen_leader", "community_pillar",
-
-                # Time periods and versions
-                "pre_raid", "current_tsuru", "resistance_era",
-                "tea_house_period",
-
-                # Locations
-                "tea_house", "wano_country", "resistance_hideout",
-
-                # Outfits and appearances
-                "tea_house_kimono", "traditional_dress",
-                "merchant_clothes", "working_attire",
-
-                # Emotional states
-                "caring_tsuru", "supportive_tsuru", "protective_tsuru",
-                "determined_tsuru", "resistance_supporter"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "tsuru", "o_tsuru", "tsuru_(one_piece_wano)",
-
-                # Roles
-                "tea_house_owner", "resistance_supporter",
-                "wano_citizen"
-            ]
-        },
-
-        "speed": {
-            "gelbooru": [
-                # Base names and identifiers
-                "speed", "speed_(one_piece)", "headliner",
-                "beast_pirate_member",
-
-                # Titles and positions
-                "headliner", "beast_pirates_officer",
-                "tama's_subordinate", "horse_smile_user",
-
-                # Special abilities and powers
-                "smile_fruit", "horse_form", "enhanced_speed",
-                "transportation_ability", "artificial_zoan",
-
-                # Forms and states
-                "horse_form", "hybrid_form", "human_form",
-                "tamed_state", "battle_mode",
-
-                # Teams and affiliations
-                "beast_pirates", "tama's_followers",
-                "headliner_group", "kibi_dango_army",
-
-                # Time periods and versions
-                "beast_pirate_era", "tamed_version", "current_speed",
-                "raid_participant",
-
-                # Combat abilities
-                "high_speed_movement", "cavalry_techniques",
-                "transportation_specialist", "mounted_combat",
-
-                # Emotional states
-                "loyal_speed", "protective_speed", "determined_speed",
-                "battle_ready_speed"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "speed", "speed_(one_piece)",
-
-                # Powers and roles
-                "smile_user", "headliner", "horse_form",
-
-                # Affiliations
-                "beast_pirates", "tama's_follower"
-            ]
-        },
-
-        "boa_hancock": {
-            "gelbooru": [
-                # Base names and identifiers
-                "boa_hancock", "hancock_(one_piece)", "pirate_empress",
-                "snake_princess", "gorgon_sister", "warlord",
-
-                # Titles and positions
-                "shichibukai", "pirate_empress", "snake_princess",
-                "kuja_leader", "amazon_lily_ruler", "former_slave",
-                "most_beautiful_woman", "world's_beauty",
-
-                # Special abilities and powers
-                "love_love_fruit", "mero_mero_no_mi", "love_beam",
-                "perfume_femur", "pistol_kiss", "slave_arrow",
-                "conqueror's_haki", "armament_haki", "observation_haki",
-
-                # Forms and states
-                "normal_form", "snake_form", "petrification_mode",
-                "battle_mode", "empress_mode", "angry_mode",
-                "love_struck_mode", "serious_mode",
-
-                # Combat abilities
-                "petrification", "love_attacks", "haki_mastery",
-                "martial_arts", "kuja_combat", "snake_weapons",
-
-                # Teams and affiliations
-                "kuja_pirates", "seven_warlords", "amazon_lily",
-                "gorgon_sisters", "former_slaves", "luffy_allies",
-
-                # Family relationships
-                "elder_gorgon_sister", "marigold's_sister",
-                "sandersonia's_sister", "kuja_ruler",
-
-                # Special characteristics
-                "gorgon_eyes", "snake_attributes", "back_mark",
-                "celestial_mark", "beauty_mark", "royal_presence",
-
-                # Time periods and versions
-                "young_hancock", "slave_era", "warlord_era",
-                "empress_era", "marineford_war", "current_hancock",
-
-                # Outfits and appearances
-                "empress_outfit", "battle_gear", "casual_dress",
-                "qipao", "snake_themed_clothes", "royal_attire",
-                "warrior_outfit", "formal_dress",
-
-                # Emotional states
-                "love_mode", "empress_mode", "angry_hancock",
-                "disdainful_hancock", "loving_hancock", "protective_hancock",
-                "serious_hancock", "contemptuous_hancock"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "boa_hancock", "hancock_(one_piece)", "pirate_empress",
-
-                # Powers and abilities
-                "mero_mero_no_mi", "love_love_fruit", "haki_user",
-
-                # Titles and roles
-                "shichibukai", "snake_princess", "kuja_leader",
-
-                # States and forms
-                "normal_form", "battle_mode", "love_struck",
-
-                # Time periods
-                "pre_timeskip", "post_timeskip", "current_era"
-            ]
-        },
-
-        "sandersonia": {
-            "gelbooru": [
-                # Base names and identifiers
-                "boa_sandersonia", "sandersonia_(one_piece)",
-                "gorgon_sister", "anaconda_princess",
-
-                # Titles and positions
-                "kuja_warrior", "gorgon_sister", "amazon_lily_elite",
-                "former_slave", "snake_specialist",
-
-                # Special abilities and powers
-                "snake_snake_fruit", "hebi_hebi_no_mi",
-                "anaconda_model", "armament_haki",
-                "observation_haki", "snake_form",
-
-                # Forms and states
-                "human_form", "hybrid_form", "full_snake_form",
-                "battle_mode", "guardian_mode",
-
-                # Combat abilities
-                "snake_techniques", "haki_mastery", "kuja_combat",
-                "zoan_powers", "snake_wrestling",
-
-                # Teams and affiliations
-                "kuja_warriors", "gorgon_sisters", "amazon_lily",
-                "former_slaves", "hancock's_sister",
-
-                # Family relationships
-                "middle_gorgon_sister", "hancock's_sister",
-                "marigold's_sister", "kuja_royal_family",
-
-                # Special characteristics
-                "gorgon_mark", "snake_eyes", "back_mark",
-                "celestial_mark", "warrior_build",
-
-                # Time periods and versions
-                "young_sandersonia", "slave_era", "warrior_era",
-                "current_sandersonia",
-
-                # Emotional states
-                "protective_sister", "warrior_mode", "serious_sandersonia",
-                "battle_ready", "snake_fury"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "boa_sandersonia", "sandersonia_(one_piece)",
-
-                # Powers and roles
-                "snake_snake_fruit", "gorgon_sister", "kuja_warrior",
-
-                # Forms and states
-                "human_form", "hybrid_form", "snake_form"
-            ]
-        },
-
-        "marigold": {
-            "gelbooru": [
-                # Base names and identifiers
-                "boa_marigold", "marigold_(one_piece)",
-                "gorgon_sister", "king_cobra_princess",
-
-                # Titles and positions
-                "kuja_warrior", "gorgon_sister", "amazon_lily_elite",
-                "former_slave", "snake_specialist",
-
-                # Special abilities and powers
-                "snake_snake_fruit", "hebi_hebi_no_mi",
-                "king_cobra_model", "armament_haki",
-                "observation_haki", "snake_form",
-
-                # Forms and states
-                "human_form", "hybrid_form", "full_snake_form",
-                "battle_mode", "guardian_mode",
-
-                # Combat abilities
-                "snake_techniques", "haki_mastery", "kuja_combat",
-                "zoan_powers", "fire_techniques",
-
-                # Teams and affiliations
-                "kuja_warriors", "gorgon_sisters", "amazon_lily",
-                "former_slaves", "hancock's_sister",
-
-                # Family relationships
-                "youngest_gorgon_sister", "hancock's_sister",
-                "sandersonia's_sister", "kuja_royal_family",
-
-                # Special characteristics
-                "gorgon_mark", "snake_eyes", "back_mark",
-                "celestial_mark", "warrior_build",
-
-                # Time periods and versions
-                "young_marigold", "slave_era", "warrior_era",
-                "current_marigold",
-
-                # Emotional states
-                "protective_sister", "warrior_mode", "serious_marigold",
-                "battle_ready", "snake_fury"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "boa_marigold", "marigold_(one_piece)",
-
-                # Powers and roles
-                "snake_snake_fruit", "gorgon_sister", "kuja_warrior",
-
-                # Forms and states
-                "human_form", "hybrid_form", "snake_form"
-            ]
-        },
-
-        "marguerite": {
-            "gelbooru": [
-                # Base names and identifiers
-                "marguerite", "marguerite_(one_piece)",
-                "kuja_warrior", "amazon_lily_archer",
-
-                # Titles and positions
-                "kuja_warrior", "elite_archer", "amazon_lily_guard",
-                "hancock's_subordinate", "luffy's_friend",
-
-                # Special abilities and powers
-                "archery_master", "haki_arrows", "kuja_combat",
-                "snake_bow_user", "warrior_skills",
-
-                # Combat specialties
-                "bow_techniques", "snake_archery", "haki_mastery",
-                "kuja_fighting_style", "ranged_combat",
-
-                # Teams and affiliations
-                "kuja_warriors", "amazon_lily", "hancock's_guards",
-                "archer_division",
-
-                # Time periods and versions
-                "pre_timeskip", "post_timeskip", "current_marguerite",
-
-                # Outfits and appearances
-                "kuja_outfit", "warrior_attire", "tribal_clothes",
-                "battle_gear", "amazon_dress",
-
-                # Emotional states
-                "friendly_marguerite", "curious_marguerite",
-                "warrior_mode", "protective_marguerite"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "marguerite", "marguerite_(one_piece)",
-
-                # Roles and abilities
-                "kuja_warrior", "archer", "amazon_lily",
-
-                # States
-                "warrior_mode", "normal_state"
-            ]
-        },
-
-        "viola": {
-            "gelbooru": [
-                # Base names and identifiers
-                "viola", "viola_(one_piece)", "violet",
-                "violet_(one_piece)", "princess_viola",
-                "riku_viola", "dancing_queen",
-
-                # Titles and positions
-                "princess_of_dressrosa", "dancing_queen",
-                "donquixote_officer_(former)", "riku_family",
-                "tango_dancer", "spy_dancer",
-
-                # Special abilities and powers
-                "glare_glare_fruit", "giro_giro_no_mi",
-                "clairvoyance", "x-ray_vision", "mind_reading",
-                "tears_of_arte", "emotional_manipulation",
-
-                # Combat abilities
-                "dance_combat", "insight_attacks", "emotional_tactics",
-                "assassination_techniques", "espionage_skills",
-
-                # Forms and states
-                "dancer_form", "princess_mode", "spy_mode",
-                "battle_ready", "surveillance_state",
-
-                # Teams and affiliations
-                "riku_family", "dressrosa_royalty",
-                "donquixote_pirates_(former)", "straw_hat_allies",
-
-                # Family relationships
-                "riku's_daughter", "rebecca's_aunt", "scarlett's_sister",
-                "kyros'_sister_in_law", "dressrosa_royal_family",
-
-                # Time periods and versions
-                "pre_doflamingo", "spy_era", "liberation_era",
-                "current_viola", "restored_princess",
-
-                # Outfits and appearances
-                "dancer_outfit", "princess_dress", "spy_clothes",
-                "formal_attire", "battle_gear", "flamenco_dress",
-
-                # Emotional states
-                "determined_viola", "dancing_viola", "serious_viola",
-                "protective_viola", "royal_demeanor", "spy_persona"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "viola", "viola_(one_piece)", "violet",
-
-                # Powers and roles
-                "glare_glare_fruit", "princess", "dancer",
-
-                # States and forms
-                "dancer_form", "princess_mode", "battle_mode"
-            ]
-        },
-
-        "rebecca": {
-            "gelbooru": [
-                # Base names and identifiers
-                "rebecca", "rebecca_(one_piece)", "gladiator_rebecca",
-                "undefeated_woman", "scarlett's_daughter",
-
-                # Titles and positions
-                "dressrosa_princess", "gladiator_champion",
-                "undefeated_woman", "riku_heir", "colosseum_fighter",
-
-                # Combat abilities
-                "observation_haki", "speed_fighting", "dodging_specialist",
-                "sword_techniques", "gladiator_style", "kings_punch",
-
-                # Special techniques
-                "back_to_zero", "speed_slash", "defensive_combat",
-                "survival_tactics", "sword_dance",
-
-                # Teams and affiliations
-                "riku_family", "dressrosa_royalty", "corrida_colosseum",
-                "straw_hat_allies", "gladiator_block",
-
-                # Family relationships
-                "scarlett's_daughter", "kyros'_daughter", "viola's_niece",
-                "riku's_granddaughter", "dressrosa_princess",
-
-                # Time periods and versions
-                "gladiator_era", "princess_era", "childhood_rebecca",
-                "current_rebecca", "restored_princess",
-
-                # Combat outfits and gear
-                "gladiator_armor", "princess_dress", "battle_bikini",
-                "royal_attire", "colosseum_gear",
-
-                # Emotional states
-                "fighting_rebecca", "determined_rebecca", "crying_rebecca",
-                "protective_rebecca", "princess_mode", "warrior_spirit"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "rebecca", "rebecca_(one_piece)", "gladiator",
-
-                # Roles and abilities
-                "undefeated_woman", "sword_user", "princess",
-
-                # States and forms
-                "gladiator_mode", "princess_mode", "battle_mode"
-            ]
-        },
-
-        "scarlett": {
-            "gelbooru": [
-                # Base names and identifiers
-                "scarlett", "scarlett_(one_piece)", "princess_scarlett",
-                "kyros'_wife", "rebecca's_mother",
-
-                # Titles and positions
-                "dressrosa_princess", "riku_family", "former_royalty",
-                "flower_field_resident", "kyros'_beloved",
-
-                # Family relationships
-                "riku's_daughter", "viola's_sister", "rebecca's_mother",
-                "kyros'_wife", "royal_bloodline",
-
-                # Time periods and versions
-                "princess_era", "love_story_era", "final_moments",
-                "flashback_scarlett", "young_scarlett",
-
-                # Outfits and appearances
-                "princess_dress", "common_clothes", "flower_field_attire",
-                "royal_garments", "civilian_disguise",
-
-                # Emotional states
-                "loving_mother", "devoted_wife", "determined_scarlett",
-                "protective_mother", "princess_dignity"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "scarlett", "scarlett_(one_piece)", "princess",
-
-                # Roles and relations
-                "kyros'_wife", "rebecca's_mother", "royal_family"
-            ]
-        },
-
-        "baby_5": {
-            "gelbooru": [
-                # Base names and identifiers
-                "baby_5", "baby_5_(one_piece)", "baby_five",
-                "arms_arms_fruit_user", "donquixote_officer",
-
-                # Titles and positions
-                "donquixote_executive", "assassin", "weapons_specialist",
-                "sai's_wife", "happo_navy_member",
-
-                # Special abilities and powers
-                "arms_arms_fruit", "buki_buki_no_mi", "weapon_transformation",
-                "full_body_weapons", "living_arsenal",
-
-                # Forms and states
-                "weapon_form", "human_form", "battle_mode",
-                "servant_mode", "wife_mode", "assassin_mode",
-
-                # Combat abilities
-                "weapon_mastery", "assassination_skills",
-                "transformation_techniques", "martial_arts",
-
-                # Teams and affiliations
-                "donquixote_pirates_(former)", "happo_navy",
-                "sai's_wife", "chinjao_family",
-
-                # Personality traits
-                "people_pleaser", "easily_proposed_to",
-                "devoted_servant", "loyal_wife",
-
-                # Time periods and versions
-                "donquixote_era", "dressrosa_arc", "married_life",
-                "childhood_baby_5", "current_baby_5",
-
-                # Outfits and appearances
-                "maid_outfit", "battle_gear", "assassin_clothes",
-                "weapon_forms", "casual_wear",
-
-                # Emotional states
-                "devoted_baby_5", "battle_ready", "loving_wife",
-                "servant_mode", "assassin_persona"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "baby_5", "baby_5_(one_piece)", "baby_five",
-
-                # Powers and roles
-                "arms_arms_fruit", "assassin", "weapon_form",
-
-                # States and affiliations
-                "donquixote_pirates", "happo_navy", "sai's_wife"
-            ]
-        },
-
-        "tashigi": {
-            "gelbooru": [
-                # Base names and identifiers
-                "tashigi", "tashigi_(one_piece)", "marine_captain",
-                "smoker's_subordinate", "sword_collector",
-
-                # Titles and positions
-                "marine_captain", "g-5_officer", "sword_specialist",
-                "smoker's_right_hand", "marine_headquarters",
-
-                # Special abilities and powers
-                "swordsmanship", "rokushiki_trainee", "sword_mastery",
-                "shigure_wielder", "martial_arts", "weapon_expert",
-
-                # Combat specialties
-                "sword_techniques", "meito_knowledge", "blade_mastery",
-                "marine_combat", "sword_collection_expertise",
-
-                # Teams and affiliations
-                "marine_forces", "g-5_base", "sword_unit",
-                "smoker_unit", "world_government",
-
-                # Time periods and versions
-                "pre_timeskip", "post_timeskip", "alabasta_arc",
-                "punk_hazard", "current_tashigi", "loguetown_tashigi",
-
-                # Forms and states
-                "battle_mode", "training_mode", "officer_mode",
-                "clumsy_state", "serious_mode", "determined_state",
-
-                # Outfits and appearances
-                "marine_uniform", "casual_clothes", "training_gear",
-                "battle_outfit", "glasses", "captain_coat",
-
-                # Emotional states
-                "determined_tashigi", "serious_tashigi", "clumsy_tashigi",
-                "fighting_tashigi", "professional_mode", "leadership_mode",
-
-                # Specific arcs and events
-                "loguetown_arc", "alabasta_saga", "punk_hazard",
-                "dressrosa_events", "marine_operations"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "tashigi", "tashigi_(one_piece)", "marine_captain",
-
-                # Roles and abilities
-                "swordswoman", "g-5_officer", "glasses",
-
-                # States and forms
-                "battle_mode", "officer_mode", "training_mode",
-
-                # Time periods
-                "pre_timeskip", "post_timeskip", "current_era"
-            ]
-        },
-
-        "hina": {
-            "gelbooru": [
-                # Base names and identifiers
-                "hina", "hina_(one_piece)", "black_cage_hina",
-                "marine_captain", "cage_specialist",
-
-                # Titles and positions
-                "marine_captain", "black_cage", "prison_specialist",
-                "headquarters_officer", "marine_commander",
-
-                # Special abilities and powers
-                "cage_cage_fruit", "ori_ori_no_mi", "binding_powers",
-                "cage_creation", "marine_combat", "imprisonment_specialist",
-
-                # Combat abilities
-                "cage_techniques", "binding_attacks", "marine_martial_arts",
-                "capture_specialist", "restraining_moves",
-
-                # Teams and affiliations
-                "marine_forces", "marine_headquarters", "prison_unit",
-                "world_government", "justice_enforcers",
-
-                # Time periods and versions
-                "pre_timeskip", "post_timeskip", "alabasta_arc",
-                "marineford_war", "current_hina",
-
-                # Forms and states
-                "battle_mode", "commander_mode", "capture_mode",
-                "officer_state", "serious_mode",
-
-                # Outfits and appearances
-                "marine_uniform", "captain_coat", "formal_uniform",
-                "battle_gear", "casual_clothes",
-
-                # Emotional states
-                "serious_hina", "commanding_hina", "professional_hina",
-                "battle_ready", "leadership_mode"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "hina", "hina_(one_piece)", "black_cage",
-
-                # Powers and roles
-                "cage_cage_fruit", "marine_captain",
-
-                # States and forms
-                "battle_mode", "officer_mode", "capture_mode"
-            ]
-        },
-
-        "momousagi": {
-            "gelbooru": [
-                # Base names and identifiers
-                "momousagi", "gion", "pink_rabbit",
-                "vice_admiral_momousagi", "marine_leader",
-
-                # Titles and positions
-                "vice_admiral", "admiral_candidate", "headquarters_leader",
-                "marine_executive", "high_ranking_officer",
-
-                # Combat abilities
-                "advanced_haki", "marine_combat", "leadership_skills",
-                "strategic_command", "battlefield_control",
-
-                # Teams and affiliations
-                "marine_headquarters", "world_government",
-                "vice_admiral_unit", "marine_leadership",
-
-                # Time periods and versions
-                "marine_era", "current_momousagi", "post_timeskip",
-                "reverie_period",
-
-                # Outfits and appearances
-                "vice_admiral_uniform", "marine_formal_wear",
-                "battle_attire", "officer_coat",
-
-                # Emotional states
-                "professional_mode", "commander_mode", "serious_momousagi",
-                "leadership_presence"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "momousagi", "gion", "pink_rabbit",
-
-                # Roles and positions
-                "vice_admiral", "marine_officer",
-
-                # States
-                "commander_mode", "battle_mode"
-            ]
-        },
-
-        "tsuru": {
-            "gelbooru": [
-                # Base names and identifiers
-                "tsuru", "tsuru_(one_piece)", "great_staff_officer",
-                "marine_legend", "cleaner",
-
-                # Titles and positions
-                "vice_admiral", "great_staff_officer", "marine_veteran",
-                "strategic_commander", "legendary_marine",
-
-                # Special abilities and powers
-                "wash_wash_fruit", "woshu_woshu_no_mi", "cleansing_power",
-                "strategic_genius", "veteran_combat", "advanced_haki",
-
-                # Combat abilities
-                "washing_techniques", "purification_powers",
-                "tactical_combat", "leadership_skills", "marine_arts",
-
-                # Teams and affiliations
-                "marine_headquarters", "world_government",
-                "vice_admiral_unit", "veteran_officers",
-
-                # Time periods and versions
-                "roger_era", "pre_timeskip", "post_timeskip",
-                "marineford_war", "current_tsuru", "golden_age",
-
-                # Forms and states
-                "battle_mode", "commander_mode", "strategic_mode",
-                "veteran_state", "leadership_presence",
-
-                # Outfits and appearances
-                "vice_admiral_uniform", "marine_coat",
-                "formal_attire", "battle_gear",
-
-                # Emotional states
-                "wise_tsuru", "commanding_tsuru", "serious_tsuru",
-                "strategic_mind", "veteran_presence"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "tsuru", "tsuru_(one_piece)", "great_staff_officer",
-
-                # Powers and roles
-                "wash_wash_fruit", "vice_admiral", "marine_legend",
-
-                # States and eras
-                "battle_mode", "commander_mode", "veteran_state"
-            ]
-        },
-
-        "stussy": {
-            "gelbooru": [
-                # Base names and identifiers
-                "stussy", "stussy_(one_piece)", "cp0_agent",
-                "queen_of_pleasure", "world_noble_agent",
-
-                # Titles and positions
-                "cp0_operative", "undercover_agent", "intelligence_officer",
-                "pleasure_district_queen", "world_government_agent",
-
-                # Special abilities and powers
-                "assassination_skills", "espionage_mastery",
-                "combat_expertise", "undercover_operations",
-                "intelligence_gathering",
-
-                # Combat abilities
-                "rokushiki", "stealth_techniques", "cp0_combat",
-                "assassination_methods", "covert_operations",
-
-                # Teams and affiliations
-                "cipher_pol_0", "world_government", "intelligence_bureau",
-                "undercover_network", "pleasure_district",
-
-                # Time periods and versions
-                "whole_cake_island", "current_stussy", "undercover_era",
-                "cp0_period",
-
-                # Forms and states
-                "agent_mode", "undercover_mode", "battle_mode",
-                "queen_persona", "operative_state",
-
-                # Outfits and appearances
-                "formal_dress", "agent_attire", "disguise_outfit",
-                "battle_gear", "elegant_clothes",
-
-                # Emotional states
-                "professional_stussy", "undercover_persona",
-                "serious_agent", "elegant_mode", "operative_mindset"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "stussy", "stussy_(one_piece)", "cp0",
-
-                # Roles and abilities
-                "agent", "assassin", "undercover_operative",
-
-                # States and forms
-                "agent_mode", "battle_mode", "undercover_mode"
-            ]
-        },
-
-        "koala": {
-            "gelbooru": [
-                # Base names and identifiers
-                "koala", "koala_(one_piece)", "revolutionary_officer",
-                "fishman_karate_user", "former_slave",
-
-                # Titles and positions
-                "revolutionary_army_officer", "fishman_karate_instructor",
-                "freedom_fighter", "assistant_fishman_karate_instructor",
-                "east_army_officer",
-
-                # Special abilities and powers
-                "fishman_karate", "advanced_martial_arts",
-                "revolutionary_techniques", "combat_expertise",
-                "stealth_operations", "infiltration_skills",
-
-                # Combat specialties
-                "fishman_karate_moves", "revolutionary_combat",
-                "martial_arts_master", "water_manipulation",
-                "hand-to-hand_combat",
-
-                # Teams and affiliations
-                "revolutionary_army", "east_army", "sabo's_partner",
-                "fishman_karate_practitioners", "former_sun_pirates",
-
-                # Background elements
-                "former_slave", "sun_pirates_mark", "fisher_tiger's_ward",
-                "revolutionary_training", "freedom_fighter",
-
-                # Time periods and versions
-                "young_koala", "slave_era", "sun_pirates_era",
-                "current_koala", "revolutionary_koala",
-
-                # Forms and states
-                "battle_mode", "instructor_mode", "revolutionary_mode",
-                "stealth_mode", "teaching_state",
-
-                # Outfits and appearances
-                "revolutionary_uniform", "combat_gear", "training_outfit",
-                "stealth_clothes", "casual_wear",
-
-                # Emotional states
-                "cheerful_koala", "serious_koala", "instructor_koala",
-                "determined_koala", "battle_ready"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "koala", "koala_(one_piece)", "revolutionary_army",
-
-                # Powers and roles
-                "fishman_karate", "revolutionary_officer",
-
-                # States and forms
-                "battle_mode", "instructor_mode", "revolutionary_mode",
-
-                # Time periods
-                "young_koala", "current_era", "revolutionary_era"
-            ]
-        },
-
-        "belo_betty": {
-            "gelbooru": [
-                # Base names and identifiers
-                "belo_betty", "betty_(one_piece)", "east_army_commander",
-                "revolutionary_commander", "flag_bearer",
-
-                # Titles and positions
-                "east_army_commander", "revolutionary_commander",
-                "morale_booster", "army_leader", "flag_bearer",
-
-                # Special abilities and powers
-                "pump_pump_fruit", "mero_mero_no_mi", "morale_boost",
-                "flag_powers", "inspiration_ability", "army_enhancement",
-
-                # Combat abilities
-                "revolutionary_combat", "flag_techniques",
-                "leadership_skills", "army_command", "morale_control",
-
-                # Teams and affiliations
-                "revolutionary_army", "east_army", "dragon's_commanders",
-                "liberation_forces", "revolutionary_leadership",
-
-                # Time periods and versions
-                "pre_reverie", "current_betty", "commander_era",
-                "revolutionary_period",
-
-                # Forms and states
-                "commander_mode", "battle_mode", "rally_mode",
-                "leadership_state", "inspiration_form",
-
-                # Outfits and appearances
-                "revolutionary_uniform", "commander_outfit", "battle_gear",
-                "flag_bearer_clothes", "liberation_attire",
-
-                # Emotional states
-                "commanding_betty", "inspiring_betty", "determined_betty",
-                "battle_ready", "leadership_mode"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "belo_betty", "betty_(one_piece)", "revolutionary_army",
-
-                # Powers and roles
-                "pump_pump_fruit", "east_army_commander",
-
-                # States and forms
-                "commander_mode", "battle_mode", "rally_mode"
-            ]
-        },
-
-        "lindbergh": {
-            "gelbooru": [
-                # Base names and identifiers
-                "lindbergh", "lindbergh_(one_piece)", "north_army_commander",
-                "revolutionary_inventor", "tech_specialist",
-
-                # Titles and positions
-                "north_army_commander", "revolutionary_commander",
-                "technology_officer", "weapons_developer",
-
-                # Special abilities and powers
-                "technological_expertise", "invention_skills",
-                "revolutionary_tech", "combat_engineering",
-
-                # Combat specialties
-                "tech_warfare", "revolutionary_combat", "gadget_mastery",
-                "invention_deployment", "strategic_technology",
-
-                # Teams and affiliations
-                "revolutionary_army", "north_army", "tech_division",
-                "dragon's_commanders", "revolutionary_leadership",
-
-                # Time periods and versions
-                "pre_reverie", "current_lindbergh", "commander_era",
-                "revolutionary_period",
-
-                # Forms and states
-                "inventor_mode", "battle_mode", "commander_mode",
-                "tech_development_state",
-
-                # Outfits and appearances
-                "revolutionary_uniform", "tech_gear", "inventor_outfit",
-                "commander_clothes", "battle_equipment"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "lindbergh", "lindbergh_(one_piece)", "revolutionary_army",
-
-                # Roles and abilities
-                "inventor", "north_army_commander", "tech_specialist"
-            ]
-        },
-
-        "karasu": {
-            "gelbooru": [
-                # Base names and identifiers
-                "karasu", "karasu_(one_piece)", "north_army_commander",
-                "crow_commander", "revolutionary_leader",
-
-                # Titles and positions
-                "north_army_commander", "revolutionary_commander",
-                "crow_master", "stealth_specialist",
-
-                # Special abilities and powers
-                "crow_abilities", "stealth_techniques",
-                "revolutionary_combat", "crow_control",
-
-                # Combat specialties
-                "crow_warfare", "stealth_operations", "revolutionary_tactics",
-                "shadow_combat", "bird_control",
-
-                # Teams and affiliations
-                "revolutionary_army", "north_army", "dragon's_commanders",
-                "revolutionary_leadership", "stealth_division",
-
-                # Forms and states
-                "crow_form", "commander_mode", "battle_mode",
-                "stealth_mode", "leadership_state",
-
-                # Outfits and appearances
-                "revolutionary_uniform", "crow_mask", "commander_gear",
-                "stealth_outfit", "battle_attire"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "karasu", "karasu_(one_piece)", "revolutionary_army",
-
-                # Roles and abilities
-                "north_army_commander", "crow_master",
-
-                # States and forms
-                "crow_form", "stealth_mode", "commander_mode"
-            ]
-        },
-
-        "bellemere": {
-            "gelbooru": [
-                # Base names and identifiers
-                "bellemere", "bell-mère", "belle_mere_(one_piece)",
-                "nami's_adoptive_mother", "marine_veteran",
-
-                # Titles and positions
-                "former_marine", "tangerine_farmer", "adoptive_mother",
-                "marine_officer", "cocoyashi_resident",
-
-                # Combat abilities
-                "marine_training", "firearms_expert", "combat_skills",
-                "marine_martial_arts", "tactical_expertise",
-
-                # Teams and affiliations
-                "marine_forces_(former)", "cocoyashi_village",
-                "nami's_family", "nojiko's_family",
-
-                # Time periods and versions
-                "marine_days", "mother_era", "young_bellemere",
-                "final_moments", "flashback_bellemere",
-
-                # Special characteristics
-                "marine_veteran", "protective_mother", "fierce_spirit",
-                "strong_will", "sacrifice_for_family",
-
-                # Outfits and appearances
-                "marine_uniform", "casual_clothes", "farmer_outfit",
-                "battle_gear", "civilian_attire",
-
-                # Emotional states
-                "protective_bellemere", "caring_mother", "fierce_marine",
-                "determined_bellemere", "loving_parent"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "bellemere", "bell-mère", "belle_mere_(one_piece)",
-
-                # Roles and positions
-                "former_marine", "nami's_mother", "marine_veteran",
-
-                # Time periods
-                "marine_era", "mother_era", "flashback_era"
-            ]
-        },
-
-        "isuka": {
-            "gelbooru": [
-                # Base names and identifiers
-                "isuka", "isuka_(one_piece)", "drill_instructor",
-                "marine_captain", "smoke_chaser",
-
-                # Titles and positions
-                "marine_captain", "training_instructor",
-                "special_instructor", "ace's_pursuer",
-
-                # Special abilities and powers
-                "smoke_smoke_fruit", "smoke_powers", "marine_combat",
-                "instructor_skills", "pursuit_specialist",
-
-                # Combat abilities
-                "smoke_manipulation", "marine_techniques",
-                "training_expertise", "pursuit_tactics",
-
-                # Teams and affiliations
-                "marine_forces", "training_division",
-                "pursuit_unit", "marine_headquarters",
-
-                # Time periods and versions
-                "pre_timeskip", "ace_era", "training_period",
-                "marine_captain_era",
-
-                # Forms and states
-                "smoke_form", "instructor_mode", "battle_mode",
-                "pursuit_mode", "training_state",
-
-                # Outfits and appearances
-                "marine_uniform", "captain_coat", "training_gear",
-                "battle_outfit", "pursuit_attire"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "isuka", "isuka_(one_piece)", "marine_captain",
-
-                # Powers and roles
-                "smoke_smoke_fruit", "drill_instructor",
-
-                # States and forms
-                "smoke_form", "instructor_mode", "battle_mode"
-            ]
-        },
-
-        "ain": {
-            "gelbooru": [
-                # Base names and identifiers
-                "ain", "ain_(one_piece)", "neo_marines",
-                "zephyr's_subordinate", "marine_officer",
-
-                # Titles and positions
-                "neo_marine_officer", "former_marine",
-                "zephyr's_student", "special_forces",
-
-                # Special abilities and powers
-                "modo_modo_no_mi", "age_manipulation",
-                "marine_combat", "tactical_skills",
-
-                # Combat abilities
-                "age_control", "marine_techniques", "tactical_combat",
-                "special_operations", "age_regression",
-
-                # Teams and affiliations
-                "neo_marines", "former_marine_forces",
-                "zephyr's_forces", "special_unit",
-
-                # Time periods and versions
-                "marine_era", "neo_marine_period", "film_z",
-                "special_forces_era",
-
-                # Forms and states
-                "battle_mode", "officer_mode", "age_control_state",
-                "tactical_mode", "combat_ready",
-
-                # Outfits and appearances
-                "neo_marine_uniform", "battle_gear", "officer_attire",
-                "combat_outfit", "mission_gear"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "ain", "ain_(one_piece)", "neo_marines",
-
-                # Powers and roles
-                "modo_modo_no_mi", "marine_officer",
-
-                # States and forms
-                "battle_mode", "officer_mode", "age_control"
-            ]
-        },
-
-        "sadi": {
-            "gelbooru": [
-                # Base names and identifiers
-                "sadi", "sadi_(one_piece)", "chief_guard",
-                "impel_down_officer", "sadistic_guard",
-
-                # Titles and positions
-                "chief_guard", "impel_down_staff", "torture_specialist",
-                "prison_officer", "security_chief",
-
-                # Combat abilities
-                "whip_mastery", "torture_techniques", "combat_skills",
-                "prison_control", "guard_expertise",
-
-                # Teams and affiliations
-                "impel_down", "world_government", "prison_staff",
-                "security_forces", "guard_unit",
-
-                # Time periods and versions
-                "impel_down_arc", "prison_era", "current_sadi",
-
-                # Forms and states
-                "guard_mode", "battle_mode", "torture_mode",
-                "command_state", "prison_duty",
-
-                # Outfits and appearances
-                "guard_uniform", "prison_attire", "battle_gear",
-                "officer_outfit", "security_uniform"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "sadi", "sadi_(one_piece)", "impel_down",
-
-                # Roles and abilities
-                "chief_guard", "whip_user", "prison_officer",
-
-                # States
-                "guard_mode", "battle_mode", "command_mode"
-            ]
-        },
-
-        "domino": {
-            "gelbooru": [
-                # Base names and identifiers
-                "domino", "domino_(one_piece)", "impel_down_guard",
-                "vice_chief_guard", "prison_officer",
-
-                # Titles and positions
-                "vice_chief_guard", "impel_down_staff",
-                "security_officer", "prison_authority",
-
-                # Combat abilities
-                "guard_combat", "prison_techniques", "security_skills",
-                "defensive_tactics", "staff_expertise",
-
-                # Teams and affiliations
-                "impel_down", "world_government", "prison_staff",
-                "security_forces", "guard_unit",
-
-                # Time periods and versions
-                "impel_down_arc", "prison_era", "current_domino",
-
-                # Forms and states
-                "guard_mode", "officer_mode", "security_state",
-                "prison_duty", "authority_mode",
-
-                # Outfits and appearances
-                "guard_uniform", "prison_attire", "officer_outfit",
-                "security_gear", "staff_uniform"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "domino", "domino_(one_piece)", "impel_down",
-
-                # Roles
-                "vice_chief_guard", "prison_officer",
-
-                # States
-                "guard_mode", "officer_mode", "security_mode"
-            ]
-        },
-
-        "charlotte_pudding": {
-            "gelbooru": [
-                # Base names and identifiers
-                "charlotte_pudding", "pudding_(one_piece)",
-                "three_eye_tribe", "charlotte_family",
-                "sanji's_arranged_bride",
-
-                # Titles and positions
-                "minister_of_chocolate", "cafe_owner", "third_eye",
-                "charlotte_daughter", "arranged_bride",
-
-                # Special abilities and powers
-                "memory_manipulation", "memo_memo_no_mi",
-                "third_eye_powers", "memory_editing",
-                "potential_poneglyph_reader",
-
-                # Racial traits
-                "three_eye_tribe", "third_eye", "hybrid_race",
-                "special_lineage", "unique_abilities",
-
-                # Combat abilities
-                "memory_alteration", "deception_skills",
-                "emotional_manipulation", "cooking_expertise",
-
-                # Teams and affiliations
-                "big_mom_pirates", "charlotte_family",
-                "totland_ministers", "cafe_staff",
-
-                # Forms and states
-                "sweet_persona", "true_personality", "crying_state",
-                "conflicted_mode", "chef_mode", "third_eye_revealed",
-
-                # Special characteristics
-                "split_personality", "memory_control", "cooking_skills",
-                "third_eye_abilities", "emotional_instability",
-
-                # Time periods and versions
-                "pre_wedding", "wedding_ceremony", "post_wedding",
-                "current_pudding", "childhood_pudding",
-
-                # Outfits and appearances
-                "wedding_dress", "cafe_uniform", "minister_outfit",
-                "casual_clothes", "chef_attire",
-
-                # Emotional states
-                "sweet_pudding", "dark_pudding", "crying_pudding",
-                "tsundere_mode", "conflicted_pudding"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "charlotte_pudding", "pudding_(one_piece)",
-
-                # Powers and traits
-                "three_eye_tribe", "memo_memo_no_mi",
-
-                # States and forms
-                "sweet_persona", "dark_persona", "third_eye_revealed"
-            ]
-        },
-
-        "charlotte_smoothie": {
-            "gelbooru": [
-                # Base names and identifiers
-                "charlotte_smoothie", "smoothie_(one_piece)",
-                "sweet_commander", "longleg_tribe",
-
-                # Titles and positions
-                "sweet_commander", "minister_of_juice",
-                "charlotte_daughter", "big_mom_executive",
-
-                # Special abilities and powers
-                "wring_wring_fruit", "shibo_shibo_no_mi",
-                "liquid_extraction", "size_manipulation",
-                "strength_enhancement",
-
-                # Combat abilities
-                "sword_techniques", "liquid_manipulation",
-                "giant_form", "wringing_powers", "executive_combat",
-
-                # Teams and affiliations
-                "big_mom_pirates", "charlotte_family",
-                "sweet_commanders", "totland_ministers",
-
-                # Forms and states
-                "normal_size", "giant_form", "battle_mode",
-                "commander_mode", "juice_extraction",
-
-                # Special characteristics
-                "longleg_tribe", "executive_power", "massive_size",
-                "liquid_powers", "commander_authority",
-
-                # Time periods and versions
-                "pre_wedding", "tea_party", "chase_period",
-                "current_smoothie", "commander_era",
-
-                # Outfits and appearances
-                "commander_outfit", "minister_clothes", "battle_gear",
-                "formal_attire", "pirate_uniform",
-
-                # Emotional states
-                "serious_smoothie", "commander_mode", "battle_ready",
-                "executive_presence", "determined_smoothie"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "charlotte_smoothie", "smoothie_(one_piece)",
-
-                # Powers and roles
-                "wring_wring_fruit", "sweet_commander",
-
-                # States and forms
-                "normal_form", "giant_form", "battle_mode"
-            ]
-        },
-
-        "charlotte_amande": {
-            "gelbooru": [
-                # Base names and identifiers
-                "charlotte_amande", "amande_(one_piece)",
-                "demon_lady", "snake_neck",
-
-                # Titles and positions
-                "minister_of_nuts", "charlotte_daughter",
-                "big_mom_executive", "swordmaster",
-
-                # Special abilities and powers
-                "sword_mastery", "snake_neck_abilities",
-                "executive_combat", "slow_killing_technique",
-
-                # Combat abilities
-                "sword_techniques", "slow_slicing", "neck_extension",
-                "executive_fighting", "meito_wielder",
-
-                # Teams and affiliations
-                "big_mom_pirates", "charlotte_family",
-                "totland_ministers", "executive_officers",
-
-                # Forms and states
-                "battle_mode", "executive_mode", "swordmaster_stance",
-                "intimidation_mode", "minister_state",
-
-                # Special characteristics
-                "snake_neck", "long_neck_tribe", "sword_expert",
-                "executive_authority", "intimidating_presence",
-
-                # Time periods and versions
-                "pre_wedding", "tea_party", "current_amande",
-                "executive_era", "minister_period",
-
-                # Outfits and appearances
-                "executive_outfit", "minister_clothes", "battle_gear",
-                "formal_attire", "pirate_uniform",
-
-                # Emotional states
-                "serious_amande", "cold_blooded", "executive_mode",
-                "intimidating_presence", "calculated_amande"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "charlotte_amande", "amande_(one_piece)",
-
-                # Roles and traits
-                "minister_of_nuts", "snake_neck",
-
-                # States and forms
-                "battle_mode", "executive_mode", "swordmaster_mode"
-            ]
-        },
-
-        "charlotte_flampe": {
-            "gelbooru": [
-                # Base names and identifiers
-                "charlotte_flampe", "flampe_(one_piece)",
-                "special_forces_commander", "charlotte_family",
-
-                # Titles and positions
-                "special_forces_leader", "charlotte_daughter",
-                "hobby_hobby_squad_commander", "sniper_captain",
-
-                # Special abilities and powers
-                "dart_expertise", "leadership_skills",
-                "sniper_abilities", "youth_division_command",
-
-                # Combat abilities
-                "dart_shooting", "tactical_command",
-                "squad_leadership", "ranged_combat",
-
-                # Teams and affiliations
-                "big_mom_pirates", "charlotte_family",
-                "special_forces", "hobby_hobby_squad",
-
-                # Forms and states
-                "commander_mode", "battle_mode", "sniper_mode",
-                "leadership_state", "childish_state",
-
-                # Special characteristics
-                "youth_leader", "sibling_worship", "bratty_personality",
-                "command_authority", "sniper_skills",
-
-                # Time periods and versions
-                "katakuri_fight", "current_flampe", "commander_era",
-
-                # Outfits and appearances
-                "commander_outfit", "special_forces_uniform",
-                "casual_clothes", "battle_gear",
-
-                # Emotional states
-                "bratty_flampe", "commanding_flampe", "excited_flampe",
-                "idolizing_mode", "childish_flampe"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "charlotte_flampe", "flampe_(one_piece)",
-
-                # Roles and abilities
-                "special_forces_commander", "sniper",
-
-                # States and forms
-                "commander_mode", "battle_mode", "childish_mode"
-            ]
-        },
-
-        "conis": {
-            "gelbooru": [
-                # Base names and identifiers
-                "conis", "conis_(one_piece)", "skypiean",
-                "angel_island_resident", "sky_inhabitant",
-
-                # Positions and roles
-                "skypiean_guide", "angel_beach_resident",
-                "cloud_fox_owner", "harp_player",
-
-                # Special characteristics
-                "skypiean_wings", "angel_resident", "musical_talent",
-                "cloud_dweller", "sky_island_native",
-
-                # Teams and affiliations
-                "angel_island", "skypiea_resistance",
-                "straw_hat_allies", "upper_yard_rebels",
-
-                # Time periods and versions
-                "skypiea_arc", "resistance_period", "current_conis",
-                "pre_liberation", "post_liberation",
-
-                # Outfits and appearances
-                "skypiean_clothes", "angel_dress", "casual_wear",
-                "traditional_outfit", "resistance_gear",
-
-                # Emotional states
-                "friendly_conis", "determined_conis", "helpful_conis",
-                "brave_conis", "resistance_member"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "conis", "conis_(one_piece)", "skypiean",
-
-                # Traits and roles
-                "angel_wings", "sky_dweller",
-
-                # States
-                "guide_mode", "resistance_mode"
-            ]
-        },
-
-        "kalifa": {
-            "gelbooru": [
-                # Base names and identifiers
-                "kalifa", "kalifa_(one_piece)", "cp9_agent",
-                "water_7_secretary", "bubble_master",
-
-                # Titles and positions
-                "cp9_agent", "iceburg's_secretary", "assassin",
-                "government_agent", "undercover_operative",
-
-                # Special abilities and powers
-                "bubble_bubble_fruit", "awa_awa_no_mi",
-                "rokushiki_master", "six_powers", "soap_powers",
-
-                # Combat abilities
-                "rokushiki", "soap_techniques", "assassination_skills",
-                "martial_arts", "government_combat",
-
-                # Teams and affiliations
-                "cp9", "world_government", "galley-la_(former)",
-                "cipher_pol", "assassin_unit",
-
-                # Forms and states
-                "secretary_mode", "agent_mode", "battle_mode",
-                "bubble_form", "undercover_state",
-
-                # Time periods and versions
-                "water_7_arc", "enies_lobby_arc", "cp9_era",
-                "secretary_period", "current_kalifa",
-
-                # Outfits and appearances
-                "secretary_outfit", "agent_clothes", "battle_gear",
-                "office_attire", "assassin_uniform",
-
-                # Emotional states
-                "professional_kalifa", "serious_agent", "battle_ready",
-                "undercover_mode", "assassin_mindset"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "kalifa", "kalifa_(one_piece)", "cp9",
-
-                # Powers and roles
-                "bubble_bubble_fruit", "rokushiki", "assassin",
-
-                # States and forms
-                "agent_mode", "battle_mode", "secretary_mode"
-            ]
-        },
-
-        "mozu_and_kiwi": {
-            "gelbooru": [
-                # Base names and identifiers
-                "mozu", "kiwi", "square_sisters",
-                "franky_family", "water_7_duo",
-
-                # Positions and roles
-                "franky_family_members", "water_7_residents",
-                "square_sisters", "shipwright_assistants",
-
-                # Combat abilities
-                "dual_fighting", "synchronized_combat",
-                "square_style", "franky_family_techniques",
-
-                # Teams and affiliations
-                "franky_family", "galley-la_allies",
-                "water_7_citizens", "straw_hat_allies",
-
-                # Time periods and versions
-                "water_7_arc", "enies_lobby_arc", "current_era",
-
-                # Outfits and appearances
-                "square_hair", "franky_family_clothes",
-                "water_7_fashion", "matching_outfits",
-
-                # Emotional states
-                "synchronized_sisters", "loyal_members",
-                "supportive_duo", "determined_sisters"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "mozu", "kiwi", "square_sisters",
-
-                # Roles and affiliations
-                "franky_family", "water_7",
-
-                # States
-                "synchronized_mode", "battle_mode"
-            ]
-        },
-
-        "kumadori's_mother": {
-            "gelbooru": [
-                # Base names and identifiers
-                "kumadori's_mother", "kumadori_mother",
-                "cp9_agent_parent", "rokushiki_master",
-
-                # Titles and positions
-                "rokushiki_master", "cipher_pol_agent",
-                "government_assassin", "martial_artist",
-
-                # Combat abilities
-                "rokushiki", "life_return", "assassination_skills",
-                "martial_arts_master", "government_techniques",
-
-                # Teams and affiliations
-                "cipher_pol", "world_government",
-                "assassination_unit", "kumadori_family",
-
-                # Time periods and versions
-                "flashback_era", "cipher_pol_days", "kumadori_childhood"
-            ],
-            "danbooru": [
-                "kumadori's_mother", "kumadori_family",
-                "cipher_pol", "rokushiki_master"
-            ]
-        },
-
-        # Baratie Arc
-        "zeff's_mother": {
-            "gelbooru": [
-                # Base names and identifiers
-                "zeff's_mother", "zeff_mother", "sanji_flashback",
-
-                # Roles and positions
-                "cook's_mother", "baratie_backstory", "east_blue_resident",
-
-                # Time periods and versions
-                "flashback_character", "zeff_childhood", "past_era"
-            ],
-            "danbooru": [
-                "zeff's_mother", "baratie_arc", "flashback_character"
-            ]
-        },
-
-        # Drum Island Complete
-        "kureha": {
-            "gelbooru": [
-                # Base names and identifiers
-                "kureha", "kureha_(one_piece)", "dr_kureha",
-                "witch_doctor", "drum_kingdom_doctor",
-
-                # Titles and positions
-                "doctor_kureha", "witch_of_drum", "medical_expert",
-                "drum_castle_resident", "chopper's_mentor",
-
-                # Special characteristics
-                "medical_knowledge", "longevity_techniques",
-                "doctor_skills", "winter_specialist", "mentor",
-
-                # Teams and affiliations
-                "drum_kingdom", "medical_practitioners",
-                "chopper's_teachers", "castle_doctors",
-
-                # Time periods and versions
-                "drum_island_arc", "pre_timeskip", "current_kureha",
-                "flashback_kureha", "doctor_era",
-
-                # Outfits and appearances
-                "doctor_coat", "winter_clothes", "medical_gear",
-                "casual_wear", "drum_castle_attire",
-
-                # Emotional states
-                "stern_doctor", "caring_mentor", "wise_kureha",
-                "teaching_mode", "medical_authority"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "kureha", "kureha_(one_piece)", "dr_kureha",
-
-                # Roles and positions
-                "doctor", "witch", "mentor",
-
-                # States and periods
-                "medical_mode", "teaching_mode", "drum_island"
-            ]
-        },
-
-        # Long Ring Long Land Complete
-        "porche": {
-            "gelbooru": [
-                # Base names and identifiers
-                "porche", "porche_(one_piece)", "foxy_pirate",
-                "idol_performer", "foxy_crew",
-
-                # Titles and positions
-                "foxy_pirates_idol", "crew_performer",
-                "davy_back_fighter", "crew_member",
-
-                # Special abilities
-                "performance_skills", "combat_abilities",
-                "crew_support", "entertainment_talent",
-
-                # Teams and affiliations
-                "foxy_pirates", "davy_back_crew",
-                "performance_unit", "foxy's_crew",
-
-                # Time periods and versions
-                "long_ring_long_land", "davy_back_fight",
-                "current_porche", "pre_timeskip",
-
-                # Outfits and appearances
-                "performer_outfit", "pirate_clothes",
-                "crew_uniform", "battle_gear",
-
-                # Emotional states
-                "cheerful_porche", "performing_mode",
-                "competitive_spirit", "crew_loyalty"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "porche", "porche_(one_piece)",
-
-                # Roles and affiliations
-                "foxy_pirates", "performer",
-
-                # States and forms
-                "performance_mode", "battle_mode"
-            ]
-        },
-
-        # Amazon Lily Additional Character
-        "marguerite": {
-            "gelbooru": [
-                # Base names and identifiers
-                "marguerite", "marguerite_(one_piece)",
-                "kuja_warrior", "amazon_lily_archer",
-
-                # Titles and positions
-                "kuja_warrior", "elite_archer", "amazon_guard",
-                "hancock's_subordinate", "luffy's_friend",
-
-                # Combat abilities
-                "archery_master", "haki_arrows", "kuja_combat",
-                "snake_bow_user", "warrior_skills",
-
-                # Teams and affiliations
-                "kuja_pirates", "amazon_lily", "hancock's_guards",
-                "warrior_tribe", "snake_army",
-
-                # Time periods and versions
-                "amazon_lily_arc", "pre_timeskip", "current_marguerite",
-
-                # Outfits and appearances
-                "kuja_outfit", "warrior_attire", "tribal_clothes",
-                "battle_gear", "amazon_dress",
-
-                # Emotional states
-                "friendly_marguerite", "curious_marguerite",
-                "warrior_mode", "protective_marguerite"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "marguerite", "marguerite_(one_piece)",
-
-                # Roles and abilities
-                "kuja_warrior", "archer", "amazon_lily",
-
-                # States and forms
-                "warrior_mode", "battle_mode", "friendly_mode"
-            ]
-        },
-
-        "spandam's_secretary": {
-            "gelbooru": [
-                # Base names and identifiers
-                "spandam's_secretary", "enies_lobby_secretary",
-                "government_worker", "tower_staff",
-
-                # Titles and positions
-                "cp9_secretary", "tower_of_justice_staff",
-                "government_employee", "office_worker",
-
-                # Teams and affiliations
-                "enies_lobby", "world_government",
-                "spandam's_staff", "tower_personnel",
-
-                # Time periods and versions
-                "enies_lobby_arc", "pre_timeskip",
-                "tower_of_justice_era"
-            ],
-            "danbooru": [
-                "spandam's_secretary", "enies_lobby",
-                "tower_of_justice", "secretary"
-            ]
-        },
-
-        # Syrup Village Arc (Complete)
-        "kaya": {
-            "gelbooru": [
-                # Base names and identifiers
-                "kaya", "kaya_(one_piece)", "syrup_village_resident",
-                "mansion_owner", "aspiring_doctor",
-
-                # Titles and positions
-                "mansion_mistress", "medical_student",
-                "wealthy_heiress", "usopp's_friend",
-
-                # Special characteristics
-                "medical_knowledge", "kind_heart",
-                "wealthy_background", "illness_recovery",
-
-                # Teams and affiliations
-                "syrup_village", "going_merry_donor",
-                "usopp_pirates_supporter", "village_elite",
-
-                # Time periods and versions
-                "syrup_village_arc", "pre_timeskip",
-                "current_kaya", "recovery_period",
-
-                # Outfits and appearances
-                "mansion_clothes", "casual_wear",
-                "medical_student_attire", "wealthy_dress",
-
-                # Emotional states
-                "kind_kaya", "determined_student",
-                "grateful_friend", "caring_personality"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "kaya", "kaya_(one_piece)",
-
-                # Roles and positions
-                "medical_student", "mansion_owner",
-
-                # States and periods
-                "recovery_mode", "studying_mode"
-            ]
-        },
-
-        "merry": {
-            "gelbooru": [
-                # Base names and identifiers
-                "merry", "merry_(one_piece)", "kaya's_butler",
-                "mansion_servant", "loyal_butler",
-
-                # Titles and positions
-                "head_butler", "mansion_staff",
-                "kaya's_servant", "household_manager",
-
-                # Teams and affiliations
-                "syrup_village", "mansion_staff",
-                "kaya's_household", "village_elite",
-
-                # Time periods and versions
-                "syrup_village_arc", "pre_timeskip",
-                "current_merry", "mansion_era",
-
-                # Outfits and appearances
-                "butler_uniform", "formal_wear",
-                "servant_attire", "professional_clothes",
-
-                # Emotional states
-                "loyal_servant", "protective_butler",
-                "caring_merry", "dutiful_staff"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "merry", "merry_(one_piece)",
-
-                # Roles
-                "butler", "servant",
-
-                # States
-                "service_mode", "protective_mode"
-            ]
-        },
-
-        # Orange Town Arc (Complete)
-        "chouchou's_owner": {
-            "gelbooru": [
-                # Base names and identifiers
-                "hocker", "pet_shop_owner",
-                "orange_town_resident", "chouchou's_master",
-
-                # Roles and positions
-                "shop_owner", "pet_store_proprietor",
-                "dog_owner", "town_resident",
-
-                # Teams and affiliations
-                "orange_town", "shop_keepers",
-                "civilian_population",
-
-                # Time periods and versions
-                "orange_town_arc", "flashback_era",
-                "pre_timeskip"
-            ],
-            "danbooru": [
-                "hocker", "pet_shop_owner",
-                "orange_town", "flashback_character"
-            ]
-        },
-
-        "rika": {
-            "gelbooru": [
-                # Base names and identifiers
-                "rika", "rika_(one_piece)", "shells_town_girl",
-                "food_shop_daughter", "zoro's_friend",
-
-                # Roles and positions
-                "restaurant_helper", "civilian_child",
-                "zoro_supporter", "town_resident",
-
-                # Teams and affiliations
-                "shells_town", "food_shop_family",
-                "civilian_population", "zoro's_allies",
-
-                # Time periods and versions
-                "morgan_arc", "early_east_blue", "pre_timeskip",
-
-                # Emotional states
-                "grateful_rika", "brave_child", "helpful_rika",
-                "kind_hearted", "caring_child"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "rika", "rika_(one_piece)",
-
-                # Roles and locations
-                "shells_town", "civilian",
-
-                # States
-                "child_character", "supporter"
-            ]
-        },
-
-        # Gaimon Arc (Island of Rare Animals)
-        "sarfunkel": {
-            "gelbooru": [
-                # Base names and identifiers
-                "sarfunkel", "sarfunkel_(one_piece)",
-                "rare_animals_island", "gaimon's_partner",
-
-                # Roles and positions
-                "island_guardian", "animal_protector",
-                "gaimon's_companion", "treasure_hunter",
-
-                # Teams and affiliations
-                "rare_animals_island", "island_protectors",
-                "gaimon's_ally", "treasure_seekers",
-
-                # Time periods and versions
-                "post_timeskip", "cover_story_era",
-
-                # Emotional states
-                "protective_sarfunkel", "caring_guardian",
-                "treasure_seeker", "animal_lover"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "sarfunkel", "sarfunkel_(one_piece)",
-
-                # Roles
-                "guardian", "protector",
-
-                # States
-                "cover_story_character"
-            ]
-        },
-
-        # Apis Arc (Warship Island)
-        "apis": {
-            "gelbooru": [
-                # Base names and identifiers
-                "apis", "apis_(one_piece)", "warship_island",
-                "dragon_friend", "millennium_dragon_ally",
-
-                # Roles and positions
-                "dragon_protector", "island_resident",
-                "lost_powers_user", "ryuuji's_friend",
-
-                # Special abilities
-                "animal_communication", "dragon_understanding",
-                "ancient_powers", "lost_civilization_connection",
-
-                # Teams and affiliations
-                "warship_island", "straw_hat_allies",
-                "dragon_protectors", "lost_civilization",
-
-                # Time periods and versions
-                "warship_island_arc", "filler_arc",
-                "pre_timeskip", "childhood_apis",
-
-                # Outfits and appearances
-                "traditional_clothes", "island_outfit",
-                "dragon_keeper_attire", "casual_wear",
-
-                # Emotional states
-                "protective_apis", "determined_apis",
-                "caring_friend", "brave_child"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "apis", "apis_(one_piece)",
-
-                # Roles and abilities
-                "dragon_friend", "animal_communicator",
-
-                # States
-                "protective_mode", "child_character"
-            ]
-        },
-
-        # Post-Alabasta Arc
-        "adelle_bascùd": {
-            "gelbooru": [
-                # Base names and identifiers
-                "adelle", "adelle_(one_piece)", "goat_island",
-                "mayor's_daughter", "island_defender",
-
-                # Roles and positions
-                "goat_island_resident", "defender",
-                "village_protector", "zoro's_temporary_student",
-
-                # Combat abilities
-                "basic_swordsmanship", "defensive_skills",
-                "island_protection", "beginner_fighter",
-
-                # Teams and affiliations
-                "goat_island", "island_defenders",
-                "zoro's_students", "civilian_fighters",
-
-                # Time periods and versions
-                "post_alabasta", "filler_arc", "pre_timeskip",
-
-                # Emotional states
-                "determined_adelle", "protective_spirit",
-                "learning_mode", "defensive_stance"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "adelle", "adelle_(one_piece)",
-
-                # Roles
-                "swordswoman", "defender",
-
-                # States
-                "student_mode", "protective_mode"
-            ]
-        },
-
-        # Ocean's Dream Arc
-        "abi": {
-            "gelbooru": [
-                # Base names and identifiers
-                "abi", "abi_(one_piece)", "dream_investigator",
-                "memory_researcher", "sleeping_expert",
-
-                # Roles and positions
-                "dream_expert", "memory_specialist",
-                "sleep_researcher", "arc_antagonist",
-
-                # Special abilities
-                "dream_investigation", "memory_analysis",
-                "sleep_study", "research_skills",
-
-                # Teams and affiliations
-                "dream_researchers", "memory_scientists",
-                "independent_investigator",
-
-                # Time periods and versions
-                "ocean's_dream_arc", "filler_arc",
-                "pre_timeskip",
-
-                # Emotional states
-                "analytical_abi", "research_mode",
-                "investigative_spirit", "determined_researcher"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "abi", "abi_(one_piece)",
-
-                # Roles
-                "researcher", "investigator",
-
-                # States
-                "analytical_mode", "research_mode"
-            ]
-        },
-
-        "jessica": {
-            "gelbooru": [
-                # Base names and identifiers
-                "jessica", "jessica_(one_piece)", "g8_base_cook",
-                "jonathan's_wife", "marine_chef",
-
-                # Titles and positions
-                "head_chef", "marine_base_cook", "commander's_wife",
-                "kitchen_supervisor", "g8_staff",
-
-                # Special abilities
-                "cooking_mastery", "kitchen_management",
-                "food_expertise", "base_administration",
-
-                # Teams and affiliations
-                "marine_forces", "g8_base", "kitchen_staff",
-                "jonathan's_family", "marine_support",
-
-                # Time periods and versions
-                "g8_arc", "filler_arc", "pre_timeskip",
-                "navarone_base_era",
-
-                # Outfits and appearances
-                "chef_uniform", "kitchen_attire", "marine_base_clothes",
-                "cooking_gear", "casual_wear",
-
-                # Emotional states
-                "professional_jessica", "caring_wife",
-                "strict_chef", "base_defender"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "jessica", "jessica_(one_piece)",
-
-                # Roles
-                "chef", "marine_staff",
-
-                # States
-                "cooking_mode", "commander's_wife"
-            ]
-        },
-
-        # Rainbow Mist Arc
-        "henzo's_grandmother": {
-            "gelbooru": [
-                # Base names and identifiers
-                "henzo's_grandmother", "ruluka_elder",
-                "rainbow_mist_resident", "island_elder",
-
-                # Roles and positions
-                "village_elder", "family_member",
-                "ruluka_citizen", "historical_witness",
-
-                # Teams and affiliations
-                "ruluka_island", "village_elders",
-                "henzo's_family", "island_residents",
-
-                # Time periods and versions
-                "rainbow_mist_arc", "filler_arc",
-                "ruluka_flashback", "pre_timeskip"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "henzo's_grandmother", "ruluka_resident",
-
-                # Roles
-                "elder", "villager",
-
-                # Time periods
-                "flashback_character"
-            ]
-        },
-
-        # Ruluka Island Girl
-        "akibi": {
-            "gelbooru": [
-                # Base names and identifiers
-                "akibi", "akibi_(one_piece)", "ruluka_child",
-                "rainbow_mist_victim", "lost_child",
-
-                # Roles and positions
-                "missing_child", "ruluka_resident",
-                "mist_explorer", "ship_passenger",
-
-                # Teams and affiliations
-                "ruluka_island", "lost_children",
-                "rainbow_mist_group", "wetton's_victims",
-
-                # Time periods and versions
-                "rainbow_mist_arc", "filler_arc",
-                "pre_timeskip", "missing_period"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "akibi", "akibi_(one_piece)",
-
-                # States
-                "lost_child", "rainbow_mist"
-            ]
-        },
-
-        # Goat Island Arc
-        "yuki": {
-            "gelbooru": [
-                # Base names and identifiers
-                "yuki", "yuki_(one_piece)", "goat_island_resident",
-                "zoro's_student", "island_defender",
-
-                # Roles and positions
-                "student_swordsman", "island_protector",
-                "civilian_fighter", "training_participant",
-
-                # Combat abilities
-                "basic_swordsmanship", "defensive_skills",
-                "training_experience", "beginner_fighter",
-
-                # Teams and affiliations
-                "goat_island", "zoro's_students",
-                "island_defenders", "civilian_militia",
-
-                # Time periods and versions
-                "goat_island_arc", "filler_arc",
-                "pre_timeskip", "training_period"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "yuki", "yuki_(one_piece)",
-
-                # Roles
-                "student", "defender",
-
-                # States
-                "training_mode", "protective_mode"
-            ]
-        },
-
-        # Lovely Land Arc
-        "lily": {
-            "gelbooru": [
-                # Base names and identifiers
-                "lily", "lily_(one_piece)", "lovely_land_resident",
-                "spa_island_staff", "filler_character",
-
-                # Roles and positions
-                "spa_worker", "island_staff", "service_provider",
-                "resort_employee", "lovely_land_civilian",
-
-                # Teams and affiliations
-                "spa_island", "lovely_land", "resort_staff",
-                "service_industry", "island_workers",
-
-                # Time periods and versions
-                "lovely_land_arc", "filler_arc",
-                "pre_timeskip", "spa_island_era",
-
-                # Outfits and appearances
-                "staff_uniform", "resort_clothes",
-                "service_attire", "spa_outfit"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "lily", "lily_(one_piece)",
-
-                # Roles
-                "spa_worker", "staff_member",
-
-                # States
-                "service_mode", "working_state"
-            ]
-        },
-
-        "shirahoshi": {
-            "gelbooru": [
-                # Base names and identifiers
-                "shirahoshi", "shirahoshi_(one_piece)",
-                "princess_shirahoshi", "mermaid_princess",
-                "poseidon", "ancient_weapon",
-
-                # Titles and positions
-                "neptune's_daughter", "ryugu_princess",
-                "ancient_weapon_poseidon", "mermaid_princess",
-                "fishman_island_royalty",
-
-                # Special abilities and powers
-                "sea_kings_control", "poseidon_powers",
-                "ancient_weapon_abilities", "sea_creature_communication",
-                "voice_of_all_things",
-
-                # Physical traits
-                "giant_mermaid", "pink_hair", "royal_mermaid",
-                "giant_size", "mermaid_tail", "princess_features",
-
-                # Teams and affiliations
-                "ryugu_kingdom", "neptune_family", "royal_family",
-                "fishman_island", "mermaid_cove",
-
-                # Family relationships
-                "neptune's_daughter", "fukaboshi's_sister",
-                "manboshi's_sister", "ryuboshi's_sister",
-                "otohime's_daughter",
-
-                # Time periods and versions
-                "childhood_shirahoshi", "tower_period",
-                "current_shirahoshi", "post_timeskip",
-
-                # Outfits and appearances
-                "princess_attire", "royal_clothes", "mermaid_outfit",
-                "formal_dress", "casual_clothes", "tower_wear",
-
-                # Emotional states
-                "crying_shirahoshi", "brave_shirahoshi",
-                "determined_princess", "scared_shirahoshi",
-                "happy_shirahoshi", "royal_dignity"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "shirahoshi", "shirahoshi_(one_piece)",
-
-                # Titles and roles
-                "mermaid_princess", "poseidon",
-
-                # States and forms
-                "giant_mermaid", "royal_princess",
-
-                # Time periods
-                "fishman_island_arc", "post_timeskip"
-            ]
-        },
-
-        "otohime": {
-            "gelbooru": [
-                # Base names and identifiers
-                "otohime", "otohime_(one_piece)", "queen_otohime",
-                "neptune's_wife", "ryugu_queen",
-
-                # Titles and positions
-                "ryugu_queen", "neptune's_consort",
-                "fishman_island_queen", "royal_family",
-                "peace_advocate",
-
-                # Special abilities and powers
-                "observation_haki", "emotional_perception",
-                "diplomatic_skills", "royal_authority",
-
-                # Family relationships
-                "neptune's_wife", "shirahoshi's_mother",
-                "fukaboshi's_mother", "ryuboshi's_mother",
-                "manboshi's_mother",
-
-                # Teams and affiliations
-                "ryugu_kingdom", "neptune_family",
-                "royal_family", "fishman_island",
-
-                # Time periods and versions
-                "flashback_otohime", "queen_era",
-                "peace_movement", "pre_death",
-
-                # Outfits and appearances
-                "royal_attire", "queen_clothes",
-                "diplomatic_dress", "formal_wear",
-
-                # Emotional states
-                "determined_otohime", "peaceful_queen",
-                "diplomatic_mode", "motherly_love",
-                "royal_dignity"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "otohime", "otohime_(one_piece)",
-
-                # Roles and positions
-                "queen", "peace_advocate",
-
-                # States and periods
-                "flashback_character", "royal_family"
-            ]
-        },
-
-        "madam_shyarly": {
-            "gelbooru": [
-                # Base names and identifiers
-                "madam_shyarly", "shyarly_(one_piece)",
-                "mermaid_cafe_owner", "fortune_teller",
-
-                # Titles and positions
-                "cafe_owner", "fortune_teller", "seer",
-                "mermaid_cafe_proprietor", "arlong's_sister",
-
-                # Special abilities and powers
-                "future_vision", "prophecy_ability",
-                "crystal_ball_reading", "prediction_power",
-
-                # Special characteristics
-                "shark_mermaid", "business_owner",
-                "fortune_telling", "prophetic_vision",
-
-                # Teams and affiliations
-                "mermaid_cafe", "fishman_island",
-                "coral_hill", "business_district",
-
-                # Time periods and versions
-                "pre_timeskip", "post_timeskip",
-                "fishman_island_arc", "current_shyarly",
-
-                # Outfits and appearances
-                "business_attire", "fortune_teller_clothes",
-                "cafe_owner_outfit", "formal_wear",
-
-                # Emotional states
-                "professional_shyarly", "serious_fortune_teller",
-                "business_mode", "prophetic_state"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "madam_shyarly", "shyarly_(one_piece)",
-
-                # Roles and abilities
-                "fortune_teller", "cafe_owner",
-
-                # States and forms
-                "shark_mermaid", "business_owner"
-            ]
-        },
-
-        "ishilly": {
-            "gelbooru": [
-                # Base names and identifiers
-                "ishilly", "ishilly_(one_piece)",
-                "mermaid_cafe_worker", "mermaid_cove_resident",
-
-                # Titles and positions
-                "cafe_worker", "mermaid_attendant",
-                "service_staff", "mermaid_cove_member",
-
-                # Teams and affiliations
-                "mermaid_cafe", "mermaid_cove",
-                "fishman_island", "service_industry",
-
-                # Time periods and versions
-                "fishman_island_arc", "post_timeskip",
-                "current_ishilly",
-
-                # Outfits and appearances
-                "cafe_uniform", "mermaid_outfit",
-                "work_clothes", "service_attire",
-
-                # Emotional states
-                "cheerful_ishilly", "working_mode",
-                "service_attitude", "friendly_demeanor"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "ishilly", "ishilly_(one_piece)",
-
-                # Roles
-                "mermaid", "cafe_worker",
-
-                # States
-                "service_mode", "working_state"
-            ]
-        },
-
-        "lilo": {
-            "gelbooru": [
-                # Base names and identifiers
-                "lilo", "lilo_(one_piece)", "bounty_hunter",
-                "accino_family", "ice_hunter",
-
-                # Roles and positions
-                "bounty_hunter", "accino_family_member",
-                "ice_hunter_team", "phoenix_pirates_hunter",
-
-                # Teams and affiliations
-                "accino_family", "ice_hunters", "bounty_hunters",
-                "don_accino's_crew", "hunting_team",
-
-                # Time periods and versions
-                "ice_hunter_arc", "filler_arc", "pre_timeskip",
-
-                # Emotional states
-                "hunting_mode", "family_member", "professional_hunter"
-            ],
-            "danbooru": [
-                "lilo", "lilo_(one_piece)", "bounty_hunter",
-                "ice_hunter", "accino_family"
-            ]
-        },
-
-        # Little East Blue Arc
-        "daisy": {
-            "gelbooru": [
-                # Base names and identifiers
-                "daisy", "daisy_(one_piece)", "little_east_blue",
-                "island_resident", "civilian_character",
-
-                # Roles and positions
-                "island_civilian", "local_resident",
-                "east_blue_settler", "community_member",
-
-                # Teams and affiliations
-                "little_east_blue", "island_community",
-                "civilian_population", "east_blue_migrants",
-
-                # Time periods and versions
-                "little_east_blue_arc", "filler_arc",
-                "pre_timeskip", "island_era"
-            ],
-            "danbooru": [
-                "daisy", "daisy_(one_piece)",
-                "little_east_blue", "civilian"
-            ]
-        },
-
-        # Z's Ambition Arc
-        "shuzo's_wife": {
-            "gelbooru": [
-                # Base names and identifiers
-                "shuzo's_wife", "neo_marines_family",
-                "marine_relative", "filler_character",
-
-                # Roles and positions
-                "marine_wife", "neo_marine_family",
-                "supporting_character", "background_role",
-
-                # Teams and affiliations
-                "neo_marines", "marine_families",
-                "civilian_support", "background_character",
-
-                # Time periods and versions
-                "z's_ambition_arc", "filler_arc",
-                "neo_marine_era", "flashback_character"
-            ],
-            "danbooru": [
-                "shuzo's_wife", "neo_marines",
-                "marine_family", "flashback_character"
-            ]
-        },
-
-        "commander_jonathan's_wife": {
-            "gelbooru": [
-                # Base names and identifiers
-                "jessica", "jessica_(one_piece)", "navarone_chef",
-                "g8_base_cook", "marine_wife",
-
-                # Titles and positions
-                "head_chef", "marine_base_cook", "commander's_wife",
-                "kitchen_supervisor", "navarone_staff",
-
-                # Special skills
-                "culinary_expertise", "kitchen_management",
-                "base_administration", "cooking_mastery",
-
-                # Teams and affiliations
-                "marine_base_g8", "navarone_staff",
-                "marine_families", "kitchen_personnel",
-
-                # Time periods and versions
-                "g8_arc", "navarone_arc", "filler_arc",
-                "pre_timeskip", "base_era"
-            ],
-            "danbooru": [
-                "jessica", "jessica_(one_piece)",
-                "marine_cook", "g8_arc"
-            ]
-        },
-
-        # Spa Island Arc
-        "lina": {
-            "gelbooru": [
-                # Base names and identifiers
-                "lina", "lina_(one_piece)", "spa_worker",
-                "furo_island_staff", "service_staff",
-
-                # Roles and positions
-                "spa_attendant", "island_staff",
-                "service_provider", "resort_worker",
-
-                # Teams and affiliations
-                "spa_island", "resort_staff",
-                "service_industry", "furo_kingdom",
-
-                # Time periods and versions
-                "spa_island_arc", "filler_arc",
-                "pre_timeskip", "resort_era",
-
-                # Outfits and states
-                "spa_uniform", "service_attire",
-                "resort_clothes", "work_outfit"
-            ],
-            "danbooru": [
-                "lina", "lina_(one_piece)",
-                "spa_worker", "filler_character"
-            ]
-        },
-
-        # Adventure of Nebulandia
-        "komei's_sister": {
-            "gelbooru": [
-                # Base names and identifiers
-                "komei's_sister", "nebulandia_character",
-                "marine_family", "filler_character",
-
-                # Roles and positions
-                "marine_relative", "supporting_character",
-                "family_member", "background_character",
-
-                # Teams and affiliations
-                "marine_families", "nebulandia_residents",
-                "komei's_family", "marine_background",
-
-                # Time periods and versions
-                "nebulandia_arc", "filler_special",
-                "special_character", "marine_era"
-            ],
-            "danbooru": [
-                "komei's_sister", "nebulandia",
-                "marine_family", "special_character"
-            ]
-        },
-
-        # Silver Mine Arc
-        "myskina_acier": {
-            "gelbooru": [
-                # Base names and identifiers
-                "myskina_acier", "acier_(one_piece)",
-                "silver_mine_prisoner", "resistance_member",
-
-                # Roles and positions
-                "mine_prisoner", "resistance_fighter",
-                "escaped_prisoner", "rebel_leader",
-
-                # Special characteristics
-                "resistance_skills", "leadership_ability",
-                "survival_expertise", "combat_experience",
-
-                # Teams and affiliations
-                "silver_mine_resistance", "escaped_prisoners",
-                "rebel_faction", "prison_breakers",
-
-                # Time periods and versions
-                "silver_mine_arc", "filler_arc",
-                "prison_era", "resistance_period",
-
-                # Emotional states
-                "determined_fighter", "rebellious_spirit",
-                "resistance_leader", "freedom_seeker"
-            ],
-            "danbooru": [
-                "myskina_acier", "silver_mine",
-                "resistance_fighter", "prisoner"
-            ]
-        },
-
-        "carmel": {
-            "gelbooru": [
-                # Base names and identifiers
-                "carmel", "carmel_(one_piece)", "marine_rookie",
-                "training_graduate", "new_marine",
-
-                # Titles and positions
-                "marine_graduate", "rookie_officer",
-                "training_corp", "new_recruit",
-
-                # Combat abilities
-                "basic_training", "marine_combat",
-                "rookie_skills", "military_training",
-
-                # Teams and affiliations
-                "marine_forces", "rookie_squad",
-                "training_division", "new_recruits",
-
-                # Time periods and versions
-                "marine_rookie_arc", "filler_arc",
-                "training_period", "graduation_era",
-
-                # Outfits and appearances
-                "marine_uniform", "training_gear",
-                "rookie_outfit", "graduation_attire",
-
-                # Emotional states
-                "determined_rookie", "training_mode",
-                "ambitious_marine", "learning_state"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "carmel", "carmel_(one_piece)",
-
-                # Roles
-                "marine_rookie", "trainee",
-
-                # States
-                "training_mode", "rookie_state"
-            ]
-        },
-
-        # Cidre Guild Arc
-        "ishigo_shitemanna": {
-            "gelbooru": [
-                # Base names and identifiers
-                "ishigo", "ishigo_(one_piece)",
-                "cidre_guild_member", "female_pirate",
-
-                # Titles and positions
-                "guild_member", "pirate_brewer",
-                "drink_specialist", "cidre_maker",
-
-                # Special abilities
-                "brewing_skills", "guild_techniques",
-                "drink_creation", "combat_brewing",
-
-                # Teams and affiliations
-                "cidre_guild", "brewing_pirates",
-                "drink_makers", "guild_forces",
-
-                # Time periods and versions
-                "cidre_guild_arc", "filler_arc",
-                "guild_era", "brewing_period",
-
-                # Outfits and appearances
-                "guild_uniform", "brewer_outfit",
-                "pirate_clothes", "work_gear",
-
-                # Emotional states
-                "professional_brewer", "guild_loyalty",
-                "brewing_focus", "pirate_spirit"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "ishigo", "ishigo_(one_piece)",
-
-                # Roles
-                "cidre_guild", "brewer",
-
-                # States
-                "brewing_mode", "guild_member"
-            ]
-        },
-
-        # Marine Rookie Arc Additional
-        "bonham": {
-            "gelbooru": [
-                # Base names and identifiers
-                "bonham", "bonham_(one_piece)",
-                "marine_instructor", "training_officer",
-
-                # Titles and positions
-                "marine_teacher", "training_supervisor",
-                "drill_instructor", "veteran_marine",
-
-                # Combat abilities
-                "instructor_skills", "combat_training",
-                "marine_techniques", "teaching_expertise",
-
-                # Teams and affiliations
-                "marine_forces", "training_division",
-                "instructor_corps", "education_unit",
-
-                # Time periods and versions
-                "marine_rookie_arc", "filler_arc",
-                "training_era", "instructor_period",
-
-                # Outfits and appearances
-                "marine_uniform", "instructor_attire",
-                "training_gear", "official_dress",
-
-                # Emotional states
-                "strict_instructor", "teaching_mode",
-                "professional_manner", "training_focus"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "bonham", "bonham_(one_piece)",
-
-                # Roles
-                "marine_instructor", "trainer",
-
-                # States
-                "teaching_mode", "instructor_state"
-            ]
-        },
-
-        # Cidre Guild Additional
-        "udetsuki": {
-            "gelbooru": [
-                # Base names and identifiers
-                "udetsuki", "udetsuki_(one_piece)",
-                "cidre_guild_executive", "female_pirate",
-
-                # Titles and positions
-                "guild_executive", "senior_brewer",
-                "pirate_officer", "drink_master",
-
-                # Special abilities
-                "advanced_brewing", "guild_mastery",
-                "drink_expertise", "combat_brewing",
-
-                # Teams and affiliations
-                "cidre_guild", "brewing_pirates",
-                "guild_leadership", "executive_team",
-
-                # Time periods and versions
-                "cidre_guild_arc", "filler_arc",
-                "guild_era", "executive_period",
-
-                # Outfits and appearances
-                "executive_uniform", "guild_clothes",
-                "pirate_attire", "brewer_gear",
-
-                # Emotional states
-                "leader_mode", "guild_pride",
-                "executive_manner", "brewing_focus"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "udetsuki", "udetsuki_(one_piece)",
-
-                # Roles
-                "cidre_executive", "guild_leader",
-
-                # States
-                "executive_mode", "leadership_state"
-            ]
-        },
-
-        "sengoku's_secretary": {
-            "gelbooru": [
-                # Base names and identifiers
-                "sengoku's_secretary", "marine_hq_secretary",
-                "fleet_admiral_staff", "headquarters_personnel",
-
-                # Titles and positions
-                "marine_secretary", "administrative_staff",
-                "fleet_admiral_assistant", "hq_staff",
-
-                # Roles and duties
-                "battlefield_reporter", "war_correspondent",
-                "marine_administrator", "communication_officer",
-
-                # Teams and affiliations
-                "marine_headquarters", "administrative_division",
-                "fleet_admiral_office", "marine_staff",
-
-                # Time periods and versions
-                "marineford_war", "war_arc", "marine_era",
-                "pre_timeskip", "headquarters_period",
-
-                # Outfits and appearances
-                "marine_uniform", "office_attire",
-                "staff_clothes", "formal_wear",
-
-                # Emotional states
-                "professional_demeanor", "duty_bound",
-                "official_manner", "wartime_focus"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "sengoku's_secretary", "marine_staff",
-
-                # Roles
-                "secretary", "administrator",
-
-                # States
-                "marineford_war", "official_duty"
-            ]
-        },
-
-        "domino": {
-            "gelbooru": [
-                # Base names and identifiers
-                "domino", "domino_(one_piece)",
-                "impel_down_guard", "prison_staff",
-
-                # Titles and positions
-                "chief_guard", "prison_officer",
-                "security_chief", "impel_down_staff",
-
-                # Special abilities
-                "prison_combat", "security_expertise",
-                "guard_skills", "defensive_tactics",
-
-                # Teams and affiliations
-                "impel_down", "prison_guards",
-                "world_government", "security_force",
-
-                # Time periods and versions
-                "impel_down_arc", "marineford_war",
-                "pre_timeskip", "prison_era",
-
-                # Outfits and appearances
-                "guard_uniform", "security_outfit",
-                "prison_attire", "official_uniform",
-
-                # Emotional states
-                "professional_guard", "dutiful_officer",
-                "stern_demeanor", "security_focused"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "domino", "domino_(one_piece)",
-
-                # Roles
-                "chief_guard", "prison_officer",
-
-                # States
-                "guard_duty", "security_mode"
-            ]
-        },
-
-        "tsuru": {
-            "gelbooru": [
-                # Base names and identifiers
-                "tsuru", "tsuru_(one_piece)", "great_staff_officer",
-                "marine_vice_admiral", "legendary_marine",
-
-                # Titles and positions
-                "vice_admiral", "great_staff_officer",
-                "marine_legend", "strategic_commander",
-
-                # Special abilities and powers
-                "wash_wash_fruit", "woshu_woshu_no_mi",
-                "marine_haki", "strategic_genius",
-                "veteran_combat", "cleansing_power",
-
-                # Combat specialties
-                "devil_fruit_master", "tactical_expert",
-                "marine_combat", "strategic_warfare",
-
-                # Teams and affiliations
-                "marine_headquarters", "vice_admirals",
-                "marine_leadership", "strategy_division",
-
-                # Time periods and versions
-                "marineford_war", "roger_era", "pre_timeskip",
-                "marine_veteran", "war_commander",
-
-                # Outfits and appearances
-                "marine_uniform", "vice_admiral_coat",
-                "battle_attire", "formal_uniform",
-
-                # Emotional states
-                "strategic_mind", "veteran_composure",
-                "commanding_presence", "battle_focus"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "tsuru", "tsuru_(one_piece)",
-
-                # Roles and powers
-                "vice_admiral", "wash_wash_fruit",
-
-                # States and periods
-                "marineford_war", "veteran_marine"
-            ]
-        },
-
-        "kairen": {
-            "gelbooru": [
-                # Base names and identifiers
-                "kairen", "kairen_(one_piece)",
-                "marine_officer", "giant_squad",
-
-                # Titles and positions
-                "marine_giant", "giant_officer",
-                "marine_warrior", "giant_division",
-
-                # Combat abilities
-                "giant_strength", "marine_combat",
-                "size_advantage", "warrior_skills",
-
-                # Teams and affiliations
-                "marine_forces", "giant_squad",
-                "marine_warriors", "headquarters_forces",
-
-                # Time periods and versions
-                "marineford_war", "war_arc",
-                "pre_timeskip", "battle_era",
-
-                # Outfits and appearances
-                "marine_uniform", "giant_armor",
-                "battle_gear", "warrior_attire",
-
-                # Emotional states
-                "battle_ready", "warrior_spirit",
-                "marine_pride", "combat_focus"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "kairen", "kairen_(one_piece)",
-
-                # Roles
-                "marine_giant", "warrior",
-
-                # States
-                "battle_mode", "war_participant"
-            ]
-        },
-
-        "sadi": {
-            "gelbooru": [
-                # Base names and identifiers
-                "sadi", "sadi_(one_piece)", "chief_guard",
-                "impel_down_officer", "torture_specialist",
-
-                # Titles and positions
-                "chief_guard", "torture_specialist",
-                "prison_officer", "punishment_supervisor",
-                "security_chief",
-
-                # Special abilities and powers
-                "whip_mastery", "torture_techniques",
-                "combat_skills", "interrogation_expertise",
-                "security_mastery",
-
-                # Combat specialties
-                "whip_techniques", "sadistic_combat",
-                "guard_combat", "restraining_skills",
-                "punishment_methods",
-
-                # Teams and affiliations
-                "impel_down", "prison_staff", "jailer_beasts",
-                "world_government", "security_forces",
-
-                # Time periods and versions
-                "impel_down_arc", "prison_break",
-                "pre_timeskip", "prison_era",
-
-                # Outfits and appearances
-                "guard_uniform", "chief_outfit",
-                "prison_attire", "combat_gear",
-                "security_uniform",
-
-                # Emotional states
-                "sadistic_mood", "professional_guard",
-                "commanding_presence", "battle_ready",
-                "torture_enthusiasm"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "sadi", "sadi_(one_piece)",
-
-                # Roles and positions
-                "chief_guard", "torture_specialist",
-
-                # States and actions
-                "guard_duty", "combat_mode"
-            ]
-        },
-
-        "sadie-chan": {
-            "gelbooru": [
-                # Base names and identifiers
-                "sadie-chan", "sadie_(one_piece)",
-                "impel_down_guard", "torture_assistant",
-
-                # Titles and positions
-                "assistant_guard", "torture_staff",
-                "prison_guard", "security_officer",
-
-                # Combat abilities
-                "guard_combat", "restraining_skills",
-                "prison_techniques", "security_expertise",
-
-                # Teams and affiliations
-                "impel_down", "prison_guards",
-                "torture_division", "security_staff",
-
-                # Time periods and versions
-                "impel_down_arc", "prison_break",
-                "pre_timeskip", "guard_era",
-
-                # Outfits and appearances
-                "guard_uniform", "prison_gear",
-                "security_outfit", "staff_attire",
-
-                # Emotional states
-                "dutiful_guard", "professional_manner",
-                "security_focused", "vigilant_guard"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "sadie-chan", "sadie_(one_piece)",
-
-                # Roles
-                "prison_guard", "security_staff",
-
-                # States
-                "guard_duty", "security_mode"
-            ]
-        },
-
-        "saldeath": {
-            "gelbooru": [
-                # Base names and identifiers
-                "saldeath", "saldeath_(one_piece)",
-                "blugori_commander", "impel_down_officer",
-
-                # Titles and positions
-                "blugori_leader", "prison_officer",
-                "beast_commander", "security_supervisor",
-
-                # Special abilities
-                "beast_control", "command_skills",
-                "prison_combat", "guard_expertise",
-
-                # Teams and affiliations
-                "impel_down", "blugori_unit",
-                "prison_forces", "security_division",
-
-                # Time periods and versions
-                "impel_down_arc", "prison_break",
-                "pre_timeskip", "command_era",
-
-                # Outfits and appearances
-                "commander_uniform", "prison_attire",
-                "officer_gear", "guard_clothes",
-
-                # Emotional states
-                "commanding_presence", "professional_demeanor",
-                "battle_ready", "leadership_mode"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "saldeath", "saldeath_(one_piece)",
-
-                # Roles
-                "blugori_commander", "prison_officer",
-
-                # States
-                "command_mode", "guard_duty"
-            ]
-        },
-
-        "charlotte_galette": {
-            "gelbooru": ["charlotte_galette", "galette"],
-            "danbooru": ["charlotte_galette"]
-        },
-        "charlotte_brulee": {
-            "gelbooru": ["charlotte_brulee", "brulee"],
-            "danbooru": ["charlotte_brulee"]
-        },
-
-        # Vegapunk satellites
-        "vegapunk_lilith": {
-            "gelbooru": ["vegapunk_lilith", "satellite_evil"],
-            "danbooru": ["vegapunk_lilith", "evil_satellite"]
-        },
-        "vegapunk_atlas": {
-            "gelbooru": ["vegapunk_atlas", "satellite_combat"],
-            "danbooru": ["vegapunk_atlas", "combat_satellite"]
-        },
-        "vegapunk_york": {
-            "gelbooru": ["vegapunk_york", "satellite_analysis"],
-            "danbooru": ["vegapunk_york", "analysis_satellite"]
-        },
-        "vegapunk_edison": {
-            "gelbooru": ["vegapunk_edison", "satellite_logic"],
-            "danbooru": ["vegapunk_edison", "logic_satellite"]
-        },
-
-        # New/Additional characters
-        "whitey_bay": {
-            "gelbooru": ["whitey_bay", "ice_witch"],
-            "danbooru": ["whitey_bay", "ice_witch_(one_piece)"]
-        },
-
-        "shakky": {
-            "gelbooru": ["shakky", "shakuyaku"],
-            "danbooru": ["shakuyaku"]
-        },
-
-        # New character tags
-        "ann": {
-            "gelbooru": ["ann_(one_piece)", "ann"],
-            "danbooru": ["ann_(one_piece)"]
-        },
-
-        "aphelandra": {
-            "gelbooru": ["aphelandra_(one_piece)", "kuja_warrior"],
-            "danbooru": ["aphelandra"]
-        },
-
-
-        "baccarat": {
-            "gelbooru": ["baccarat_(one_piece)", "lucky_lucky_fruit"],
-            "danbooru": ["baccarat"]
-        },
-
-        "carina": {
-            "gelbooru": ["carina_(one_piece)", "ghost_lady"],
-            "danbooru": ["carina"]
-        },
-
-        "ein": {
-            "gelbooru": ["ein_(one_piece)", "neo_marine"],
-            "danbooru": ["ein"]
-        },
-
-        "honey_queen": {
-            "gelbooru": ["honey_queen", "baroque_works"],
-            "danbooru": ["honey_queen"]
-        },
-
-        "laki": {
-            "gelbooru": ["laki_(one_piece)", "shandian"],
-            "danbooru": ["laki"]
-        },
-
-        "lily_enstomach": {
-            "gelbooru": ["lily_enstomach", "lily_the_glutton"],
-            "danbooru": ["lily_enstomach"]
-        },
-
-        "mero": {
-            "gelbooru": ["mero_(one_piece)", "kuja"],
-            "danbooru": ["mero"]
-        },
-
-        "miss_valentine": {
-            "gelbooru": ["miss_valentine", "kilo_kilo_fruit"],
-            "danbooru": ["miss_valentine"]
-        },
-
-        "moda": {
-            "gelbooru": ["moda_(one_piece)", "thriller_bark"],
-            "danbooru": ["moda"]
-        },
-
-        "mousse": {
-            "gelbooru": ["mousse_(one_piece)", "kuja"],
-            "danbooru": ["mousse"]
-        },
-
-        "nico_olvia": {
-            "gelbooru": ["nico_olvia", "ohara_scholar"],
-            "danbooru": ["nico_olvia"]
-        },
-
-        "nojiko": {
-            "gelbooru": ["nojiko", "belle-mere_daughter"],
-            "danbooru": ["nojiko"]
-        },
-
-        "ro": {
-            "gelbooru": ["ro_(one_piece)", "kuja"],
-            "danbooru": ["ro"]
-        },
-
-        "stella": {
-            "gelbooru": ["stella_(one_piece)", "water_7"],
-            "danbooru": ["stella"]
-        },
-
-        "tama": {
-            "gelbooru": ["tama_(one_piece)", "wano_kunoichi"],
-            "danbooru": ["tama"]
-        },
-
-        "victoria_cindry": {
-            "gelbooru": ["victoria_cindry", "cindry", "thriller_bark"],
-            "danbooru": ["victoria_cindry"]
-        },
-
-        "wanda": {
-            "gelbooru": ["wanda_(one_piece)", "mink_tribe"],
-            "danbooru": ["wanda"]
-        },
-
-        "uta": {
-            "gelbooru": ["uta_(one_piece)", "world_diva", "shanks_daughter"],
-            "danbooru": ["uta", "world_diva"]
-        },
-    },
-
-    DOTA2_TAGS = {
-        # Core Heroes
-        "lina": {
-            "gelbooru": ["lina", "lina_(dota)", "slayer"],
-            "danbooru": ["lina_(dota)", "the_slayer"]
-        },
-        "crystal_maiden": {
-            "gelbooru": ["crystal_maiden", "rylai", "cm"],
-            "danbooru": ["crystal_maiden", "rylai"]
-        },
-        "windrunner": {
-            "gelbooru": ["windranger", "windrunner", "lyralei"],
-            "danbooru": ["windranger", "lyralei"]
-        },
-        "drow_ranger": {
-            "gelbooru": ["drow_ranger", "traxex"],
-            "danbooru": ["drow_ranger", "traxex"]
-        },
-        "templar_assassin": {
-            "gelbooru": ["templar_assassin", "lanaya"],
-            "danbooru": ["templar_assassin", "lanaya"]
-        },
-
-        # Intelligence Heroes
-        "dark_willow": {
-            "gelbooru": ["dark_willow", "mireska"],
-            "danbooru": ["dark_willow", "mireska_sunbreeze"]
-        },
-        "death_prophet": {
-            "gelbooru": ["death_prophet", "krobelus"],
-            "danbooru": ["death_prophet", "krobelus"]
-        },
-        "queen_of_pain": {
-            "gelbooru": ["queen_of_pain", "akasha"],
-            "danbooru": ["queen_of_pain", "akasha"]
-        },
-        "enchantress": {
-            "gelbooru": ["enchantress", "aiushtha"],
-            "danbooru": ["enchantress", "aiushtha"]
-        },
-        "winter_wyvern": {
-            "gelbooru": ["winter_wyvern", "auroth"],
-            "danbooru": ["winter_wyvern", "auroth"]
-        },
-
-        # Strength Heroes
-        "legion_commander": {
-            "gelbooru": ["legion_commander", "tresdin"],
-            "danbooru": ["legion_commander", "tresdin"]
-        },
-        "marci": {
-            "gelbooru": ["marci", "marci_(dota)"],
-            "danbooru": ["marci", "marci_(dota)"]
-        },
-        "dawnbreaker": {
-            "gelbooru": ["dawnbreaker", "valora"],
-            "danbooru": ["dawnbreaker", "valora"]
-        },
-
-        # Agility Heroes
-        "luna": {
-            "gelbooru": ["luna_(dota)", "moon_rider"],
-            "danbooru": ["luna_(dota)", "moon_rider"]
-        },
-        "mirana": {
-            "gelbooru": ["mirana", "princess_of_the_moon"],
-            "danbooru": ["mirana", "princess_of_the_moon"]
-        },
-        "naga_siren": {
-            "gelbooru": ["naga_siren", "slithice"],
-            "danbooru": ["naga_siren", "slithice"]
-        },
-        "phantom_assassin": {
-            "gelbooru": ["phantom_assassin", "mortred"],
-            "danbooru": ["phantom_assassin", "mortred"]
-        },
-        "spectre": {
-            "gelbooru": ["spectre", "mercurial"],
-            "danbooru": ["spectre", "mercurial"]
-        },
-        "vengeful_spirit": {
-            "gelbooru": ["vengeful_spirit", "shendelzare"],
-            "danbooru": ["vengeful_spirit", "shendelzare"]
-        },
-
-        # Additional Heroes
-        "broodmother": {
-            "gelbooru": ["broodmother", "black_arachnia"],
-            "danbooru": ["broodmother", "black_arachnia"]
-        },
-        "medusa": {
-            "gelbooru": ["medusa_(dota)", "gorgon"],
-            "danbooru": ["medusa_(dota)", "gorgon"]
-        },
-        "snapfire": {
-            "gelbooru": ["snapfire", "beatrix"],
-            "danbooru": ["snapfire", "beatrix"]
-        },
-        "hoodwink": {
-            "gelbooru": ["hoodwink", "hoodwink_(dota)"],
-            "danbooru": ["hoodwink", "hoodwink_(dota)"]
-        },
-
-        # Personas
-        "anti_mage_persona": {
-            "gelbooru": ["anti_mage_persona", "wei"],
-            "danbooru": ["anti_mage_persona", "wei"]
-        },
-        "keeper_of_the_light_persona": {
-            "gelbooru": ["keeper_of_the_light_persona", "wraith_of_the_wilds"],
-            "danbooru": ["kotl_persona", "wraith_persona"]
-        },
-        "oracle_persona": {
-            "gelbooru": ["oracle_persona", "fortune's_tout"],
-            "danbooru": ["oracle_persona", "fortune_tout"]
-        }
-    },
-
-    LEAGUE_OF_LEGENDS_TAGS = {
-        # Popular champions with expanded tags
-        "ahri": {
-            "gelbooru": ["ahri", "ahri_%28league_of_legends%29", "nine_tailed_fox"],
-            "danbooru": ["ahri", "nine_tailed_fox_(lol)"]
-        },
-        "kaisa": {
-            "gelbooru": ["kai%27sa", "kaisa", "daughter_of_the_void"],
-            "danbooru": ["kai'sa", "void_hunter"]
-        },
-        "jinx": {
-            "gelbooru": ["jinx_%28league_of_legends%29", "loose_cannon"],
-            "danbooru": ["jinx_(league_of_legends)", "the_loose_cannon"]
-        },
-
-        # Mid lane champions
-        "katarina": {
-            "gelbooru": ["katarina_%28league_of_legends%29", "sinister_blade"],
-            "danbooru": ["katarina", "the_sinister_blade"]
-        },
-        "leblanc": {
-            "gelbooru": ["leblanc_%28league_of_legends%29", "the_deceiver"],
-            "danbooru": ["leblanc", "deceiver"]
-        },
-        "zoe": {
-            "gelbooru": ["zoe_%28league_of_legends%29", "aspect_of_twilight"],
-            "danbooru": ["zoe_(league_of_legends)", "twilight_aspect"]
-        },
-
-        # New/Recent champions
-        "bel_veth": {
-            "gelbooru": ["bel%27veth", "empress_of_the_void"],
-            "danbooru": ["bel'veth", "void_empress"]
-        },
-        "nilah": {
-            "gelbooru": ["nilah_%28league_of_legends%29", "joy_unbound"],
-            "danbooru": ["nilah", "the_unbound_joy"]
-        },
-        "renata": {
-            "gelbooru": ["renata_glasc", "chem_baroness"],
-            "danbooru": ["renata", "glasc_industries"]
-        },
-        "gwen": {
-            "gelbooru": ["gwen_%28league_of_legends%29", "hallowed_seamstress"],
-            "danbooru": ["gwen", "the_hallowed_seamstress"]
-        },
-
-        # Additional champions with expanded tags
-        "akali": {
-            "gelbooru": ["akali", "rogue_assassin"],
-            "danbooru": ["akali", "the_rogue_assassin"]
-        },
-        "evelynn": {
-            "gelbooru": ["evelynn_%28league_of_legends%29", "agony's_embrace"],
-            "danbooru": ["evelynn", "agony_embrace"]
-        },
-        "irelia": {
-            "gelbooru": ["irelia", "blade_dancer"],
-            "danbooru": ["irelia", "the_blade_dancer"]
-        },
-        "kayle": {
-            "gelbooru": ["kayle_%28league_of_legends%29", "righteous"],
-            "danbooru": ["kayle", "the_righteous"]
-        },
-        "morgana": {
-            "gelbooru": ["morgana_%28league_of_legends%29", "fallen"],
-            "danbooru": ["morgana", "the_fallen"]
-        },
-        "neeko": {
-            "gelbooru": ["neeko_%28league_of_legends%29", "curious_chameleon"],
-            "danbooru": ["neeko", "the_curious_chameleon"]
-        },
-        "samira": {
-            "gelbooru": ["samira_%28league_of_legends%29", "desert_rose"],
-            "danbooru": ["samira", "the_desert_rose"]
-        },
-        "seraphine": {
-            "gelbooru": ["seraphine_%28league_of_legends%29", "starry_eyed_songstress"],
-            "danbooru": ["seraphine", "the_starry_songstress"]
-        },
-        "senna": {
-            "gelbooru": ["senna_%28league_of_legends%29", "redeemer"],
-            "danbooru": ["senna", "the_redeemer"]
-        }
-    },
-
-    POKEMON_TAGS = {
-        # Main characters with expanded tags
-        "misty": {
-            "gelbooru": ["misty_%28pokemon%29", "kasumi", "water_gym_leader"],
-            "danbooru": ["misty_(pokemon)", "kasumi_(pokemon)"]
-        },
-        "may": {
-            "gelbooru": ["may_%28pokemon%29", "haruka", "hoenn_coordinator"],
-            "danbooru": ["may_(pokemon)", "haruka_(pokemon)"]
-        },
-        "dawn": {
-            "gelbooru": ["dawn_%28pokemon%29", "hikari", "sinnoh_coordinator"],
-            "danbooru": ["dawn_(pokemon)", "hikari_(pokemon)"]
-        },
-
-        # Gym Leaders
-        "sabrina": {
-            "gelbooru": ["sabrina_%28pokemon%29", "psychic_gym_leader"],
-            "danbooru": ["sabrina_(pokemon)", "saffron_gym_leader"]
-        },
-        "elesa": {
-            "gelbooru": ["elesa_%28pokemon%29", "electric_model"],
-            "danbooru": ["elesa", "nimbasa_gym_leader"]
-        },
-        "nessa": {
-            "gelbooru": ["nessa_%28pokemon%29", "water_model"],
-            "danbooru": ["nessa", "hulbury_gym_leader"]
-        },
-
-        # Champions and Elite Four
-        "cynthia": {
-            "gelbooru": ["cynthia_%28pokemon%29", "shirona"],
-            "danbooru": ["cynthia_(pokemon)", "sinnoh_champion"]
-        },
-        "diantha": {
-            "gelbooru": ["diantha_%28pokemon%29", "kalos_champion"],
-            "danbooru": ["diantha", "carnet"]
-        },
-
-        # New/Additional characters
-        "gloria": {
-            "gelbooru": ["gloria_%28pokemon%29", "yuuri", "sword_shield_protagonist"],
-            "danbooru": ["gloria_(pokemon)", "female_protagonist_swsh"]
-        },
-        "leaf": {
-            "gelbooru": ["leaf_%28pokemon%29", "green", "blue"],
-            "danbooru": ["leaf_(pokemon)", "female_protagonist_rgby"]
-        },
-        "hilda": {
-            "gelbooru": ["hilda_%28pokemon%29", "touko"],
-            "danbooru": ["hilda_(pokemon)", "female_protagonist_bw"]
-        },
-        "rosa": {
-            "gelbooru": ["rosa_%28pokemon%29", "mei"],
-            "danbooru": ["rosa_(pokemon)", "female_protagonist_bw2"]
-        },
-        "melony": {
-            "gelbooru": ["melony_%28pokemon%29", "ice_gym_leader"],
-            "danbooru": ["melony", "circhester_gym_leader"]
-        },
-        "klara": {
-            "gelbooru": ["klara_%28pokemon%29", "poison_gym_leader"],
-            "danbooru": ["klara", "isle_of_armor_trainer"]
-        },
-        "oleana": {
-            "gelbooru": ["oleana_%28pokemon%29", "macro_cosmos"],
-            "danbooru": ["oleana", "rose's_secretary"]
-        },
-        "bea": {
-            "gelbooru": ["bea_%28pokemon%29", "fighting_gym_leader"],
-            "danbooru": ["bea_(pokemon)", "stow_on_side_gym_leader"]
-        },
-        "acerola": {
-            "gelbooru": ["acerola_%28pokemon%29", "ghost_elite_four"],
-            "danbooru": ["acerola", "alola_elite_four"]
-        }
-    },
-
-    NARUTO_TAGS = {
-        # Main characters with expanded tags
-        "tsunade": {
-            "gelbooru": [
-                # Base names and identifiers
-                "tsunade", "tsunade_(naruto)", "senju_tsunade", "tsunade_senju",
-
-                # Official titles and positions
-                "godaime_hokage", "fifth_hokage", "princess_tsunade", "lady_tsunade",
-                "legendary_sannin", "legendary_sucker", "slug_princess",
-
-                # Clan and family relationships
-                "senju_clan", "princess_of_the_senju", "granddaughter_of_the_first_hokage",
-                "tsunade_of_the_sannin", "senju_clan_head",
-
-                # Special states and forms
-                "sage_mode_tsunade", "hundred_healings", "byakugou_seal",
-                "strength_of_a_hundred_seal", "creation_rebirth",
-                "young_tsunade", "drunken_tsunade", "angry_tsunade",
-                "battle_tsunade", "transformed_tsunade",
-
-                # Combat abilities and powers
-                "medical_ninja", "super_strength", "summoning_technique",
-                "katsuyu_summoner", "healing_technique", "chakra_enhanced_strength",
-                "ninja_art_mitotic_regeneration",
-
-                # Teams and affiliations
-                "sannin", "team_hiruzen", "konoha_council", "hokage",
-                "konohagakure", "allied_shinobi_forces_leader",
-
-                # Personal relationships
-                "dan's_lover", "nawaki's_sister", "jiraiya's_teammate",
-                "orochimaru's_teammate", "sakura's_master", "shizune's_master",
-
-                # Specific appearances and outfits
-                "hokage_robe", "green_jacket", "gambling_tsunade",
-                "casual_tsunade", "formal_tsunade", "medical_tsunade",
-
-                # Time periods and ages
-                "young_tsunade", "first_war_tsunade", "second_war_tsunade",
-                "wandering_tsunade", "hokage_tsunade", "boruto_era_tsunade"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "tsunade", "senju_tsunade", "godaime_hokage",
-                "princess_tsunade", "legendary_sannin",
-
-                # States and abilities
-                "hundred_healings", "byakugou_seal", "strength_of_a_hundred",
-                "medical_ninja", "super_strength", "summoning_jutsu",
-
-                # Affiliations
-                "team_hiruzen", "sannin", "hokage", "konoha_ninja",
-
-                # Time periods
-                "young_version", "classic_tsunade", "boruto_era"
-            ]
-        },
-
-        "sakura": {
-            "gelbooru": [
-                # Base names and identifiers
-                "haruno_sakura", "sakura_(naruto)", "sakura_haruno",
-                "sakura_uchiha", "uchiha_sakura",
-
-                # Special forms and states
-                "inner_sakura", "adult_sakura", "young_sakura",
-                "hundred_healings_sakura", "byakugou_sakura",
-                "chunin_sakura", "jonin_sakura", "doctor_sakura",
-
-                # Titles and positions
-                "konoha_medical_ninja", "tsunade's_apprentice",
-                "head_medical_ninja", "hospital_director",
-
-                # Teams and affiliations
-                "team_7", "team_kakashi", "konoha_11",
-                "allied_shinobi_forces", "konoha_hospital",
-                "medical_corps", "rescue_sasuke_team",
-
-                # Relationships
-                "sasuke's_wife", "sarada's_mother", "tsunade's_student",
-                "ino's_rival", "naruto's_teammate", "kakashi's_student",
-
-                # Abilities and powers
-                "chakra_enhanced_strength", "medical_ninjutsu",
-                "byakugou_seal", "hundred_healings",
-                "cherry_blossom_impact", "chakra_control",
-
-                # Emotional states
-                "crying_sakura", "angry_sakura", "determined_sakura",
-                "happy_sakura", "serious_sakura", "fighting_sakura",
-
-                # Time periods and versions
-                "part_1_sakura", "part_2_sakura", "boruto_era_sakura",
-                "academy_sakura", "genin_sakura", "war_arc_sakura",
-
-                # Outfits and appearances
-                "casual_sakura", "medical_uniform", "chunin_vest",
-                "battle_outfit", "formal_wear", "winter_outfit"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "haruno_sakura", "sakura_(naruto)", "uchiha_sakura",
-
-                # Forms and states
-                "inner_sakura", "adult_sakura", "young_sakura",
-                "hundred_healings", "byakugou_seal",
-
-                # Roles and abilities
-                "medical_ninja", "super_strength", "chakra_control",
-
-                # Teams and affiliations
-                "team_seven", "konoha_11", "medical_corps",
-
-                # Time periods
-                "classic_sakura", "shippuden_sakura", "boruto_era"
-            ]
-        },
-
-        "hinata": {
-            "gelbooru": [
-                # Base names and identifiers
-                "hyuuga_hinata", "hinata_hyuuga", "hinata_(naruto)",
-                "uzumaki_hinata", "hinata_uzumaki",
-
-                # Titles and positions
-                "byakugan_princess", "hyuuga_heiress", "gentle_fist_master",
-                "naruto's_wife", "himawari's_mother", "boruto's_mother",
-
-                # Clan and family relationships
-                "hyuuga_clan", "main_branch_member", "hanabi's_sister",
-                "hiashi's_daughter", "neji's_cousin", "uzumaki_family",
-
-                # Special states and forms
-                "twin_lion_fists", "gentle_step_twin_lion_fists",
-                "protective_eight_trigrams_sixty-four_palms",
-                "byakugan_activated", "gentle_fist_stance",
-
-                # Combat abilities and powers
-                "byakugan", "gentle_fist", "eight_trigrams",
-                "protective_eight_trigrams", "chakra_control",
-                "twin_lion_fists_mode", "air_palm",
-
-                # Teams and affiliations
-                "team_8", "team_kurenai", "konoha_11",
-                "allied_shinobi_forces", "konohagakure",
-
-                # Emotional states and personalities
-                "shy_hinata", "determined_hinata", "confident_hinata",
-                "fighting_hinata", "blushing_hinata", "brave_hinata",
-
-                # Time periods and versions
-                "young_hinata", "academy_hinata", "genin_hinata",
-                "chunin_hinata", "war_arc_hinata", "the_last_hinata",
-                "adult_hinata", "boruto_era_hinata",
-
-                # Outfits and appearances
-                "mission_outfit", "casual_hinata", "formal_kimono",
-                "training_outfit", "winter_coat", "wedding_dress"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "hyuuga_hinata", "hinata_(naruto)", "uzumaki_hinata",
-
-                # Powers and abilities
-                "byakugan", "gentle_fist", "twin_lion_fists",
-
-                # Relationships and roles
-                "hyuuga_clan", "team_eight", "naruto's_wife",
-
-                # Time periods
-                "young_hinata", "teen_hinata", "adult_hinata",
-                "the_last_version", "boruto_era"
-            ]
-        },
-
-        "ino": {
-            "gelbooru": [
-                # Base names and identifiers
-                "yamanaka_ino", "ino_(naruto)", "ino_yamanaka",
-                "ino_sai", "mrs_yamanaka",
-
-                # Titles and positions
-                "head_of_yamanaka_clan", "konoha_intelligence_division",
-                "interrogation_unit_leader", "sensor_type",
-
-                # Clan and family relationships
-                "yamanaka_clan", "inoichi's_daughter", "sai's_wife",
-                "inojin's_mother", "ino-shika-cho",
-
-                # Special abilities and techniques
-                "mind_transfer_jutsu", "mind_destruction_jutsu",
-                "chakra_transfer", "medical_ninjutsu", "sensory_abilities",
-                "mind_transmission", "flower_ninja_art",
-
-                # Teams and affiliations
-                "team_10", "team_asuma", "konoha_11",
-                "allied_shinobi_forces", "yamanaka_flower_shop",
-                "konoha_barrier_team", "sensory_unit",
-
-                # Emotional states and personalities
-                "confident_ino", "angry_ino", "determined_ino",
-                "flirting_ino", "serious_ino", "fighting_ino",
-
-                # Time periods and versions
-                "young_ino", "academy_ino", "genin_ino",
-                "chunin_ino", "war_arc_ino", "adult_ino",
-                "boruto_era_ino",
-
-                # Outfits and appearances
-                "purple_outfit", "ninja_uniform", "casual_ino",
-                "flower_shop_apron", "war_outfit", "formal_wear"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "yamanaka_ino", "ino_(naruto)", "ino_yamanaka",
-
-                # Powers and abilities
-                "mind_transfer", "sensor_type", "medical_ninja",
-
-                # Teams and affiliations
-                "team_ten", "ino-shika-cho", "yamanaka_clan",
-
-                # Time periods
-                "young_ino", "teen_ino", "adult_ino",
-                "boruto_era"
-            ]
-        },
-
-        "tenten": {
-            "gelbooru": [
-                # Base names and identifiers
-                "tenten", "tenten_(naruto)", "ten_ten",
-
-                # Titles and positions
-                "weapons_specialist", "tool_specialist",
-                "rising_twin_dragons", "konoha_weapons_expert",
-
-                # Combat specialties and abilities
-                "weapon_summoning", "ninja_tool_specialist",
-                "fuinjutsu_expert", "rising_twin_dragons",
-                "bashosen_wielder", "sealed_weapons_master",
-
-                # Teams and affiliations
-                "team_guy", "team_9", "konoha_11",
-                "allied_shinobi_forces", "konohagakure",
-
-                # Fighting styles and techniques
-                "twin_rising_dragons", "weapon_control",
-                "ninja_tool_summoning", "sealing_techniques",
-                "bashosen_techniques", "weapon_barrage",
-
-                # Emotional states and personalities
-                "determined_tenten", "serious_tenten", "fighting_tenten",
-                "cheerful_tenten", "focused_tenten",
-
-                # Time periods and versions
-                "young_tenten", "academy_tenten", "genin_tenten",
-                "chunin_tenten", "war_arc_tenten", "adult_tenten",
-                "boruto_era_tenten",
-
-                # Outfits and appearances
-                "chinese_style_outfit", "mission_gear", "casual_tenten",
-                "weapons_shop_outfit", "training_outfit", "formal_wear"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "tenten", "tenten_(naruto)",
-
-                # Abilities and specialties
-                "weapons_master", "tool_specialist", "rising_dragons",
-
-                # Teams and time periods
-                "team_guy", "konoha_11", "adult_version",
-                "young_tenten", "boruto_era"
-            ]
-        },
-
-        "kurenai": {
-            "gelbooru": [
-                # Base names and identifiers
-                "yuuhi_kurenai", "kurenai_yuhi", "kurenai_(naruto)",
-                "sarutobi_kurenai", "mirai's_mother",
-
-                # Titles and positions
-                "genjutsu_mistress", "jonin_sensei", "team_8_leader",
-                "konoha_jonin", "genjutsu_specialist",
-
-                # Family relationships
-                "asuma's_wife", "mirai's_mother", "sarutobi_clan",
-                "yuhi_clan", "konoha_elite",
-
-                # Special abilities and techniques
-                "genjutsu_master", "illusion_techniques",
-                "demonic_illusion", "tree_binding_death",
-                "flower_petal_escape", "chakra_control",
-
-                # Teams and affiliations
-                "team_8_leader", "konoha_jonin", "kurenai_squad",
-                "hinata's_teacher", "kiba's_teacher", "shino's_teacher",
-
-                # Time periods and versions
-                "young_kurenai", "chunin_kurenai", "jonin_kurenai",
-                "pregnant_kurenai", "war_arc_kurenai", "adult_kurenai",
-                "boruto_era_kurenai",
-
-                # States and appearances
-                "battle_ready", "teaching_mode", "casual_kurenai",
-                "formal_dress", "maternity_wear", "mourning_kurenai",
-
-                # Emotional states
-                "serious_kurenai", "caring_kurenai", "determined_kurenai",
-                "grieving_kurenai", "motherly_kurenai"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "yuuhi_kurenai", "kurenai_(naruto)", "sarutobi_kurenai",
-
-                # Abilities and roles
-                "genjutsu_master", "jonin_sensei", "team_8",
-
-                # Relationships
-                "asuma's_wife", "mirai's_mother",
-
-                # Time periods
-                "young_kurenai", "pregnant_kurenai", "adult_kurenai"
-            ]
-        },
-
-        "anko": {
-            "gelbooru": [
-                # Base names and identifiers
-                "mitarashi_anko", "anko_mitarashi", "anko_(naruto)",
-
-                # Titles and positions
-                "special_jonin", "chunin_exam_proctor",
-                "torture_specialist", "snake_mistress",
-                "orochimaru's_former_student",
-
-                # Combat specialties
-                "snake_summoner", "cursed_seal_bearer",
-                "hidden_shadow_snake_hands", "poison_specialist",
-                "torture_and_interrogation_force",
-
-                # Special states and forms
-                "cursed_seal_active", "snake_form", "battle_mode",
-                "young_anko", "chunin_exam_anko", "adult_anko",
-
-                # Techniques and abilities
-                "snake_techniques", "shadow_snake_hands",
-                "multiple_striking_shadow_snakes", "senbon_techniques",
-                "cursed_seal_techniques",
-
-                # Teams and affiliations
-                "konoha_torture_and_interrogation", "exam_proctors",
-                "orochimaru's_students", "academy_teacher",
-
-                # Time periods and versions
-                "young_anko", "orochimaru's_student_anko",
-                "special_jonin_anko", "war_arc_anko",
-                "academy_teacher_anko", "boruto_era_anko",
-
-                # States and appearances
-                "battle_ready_anko", "casual_anko", "teacher_anko",
-                "exam_proctor_anko", "overweight_anko", "slim_anko",
-
-                # Emotional states
-                "playful_anko", "serious_anko", "angry_anko",
-                "sadistic_anko", "cheerful_anko"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "mitarashi_anko", "anko_(naruto)",
-
-                # Abilities and roles
-                "snake_summoner", "special_jonin", "exam_proctor",
-
-                # States and forms
-                "cursed_seal", "snake_techniques",
-
-                # Time periods
-                "young_anko", "adult_anko", "boruto_era"
-            ]
-        },
-
-        "shizune": {
-            "gelbooru": [
-                # Base names and identifiers
-                "shizune", "shizune_(naruto)", "kato_shizune",
-
-                # Titles and positions
-                "medical_ninja", "tsunade's_assistant",
-                "hokage_assistant", "poison_expert",
-                "konoha_hospital_director",
-
-                # Relationships and connections
-                "dan's_niece", "tsunade's_apprentice",
-                "tonton's_caretaker", "medical_corps_leader",
-
-                # Special abilities and techniques
-                "medical_ninjutsu", "poison_techniques",
-                "chakra_scalpel", "healing_techniques",
-                "needle_techniques", "summoning_technique",
-
-                # Teams and affiliations
-                "hokage's_office", "medical_corps",
-                "konoha_hospital", "tsunade's_group",
-
-                # Combat specialties
-                "poison_specialist", "senbon_user",
-                "medical_techniques", "defensive_specialist",
-
-                # Time periods and versions
-                "young_shizune", "traveling_shizune",
-                "hokage_assistant_shizune", "war_arc_shizune",
-                "boruto_era_shizune",
-
-                # States and appearances
-                "medical_uniform", "casual_shizune",
-                "battle_ready", "office_attire",
-
-                # Emotional states
-                "worried_shizune", "serious_shizune",
-                "caring_shizune", "professional_shizune"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "shizune", "shizune_(naruto)", "kato_shizune",
-
-                # Roles and abilities
-                "medical_ninja", "tsunade's_assistant",
-                "poison_expert",
-
-                # Time periods
-                "young_shizune", "adult_shizune", "boruto_era"
-            ]
-        },
-
-        "sarada": {
-            "gelbooru": [
-                # Base names and identifiers
-                "uchiha_sarada", "sarada_uchiha", "sarada_(naruto)",
-                "sarada_uzumaki", "sakura's_daughter",
-
-                # Titles and positions
-                "future_hokage_candidate", "team_7_new_generation",
-                "uchiha_heir", "konoha_genin", "academy_top_student",
-
-                # Clan and family relationships
-                "uchiha_clan", "sasuke's_daughter", "sakura's_daughter",
-                "uzumaki_boruto's_teammate", "mitsuki's_teammate",
-                "konohamaru's_student",
-
-                # Special abilities and powers
-                "sharingan", "sharingan_user", "chakra_enhanced_strength",
-                "lightning_release", "fire_release", "chidori_user",
-                "cha_strength", "cop_jutsu",
-
-                # Forms and states
-                "sharingan_activated", "glasses_on", "glasses_off",
-                "fighting_stance", "training_mode", "angry_sarada",
-
-                # Teams and affiliations
-                "team_konohamaru", "new_team_7", "konoha_academy",
-                "konohagakure", "uchiha_survivor",
-
-                # Combat specialties
-                "sharingan_techniques", "super_strength",
-                "lightning_style", "fire_style", "shuriken_jutsu",
-
-                # Outfits and appearances
-                "ninja_outfit", "casual_clothes", "academy_uniform",
-                "training_gear", "uchiha_crest", "mission_outfit",
-
-                # Time periods and versions
-                "academy_sarada", "genin_sarada", "chunin_exam_sarada",
-                "teen_sarada", "young_sarada",
-
-                # Emotional states
-                "determined_sarada", "studying_sarada", "curious_sarada",
-                "battle_ready_sarada", "happy_sarada", "serious_sarada"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "uchiha_sarada", "sarada_(naruto)",
-
-                # Powers and abilities
-                "sharingan", "super_strength", "glasses",
-
-                # Teams and roles
-                "team_konohamaru", "new_team_seven",
-
-                # States and forms
-                "sharingan_active", "training_mode", "battle_mode",
-
-                # Time periods
-                "academy_student", "genin_sarada", "teen_sarada"
-            ]
-        },
-
-        "himawari": {
-            "gelbooru": [
-                # Base names and identifiers
-                "uzumaki_himawari", "himawari_uzumaki",
-                "himawari_(naruto)", "naruto's_daughter",
-
-                # Family relationships
-                "uzumaki_clan", "hyuuga_clan", "naruto's_daughter",
-                "hinata's_daughter", "boruto's_sister", "kawaki's_sister",
-
-                # Special abilities and powers
-                "byakugan", "gentle_fist", "prodigy",
-                "byakugan_princess", "gentle_fist_user",
-
-                # Forms and states
-                "byakugan_activated", "fighting_stance",
-                "training_mode", "civilian_mode",
-
-                # Activities and roles
-                "academy_student", "ninja_trainee", "artist",
-                "flower_pressing", "training_session",
-
-                # Outfits and appearances
-                "casual_outfit", "training_clothes", "academy_uniform",
-                "festival_kimono", "summer_dress", "winter_outfit",
-
-                # Time periods and versions
-                "young_himawari", "academy_himawari", "teen_himawari",
-                "child_himawari", "growing_himawari",
-
-                # Emotional states
-                "happy_himawari", "curious_himawari", "angry_himawari",
-                "determined_himawari", "playful_himawari", "serious_himawari"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "uzumaki_himawari", "himawari_(naruto)",
-
-                # Powers and abilities
-                "byakugan", "gentle_fist",
-
-                # Family connections
-                "naruto's_daughter", "hinata's_daughter",
-
-                # Time periods
-                "young_himawari", "academy_student", "teen_version"
-            ]
-        },
-
-        "chocho": {
-            "gelbooru": [
-                # Base names and identifiers
-                "akimichi_chocho", "chocho_akimichi",
-                "chocho_(naruto)", "butterfly_mode_user",
-
-                # Clan and family relationships
-                "akimichi_clan", "karui's_daughter", "choji's_daughter",
-                "inojin's_teammate", "shikadai's_teammate",
-
-                # Special abilities and powers
-                "butterfly_mode", "expansion_jutsu", "super_multi_size",
-                "lightning_release", "yang_release", "calorie_control",
-
-                # Forms and states
-                "butterfly_mode_active", "expanded_form",
-                "slim_form", "fighting_stance", "training_mode",
-
-                # Teams and affiliations
-                "team_10", "new_ino-shika-cho", "konoha_genin",
-                "moegi's_student", "konohagakure",
-
-                # Combat specialties
-                "expansion_techniques", "butterfly_techniques",
-                "akimichi_clan_jutsu", "taijutsu_specialist",
-
-                # Outfits and appearances
-                "ninja_outfit", "casual_clothes", "training_gear",
-                "mission_outfit", "chunin_exam_outfit",
-
-                # Time periods and versions
-                "academy_chocho", "genin_chocho", "chunin_exam_chocho",
-                "teen_chocho", "young_chocho",
-
-                # Emotional states
-                "confident_chocho", "determined_chocho", "happy_chocho",
-                "battle_ready_chocho", "relaxed_chocho", "serious_chocho"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "akimichi_chocho", "chocho_(naruto)",
-
-                # Powers and abilities
-                "butterfly_mode", "expansion_jutsu",
-
-                # Teams and roles
-                "team_ten", "new_ino-shika-cho",
-
-                # States and forms
-                "butterfly_form", "expanded_form", "slim_form",
-
-                # Time periods
-                "academy_student", "genin_chocho", "teen_chocho"
-            ]
-        },
-
-        "temari": {
-            "gelbooru": [
-                # Base names and identifiers
-                "temari", "temari_(naruto)", "nara_temari",
-                "sand_princess", "wind_mistress",
-
-                # Titles and positions
-                "sand_ambassador", "wind_user", "jonin_commander",
-                "sand_siblings", "kazekage's_sister",
-
-                # Family relationships
-                "gaara's_sister", "kankuro's_sister", "shikamaru's_wife",
-                "shikadai's_mother", "fourth_kazekage's_daughter",
-
-                # Special abilities and powers
-                "wind_release", "fan_techniques", "summoning_jutsu",
-                "great_wind_scythe", "wind_master", "kamatari_summoner",
-
-                # Combat specialties
-                "fan_wielder", "long-range_fighter", "strategist",
-                "wind_techniques", "desert_warfare_specialist",
-
-                # Teams and affiliations
-                "sunagakure", "sand_siblings", "allied_shinobi_forces",
-                "nara_clan", "konoha_liaison",
-
-                # Time periods and versions
-                "young_temari", "chunin_exam_temari", "war_arc_temari",
-                "adult_temari", "boruto_era_temari",
-
-                # States and appearances
-                "battle_ready", "diplomatic_mode", "training_mode",
-                "casual_temari", "angry_temari", "serious_temari",
-
-                # Outfits and appearances
-                "sand_uniform", "formal_kimono", "battle_outfit",
-                "jonin_vest", "casual_clothes", "winter_outfit"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "temari", "temari_(naruto)", "nara_temari",
-
-                # Powers and roles
-                "wind_user", "fan_wielder", "sand_sister",
-
-                # Time periods
-                "young_temari", "adult_temari", "boruto_era"
-            ]
-        },
-
-        "mei": {
-            "gelbooru": [
-                # Base names and identifiers
-                "terumi_mei", "mei_terumi", "mei_(naruto)",
-                "mizukage_mei", "fifth_mizukage",
-
-                # Titles and positions
-                "fifth_mizukage", "godaime_mizukage", "village_leader",
-                "water_mistress", "lava_style_user",
-
-                # Special abilities and powers
-                "lava_release", "boil_release", "water_release",
-                "lava_style", "vapor_style", "water_dragon",
-
-                # Combat specialties
-                "kekkei_genkai_user", "multiple_bloodline_traits",
-                "ninjutsu_master", "long-range_fighter",
-
-                # Teams and affiliations
-                "kirigakure", "mizukage", "allied_shinobi_forces",
-                "water_country", "mist_village",
-
-                # Time periods and versions
-                "young_mei", "civil_war_mei", "mizukage_mei",
-                "war_arc_mei", "retired_mei", "boruto_era_mei",
-
-                # States and appearances
-                "battle_ready", "kage_mode", "formal_attire",
-                "casual_mei", "serious_mei", "flirty_mei",
-
-                # Outfits and appearances
-                "mizukage_robes", "battle_outfit", "formal_dress",
-                "casual_clothes", "wedding_dress"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "terumi_mei", "mei_(naruto)", "mizukage",
-
-                # Powers and abilities
-                "lava_release", "boil_release", "water_release",
-
-                # Time periods
-                "young_mei", "mizukage_era", "retired_mei"
-            ]
-        },
-
-        "konan": {
-            "gelbooru": [
-                # Base names and identifiers
-                "konan", "konan_(naruto)", "angel_of_amegakure",
-                "paper_angel", "origami_angel", "lady_angel",
-
-                # Titles and positions
-                "akatsuki_member", "ame_orphan", "amegakure_leader",
-                "pain's_partner", "yahiko's_friend", "nagato's_companion",
-
-                # Special abilities and powers
-                "paper_style", "paper_techniques", "angel_mode",
-                "paper_clone", "paper_butterfly", "paper_weapons",
-                "dance_of_the_shikigami", "paper_ocean",
-
-                # Forms and states
-                "angel_form", "paper_form", "battle_mode",
-                "origami_form", "paper_dispersal", "winged_form",
-
-                # Teams and affiliations
-                "akatsuki", "amegakure", "original_akatsuki",
-                "ame_orphans", "rain_village", "pain's_group",
-
-                # Combat specialties
-                "paper_manipulation", "flight_capable", "long-range_fighter",
-                "trap_specialist", "origami_master", "paper_bombs",
-
-                # Time periods and versions
-                "young_konan", "orphan_konan", "akatsuki_konan",
-                "amegakure_konan", "final_battle_konan",
-
-                # Outfits and appearances
-                "akatsuki_cloak", "paper_dress", "casual_konan",
-                "battle_outfit", "origami_flower", "rain_village_attire",
-
-                # Emotional states
-                "serious_konan", "determined_konan", "calm_konan",
-                "fighting_konan", "loyal_konan", "protective_konan"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "konan", "konan_(naruto)", "angel_(naruto)",
-
-                # Abilities and forms
-                "paper_techniques", "angel_form", "origami_style",
-
-                # Affiliations
-                "akatsuki", "amegakure", "pain's_partner",
-
-                # Time periods
-                "young_konan", "akatsuki_era", "leader_konan"
-            ]
-        },
-
-        "guren": {
-            "gelbooru": [
-                # Base names and identifiers
-                "guren", "guren_(naruto)", "crystal_style_user",
-                "orochimaru's_subordinate", "crystal_mistress",
-
-                # Special abilities and powers
-                "crystal_release", "crystal_style", "crystal_armor",
-                "crystal_mirrors", "crystal_prison", "crystal_blades",
-
-                # Forms and states
-                "crystal_form", "battle_mode", "crystal_armor_mode",
-                "cursed_seal_form", "protective_mode",
-
-                # Combat specialties
-                "crystal_manipulation", "kekkei_genkai_user",
-                "mid-range_fighter", "defensive_specialist",
-
-                # Teams and affiliations
-                "sound_village", "orochimaru's_forces", "yuukimaru's_guardian",
-
-                # Time periods and versions
-                "young_guren", "sound_ninja_guren", "reformed_guren",
-
-                # Outfits and appearances
-                "battle_outfit", "sound_uniform", "casual_guren",
-                "crystal_enhanced_clothing",
-
-                # Emotional states
-                "proud_guren", "protective_guren", "fierce_guren",
-                "caring_guren", "determined_guren"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "guren", "guren_(naruto)",
-
-                # Powers and abilities
-                "crystal_release", "crystal_style",
-
-                # Affiliations
-                "sound_village", "orochimaru's_subordinate",
-
-                # States and forms
-                "crystal_form", "battle_mode", "protective_mode"
-            ]
-        },
-
-        "kaguya": {
-            "gelbooru": [
-                # Base names and identifiers
-                "ootsutsuki_kaguya", "kaguya_ootsutsuki", "kaguya_(naruto)",
-                "rabbit_goddess", "demon_goddess", "chakra_progenitor",
-
-                # Titles and positions
-                "rabbit_goddess", "mother_of_chakra", "progenitor_of_chakra",
-                "ten_tails_jinchuuriki", "first_chakra_wielder",
-
-                # Special abilities and powers
-                "rinne_sharingan", "byakugan", "all_killing_ash_bones",
-                "amenominaka", "yomotsu_hirasaka", "infinite_tsukuyomi",
-                "chakra_absorption", "dimension_shifting", "truth-seeking_orbs",
-
-                # Forms and states
-                "goddess_form", "ten_tails_form", "rabbit_goddess_mode",
-                "dimension_travel_mode", "sealed_form", "awakened_form",
-
-                # Combat specialties
-                "dimensional_manipulation", "chakra_control",
-                "bone_manipulation", "gravity_manipulation",
-                "space-time_techniques",
-
-                # Family relationships
-                "hagoromo's_mother", "hamura's_mother", "first_ancestor",
-                "chakra_ancestor", "otsutsuki_clan_member",
-
-                # Time periods and versions
-                "human_kaguya", "goddess_kaguya", "sealed_kaguya",
-                "resurrected_kaguya", "prime_kaguya",
-
-                # Emotional states
-                "wrathful_kaguya", "powerful_kaguya", "divine_kaguya",
-                "maternal_kaguya", "betrayed_kaguya"
-            ],
-            "danbooru": [
-                # Core identifiers
-                "ootsutsuki_kaguya", "kaguya_(naruto)", "rabbit_goddess",
-
-                # Powers and abilities
-                "rinne_sharingan", "byakugan", "truth_seeking_orbs",
-
-                # Forms and states
-                "goddess_form", "ten_tails_form", "sealed_form",
-
-                # Time periods
-                "human_era", "goddess_era", "modern_revival"
-            ]
-        },
-    },
-
-    DRAGON_BALL_TAGS = {
-        # Main characters with expanded tags
-        "bulma": {
-            "gelbooru": ["bulma", "bulma_briefs", "capsule_corp"],
-            "danbooru": ["bulma", "scientist"]
-        },
-        "chi_chi": {
-            "gelbooru": ["chi-chi_%28dragon_ball%29", "ox_princess"],
-            "danbooru": ["chi-chi", "son_chi-chi"]
-        },
-        "android_18": {
-            "gelbooru": ["android_18", "lazuli", "cyborg_18"],
-            "danbooru": ["android_18", "c-18"]
-        },
-
-        # Universe 6 characters
-        "caulifla": {
-            "gelbooru": ["caulifla", "saiyan_universe_6"],
-            "danbooru": ["caulifla", "universe_six"]
-        },
-        "kale": {
-            "gelbooru": ["kale_%28dragon_ball%29", "legendary_super_saiyan"],
-            "danbooru": ["kale", "universe_six_broly"]
-        },
-
-        # New/Additional characters
-        "cheelai": {
-            "gelbooru": ["cheelai", "frieza_force"],
-            "danbooru": ["cheelai", "broly_movie"]
-        },
-        "android_21": {
-            "gelbooru": ["android_21", "majin_android_21", "lab_coat_21"],
-            "danbooru": ["android_21", "a21"]
-        },
-        "towa": {
-            "gelbooru": ["towa_%28dragon_ball%29", "demon_scientist"],
-            "danbooru": ["towa", "time_breaker"]
-        }
-    }
-
-    ATTACK_ON_TITAN_TAGS = {
-        # Main characters with expanded tags
-        "mikasa": {
-            "gelbooru": ["mikasa_ackerman", "survey_corps", "scarf"],
-            "danbooru": ["mikasa_ackerman", "ackerman"]
-        },
-        "historia": {
-            "gelbooru": ["historia_reiss", "christa_lenz", "queen"],
-            "danbooru": ["historia_reiss", "christa"]
-        },
-        "annie": {
-            "gelbooru": ["annie_leonhart", "female_titan", "warrior"],
-            "danbooru": ["annie_leonhardt", "female_type"]
-        },
-
-        # Warriors
-        "pieck": {
-            "gelbooru": ["pieck_finger", "cart_titan", "warrior"],
-            "danbooru": ["pieck", "cart_titan"]
-        },
-        "gabi": {
-            "gelbooru": ["gabi_braun", "warrior_candidate"],
-            "danbooru": ["gabi", "warrior_cadet"]
-        },
-
-        # New/Additional characters
-        "hitch": {
-            "gelbooru": ["hitch_dreyse", "military_police"],
-            "danbooru": ["hitch", "mp_brigade"]
-        },
-        "traute": {
-            "gelbooru": ["traute_caven", "anti_personnel"],
-            "danbooru": ["traute", "interior_police"]
-        }
-    }
-
-    DEMON_SLAYER_TAGS = {
-        # Hashira and main characters
-        "shinobu": {
-            "gelbooru": ["kochou_shinobu", "insect_hashira", "butterfly_estate"],
-            "danbooru": ["kochou_shinobu", "insect_pillar"]
-        },
-        "kanao": {
-            "gelbooru": ["tsuyuri_kanao", "flower_breathing", "butterfly_estate"],
-            "danbooru": ["tsuyuri_kanao", "flower_breath"]
-        },
-        "mitsuri": {
-            "gelbooru": ["kanroji_mitsuri", "love_hashira", "love_pillar"],
-            "danbooru": ["kanroji_mitsuri", "love_breathing"]
-        },
-
-        # Demons
-        "daki": {
-            "gelbooru": ["daki_%28kimetsu_no_yaiba%29", "upper_six", "oiran"],
-            "danbooru": ["daki", "upper_moon_six"]
-        },
-
-        # New/Additional characters
-        "nakime": {
-            "gelbooru": ["nakime", "biwa_demon", "infinity_castle"],
-            "danbooru": ["nakime", "fortress_demon"]
-        },
-        "kanamori": {
-            "gelbooru": ["kanamori_%28kimetsu_no_yaiba%29", "demon_slayer_corp"],
-            "danbooru": ["kanamori", "kakushi"]
-        }
-    }
-
-    JUJUTSU_KAISEN_TAGS = {
-        # Main characters
-        "nobara": {
-            "gelbooru": ["kugisaki_nobara", "straw_doll", "first_year"],
-            "danbooru": ["kugisaki_nobara", "hammer_nail"]
-        },
-        "maki": {
-            "gelbooru": ["zen%27in_maki", "cursed_tools", "hr"],
-            "danbooru": ["zenin_maki", "heavenly_restriction"]
-        },
-
-        # Kyoto students
-        "miwa": {
-            "gelbooru": ["kasumi_miwa", "simple_domain", "new_shadow_style"],
-            "danbooru": ["miwa_kasumi", "kyoto_student"]
-        },
-        "momo": {
-            "gelbooru": ["nishimiya_momo", "broom_flight", "kyoto"],
-            "danbooru": ["nishimiya_momo", "second_year"]
-        },
-
-        # New/Additional characters
-        "rika": {
-            "gelbooru": ["orimoto_rika", "cursed_spirit", "queen_of_curses"],
-            "danbooru": ["orimoto_rika", "yuta_curse"]
-        },
-        "uraume": {
-            "gelbooru": ["uraume", "frost_human", "sukuna_servant"],
-            "danbooru": ["uraume", "ice_technique"]
-        },
-        "takako": {
-            "gelbooru": ["takako_uro", "sky_manipulation", "thin_ice"],
-            "danbooru": ["uro_takako", "curved_sky"]
-        }
-    }
-
-    SPY_X_FAMILY_TAGS = {
-        "yor": {
-            "gelbooru": ["yor_forger", "thorn_princess", "assassin"],
-            "danbooru": ["yor_forger", "thorn_princess"]
-        },
-        "anya": {
-            "gelbooru": ["anya_%28spy_x_family%29", "telepath", "peanuts"],
-            "danbooru": ["anya_forger", "esper"]
-        },
-        "fiona": {
-            "gelbooru": ["fiona_frost", "twilight_admirer", "spy"],
-            "danbooru": ["fiona_frost", "nightfall"]
-        },
-
-        # New characters
-        "lady_in_black": {
-            "gelbooru": ["lady_in_black_%28spy_x_family%29", "handler"],
-            "danbooru": ["lady_in_black", "full_black"]
-        },
-        "sharon": {
-            "gelbooru": ["sharon_%28spy_x_family%29", "shop_keeper"],
-            "danbooru": ["sharon_(spy_x_family)", "store_owner"]
-        }
-    },
-
-    COWBOY_BEBOP_TAGS = {
-        # Main characters
-        "faye": {
-            "gelbooru": ["faye_valentine", "bebop_crew", "poker_alice"],
-            "danbooru": ["faye_valentine", "red_jacket"]
-        },
-        "ed": {
-            "gelbooru": ["edward_wong_hau_pepelu_tivrusky_iv", "radical_ed", "hacker"],
-            "danbooru": ["edward_wong", "ed_(cowboy_bebop)"]
-        },
-        "julia": {
-            "gelbooru": ["julia_%28cowboy_bebop%29", "spike's_lover"],
-            "danbooru": ["julia_(cowboy_bebop)", "red_dragon"]
-        },
-
-        # Supporting characters
-        "meifa": {
-            "gelbooru": ["meifa_puzi", "feng_shui"],
-            "danbooru": ["meifa", "fortune_teller"]
-        },
-        "judy": {
-            "gelbooru": ["judy_%28cowboy_bebop%29", "punch_and_judy"],
-            "danbooru": ["judy", "big_shot"]
-        },
-        "alisa": {
-            "gelbooru": ["alisa_%28cowboy_bebop%29", "jet's_ex"],
-            "danbooru": ["alisa", "jet_backstory"]
-        },
-        "v.t": {
-            "gelbooru": ["v.t.", "victoria_terpsichore", "trucker"],
-            "danbooru": ["vt", "space_trucker"]
-        },
-        "katerina": {
-            "gelbooru": ["katerina_solensan", "environmental_activist"],
-            "danbooru": ["katerina", "terrorist"]
-        }
-    }
-
-    HATSUNE_MIKU_TAGS = {
-        # Main Vocaloids
-        "miku": {
-            "gelbooru": [
-                "hatsune_miku",
-                "miku_%28vocaloid%29",
-                "initial_miku",
-                "miku_%28project_diva%29"
-            ],
-            "danbooru": [
-                "hatsune_miku",
-                "miku_(vocaloid)",
-                "project_diva"
-            ]
-        },
-        "meiko": {
-            "gelbooru": ["meiko_%28vocaloid%29", "meiko_%28project_diva%29"],
-            "danbooru": ["meiko_(vocaloid)", "project_diva"]
-        },
-        "rin": {
-            "gelbooru": [
-                "kagamine_rin",
-                "rin_%28vocaloid%29",
-                "rin_%28project_diva%29"
-            ],
-            "danbooru": ["kagamine_rin", "rin_(vocaloid)"]
-        },
-
-        # Popular derivatives
-        "teto": {
-            "gelbooru": ["kasane_teto", "utau", "teto_%28utau%29"],
-            "danbooru": ["kasane_teto", "utau"]
-        },
-        "neru": {
-            "gelbooru": ["akita_neru", "neru_%28derivative%29"],
-            "danbooru": ["akita_neru", "derivative"]
-        },
-        "haku": {
-            "gelbooru": ["yowane_haku", "haku_%28derivative%29"],
-            "danbooru": ["yowane_haku", "derivative"]
-        },
-
-        # Additional Vocaloids
-        "luka": {
-            "gelbooru": [
-                "megurine_luka",
-                "luka_%28vocaloid%29",
-                "luka_%28project_diva%29"
-            ],
-            "danbooru": ["megurine_luka", "project_diva"]
-        },
-        "gumi": {
-            "gelbooru": ["gumi_%28vocaloid%29", "megpoid"],
-            "danbooru": ["gumi", "megpoid"]
-        },
-        "ia": {
-            "gelbooru": ["ia_%28vocaloid%29", "aria_planetes"],
-            "danbooru": ["ia_(vocaloid)", "aria"]
-        },
-        "yukari": {
-            "gelbooru": ["yuzuki_yukari", "yukari_%28vocaloid%29"],
-            "danbooru": ["yuzuki_yukari", "voiceroid"]
-        }
-    }
-
-    LYCORIS_RECOIL_TAGS = {
-        "chisato": {
-            "gelbooru": ["nishikigi_chisato", "lycoris", "artificial_heart"],
-            "danbooru": ["nishikigi_chisato", "blonde_hair"]
-        },
-        "takina": {
-            "gelbooru": ["inoue_takina", "lycoris", "da_trainee"],
-            "danbooru": ["inoue_takina", "black_hair"]
-        },
-        "mizuki": {
-            "gelbooru": ["nakahara_mizuki", "radio_operator"],
-            "danbooru": ["nakahara_mizuki", "commander"]
-        },
-        "kurumi": {
-            "gelbooru": ["kurumi_%28lycoris_recoil%29", "walnut", "hacker"],
-            "danbooru": ["kurumi_(lycoris_recoil)", "hacker"]
-        },
-        "sakura": {
-            "gelbooru": ["otome_sakura", "lycoris"],
-            "danbooru": ["otome_sakura", "division_commander"]
-        },
-        "himegama": {
-            "gelbooru": ["himegama_%28lycoris_recoil%29", "instructor"],
-            "danbooru": ["himegama", "teacher"]
-        },
-        "mika": {
-            "gelbooru": ["mika_%28lycoris_recoil%29", "cafe_owner"],
-            "danbooru": ["mika_(lycoris_recoil)", "cafe_manager"]
-        }
-    }
-
-    FAIRY_TAIL_TAGS = {
-        "lucy": {
-            "gelbooru": ["lucy_heartfilia", "celestial_wizard", "fairy_tail"],
-            "danbooru": ["lucy_heartfilia", "celestial_spirit_mage"]
-        },
-        "erza": {
-            "gelbooru": ["erza_scarlet", "titania", "requip_mage"],
-            "danbooru": ["erza_scarlet", "knight"]
-        },
-        "mirajane": {
-            "gelbooru": ["mirajane_strauss", "demon_takeover", "s_class"],
-            "danbooru": ["mirajane_strauss", "demon_mirajane"]
-        },
-        "wendy": {
-            "gelbooru": ["wendy_marvell", "sky_dragon_slayer", "dragon_force"],
-            "danbooru": ["wendy_marvell", "sky_maiden"]
-        },
-        "juvia": {
-            "gelbooru": ["juvia_lockser", "water_mage", "gray_stalker"],
-            "danbooru": ["juvia_lockser", "water_woman"]
-        },
-        "mavis": {
-            "gelbooru": ["mavis_vermillion", "fairy_tactician", "first_master"],
-            "danbooru": ["mavis_vermillion", "founding_master"]
-        },
-        "brandish": {
-            "gelbooru": ["brandish_μ", "spriggan_12", "mass_manipulation"],
-            "danbooru": ["brandish", "country_toppler"]
-        },
-        "dimaria": {
-            "gelbooru": ["dimaria_yesta", "spriggan_12", "age_seal"],
-            "danbooru": ["dimaria_yesta", "time_goddess"]
-        }
-    }
-
-    ONE_PUNCH_MAN_TAGS = {
-        "fubuki": {
-            "gelbooru": ["fubuki", "blizzard", "hellish_blizzard", "b_class_hero"],
-            "danbooru": ["fubuki", "tornado_sister"]
-        },
-        "tatsumaki": {
-            "gelbooru": ["tatsumaki", "tornado_terror", "s_class_hero"],
-            "danbooru": ["tatsumaki", "tornado"]
-        },
-        "psykos": {
-            "gelbooru": ["psykos", "monster_association", "esper"],
-            "danbooru": ["psykos", "monster_executive"]
-        },
-        "do_s": {
-            "gelbooru": ["do-s", "monster_princess", "whip"],
-            "danbooru": ["monster_princess", "dominatrix_monster"]
-        },
-        "lin_lin": {
-            "gelbooru": ["lin_lin_%28one-punch_man%29", "martial_artist"],
-            "danbooru": ["lin_lin", "super_fight"]
-        },
-        "suiko": {
-            "gelbooru": ["suiko_%28one-punch_man%29", "tank_top_group"],
-            "danbooru": ["suiko", "tank_topper"]
-        }
-    }
+# class CharacterTags:
+#     """Character tag mappings between different image boards"""
+#
+#     ONE_PIECE_TAGS = {
+#         # Original characters with expanded tags
+#         "nami": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "nami", "nami_(one_piece)", "cat_burglar_nami",
+#                 "straw_hat_navigator", "weather_witch",
+#
+#                 # Titles and positions
+#                 "cat_burglar", "straw_hat_navigator", "weather_queen",
+#                 "cartographer", "third_nakama", "bell-mère's_daughter",
+#
+#                 # Special abilities and techniques
+#                 "weather_techniques", "climatact_user", "zeus_wielder",
+#                 "thunder_breeder", "weather_egg", "mirage_tempo",
+#                 "thunderbolt_tempo", "weather_manipulation",
+#
+#                 # Forms and states
+#                 "weather_control", "mirage_form", "zeus_combination",
+#                 "climatact_mode", "thunder_mode", "heat_mode",
+#
+#                 # Teams and affiliations
+#                 "straw_hat_pirates", "arlong_pirates_(former)",
+#                 "weatheria_student", "east_blue_natives",
+#
+#                 # Combat specialties
+#                 "staff_wielder", "weather_control", "thunder_specialist",
+#                 "strategy_expert", "climatact_master",
+#
+#                 # Time periods and versions
+#                 "east_blue_saga", "grand_line_nami", "new_world_nami",
+#                 "post_timeskip", "pre_timeskip", "wano_nami",
+#
+#                 # Outfits and appearances
+#                 "bikini", "casual_wear", "fighting_outfit",
+#                 "winter_clothes", "wano_outfit", "zou_outfit",
+#                 "dressrosa_disguise", "whole_cake_outfit",
+#
+#                 # Emotional states
+#                 "angry_nami", "happy_nami", "fighting_nami",
+#                 "navigator_mode", "money_loving", "protective_nami",
+#
+#                 # Specific arcs and events
+#                 "arlong_park_arc", "weatheria_training",
+#                 "zou_arc", "whole_cake_island", "wano_country"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "nami_(one_piece)", "cat_burglar",
+#
+#                 # Abilities and roles
+#                 "weather_control", "climatact", "navigator",
+#
+#                 # Time periods
+#                 "pre_timeskip", "post_timeskip", "wano_arc",
+#
+#                 # Specific forms
+#                 "zeus_wielder", "mirage_tempo"
+#             ]
+#         },
+#
+#         "robin": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "nico_robin", "robin_(one_piece)", "devil_child",
+#                 "light_of_the_revolution", "ohara_survivor",
+#
+#                 # Titles and positions
+#                 "devil_child", "miss_all_sunday_(former)",
+#                 "archaeologist", "poneglyph_reader", "ohara_scholar",
+#
+#                 # Special abilities and techniques
+#                 "hana_hana_no_mi", "flower_flower_fruit",
+#                 "cien_fleur", "mil_fleur", "gigantesco_mano",
+#                 "demonio_fleur", "wing_form", "spider_form",
+#
+#                 # Forms and states
+#                 "demon_form", "wing_sprouted", "multiple_arms",
+#                 "giant_limbs", "spider_form", "clutch_pose",
+#
+#                 # Teams and affiliations
+#                 "straw_hat_pirates", "baroque_works_(former)",
+#                 "revolutionary_army", "ohara_scholars",
+#
+#                 # Combat specialties
+#                 "limb_multiplication", "assassination_techniques",
+#                 "grappling_specialist", "intelligence_gathering",
+#
+#                 # Time periods and versions
+#                 "pre_timeskip", "post_timeskip", "ohara_robin",
+#                 "baroque_works_era", "enies_lobby", "wano_robin",
+#
+#                 # Outfits and appearances
+#                 "casual_wear", "battle_outfit", "wano_kimono",
+#                 "dressrosa_disguise", "zou_outfit", "formal_dress",
+#
+#                 # Emotional states
+#                 "serious_robin", "mysterious_robin", "smiling_robin",
+#                 "fighting_robin", "reading_robin", "protective_robin",
+#
+#                 # Specific arcs and events
+#                 "alabasta_arc", "water_7", "enies_lobby",
+#                 "thriller_bark", "dressrosa", "wano_country"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "nico_robin", "robin_(one_piece)",
+#
+#                 # Abilities and roles
+#                 "hana_hana_no_mi", "archaeologist",
+#
+#                 # Time periods
+#                 "pre_timeskip", "post_timeskip", "wano_arc",
+#
+#                 # Specific forms
+#                 "demon_form", "wing_form", "multiple_arms"
+#             ]
+#         },
+#
+#         "yamato": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "yamato", "yamato_(one_piece)", "oni_princess",
+#                 "kaido's_daughter", "oden's_successor",
+#
+#                 # Titles and positions
+#                 "oni_princess", "self_proclaimed_oden",
+#                 "guardian_of_wano", "samurai_aspirant",
+#
+#                 # Special abilities and techniques
+#                 "mythical_zoan", "dog_dog_fruit", "divine_dog",
+#                 "thunder_bagua", "ice_oni", "frozen_blast",
+#
+#                 # Forms and states
+#                 "hybrid_form", "full_beast_form", "human_form",
+#                 "fighting_stance", "ice_oni_mode", "guardian_mode",
+#
+#                 # Combat abilities
+#                 "thunder_techniques", "ice_abilities", "club_wielder",
+#                 "advanced_haki", "moon_following",
+#
+#                 # Teams and affiliations
+#                 "beast_pirates_(former)", "wano_ally",
+#                 "samurai_alliance", "onigashima_defender",
+#
+#                 # Time periods and versions
+#                 "young_yamato", "prisoner_yamato", "freed_yamato",
+#                 "alliance_yamato", "current_yamato",
+#
+#                 # Outfits and appearances
+#                 "traditional_clothes", "battle_outfit", "casual_wear",
+#                 "oni_mask", "samurai_armor", "festival_attire",
+#
+#                 # Emotional states
+#                 "determined_yamato", "fighting_yamato", "proud_yamato",
+#                 "excited_yamato", "serious_yamato", "friendly_yamato"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "yamato_(one_piece)", "oni_princess",
+#
+#                 # Abilities and forms
+#                 "mythical_zoan", "hybrid_form", "ice_oni",
+#
+#                 # Relationships
+#                 "kaido's_child", "oden's_successor",
+#
+#                 # Time periods
+#                 "prisoner_era", "alliance_era", "current_era"
+#             ]
+#         },
+#
+#         # Charlotte Family with expanded tags
+#         "big_mom": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "charlotte_linlin", "big_mom", "big_mom_(one_piece)",
+#                 "queen_of_totland", "emperor_big_mom",
+#
+#                 # Titles and positions
+#                 "yonko", "emperor", "queen_of_totland", "pirate_empress",
+#                 "captain_of_big_mom_pirates", "rocks_pirates_former",
+#
+#                 # Special abilities and powers
+#                 "soul_soul_fruit", "soru_soru_no_mi", "zeus_creator",
+#                 "prometheus_creator", "napoleon_creator", "life_or_death",
+#                 "soul_pocus", "ikoku_sovereignty",
+#
+#                 # Forms and states
+#                 "normal_form", "skinny_form", "young_form",
+#                 "hunger_pangs", "rage_mode", "amnesia_state",
+#                 "soul_power", "homie_control",
+#
+#                 # Combat abilities
+#                 "sword_techniques", "zeus_lightning", "prometheus_fire",
+#                 "napoleon_blade", "life_force_drain", "soul_manipulation",
+#
+#                 # Time periods and versions
+#                 "rocks_era", "young_linlin", "mother_caramel_era",
+#                 "yonko_era", "current_big_mom", "wano_big_mom",
+#
+#                 # Homies and creations
+#                 "zeus_wielder", "prometheus_wielder", "napoleon_wielder",
+#                 "homie_creator", "soul_collector",
+#
+#                 # Emotional states
+#                 "hunger_mode", "angry_big_mom", "motherly_mode",
+#                 "empress_mode", "rampage_mode", "calm_big_mom",
+#
+#                 # Specific arcs and events
+#                 "whole_cake_island", "wano_country", "rocks_flashback",
+#                 "mother_caramel_flashback"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "charlotte_linlin", "big_mom_(one_piece)", "yonko",
+#
+#                 # Powers and abilities
+#                 "soul_soul_fruit", "homie_creator", "emperor",
+#
+#                 # Forms and states
+#                 "normal_form", "skinny_form", "young_form",
+#
+#                 # Time periods
+#                 "rocks_era", "yonko_era", "current_era"
+#             ]
+#         },
+#
+#         "smoothie": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "charlotte_smoothie", "smoothie_(one_piece)",
+#                 "minister_of_juice", "sweet_commander",
+#
+#                 # Titles and positions
+#                 "sweet_commander", "minister_of_juice",
+#                 "big_mom_pirates_executive", "charlotte_family",
+#
+#                 # Special abilities and powers
+#                 "wring_wring_fruit", "shibo_shibo_no_mi",
+#                 "liquid_manipulation", "size_manipulation",
+#                 "juice_extraction", "sword_techniques",
+#
+#                 # Forms and states
+#                 "normal_size", "giant_form", "battle_mode",
+#                 "juice_extraction_mode", "sword_stance",
+#
+#                 # Combat specialties
+#                 "sword_fighter", "liquid_manipulator",
+#                 "size_enhancer", "long-range_fighter",
+#
+#                 # Teams and affiliations
+#                 "big_mom_pirates", "charlotte_family",
+#                 "sweet_commanders", "totland_ministers",
+#
+#                 # Time periods and versions
+#                 "pre_wedding", "wedding_ceremony", "escape_pursuit",
+#                 "current_smoothie",
+#
+#                 # Outfits and appearances
+#                 "minister_outfit", "battle_gear", "casual_clothes",
+#                 "formal_dress", "sword_bearer",
+#
+#                 # Emotional states
+#                 "serious_smoothie", "commander_mode", "battle_ready",
+#                 "calculating_smoothie", "dutiful_smoothie"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "charlotte_smoothie", "smoothie_(one_piece)",
+#
+#                 # Abilities and roles
+#                 "wring_wring_fruit", "sweet_commander",
+#
+#                 # States and forms
+#                 "normal_form", "giant_form", "battle_mode"
+#             ]
+#         },
+#
+#         "pudding": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "charlotte_pudding", "pudding_(one_piece)",
+#                 "three_eye_tribe", "minister_of_chocolate",
+#
+#                 # Titles and positions
+#                 "minister_of_chocolate", "cafe_owner",
+#                 "third_eye_wielder", "charlotte_family",
+#
+#                 # Special abilities and powers
+#                 "memory_manipulation", "third_eye_powers",
+#                 "memo_memo_no_mi", "memory_alteration",
+#                 "potential_poneglyph_reader",
+#
+#                 # Racial traits
+#                 "three_eye_tribe", "third_eye", "hybrid_human",
+#                 "special_lineage",
+#
+#                 # Forms and states
+#                 "normal_mode", "third_eye_revealed", "memory_manipulation_mode",
+#                 "chef_mode", "crying_state", "true_personality",
+#
+#                 # Teams and affiliations
+#                 "charlotte_family", "cafe_staff", "big_mom_pirates",
+#                 "sanji's_arranged_bride",
+#
+#                 # Time periods and versions
+#                 "pre_wedding", "wedding_ceremony", "post_wedding",
+#                 "childhood_pudding", "current_pudding",
+#
+#                 # Outfits and appearances
+#                 "wedding_dress", "cafe_uniform", "casual_clothes",
+#                 "formal_wear", "chef_outfit",
+#
+#                 # Emotional states
+#                 "sweet_persona", "dark_personality", "crying_pudding",
+#                 "loving_pudding", "conflicted_pudding", "true_feelings"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "charlotte_pudding", "pudding_(one_piece)",
+#
+#                 # Traits and abilities
+#                 "three_eye_tribe", "memory_manipulation",
+#
+#                 # States and versions
+#                 "sweet_persona", "dark_personality", "true_self"
+#             ]
+#         },
+#
+#         "brulee": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "charlotte_brulee", "brulee_(one_piece)",
+#                 "mirror_witch", "mirror_world_master",
+#
+#                 # Special abilities and powers
+#                 "mirror_mirror_fruit", "mira_mira_no_mi",
+#                 "mirror_world_access", "mirror_creation",
+#                 "reflection_powers", "mirror_transportation",
+#
+#                 # Forms and states
+#                 "normal_form", "mirror_form", "reflection_form",
+#                 "mirror_world_mode", "disguise_form",
+#
+#                 # Combat abilities
+#                 "mirror_manipulation", "reflection_copying",
+#                 "mirror_world_transport", "disguise_power",
+#
+#                 # Teams and affiliations
+#                 "charlotte_family", "big_mom_pirates",
+#                 "seducing_woods_guardian",
+#
+#                 # Locations and domains
+#                 "mirror_world", "seducing_woods", "whole_cake_island",
+#
+#                 # Time periods and versions
+#                 "pre_invasion", "mirror_world_battle", "current_brulee",
+#
+#                 # Emotional states
+#                 "scared_brulee", "loyal_brulee", "angry_brulee",
+#                 "sister_mode", "protective_brulee"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "charlotte_brulee", "brulee_(one_piece)",
+#
+#                 # Powers and abilities
+#                 "mirror_mirror_fruit", "mirror_world",
+#
+#                 # States and forms
+#                 "normal_form", "mirror_form", "disguise_form"
+#             ]
+#         },
+#
+#         "komurasaki": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "kozuki_hiyori", "komurasaki", "hiyori_(one_piece)",
+#                 "wano_courtesan", "kozuki_princess", "lady_komurasaki",
+#
+#                 # Titles and positions
+#                 "number_one_courtesan", "kozuki_heir", "oiran",
+#                 "princess_of_wano", "shamisen_master", "flower_capital_beauty",
+#
+#                 # Family relationships
+#                 "kozuki_clan", "oden's_daughter", "momonosuke's_sister",
+#                 "toki's_daughter", "wano_royalty", "kozuki_bloodline",
+#
+#                 # Forms and identities
+#                 "courtesan_form", "princess_form", "disguised_identity",
+#                 "true_identity", "performing_artist", "oiran_persona",
+#
+#                 # Special skills
+#                 "shamisen_playing", "dancing_skills", "royal_etiquette",
+#                 "survival_skills", "deception_mastery", "musical_talent",
+#
+#                 # Time periods and versions
+#                 "childhood_hiyori", "komurasaki_era", "revealed_identity",
+#                 "current_hiyori", "wano_liberation", "twenty_years_later",
+#
+#                 # Locations
+#                 "flower_capital", "wano_country", "pleasure_district",
+#                 "kozuki_castle", "hidden_location",
+#
+#                 # Outfits and appearances
+#                 "courtesan_kimono", "princess_attire", "casual_kimono",
+#                 "disguise_outfit", "formal_wear", "battle_clothes",
+#                 "oiran_makeup", "traditional_hairstyle",
+#
+#                 # Emotional states
+#                 "elegant_komurasaki", "determined_hiyori", "proud_princess",
+#                 "vengeful_hiyori", "caring_sister", "performer_mode",
+#                 "true_feelings", "hidden_anger"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "kozuki_hiyori", "komurasaki", "hiyori_(one_piece)",
+#
+#                 # Roles and positions
+#                 "courtesan", "princess", "kozuki_clan", "oiran",
+#
+#                 # States and forms
+#                 "disguised_form", "true_identity", "performer_mode",
+#
+#                 # Time periods
+#                 "past_era", "present_era", "wano_arc"
+#             ]
+#         },
+#
+#         "ulti": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "ulti", "ulti_(one_piece)", "tobi_roppo_member",
+#                 "ancient_zoan_user", "headbutt_specialist",
+#
+#                 # Titles and positions
+#                 "tobi_roppo", "beast_pirates_executive", "flying_six",
+#                 "dinosaur_zoan", "pay-pay's_sister",
+#
+#                 # Special abilities and powers
+#                 "ancient_zoan", "pachycephalosaurus_fruit",
+#                 "headbutt_techniques", "dinosaur_form", "armament_haki",
+#                 "observation_haki", "enhanced_strength",
+#
+#                 # Forms and states
+#                 "human_form", "hybrid_form", "full_beast_form",
+#                 "headbutt_mode", "rage_mode", "battle_mode",
+#
+#                 # Combat techniques
+#                 "headbutt_smash", "ancient_power", "dinosaur_rush",
+#                 "ulti_meteor", "sister_combination", "haki_enhanced_attacks",
+#
+#                 # Teams and affiliations
+#                 "beast_pirates", "tobi_roppo", "kaido's_crew",
+#                 "onigashima_forces", "animal_kingdom_pirates",
+#
+#                 # Relationships
+#                 "page_one's_sister", "kaido's_subordinate",
+#                 "flying_six_member", "beast_pirate_executive",
+#
+#                 # Time periods and versions
+#                 "pre_raid", "onigashima_raid", "current_ulti",
+#                 "beast_pirates_era", "wano_arc",
+#
+#                 # Outfits and appearances
+#                 "beast_pirate_outfit", "battle_gear", "casual_clothes",
+#                 "horned_headpiece", "dinosaur_features",
+#
+#                 # Emotional states
+#                 "angry_ulti", "fighting_ulti", "protective_sister",
+#                 "aggressive_mode", "playful_ulti", "serious_ulti"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "ulti", "ulti_(one_piece)", "tobi_roppo",
+#
+#                 # Powers and forms
+#                 "ancient_zoan", "dinosaur_form", "hybrid_form",
+#
+#                 # Relations and roles
+#                 "beast_pirates", "page_one's_sister", "flying_six",
+#
+#                 # States
+#                 "battle_mode", "rage_mode", "normal_form"
+#             ]
+#         },
+#
+#         "black_maria": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "black_maria", "black_maria_(one_piece)",
+#                 "pleasure_hall_queen", "tobi_roppo_member",
+#
+#                 # Titles and positions
+#                 "tobi_roppo", "pleasure_hall_owner", "flying_six",
+#                 "beast_pirates_executive", "ancient_zoan_user",
+#
+#                 # Special abilities and powers
+#                 "ancient_zoan", "spider_spider_fruit", "marys_control",
+#                 "rosamygale_grauvogeli", "spider_form",
+#                 "fire_techniques", "web_creation", "venom_abilities",
+#
+#                 # Forms and states
+#                 "human_form", "hybrid_form", "full_beast_form",
+#                 "spider_mode", "battle_stance", "entertainment_mode",
+#
+#                 # Combat techniques
+#                 "web_binding", "fire_manipulation", "spider_thread",
+#                 "poison_mist", "weapon_master", "marys_surveillance",
+#
+#                 # Teams and affiliations
+#                 "beast_pirates", "tobi_roppo", "kaido's_crew",
+#                 "onigashima_forces", "pleasure_hall_staff",
+#
+#                 # Locations and domains
+#                 "pleasure_hall", "onigashima", "wano_country",
+#                 "entertainment_district", "spider_lair",
+#
+#                 # Time periods and versions
+#                 "pre_raid", "onigashima_raid", "current_maria",
+#                 "beast_pirates_era", "wano_arc",
+#
+#                 # Outfits and appearances
+#                 "traditional_clothes", "battle_outfit", "pleasure_hall_attire",
+#                 "spider_features", "hybrid_appearance",
+#
+#                 # Emotional states
+#                 "sadistic_maria", "calculating_maria", "fighting_maria",
+#                 "entertainer_mode", "serious_maria", "playful_maria"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "black_maria", "black_maria_(one_piece)",
+#
+#                 # Powers and roles
+#                 "spider_spider_fruit", "tobi_roppo", "flying_six",
+#
+#                 # Forms and states
+#                 "human_form", "hybrid_form", "spider_form",
+#
+#                 # Locations
+#                 "pleasure_hall", "onigashima", "wano"
+#             ]
+#         },
+#
+#         "okiku": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "kikunojo", "o_kiku", "kiku_(one_piece)",
+#                 "red_scabbard_member", "kawamatsu's_companion",
+#
+#                 # Titles and positions
+#                 "red_scabbard", "akazaya_nine", "tea_house_worker",
+#                 "samurai_of_wano", "oden's_retainer",
+#
+#                 # Special abilities and techniques
+#                 "sword_techniques", "two_sword_style",
+#                 "samurai_arts", "snow_country_style",
+#                 "oden_two_sword_style",
+#
+#                 # Combat specialties
+#                 "swordsmanship", "dual_wielding", "precision_strikes",
+#                 "samurai_techniques", "armor_breaker",
+#
+#                 # Teams and affiliations
+#                 "red_scabbards", "kozuki_clan", "wano_resistance",
+#                 "tea_house_staff", "oden's_followers",
+#
+#                 # Time periods and versions
+#                 "past_kiku", "present_kiku", "tea_house_kiku",
+#                 "battle_kiku", "time_travel_survivor",
+#
+#                 # Outfits and appearances
+#                 "kimono", "battle_armor", "tea_house_uniform",
+#                 "samurai_gear", "traditional_clothes",
+#                 "red_scabbard_attire",
+#
+#                 # Emotional states
+#                 "gentle_kiku", "warrior_mode", "protective_kiku",
+#                 "loyal_retainer", "determined_kiku"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "kikunojo", "o_kiku", "kiku_(one_piece)",
+#
+#                 # Roles and positions
+#                 "red_scabbard", "samurai", "tea_house_worker",
+#
+#                 # Combat styles
+#                 "swordsman", "two_sword_style", "samurai_arts"
+#             ]
+#         },
+#
+#         "otoko": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "toko", "o_toko", "toko_(one_piece)",
+#                 "yasuie's_daughter", "ebisu_town_resident",
+#
+#                 # Roles and positions
+#                 "kamuro", "komurasaki's_attendant",
+#                 "ebisu_town_survivor", "smile_victim's_child",
+#
+#                 # Special characteristics
+#                 "forced_smile", "smile_effect", "perpetual_laughter",
+#                 "ebisu_condition", "tragic_past",
+#
+#                 # Relationships
+#                 "yasuie's_daughter", "komurasaki's_helper",
+#                 "hiyori's_friend", "tonoyasu's_child",
+#
+#                 # Time periods and versions
+#                 "early_wano", "post_yasuie", "current_toko",
+#                 "flower_capital_era", "rebellion_era",
+#
+#                 # Locations
+#                 "ebisu_town", "flower_capital", "pleasure_district",
+#                 "hidden_refuge",
+#
+#                 # Outfits and appearances
+#                 "kamuro_outfit", "casual_clothes", "worker_attire",
+#                 "flower_capital_dress", "poor_town_clothes",
+#
+#                 # Emotional states
+#                 "laughing_toko", "grieving_toko", "brave_toko",
+#                 "supportive_toko", "determined_toko"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "toko", "o_toko", "toko_(one_piece)",
+#
+#                 # Roles and relationships
+#                 "kamuro", "yasuie's_daughter", "smile_victim",
+#
+#                 # States
+#                 "forced_smile", "ebisu_condition"
+#             ]
+#         },
+#
+#         "otsuru": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "tsuru", "o_tsuru", "tsuru_(one_piece_wano)",
+#                 "tea_house_owner", "wano_citizen",
+#
+#                 # Roles and positions
+#                 "tea_house_proprietor", "resistance_supporter",
+#                 "information_gatherer", "kiku's_employer",
+#
+#                 # Relationships
+#                 "kinemon's_friend", "resistance_ally",
+#                 "wano_citizen_leader", "community_pillar",
+#
+#                 # Time periods and versions
+#                 "pre_raid", "current_tsuru", "resistance_era",
+#                 "tea_house_period",
+#
+#                 # Locations
+#                 "tea_house", "wano_country", "resistance_hideout",
+#
+#                 # Outfits and appearances
+#                 "tea_house_kimono", "traditional_dress",
+#                 "merchant_clothes", "working_attire",
+#
+#                 # Emotional states
+#                 "caring_tsuru", "supportive_tsuru", "protective_tsuru",
+#                 "determined_tsuru", "resistance_supporter"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "tsuru", "o_tsuru", "tsuru_(one_piece_wano)",
+#
+#                 # Roles
+#                 "tea_house_owner", "resistance_supporter",
+#                 "wano_citizen"
+#             ]
+#         },
+#
+#         "speed": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "speed", "speed_(one_piece)", "headliner",
+#                 "beast_pirate_member",
+#
+#                 # Titles and positions
+#                 "headliner", "beast_pirates_officer",
+#                 "tama's_subordinate", "horse_smile_user",
+#
+#                 # Special abilities and powers
+#                 "smile_fruit", "horse_form", "enhanced_speed",
+#                 "transportation_ability", "artificial_zoan",
+#
+#                 # Forms and states
+#                 "horse_form", "hybrid_form", "human_form",
+#                 "tamed_state", "battle_mode",
+#
+#                 # Teams and affiliations
+#                 "beast_pirates", "tama's_followers",
+#                 "headliner_group", "kibi_dango_army",
+#
+#                 # Time periods and versions
+#                 "beast_pirate_era", "tamed_version", "current_speed",
+#                 "raid_participant",
+#
+#                 # Combat abilities
+#                 "high_speed_movement", "cavalry_techniques",
+#                 "transportation_specialist", "mounted_combat",
+#
+#                 # Emotional states
+#                 "loyal_speed", "protective_speed", "determined_speed",
+#                 "battle_ready_speed"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "speed", "speed_(one_piece)",
+#
+#                 # Powers and roles
+#                 "smile_user", "headliner", "horse_form",
+#
+#                 # Affiliations
+#                 "beast_pirates", "tama's_follower"
+#             ]
+#         },
+#
+#         "boa_hancock": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "boa_hancock", "hancock_(one_piece)", "pirate_empress",
+#                 "snake_princess", "gorgon_sister", "warlord",
+#
+#                 # Titles and positions
+#                 "shichibukai", "pirate_empress", "snake_princess",
+#                 "kuja_leader", "amazon_lily_ruler", "former_slave",
+#                 "most_beautiful_woman", "world's_beauty",
+#
+#                 # Special abilities and powers
+#                 "love_love_fruit", "mero_mero_no_mi", "love_beam",
+#                 "perfume_femur", "pistol_kiss", "slave_arrow",
+#                 "conqueror's_haki", "armament_haki", "observation_haki",
+#
+#                 # Forms and states
+#                 "normal_form", "snake_form", "petrification_mode",
+#                 "battle_mode", "empress_mode", "angry_mode",
+#                 "love_struck_mode", "serious_mode",
+#
+#                 # Combat abilities
+#                 "petrification", "love_attacks", "haki_mastery",
+#                 "martial_arts", "kuja_combat", "snake_weapons",
+#
+#                 # Teams and affiliations
+#                 "kuja_pirates", "seven_warlords", "amazon_lily",
+#                 "gorgon_sisters", "former_slaves", "luffy_allies",
+#
+#                 # Family relationships
+#                 "elder_gorgon_sister", "marigold's_sister",
+#                 "sandersonia's_sister", "kuja_ruler",
+#
+#                 # Special characteristics
+#                 "gorgon_eyes", "snake_attributes", "back_mark",
+#                 "celestial_mark", "beauty_mark", "royal_presence",
+#
+#                 # Time periods and versions
+#                 "young_hancock", "slave_era", "warlord_era",
+#                 "empress_era", "marineford_war", "current_hancock",
+#
+#                 # Outfits and appearances
+#                 "empress_outfit", "battle_gear", "casual_dress",
+#                 "qipao", "snake_themed_clothes", "royal_attire",
+#                 "warrior_outfit", "formal_dress",
+#
+#                 # Emotional states
+#                 "love_mode", "empress_mode", "angry_hancock",
+#                 "disdainful_hancock", "loving_hancock", "protective_hancock",
+#                 "serious_hancock", "contemptuous_hancock"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "boa_hancock", "hancock_(one_piece)", "pirate_empress",
+#
+#                 # Powers and abilities
+#                 "mero_mero_no_mi", "love_love_fruit", "haki_user",
+#
+#                 # Titles and roles
+#                 "shichibukai", "snake_princess", "kuja_leader",
+#
+#                 # States and forms
+#                 "normal_form", "battle_mode", "love_struck",
+#
+#                 # Time periods
+#                 "pre_timeskip", "post_timeskip", "current_era"
+#             ]
+#         },
+#
+#         "sandersonia": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "boa_sandersonia", "sandersonia_(one_piece)",
+#                 "gorgon_sister", "anaconda_princess",
+#
+#                 # Titles and positions
+#                 "kuja_warrior", "gorgon_sister", "amazon_lily_elite",
+#                 "former_slave", "snake_specialist",
+#
+#                 # Special abilities and powers
+#                 "snake_snake_fruit", "hebi_hebi_no_mi",
+#                 "anaconda_model", "armament_haki",
+#                 "observation_haki", "snake_form",
+#
+#                 # Forms and states
+#                 "human_form", "hybrid_form", "full_snake_form",
+#                 "battle_mode", "guardian_mode",
+#
+#                 # Combat abilities
+#                 "snake_techniques", "haki_mastery", "kuja_combat",
+#                 "zoan_powers", "snake_wrestling",
+#
+#                 # Teams and affiliations
+#                 "kuja_warriors", "gorgon_sisters", "amazon_lily",
+#                 "former_slaves", "hancock's_sister",
+#
+#                 # Family relationships
+#                 "middle_gorgon_sister", "hancock's_sister",
+#                 "marigold's_sister", "kuja_royal_family",
+#
+#                 # Special characteristics
+#                 "gorgon_mark", "snake_eyes", "back_mark",
+#                 "celestial_mark", "warrior_build",
+#
+#                 # Time periods and versions
+#                 "young_sandersonia", "slave_era", "warrior_era",
+#                 "current_sandersonia",
+#
+#                 # Emotional states
+#                 "protective_sister", "warrior_mode", "serious_sandersonia",
+#                 "battle_ready", "snake_fury"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "boa_sandersonia", "sandersonia_(one_piece)",
+#
+#                 # Powers and roles
+#                 "snake_snake_fruit", "gorgon_sister", "kuja_warrior",
+#
+#                 # Forms and states
+#                 "human_form", "hybrid_form", "snake_form"
+#             ]
+#         },
+#
+#         "marigold": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "boa_marigold", "marigold_(one_piece)",
+#                 "gorgon_sister", "king_cobra_princess",
+#
+#                 # Titles and positions
+#                 "kuja_warrior", "gorgon_sister", "amazon_lily_elite",
+#                 "former_slave", "snake_specialist",
+#
+#                 # Special abilities and powers
+#                 "snake_snake_fruit", "hebi_hebi_no_mi",
+#                 "king_cobra_model", "armament_haki",
+#                 "observation_haki", "snake_form",
+#
+#                 # Forms and states
+#                 "human_form", "hybrid_form", "full_snake_form",
+#                 "battle_mode", "guardian_mode",
+#
+#                 # Combat abilities
+#                 "snake_techniques", "haki_mastery", "kuja_combat",
+#                 "zoan_powers", "fire_techniques",
+#
+#                 # Teams and affiliations
+#                 "kuja_warriors", "gorgon_sisters", "amazon_lily",
+#                 "former_slaves", "hancock's_sister",
+#
+#                 # Family relationships
+#                 "youngest_gorgon_sister", "hancock's_sister",
+#                 "sandersonia's_sister", "kuja_royal_family",
+#
+#                 # Special characteristics
+#                 "gorgon_mark", "snake_eyes", "back_mark",
+#                 "celestial_mark", "warrior_build",
+#
+#                 # Time periods and versions
+#                 "young_marigold", "slave_era", "warrior_era",
+#                 "current_marigold",
+#
+#                 # Emotional states
+#                 "protective_sister", "warrior_mode", "serious_marigold",
+#                 "battle_ready", "snake_fury"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "boa_marigold", "marigold_(one_piece)",
+#
+#                 # Powers and roles
+#                 "snake_snake_fruit", "gorgon_sister", "kuja_warrior",
+#
+#                 # Forms and states
+#                 "human_form", "hybrid_form", "snake_form"
+#             ]
+#         },
+#
+#         "marguerite": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "marguerite", "marguerite_(one_piece)",
+#                 "kuja_warrior", "amazon_lily_archer",
+#
+#                 # Titles and positions
+#                 "kuja_warrior", "elite_archer", "amazon_lily_guard",
+#                 "hancock's_subordinate", "luffy's_friend",
+#
+#                 # Special abilities and powers
+#                 "archery_master", "haki_arrows", "kuja_combat",
+#                 "snake_bow_user", "warrior_skills",
+#
+#                 # Combat specialties
+#                 "bow_techniques", "snake_archery", "haki_mastery",
+#                 "kuja_fighting_style", "ranged_combat",
+#
+#                 # Teams and affiliations
+#                 "kuja_warriors", "amazon_lily", "hancock's_guards",
+#                 "archer_division",
+#
+#                 # Time periods and versions
+#                 "pre_timeskip", "post_timeskip", "current_marguerite",
+#
+#                 # Outfits and appearances
+#                 "kuja_outfit", "warrior_attire", "tribal_clothes",
+#                 "battle_gear", "amazon_dress",
+#
+#                 # Emotional states
+#                 "friendly_marguerite", "curious_marguerite",
+#                 "warrior_mode", "protective_marguerite"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "marguerite", "marguerite_(one_piece)",
+#
+#                 # Roles and abilities
+#                 "kuja_warrior", "archer", "amazon_lily",
+#
+#                 # States
+#                 "warrior_mode", "normal_state"
+#             ]
+#         },
+#
+#         "viola": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "viola", "viola_(one_piece)", "violet",
+#                 "violet_(one_piece)", "princess_viola",
+#                 "riku_viola", "dancing_queen",
+#
+#                 # Titles and positions
+#                 "princess_of_dressrosa", "dancing_queen",
+#                 "donquixote_officer_(former)", "riku_family",
+#                 "tango_dancer", "spy_dancer",
+#
+#                 # Special abilities and powers
+#                 "glare_glare_fruit", "giro_giro_no_mi",
+#                 "clairvoyance", "x-ray_vision", "mind_reading",
+#                 "tears_of_arte", "emotional_manipulation",
+#
+#                 # Combat abilities
+#                 "dance_combat", "insight_attacks", "emotional_tactics",
+#                 "assassination_techniques", "espionage_skills",
+#
+#                 # Forms and states
+#                 "dancer_form", "princess_mode", "spy_mode",
+#                 "battle_ready", "surveillance_state",
+#
+#                 # Teams and affiliations
+#                 "riku_family", "dressrosa_royalty",
+#                 "donquixote_pirates_(former)", "straw_hat_allies",
+#
+#                 # Family relationships
+#                 "riku's_daughter", "rebecca's_aunt", "scarlett's_sister",
+#                 "kyros'_sister_in_law", "dressrosa_royal_family",
+#
+#                 # Time periods and versions
+#                 "pre_doflamingo", "spy_era", "liberation_era",
+#                 "current_viola", "restored_princess",
+#
+#                 # Outfits and appearances
+#                 "dancer_outfit", "princess_dress", "spy_clothes",
+#                 "formal_attire", "battle_gear", "flamenco_dress",
+#
+#                 # Emotional states
+#                 "determined_viola", "dancing_viola", "serious_viola",
+#                 "protective_viola", "royal_demeanor", "spy_persona"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "viola", "viola_(one_piece)", "violet",
+#
+#                 # Powers and roles
+#                 "glare_glare_fruit", "princess", "dancer",
+#
+#                 # States and forms
+#                 "dancer_form", "princess_mode", "battle_mode"
+#             ]
+#         },
+#
+#         "rebecca": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "rebecca", "rebecca_(one_piece)", "gladiator_rebecca",
+#                 "undefeated_woman", "scarlett's_daughter",
+#
+#                 # Titles and positions
+#                 "dressrosa_princess", "gladiator_champion",
+#                 "undefeated_woman", "riku_heir", "colosseum_fighter",
+#
+#                 # Combat abilities
+#                 "observation_haki", "speed_fighting", "dodging_specialist",
+#                 "sword_techniques", "gladiator_style", "kings_punch",
+#
+#                 # Special techniques
+#                 "back_to_zero", "speed_slash", "defensive_combat",
+#                 "survival_tactics", "sword_dance",
+#
+#                 # Teams and affiliations
+#                 "riku_family", "dressrosa_royalty", "corrida_colosseum",
+#                 "straw_hat_allies", "gladiator_block",
+#
+#                 # Family relationships
+#                 "scarlett's_daughter", "kyros'_daughter", "viola's_niece",
+#                 "riku's_granddaughter", "dressrosa_princess",
+#
+#                 # Time periods and versions
+#                 "gladiator_era", "princess_era", "childhood_rebecca",
+#                 "current_rebecca", "restored_princess",
+#
+#                 # Combat outfits and gear
+#                 "gladiator_armor", "princess_dress", "battle_bikini",
+#                 "royal_attire", "colosseum_gear",
+#
+#                 # Emotional states
+#                 "fighting_rebecca", "determined_rebecca", "crying_rebecca",
+#                 "protective_rebecca", "princess_mode", "warrior_spirit"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "rebecca", "rebecca_(one_piece)", "gladiator",
+#
+#                 # Roles and abilities
+#                 "undefeated_woman", "sword_user", "princess",
+#
+#                 # States and forms
+#                 "gladiator_mode", "princess_mode", "battle_mode"
+#             ]
+#         },
+#
+#         "scarlett": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "scarlett", "scarlett_(one_piece)", "princess_scarlett",
+#                 "kyros'_wife", "rebecca's_mother",
+#
+#                 # Titles and positions
+#                 "dressrosa_princess", "riku_family", "former_royalty",
+#                 "flower_field_resident", "kyros'_beloved",
+#
+#                 # Family relationships
+#                 "riku's_daughter", "viola's_sister", "rebecca's_mother",
+#                 "kyros'_wife", "royal_bloodline",
+#
+#                 # Time periods and versions
+#                 "princess_era", "love_story_era", "final_moments",
+#                 "flashback_scarlett", "young_scarlett",
+#
+#                 # Outfits and appearances
+#                 "princess_dress", "common_clothes", "flower_field_attire",
+#                 "royal_garments", "civilian_disguise",
+#
+#                 # Emotional states
+#                 "loving_mother", "devoted_wife", "determined_scarlett",
+#                 "protective_mother", "princess_dignity"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "scarlett", "scarlett_(one_piece)", "princess",
+#
+#                 # Roles and relations
+#                 "kyros'_wife", "rebecca's_mother", "royal_family"
+#             ]
+#         },
+#
+#         "baby_5": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "baby_5", "baby_5_(one_piece)", "baby_five",
+#                 "arms_arms_fruit_user", "donquixote_officer",
+#
+#                 # Titles and positions
+#                 "donquixote_executive", "assassin", "weapons_specialist",
+#                 "sai's_wife", "happo_navy_member",
+#
+#                 # Special abilities and powers
+#                 "arms_arms_fruit", "buki_buki_no_mi", "weapon_transformation",
+#                 "full_body_weapons", "living_arsenal",
+#
+#                 # Forms and states
+#                 "weapon_form", "human_form", "battle_mode",
+#                 "servant_mode", "wife_mode", "assassin_mode",
+#
+#                 # Combat abilities
+#                 "weapon_mastery", "assassination_skills",
+#                 "transformation_techniques", "martial_arts",
+#
+#                 # Teams and affiliations
+#                 "donquixote_pirates_(former)", "happo_navy",
+#                 "sai's_wife", "chinjao_family",
+#
+#                 # Personality traits
+#                 "people_pleaser", "easily_proposed_to",
+#                 "devoted_servant", "loyal_wife",
+#
+#                 # Time periods and versions
+#                 "donquixote_era", "dressrosa_arc", "married_life",
+#                 "childhood_baby_5", "current_baby_5",
+#
+#                 # Outfits and appearances
+#                 "maid_outfit", "battle_gear", "assassin_clothes",
+#                 "weapon_forms", "casual_wear",
+#
+#                 # Emotional states
+#                 "devoted_baby_5", "battle_ready", "loving_wife",
+#                 "servant_mode", "assassin_persona"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "baby_5", "baby_5_(one_piece)", "baby_five",
+#
+#                 # Powers and roles
+#                 "arms_arms_fruit", "assassin", "weapon_form",
+#
+#                 # States and affiliations
+#                 "donquixote_pirates", "happo_navy", "sai's_wife"
+#             ]
+#         },
+#
+#         "tashigi": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "tashigi", "tashigi_(one_piece)", "marine_captain",
+#                 "smoker's_subordinate", "sword_collector",
+#
+#                 # Titles and positions
+#                 "marine_captain", "g-5_officer", "sword_specialist",
+#                 "smoker's_right_hand", "marine_headquarters",
+#
+#                 # Special abilities and powers
+#                 "swordsmanship", "rokushiki_trainee", "sword_mastery",
+#                 "shigure_wielder", "martial_arts", "weapon_expert",
+#
+#                 # Combat specialties
+#                 "sword_techniques", "meito_knowledge", "blade_mastery",
+#                 "marine_combat", "sword_collection_expertise",
+#
+#                 # Teams and affiliations
+#                 "marine_forces", "g-5_base", "sword_unit",
+#                 "smoker_unit", "world_government",
+#
+#                 # Time periods and versions
+#                 "pre_timeskip", "post_timeskip", "alabasta_arc",
+#                 "punk_hazard", "current_tashigi", "loguetown_tashigi",
+#
+#                 # Forms and states
+#                 "battle_mode", "training_mode", "officer_mode",
+#                 "clumsy_state", "serious_mode", "determined_state",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "casual_clothes", "training_gear",
+#                 "battle_outfit", "glasses", "captain_coat",
+#
+#                 # Emotional states
+#                 "determined_tashigi", "serious_tashigi", "clumsy_tashigi",
+#                 "fighting_tashigi", "professional_mode", "leadership_mode",
+#
+#                 # Specific arcs and events
+#                 "loguetown_arc", "alabasta_saga", "punk_hazard",
+#                 "dressrosa_events", "marine_operations"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "tashigi", "tashigi_(one_piece)", "marine_captain",
+#
+#                 # Roles and abilities
+#                 "swordswoman", "g-5_officer", "glasses",
+#
+#                 # States and forms
+#                 "battle_mode", "officer_mode", "training_mode",
+#
+#                 # Time periods
+#                 "pre_timeskip", "post_timeskip", "current_era"
+#             ]
+#         },
+#
+#         "hina": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "hina", "hina_(one_piece)", "black_cage_hina",
+#                 "marine_captain", "cage_specialist",
+#
+#                 # Titles and positions
+#                 "marine_captain", "black_cage", "prison_specialist",
+#                 "headquarters_officer", "marine_commander",
+#
+#                 # Special abilities and powers
+#                 "cage_cage_fruit", "ori_ori_no_mi", "binding_powers",
+#                 "cage_creation", "marine_combat", "imprisonment_specialist",
+#
+#                 # Combat abilities
+#                 "cage_techniques", "binding_attacks", "marine_martial_arts",
+#                 "capture_specialist", "restraining_moves",
+#
+#                 # Teams and affiliations
+#                 "marine_forces", "marine_headquarters", "prison_unit",
+#                 "world_government", "justice_enforcers",
+#
+#                 # Time periods and versions
+#                 "pre_timeskip", "post_timeskip", "alabasta_arc",
+#                 "marineford_war", "current_hina",
+#
+#                 # Forms and states
+#                 "battle_mode", "commander_mode", "capture_mode",
+#                 "officer_state", "serious_mode",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "captain_coat", "formal_uniform",
+#                 "battle_gear", "casual_clothes",
+#
+#                 # Emotional states
+#                 "serious_hina", "commanding_hina", "professional_hina",
+#                 "battle_ready", "leadership_mode"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "hina", "hina_(one_piece)", "black_cage",
+#
+#                 # Powers and roles
+#                 "cage_cage_fruit", "marine_captain",
+#
+#                 # States and forms
+#                 "battle_mode", "officer_mode", "capture_mode"
+#             ]
+#         },
+#
+#         "momousagi": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "momousagi", "gion", "pink_rabbit",
+#                 "vice_admiral_momousagi", "marine_leader",
+#
+#                 # Titles and positions
+#                 "vice_admiral", "admiral_candidate", "headquarters_leader",
+#                 "marine_executive", "high_ranking_officer",
+#
+#                 # Combat abilities
+#                 "advanced_haki", "marine_combat", "leadership_skills",
+#                 "strategic_command", "battlefield_control",
+#
+#                 # Teams and affiliations
+#                 "marine_headquarters", "world_government",
+#                 "vice_admiral_unit", "marine_leadership",
+#
+#                 # Time periods and versions
+#                 "marine_era", "current_momousagi", "post_timeskip",
+#                 "reverie_period",
+#
+#                 # Outfits and appearances
+#                 "vice_admiral_uniform", "marine_formal_wear",
+#                 "battle_attire", "officer_coat",
+#
+#                 # Emotional states
+#                 "professional_mode", "commander_mode", "serious_momousagi",
+#                 "leadership_presence"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "momousagi", "gion", "pink_rabbit",
+#
+#                 # Roles and positions
+#                 "vice_admiral", "marine_officer",
+#
+#                 # States
+#                 "commander_mode", "battle_mode"
+#             ]
+#         },
+#
+#         "tsuru": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "tsuru", "tsuru_(one_piece)", "great_staff_officer",
+#                 "marine_legend", "cleaner",
+#
+#                 # Titles and positions
+#                 "vice_admiral", "great_staff_officer", "marine_veteran",
+#                 "strategic_commander", "legendary_marine",
+#
+#                 # Special abilities and powers
+#                 "wash_wash_fruit", "woshu_woshu_no_mi", "cleansing_power",
+#                 "strategic_genius", "veteran_combat", "advanced_haki",
+#
+#                 # Combat abilities
+#                 "washing_techniques", "purification_powers",
+#                 "tactical_combat", "leadership_skills", "marine_arts",
+#
+#                 # Teams and affiliations
+#                 "marine_headquarters", "world_government",
+#                 "vice_admiral_unit", "veteran_officers",
+#
+#                 # Time periods and versions
+#                 "roger_era", "pre_timeskip", "post_timeskip",
+#                 "marineford_war", "current_tsuru", "golden_age",
+#
+#                 # Forms and states
+#                 "battle_mode", "commander_mode", "strategic_mode",
+#                 "veteran_state", "leadership_presence",
+#
+#                 # Outfits and appearances
+#                 "vice_admiral_uniform", "marine_coat",
+#                 "formal_attire", "battle_gear",
+#
+#                 # Emotional states
+#                 "wise_tsuru", "commanding_tsuru", "serious_tsuru",
+#                 "strategic_mind", "veteran_presence"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "tsuru", "tsuru_(one_piece)", "great_staff_officer",
+#
+#                 # Powers and roles
+#                 "wash_wash_fruit", "vice_admiral", "marine_legend",
+#
+#                 # States and eras
+#                 "battle_mode", "commander_mode", "veteran_state"
+#             ]
+#         },
+#
+#         "stussy": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "stussy", "stussy_(one_piece)", "cp0_agent",
+#                 "queen_of_pleasure", "world_noble_agent",
+#
+#                 # Titles and positions
+#                 "cp0_operative", "undercover_agent", "intelligence_officer",
+#                 "pleasure_district_queen", "world_government_agent",
+#
+#                 # Special abilities and powers
+#                 "assassination_skills", "espionage_mastery",
+#                 "combat_expertise", "undercover_operations",
+#                 "intelligence_gathering",
+#
+#                 # Combat abilities
+#                 "rokushiki", "stealth_techniques", "cp0_combat",
+#                 "assassination_methods", "covert_operations",
+#
+#                 # Teams and affiliations
+#                 "cipher_pol_0", "world_government", "intelligence_bureau",
+#                 "undercover_network", "pleasure_district",
+#
+#                 # Time periods and versions
+#                 "whole_cake_island", "current_stussy", "undercover_era",
+#                 "cp0_period",
+#
+#                 # Forms and states
+#                 "agent_mode", "undercover_mode", "battle_mode",
+#                 "queen_persona", "operative_state",
+#
+#                 # Outfits and appearances
+#                 "formal_dress", "agent_attire", "disguise_outfit",
+#                 "battle_gear", "elegant_clothes",
+#
+#                 # Emotional states
+#                 "professional_stussy", "undercover_persona",
+#                 "serious_agent", "elegant_mode", "operative_mindset"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "stussy", "stussy_(one_piece)", "cp0",
+#
+#                 # Roles and abilities
+#                 "agent", "assassin", "undercover_operative",
+#
+#                 # States and forms
+#                 "agent_mode", "battle_mode", "undercover_mode"
+#             ]
+#         },
+#
+#         "koala": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "koala", "koala_(one_piece)", "revolutionary_officer",
+#                 "fishman_karate_user", "former_slave",
+#
+#                 # Titles and positions
+#                 "revolutionary_army_officer", "fishman_karate_instructor",
+#                 "freedom_fighter", "assistant_fishman_karate_instructor",
+#                 "east_army_officer",
+#
+#                 # Special abilities and powers
+#                 "fishman_karate", "advanced_martial_arts",
+#                 "revolutionary_techniques", "combat_expertise",
+#                 "stealth_operations", "infiltration_skills",
+#
+#                 # Combat specialties
+#                 "fishman_karate_moves", "revolutionary_combat",
+#                 "martial_arts_master", "water_manipulation",
+#                 "hand-to-hand_combat",
+#
+#                 # Teams and affiliations
+#                 "revolutionary_army", "east_army", "sabo's_partner",
+#                 "fishman_karate_practitioners", "former_sun_pirates",
+#
+#                 # Background elements
+#                 "former_slave", "sun_pirates_mark", "fisher_tiger's_ward",
+#                 "revolutionary_training", "freedom_fighter",
+#
+#                 # Time periods and versions
+#                 "young_koala", "slave_era", "sun_pirates_era",
+#                 "current_koala", "revolutionary_koala",
+#
+#                 # Forms and states
+#                 "battle_mode", "instructor_mode", "revolutionary_mode",
+#                 "stealth_mode", "teaching_state",
+#
+#                 # Outfits and appearances
+#                 "revolutionary_uniform", "combat_gear", "training_outfit",
+#                 "stealth_clothes", "casual_wear",
+#
+#                 # Emotional states
+#                 "cheerful_koala", "serious_koala", "instructor_koala",
+#                 "determined_koala", "battle_ready"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "koala", "koala_(one_piece)", "revolutionary_army",
+#
+#                 # Powers and roles
+#                 "fishman_karate", "revolutionary_officer",
+#
+#                 # States and forms
+#                 "battle_mode", "instructor_mode", "revolutionary_mode",
+#
+#                 # Time periods
+#                 "young_koala", "current_era", "revolutionary_era"
+#             ]
+#         },
+#
+#         "belo_betty": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "belo_betty", "betty_(one_piece)", "east_army_commander",
+#                 "revolutionary_commander", "flag_bearer",
+#
+#                 # Titles and positions
+#                 "east_army_commander", "revolutionary_commander",
+#                 "morale_booster", "army_leader", "flag_bearer",
+#
+#                 # Special abilities and powers
+#                 "pump_pump_fruit", "mero_mero_no_mi", "morale_boost",
+#                 "flag_powers", "inspiration_ability", "army_enhancement",
+#
+#                 # Combat abilities
+#                 "revolutionary_combat", "flag_techniques",
+#                 "leadership_skills", "army_command", "morale_control",
+#
+#                 # Teams and affiliations
+#                 "revolutionary_army", "east_army", "dragon's_commanders",
+#                 "liberation_forces", "revolutionary_leadership",
+#
+#                 # Time periods and versions
+#                 "pre_reverie", "current_betty", "commander_era",
+#                 "revolutionary_period",
+#
+#                 # Forms and states
+#                 "commander_mode", "battle_mode", "rally_mode",
+#                 "leadership_state", "inspiration_form",
+#
+#                 # Outfits and appearances
+#                 "revolutionary_uniform", "commander_outfit", "battle_gear",
+#                 "flag_bearer_clothes", "liberation_attire",
+#
+#                 # Emotional states
+#                 "commanding_betty", "inspiring_betty", "determined_betty",
+#                 "battle_ready", "leadership_mode"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "belo_betty", "betty_(one_piece)", "revolutionary_army",
+#
+#                 # Powers and roles
+#                 "pump_pump_fruit", "east_army_commander",
+#
+#                 # States and forms
+#                 "commander_mode", "battle_mode", "rally_mode"
+#             ]
+#         },
+#
+#         "lindbergh": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "lindbergh", "lindbergh_(one_piece)", "north_army_commander",
+#                 "revolutionary_inventor", "tech_specialist",
+#
+#                 # Titles and positions
+#                 "north_army_commander", "revolutionary_commander",
+#                 "technology_officer", "weapons_developer",
+#
+#                 # Special abilities and powers
+#                 "technological_expertise", "invention_skills",
+#                 "revolutionary_tech", "combat_engineering",
+#
+#                 # Combat specialties
+#                 "tech_warfare", "revolutionary_combat", "gadget_mastery",
+#                 "invention_deployment", "strategic_technology",
+#
+#                 # Teams and affiliations
+#                 "revolutionary_army", "north_army", "tech_division",
+#                 "dragon's_commanders", "revolutionary_leadership",
+#
+#                 # Time periods and versions
+#                 "pre_reverie", "current_lindbergh", "commander_era",
+#                 "revolutionary_period",
+#
+#                 # Forms and states
+#                 "inventor_mode", "battle_mode", "commander_mode",
+#                 "tech_development_state",
+#
+#                 # Outfits and appearances
+#                 "revolutionary_uniform", "tech_gear", "inventor_outfit",
+#                 "commander_clothes", "battle_equipment"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "lindbergh", "lindbergh_(one_piece)", "revolutionary_army",
+#
+#                 # Roles and abilities
+#                 "inventor", "north_army_commander", "tech_specialist"
+#             ]
+#         },
+#
+#         "karasu": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "karasu", "karasu_(one_piece)", "north_army_commander",
+#                 "crow_commander", "revolutionary_leader",
+#
+#                 # Titles and positions
+#                 "north_army_commander", "revolutionary_commander",
+#                 "crow_master", "stealth_specialist",
+#
+#                 # Special abilities and powers
+#                 "crow_abilities", "stealth_techniques",
+#                 "revolutionary_combat", "crow_control",
+#
+#                 # Combat specialties
+#                 "crow_warfare", "stealth_operations", "revolutionary_tactics",
+#                 "shadow_combat", "bird_control",
+#
+#                 # Teams and affiliations
+#                 "revolutionary_army", "north_army", "dragon's_commanders",
+#                 "revolutionary_leadership", "stealth_division",
+#
+#                 # Forms and states
+#                 "crow_form", "commander_mode", "battle_mode",
+#                 "stealth_mode", "leadership_state",
+#
+#                 # Outfits and appearances
+#                 "revolutionary_uniform", "crow_mask", "commander_gear",
+#                 "stealth_outfit", "battle_attire"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "karasu", "karasu_(one_piece)", "revolutionary_army",
+#
+#                 # Roles and abilities
+#                 "north_army_commander", "crow_master",
+#
+#                 # States and forms
+#                 "crow_form", "stealth_mode", "commander_mode"
+#             ]
+#         },
+#
+#         "bellemere": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "bellemere", "bell-mère", "belle_mere_(one_piece)",
+#                 "nami's_adoptive_mother", "marine_veteran",
+#
+#                 # Titles and positions
+#                 "former_marine", "tangerine_farmer", "adoptive_mother",
+#                 "marine_officer", "cocoyashi_resident",
+#
+#                 # Combat abilities
+#                 "marine_training", "firearms_expert", "combat_skills",
+#                 "marine_martial_arts", "tactical_expertise",
+#
+#                 # Teams and affiliations
+#                 "marine_forces_(former)", "cocoyashi_village",
+#                 "nami's_family", "nojiko's_family",
+#
+#                 # Time periods and versions
+#                 "marine_days", "mother_era", "young_bellemere",
+#                 "final_moments", "flashback_bellemere",
+#
+#                 # Special characteristics
+#                 "marine_veteran", "protective_mother", "fierce_spirit",
+#                 "strong_will", "sacrifice_for_family",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "casual_clothes", "farmer_outfit",
+#                 "battle_gear", "civilian_attire",
+#
+#                 # Emotional states
+#                 "protective_bellemere", "caring_mother", "fierce_marine",
+#                 "determined_bellemere", "loving_parent"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "bellemere", "bell-mère", "belle_mere_(one_piece)",
+#
+#                 # Roles and positions
+#                 "former_marine", "nami's_mother", "marine_veteran",
+#
+#                 # Time periods
+#                 "marine_era", "mother_era", "flashback_era"
+#             ]
+#         },
+#
+#         "isuka": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "isuka", "isuka_(one_piece)", "drill_instructor",
+#                 "marine_captain", "smoke_chaser",
+#
+#                 # Titles and positions
+#                 "marine_captain", "training_instructor",
+#                 "special_instructor", "ace's_pursuer",
+#
+#                 # Special abilities and powers
+#                 "smoke_smoke_fruit", "smoke_powers", "marine_combat",
+#                 "instructor_skills", "pursuit_specialist",
+#
+#                 # Combat abilities
+#                 "smoke_manipulation", "marine_techniques",
+#                 "training_expertise", "pursuit_tactics",
+#
+#                 # Teams and affiliations
+#                 "marine_forces", "training_division",
+#                 "pursuit_unit", "marine_headquarters",
+#
+#                 # Time periods and versions
+#                 "pre_timeskip", "ace_era", "training_period",
+#                 "marine_captain_era",
+#
+#                 # Forms and states
+#                 "smoke_form", "instructor_mode", "battle_mode",
+#                 "pursuit_mode", "training_state",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "captain_coat", "training_gear",
+#                 "battle_outfit", "pursuit_attire"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "isuka", "isuka_(one_piece)", "marine_captain",
+#
+#                 # Powers and roles
+#                 "smoke_smoke_fruit", "drill_instructor",
+#
+#                 # States and forms
+#                 "smoke_form", "instructor_mode", "battle_mode"
+#             ]
+#         },
+#
+#         "ain": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "ain", "ain_(one_piece)", "neo_marines",
+#                 "zephyr's_subordinate", "marine_officer",
+#
+#                 # Titles and positions
+#                 "neo_marine_officer", "former_marine",
+#                 "zephyr's_student", "special_forces",
+#
+#                 # Special abilities and powers
+#                 "modo_modo_no_mi", "age_manipulation",
+#                 "marine_combat", "tactical_skills",
+#
+#                 # Combat abilities
+#                 "age_control", "marine_techniques", "tactical_combat",
+#                 "special_operations", "age_regression",
+#
+#                 # Teams and affiliations
+#                 "neo_marines", "former_marine_forces",
+#                 "zephyr's_forces", "special_unit",
+#
+#                 # Time periods and versions
+#                 "marine_era", "neo_marine_period", "film_z",
+#                 "special_forces_era",
+#
+#                 # Forms and states
+#                 "battle_mode", "officer_mode", "age_control_state",
+#                 "tactical_mode", "combat_ready",
+#
+#                 # Outfits and appearances
+#                 "neo_marine_uniform", "battle_gear", "officer_attire",
+#                 "combat_outfit", "mission_gear"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "ain", "ain_(one_piece)", "neo_marines",
+#
+#                 # Powers and roles
+#                 "modo_modo_no_mi", "marine_officer",
+#
+#                 # States and forms
+#                 "battle_mode", "officer_mode", "age_control"
+#             ]
+#         },
+#
+#         "sadi": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "sadi", "sadi_(one_piece)", "chief_guard",
+#                 "impel_down_officer", "sadistic_guard",
+#
+#                 # Titles and positions
+#                 "chief_guard", "impel_down_staff", "torture_specialist",
+#                 "prison_officer", "security_chief",
+#
+#                 # Combat abilities
+#                 "whip_mastery", "torture_techniques", "combat_skills",
+#                 "prison_control", "guard_expertise",
+#
+#                 # Teams and affiliations
+#                 "impel_down", "world_government", "prison_staff",
+#                 "security_forces", "guard_unit",
+#
+#                 # Time periods and versions
+#                 "impel_down_arc", "prison_era", "current_sadi",
+#
+#                 # Forms and states
+#                 "guard_mode", "battle_mode", "torture_mode",
+#                 "command_state", "prison_duty",
+#
+#                 # Outfits and appearances
+#                 "guard_uniform", "prison_attire", "battle_gear",
+#                 "officer_outfit", "security_uniform"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "sadi", "sadi_(one_piece)", "impel_down",
+#
+#                 # Roles and abilities
+#                 "chief_guard", "whip_user", "prison_officer",
+#
+#                 # States
+#                 "guard_mode", "battle_mode", "command_mode"
+#             ]
+#         },
+#
+#         "domino": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "domino", "domino_(one_piece)", "impel_down_guard",
+#                 "vice_chief_guard", "prison_officer",
+#
+#                 # Titles and positions
+#                 "vice_chief_guard", "impel_down_staff",
+#                 "security_officer", "prison_authority",
+#
+#                 # Combat abilities
+#                 "guard_combat", "prison_techniques", "security_skills",
+#                 "defensive_tactics", "staff_expertise",
+#
+#                 # Teams and affiliations
+#                 "impel_down", "world_government", "prison_staff",
+#                 "security_forces", "guard_unit",
+#
+#                 # Time periods and versions
+#                 "impel_down_arc", "prison_era", "current_domino",
+#
+#                 # Forms and states
+#                 "guard_mode", "officer_mode", "security_state",
+#                 "prison_duty", "authority_mode",
+#
+#                 # Outfits and appearances
+#                 "guard_uniform", "prison_attire", "officer_outfit",
+#                 "security_gear", "staff_uniform"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "domino", "domino_(one_piece)", "impel_down",
+#
+#                 # Roles
+#                 "vice_chief_guard", "prison_officer",
+#
+#                 # States
+#                 "guard_mode", "officer_mode", "security_mode"
+#             ]
+#         },
+#
+#         "charlotte_pudding": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "charlotte_pudding", "pudding_(one_piece)",
+#                 "three_eye_tribe", "charlotte_family",
+#                 "sanji's_arranged_bride",
+#
+#                 # Titles and positions
+#                 "minister_of_chocolate", "cafe_owner", "third_eye",
+#                 "charlotte_daughter", "arranged_bride",
+#
+#                 # Special abilities and powers
+#                 "memory_manipulation", "memo_memo_no_mi",
+#                 "third_eye_powers", "memory_editing",
+#                 "potential_poneglyph_reader",
+#
+#                 # Racial traits
+#                 "three_eye_tribe", "third_eye", "hybrid_race",
+#                 "special_lineage", "unique_abilities",
+#
+#                 # Combat abilities
+#                 "memory_alteration", "deception_skills",
+#                 "emotional_manipulation", "cooking_expertise",
+#
+#                 # Teams and affiliations
+#                 "big_mom_pirates", "charlotte_family",
+#                 "totland_ministers", "cafe_staff",
+#
+#                 # Forms and states
+#                 "sweet_persona", "true_personality", "crying_state",
+#                 "conflicted_mode", "chef_mode", "third_eye_revealed",
+#
+#                 # Special characteristics
+#                 "split_personality", "memory_control", "cooking_skills",
+#                 "third_eye_abilities", "emotional_instability",
+#
+#                 # Time periods and versions
+#                 "pre_wedding", "wedding_ceremony", "post_wedding",
+#                 "current_pudding", "childhood_pudding",
+#
+#                 # Outfits and appearances
+#                 "wedding_dress", "cafe_uniform", "minister_outfit",
+#                 "casual_clothes", "chef_attire",
+#
+#                 # Emotional states
+#                 "sweet_pudding", "dark_pudding", "crying_pudding",
+#                 "tsundere_mode", "conflicted_pudding"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "charlotte_pudding", "pudding_(one_piece)",
+#
+#                 # Powers and traits
+#                 "three_eye_tribe", "memo_memo_no_mi",
+#
+#                 # States and forms
+#                 "sweet_persona", "dark_persona", "third_eye_revealed"
+#             ]
+#         },
+#
+#         "charlotte_smoothie": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "charlotte_smoothie", "smoothie_(one_piece)",
+#                 "sweet_commander", "longleg_tribe",
+#
+#                 # Titles and positions
+#                 "sweet_commander", "minister_of_juice",
+#                 "charlotte_daughter", "big_mom_executive",
+#
+#                 # Special abilities and powers
+#                 "wring_wring_fruit", "shibo_shibo_no_mi",
+#                 "liquid_extraction", "size_manipulation",
+#                 "strength_enhancement",
+#
+#                 # Combat abilities
+#                 "sword_techniques", "liquid_manipulation",
+#                 "giant_form", "wringing_powers", "executive_combat",
+#
+#                 # Teams and affiliations
+#                 "big_mom_pirates", "charlotte_family",
+#                 "sweet_commanders", "totland_ministers",
+#
+#                 # Forms and states
+#                 "normal_size", "giant_form", "battle_mode",
+#                 "commander_mode", "juice_extraction",
+#
+#                 # Special characteristics
+#                 "longleg_tribe", "executive_power", "massive_size",
+#                 "liquid_powers", "commander_authority",
+#
+#                 # Time periods and versions
+#                 "pre_wedding", "tea_party", "chase_period",
+#                 "current_smoothie", "commander_era",
+#
+#                 # Outfits and appearances
+#                 "commander_outfit", "minister_clothes", "battle_gear",
+#                 "formal_attire", "pirate_uniform",
+#
+#                 # Emotional states
+#                 "serious_smoothie", "commander_mode", "battle_ready",
+#                 "executive_presence", "determined_smoothie"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "charlotte_smoothie", "smoothie_(one_piece)",
+#
+#                 # Powers and roles
+#                 "wring_wring_fruit", "sweet_commander",
+#
+#                 # States and forms
+#                 "normal_form", "giant_form", "battle_mode"
+#             ]
+#         },
+#
+#         "charlotte_amande": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "charlotte_amande", "amande_(one_piece)",
+#                 "demon_lady", "snake_neck",
+#
+#                 # Titles and positions
+#                 "minister_of_nuts", "charlotte_daughter",
+#                 "big_mom_executive", "swordmaster",
+#
+#                 # Special abilities and powers
+#                 "sword_mastery", "snake_neck_abilities",
+#                 "executive_combat", "slow_killing_technique",
+#
+#                 # Combat abilities
+#                 "sword_techniques", "slow_slicing", "neck_extension",
+#                 "executive_fighting", "meito_wielder",
+#
+#                 # Teams and affiliations
+#                 "big_mom_pirates", "charlotte_family",
+#                 "totland_ministers", "executive_officers",
+#
+#                 # Forms and states
+#                 "battle_mode", "executive_mode", "swordmaster_stance",
+#                 "intimidation_mode", "minister_state",
+#
+#                 # Special characteristics
+#                 "snake_neck", "long_neck_tribe", "sword_expert",
+#                 "executive_authority", "intimidating_presence",
+#
+#                 # Time periods and versions
+#                 "pre_wedding", "tea_party", "current_amande",
+#                 "executive_era", "minister_period",
+#
+#                 # Outfits and appearances
+#                 "executive_outfit", "minister_clothes", "battle_gear",
+#                 "formal_attire", "pirate_uniform",
+#
+#                 # Emotional states
+#                 "serious_amande", "cold_blooded", "executive_mode",
+#                 "intimidating_presence", "calculated_amande"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "charlotte_amande", "amande_(one_piece)",
+#
+#                 # Roles and traits
+#                 "minister_of_nuts", "snake_neck",
+#
+#                 # States and forms
+#                 "battle_mode", "executive_mode", "swordmaster_mode"
+#             ]
+#         },
+#
+#         "charlotte_flampe": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "charlotte_flampe", "flampe_(one_piece)",
+#                 "special_forces_commander", "charlotte_family",
+#
+#                 # Titles and positions
+#                 "special_forces_leader", "charlotte_daughter",
+#                 "hobby_hobby_squad_commander", "sniper_captain",
+#
+#                 # Special abilities and powers
+#                 "dart_expertise", "leadership_skills",
+#                 "sniper_abilities", "youth_division_command",
+#
+#                 # Combat abilities
+#                 "dart_shooting", "tactical_command",
+#                 "squad_leadership", "ranged_combat",
+#
+#                 # Teams and affiliations
+#                 "big_mom_pirates", "charlotte_family",
+#                 "special_forces", "hobby_hobby_squad",
+#
+#                 # Forms and states
+#                 "commander_mode", "battle_mode", "sniper_mode",
+#                 "leadership_state", "childish_state",
+#
+#                 # Special characteristics
+#                 "youth_leader", "sibling_worship", "bratty_personality",
+#                 "command_authority", "sniper_skills",
+#
+#                 # Time periods and versions
+#                 "katakuri_fight", "current_flampe", "commander_era",
+#
+#                 # Outfits and appearances
+#                 "commander_outfit", "special_forces_uniform",
+#                 "casual_clothes", "battle_gear",
+#
+#                 # Emotional states
+#                 "bratty_flampe", "commanding_flampe", "excited_flampe",
+#                 "idolizing_mode", "childish_flampe"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "charlotte_flampe", "flampe_(one_piece)",
+#
+#                 # Roles and abilities
+#                 "special_forces_commander", "sniper",
+#
+#                 # States and forms
+#                 "commander_mode", "battle_mode", "childish_mode"
+#             ]
+#         },
+#
+#         "conis": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "conis", "conis_(one_piece)", "skypiean",
+#                 "angel_island_resident", "sky_inhabitant",
+#
+#                 # Positions and roles
+#                 "skypiean_guide", "angel_beach_resident",
+#                 "cloud_fox_owner", "harp_player",
+#
+#                 # Special characteristics
+#                 "skypiean_wings", "angel_resident", "musical_talent",
+#                 "cloud_dweller", "sky_island_native",
+#
+#                 # Teams and affiliations
+#                 "angel_island", "skypiea_resistance",
+#                 "straw_hat_allies", "upper_yard_rebels",
+#
+#                 # Time periods and versions
+#                 "skypiea_arc", "resistance_period", "current_conis",
+#                 "pre_liberation", "post_liberation",
+#
+#                 # Outfits and appearances
+#                 "skypiean_clothes", "angel_dress", "casual_wear",
+#                 "traditional_outfit", "resistance_gear",
+#
+#                 # Emotional states
+#                 "friendly_conis", "determined_conis", "helpful_conis",
+#                 "brave_conis", "resistance_member"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "conis", "conis_(one_piece)", "skypiean",
+#
+#                 # Traits and roles
+#                 "angel_wings", "sky_dweller",
+#
+#                 # States
+#                 "guide_mode", "resistance_mode"
+#             ]
+#         },
+#
+#         "kalifa": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "kalifa", "kalifa_(one_piece)", "cp9_agent",
+#                 "water_7_secretary", "bubble_master",
+#
+#                 # Titles and positions
+#                 "cp9_agent", "iceburg's_secretary", "assassin",
+#                 "government_agent", "undercover_operative",
+#
+#                 # Special abilities and powers
+#                 "bubble_bubble_fruit", "awa_awa_no_mi",
+#                 "rokushiki_master", "six_powers", "soap_powers",
+#
+#                 # Combat abilities
+#                 "rokushiki", "soap_techniques", "assassination_skills",
+#                 "martial_arts", "government_combat",
+#
+#                 # Teams and affiliations
+#                 "cp9", "world_government", "galley-la_(former)",
+#                 "cipher_pol", "assassin_unit",
+#
+#                 # Forms and states
+#                 "secretary_mode", "agent_mode", "battle_mode",
+#                 "bubble_form", "undercover_state",
+#
+#                 # Time periods and versions
+#                 "water_7_arc", "enies_lobby_arc", "cp9_era",
+#                 "secretary_period", "current_kalifa",
+#
+#                 # Outfits and appearances
+#                 "secretary_outfit", "agent_clothes", "battle_gear",
+#                 "office_attire", "assassin_uniform",
+#
+#                 # Emotional states
+#                 "professional_kalifa", "serious_agent", "battle_ready",
+#                 "undercover_mode", "assassin_mindset"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "kalifa", "kalifa_(one_piece)", "cp9",
+#
+#                 # Powers and roles
+#                 "bubble_bubble_fruit", "rokushiki", "assassin",
+#
+#                 # States and forms
+#                 "agent_mode", "battle_mode", "secretary_mode"
+#             ]
+#         },
+#
+#         "mozu_and_kiwi": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "mozu", "kiwi", "square_sisters",
+#                 "franky_family", "water_7_duo",
+#
+#                 # Positions and roles
+#                 "franky_family_members", "water_7_residents",
+#                 "square_sisters", "shipwright_assistants",
+#
+#                 # Combat abilities
+#                 "dual_fighting", "synchronized_combat",
+#                 "square_style", "franky_family_techniques",
+#
+#                 # Teams and affiliations
+#                 "franky_family", "galley-la_allies",
+#                 "water_7_citizens", "straw_hat_allies",
+#
+#                 # Time periods and versions
+#                 "water_7_arc", "enies_lobby_arc", "current_era",
+#
+#                 # Outfits and appearances
+#                 "square_hair", "franky_family_clothes",
+#                 "water_7_fashion", "matching_outfits",
+#
+#                 # Emotional states
+#                 "synchronized_sisters", "loyal_members",
+#                 "supportive_duo", "determined_sisters"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "mozu", "kiwi", "square_sisters",
+#
+#                 # Roles and affiliations
+#                 "franky_family", "water_7",
+#
+#                 # States
+#                 "synchronized_mode", "battle_mode"
+#             ]
+#         },
+#
+#         "kumadori's_mother": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "kumadori's_mother", "kumadori_mother",
+#                 "cp9_agent_parent", "rokushiki_master",
+#
+#                 # Titles and positions
+#                 "rokushiki_master", "cipher_pol_agent",
+#                 "government_assassin", "martial_artist",
+#
+#                 # Combat abilities
+#                 "rokushiki", "life_return", "assassination_skills",
+#                 "martial_arts_master", "government_techniques",
+#
+#                 # Teams and affiliations
+#                 "cipher_pol", "world_government",
+#                 "assassination_unit", "kumadori_family",
+#
+#                 # Time periods and versions
+#                 "flashback_era", "cipher_pol_days", "kumadori_childhood"
+#             ],
+#             "danbooru": [
+#                 "kumadori's_mother", "kumadori_family",
+#                 "cipher_pol", "rokushiki_master"
+#             ]
+#         },
+#
+#         # Baratie Arc
+#         "zeff's_mother": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "zeff's_mother", "zeff_mother", "sanji_flashback",
+#
+#                 # Roles and positions
+#                 "cook's_mother", "baratie_backstory", "east_blue_resident",
+#
+#                 # Time periods and versions
+#                 "flashback_character", "zeff_childhood", "past_era"
+#             ],
+#             "danbooru": [
+#                 "zeff's_mother", "baratie_arc", "flashback_character"
+#             ]
+#         },
+#
+#         # Drum Island Complete
+#         "kureha": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "kureha", "kureha_(one_piece)", "dr_kureha",
+#                 "witch_doctor", "drum_kingdom_doctor",
+#
+#                 # Titles and positions
+#                 "doctor_kureha", "witch_of_drum", "medical_expert",
+#                 "drum_castle_resident", "chopper's_mentor",
+#
+#                 # Special characteristics
+#                 "medical_knowledge", "longevity_techniques",
+#                 "doctor_skills", "winter_specialist", "mentor",
+#
+#                 # Teams and affiliations
+#                 "drum_kingdom", "medical_practitioners",
+#                 "chopper's_teachers", "castle_doctors",
+#
+#                 # Time periods and versions
+#                 "drum_island_arc", "pre_timeskip", "current_kureha",
+#                 "flashback_kureha", "doctor_era",
+#
+#                 # Outfits and appearances
+#                 "doctor_coat", "winter_clothes", "medical_gear",
+#                 "casual_wear", "drum_castle_attire",
+#
+#                 # Emotional states
+#                 "stern_doctor", "caring_mentor", "wise_kureha",
+#                 "teaching_mode", "medical_authority"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "kureha", "kureha_(one_piece)", "dr_kureha",
+#
+#                 # Roles and positions
+#                 "doctor", "witch", "mentor",
+#
+#                 # States and periods
+#                 "medical_mode", "teaching_mode", "drum_island"
+#             ]
+#         },
+#
+#         # Long Ring Long Land Complete
+#         "porche": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "porche", "porche_(one_piece)", "foxy_pirate",
+#                 "idol_performer", "foxy_crew",
+#
+#                 # Titles and positions
+#                 "foxy_pirates_idol", "crew_performer",
+#                 "davy_back_fighter", "crew_member",
+#
+#                 # Special abilities
+#                 "performance_skills", "combat_abilities",
+#                 "crew_support", "entertainment_talent",
+#
+#                 # Teams and affiliations
+#                 "foxy_pirates", "davy_back_crew",
+#                 "performance_unit", "foxy's_crew",
+#
+#                 # Time periods and versions
+#                 "long_ring_long_land", "davy_back_fight",
+#                 "current_porche", "pre_timeskip",
+#
+#                 # Outfits and appearances
+#                 "performer_outfit", "pirate_clothes",
+#                 "crew_uniform", "battle_gear",
+#
+#                 # Emotional states
+#                 "cheerful_porche", "performing_mode",
+#                 "competitive_spirit", "crew_loyalty"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "porche", "porche_(one_piece)",
+#
+#                 # Roles and affiliations
+#                 "foxy_pirates", "performer",
+#
+#                 # States and forms
+#                 "performance_mode", "battle_mode"
+#             ]
+#         },
+#
+#         # Amazon Lily Additional Character
+#         "marguerite": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "marguerite", "marguerite_(one_piece)",
+#                 "kuja_warrior", "amazon_lily_archer",
+#
+#                 # Titles and positions
+#                 "kuja_warrior", "elite_archer", "amazon_guard",
+#                 "hancock's_subordinate", "luffy's_friend",
+#
+#                 # Combat abilities
+#                 "archery_master", "haki_arrows", "kuja_combat",
+#                 "snake_bow_user", "warrior_skills",
+#
+#                 # Teams and affiliations
+#                 "kuja_pirates", "amazon_lily", "hancock's_guards",
+#                 "warrior_tribe", "snake_army",
+#
+#                 # Time periods and versions
+#                 "amazon_lily_arc", "pre_timeskip", "current_marguerite",
+#
+#                 # Outfits and appearances
+#                 "kuja_outfit", "warrior_attire", "tribal_clothes",
+#                 "battle_gear", "amazon_dress",
+#
+#                 # Emotional states
+#                 "friendly_marguerite", "curious_marguerite",
+#                 "warrior_mode", "protective_marguerite"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "marguerite", "marguerite_(one_piece)",
+#
+#                 # Roles and abilities
+#                 "kuja_warrior", "archer", "amazon_lily",
+#
+#                 # States and forms
+#                 "warrior_mode", "battle_mode", "friendly_mode"
+#             ]
+#         },
+#
+#         "spandam's_secretary": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "spandam's_secretary", "enies_lobby_secretary",
+#                 "government_worker", "tower_staff",
+#
+#                 # Titles and positions
+#                 "cp9_secretary", "tower_of_justice_staff",
+#                 "government_employee", "office_worker",
+#
+#                 # Teams and affiliations
+#                 "enies_lobby", "world_government",
+#                 "spandam's_staff", "tower_personnel",
+#
+#                 # Time periods and versions
+#                 "enies_lobby_arc", "pre_timeskip",
+#                 "tower_of_justice_era"
+#             ],
+#             "danbooru": [
+#                 "spandam's_secretary", "enies_lobby",
+#                 "tower_of_justice", "secretary"
+#             ]
+#         },
+#
+#         # Syrup Village Arc (Complete)
+#         "kaya": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "kaya", "kaya_(one_piece)", "syrup_village_resident",
+#                 "mansion_owner", "aspiring_doctor",
+#
+#                 # Titles and positions
+#                 "mansion_mistress", "medical_student",
+#                 "wealthy_heiress", "usopp's_friend",
+#
+#                 # Special characteristics
+#                 "medical_knowledge", "kind_heart",
+#                 "wealthy_background", "illness_recovery",
+#
+#                 # Teams and affiliations
+#                 "syrup_village", "going_merry_donor",
+#                 "usopp_pirates_supporter", "village_elite",
+#
+#                 # Time periods and versions
+#                 "syrup_village_arc", "pre_timeskip",
+#                 "current_kaya", "recovery_period",
+#
+#                 # Outfits and appearances
+#                 "mansion_clothes", "casual_wear",
+#                 "medical_student_attire", "wealthy_dress",
+#
+#                 # Emotional states
+#                 "kind_kaya", "determined_student",
+#                 "grateful_friend", "caring_personality"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "kaya", "kaya_(one_piece)",
+#
+#                 # Roles and positions
+#                 "medical_student", "mansion_owner",
+#
+#                 # States and periods
+#                 "recovery_mode", "studying_mode"
+#             ]
+#         },
+#
+#         "merry": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "merry", "merry_(one_piece)", "kaya's_butler",
+#                 "mansion_servant", "loyal_butler",
+#
+#                 # Titles and positions
+#                 "head_butler", "mansion_staff",
+#                 "kaya's_servant", "household_manager",
+#
+#                 # Teams and affiliations
+#                 "syrup_village", "mansion_staff",
+#                 "kaya's_household", "village_elite",
+#
+#                 # Time periods and versions
+#                 "syrup_village_arc", "pre_timeskip",
+#                 "current_merry", "mansion_era",
+#
+#                 # Outfits and appearances
+#                 "butler_uniform", "formal_wear",
+#                 "servant_attire", "professional_clothes",
+#
+#                 # Emotional states
+#                 "loyal_servant", "protective_butler",
+#                 "caring_merry", "dutiful_staff"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "merry", "merry_(one_piece)",
+#
+#                 # Roles
+#                 "butler", "servant",
+#
+#                 # States
+#                 "service_mode", "protective_mode"
+#             ]
+#         },
+#
+#         # Orange Town Arc (Complete)
+#         "chouchou's_owner": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "hocker", "pet_shop_owner",
+#                 "orange_town_resident", "chouchou's_master",
+#
+#                 # Roles and positions
+#                 "shop_owner", "pet_store_proprietor",
+#                 "dog_owner", "town_resident",
+#
+#                 # Teams and affiliations
+#                 "orange_town", "shop_keepers",
+#                 "civilian_population",
+#
+#                 # Time periods and versions
+#                 "orange_town_arc", "flashback_era",
+#                 "pre_timeskip"
+#             ],
+#             "danbooru": [
+#                 "hocker", "pet_shop_owner",
+#                 "orange_town", "flashback_character"
+#             ]
+#         },
+#
+#         "rika": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "rika", "rika_(one_piece)", "shells_town_girl",
+#                 "food_shop_daughter", "zoro's_friend",
+#
+#                 # Roles and positions
+#                 "restaurant_helper", "civilian_child",
+#                 "zoro_supporter", "town_resident",
+#
+#                 # Teams and affiliations
+#                 "shells_town", "food_shop_family",
+#                 "civilian_population", "zoro's_allies",
+#
+#                 # Time periods and versions
+#                 "morgan_arc", "early_east_blue", "pre_timeskip",
+#
+#                 # Emotional states
+#                 "grateful_rika", "brave_child", "helpful_rika",
+#                 "kind_hearted", "caring_child"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "rika", "rika_(one_piece)",
+#
+#                 # Roles and locations
+#                 "shells_town", "civilian",
+#
+#                 # States
+#                 "child_character", "supporter"
+#             ]
+#         },
+#
+#         # Gaimon Arc (Island of Rare Animals)
+#         "sarfunkel": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "sarfunkel", "sarfunkel_(one_piece)",
+#                 "rare_animals_island", "gaimon's_partner",
+#
+#                 # Roles and positions
+#                 "island_guardian", "animal_protector",
+#                 "gaimon's_companion", "treasure_hunter",
+#
+#                 # Teams and affiliations
+#                 "rare_animals_island", "island_protectors",
+#                 "gaimon's_ally", "treasure_seekers",
+#
+#                 # Time periods and versions
+#                 "post_timeskip", "cover_story_era",
+#
+#                 # Emotional states
+#                 "protective_sarfunkel", "caring_guardian",
+#                 "treasure_seeker", "animal_lover"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "sarfunkel", "sarfunkel_(one_piece)",
+#
+#                 # Roles
+#                 "guardian", "protector",
+#
+#                 # States
+#                 "cover_story_character"
+#             ]
+#         },
+#
+#         # Apis Arc (Warship Island)
+#         "apis": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "apis", "apis_(one_piece)", "warship_island",
+#                 "dragon_friend", "millennium_dragon_ally",
+#
+#                 # Roles and positions
+#                 "dragon_protector", "island_resident",
+#                 "lost_powers_user", "ryuuji's_friend",
+#
+#                 # Special abilities
+#                 "animal_communication", "dragon_understanding",
+#                 "ancient_powers", "lost_civilization_connection",
+#
+#                 # Teams and affiliations
+#                 "warship_island", "straw_hat_allies",
+#                 "dragon_protectors", "lost_civilization",
+#
+#                 # Time periods and versions
+#                 "warship_island_arc", "filler_arc",
+#                 "pre_timeskip", "childhood_apis",
+#
+#                 # Outfits and appearances
+#                 "traditional_clothes", "island_outfit",
+#                 "dragon_keeper_attire", "casual_wear",
+#
+#                 # Emotional states
+#                 "protective_apis", "determined_apis",
+#                 "caring_friend", "brave_child"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "apis", "apis_(one_piece)",
+#
+#                 # Roles and abilities
+#                 "dragon_friend", "animal_communicator",
+#
+#                 # States
+#                 "protective_mode", "child_character"
+#             ]
+#         },
+#
+#         # Post-Alabasta Arc
+#         "adelle_bascùd": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "adelle", "adelle_(one_piece)", "goat_island",
+#                 "mayor's_daughter", "island_defender",
+#
+#                 # Roles and positions
+#                 "goat_island_resident", "defender",
+#                 "village_protector", "zoro's_temporary_student",
+#
+#                 # Combat abilities
+#                 "basic_swordsmanship", "defensive_skills",
+#                 "island_protection", "beginner_fighter",
+#
+#                 # Teams and affiliations
+#                 "goat_island", "island_defenders",
+#                 "zoro's_students", "civilian_fighters",
+#
+#                 # Time periods and versions
+#                 "post_alabasta", "filler_arc", "pre_timeskip",
+#
+#                 # Emotional states
+#                 "determined_adelle", "protective_spirit",
+#                 "learning_mode", "defensive_stance"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "adelle", "adelle_(one_piece)",
+#
+#                 # Roles
+#                 "swordswoman", "defender",
+#
+#                 # States
+#                 "student_mode", "protective_mode"
+#             ]
+#         },
+#
+#         # Ocean's Dream Arc
+#         "abi": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "abi", "abi_(one_piece)", "dream_investigator",
+#                 "memory_researcher", "sleeping_expert",
+#
+#                 # Roles and positions
+#                 "dream_expert", "memory_specialist",
+#                 "sleep_researcher", "arc_antagonist",
+#
+#                 # Special abilities
+#                 "dream_investigation", "memory_analysis",
+#                 "sleep_study", "research_skills",
+#
+#                 # Teams and affiliations
+#                 "dream_researchers", "memory_scientists",
+#                 "independent_investigator",
+#
+#                 # Time periods and versions
+#                 "ocean's_dream_arc", "filler_arc",
+#                 "pre_timeskip",
+#
+#                 # Emotional states
+#                 "analytical_abi", "research_mode",
+#                 "investigative_spirit", "determined_researcher"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "abi", "abi_(one_piece)",
+#
+#                 # Roles
+#                 "researcher", "investigator",
+#
+#                 # States
+#                 "analytical_mode", "research_mode"
+#             ]
+#         },
+#
+#         "jessica": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "jessica", "jessica_(one_piece)", "g8_base_cook",
+#                 "jonathan's_wife", "marine_chef",
+#
+#                 # Titles and positions
+#                 "head_chef", "marine_base_cook", "commander's_wife",
+#                 "kitchen_supervisor", "g8_staff",
+#
+#                 # Special abilities
+#                 "cooking_mastery", "kitchen_management",
+#                 "food_expertise", "base_administration",
+#
+#                 # Teams and affiliations
+#                 "marine_forces", "g8_base", "kitchen_staff",
+#                 "jonathan's_family", "marine_support",
+#
+#                 # Time periods and versions
+#                 "g8_arc", "filler_arc", "pre_timeskip",
+#                 "navarone_base_era",
+#
+#                 # Outfits and appearances
+#                 "chef_uniform", "kitchen_attire", "marine_base_clothes",
+#                 "cooking_gear", "casual_wear",
+#
+#                 # Emotional states
+#                 "professional_jessica", "caring_wife",
+#                 "strict_chef", "base_defender"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "jessica", "jessica_(one_piece)",
+#
+#                 # Roles
+#                 "chef", "marine_staff",
+#
+#                 # States
+#                 "cooking_mode", "commander's_wife"
+#             ]
+#         },
+#
+#         # Rainbow Mist Arc
+#         "henzo's_grandmother": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "henzo's_grandmother", "ruluka_elder",
+#                 "rainbow_mist_resident", "island_elder",
+#
+#                 # Roles and positions
+#                 "village_elder", "family_member",
+#                 "ruluka_citizen", "historical_witness",
+#
+#                 # Teams and affiliations
+#                 "ruluka_island", "village_elders",
+#                 "henzo's_family", "island_residents",
+#
+#                 # Time periods and versions
+#                 "rainbow_mist_arc", "filler_arc",
+#                 "ruluka_flashback", "pre_timeskip"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "henzo's_grandmother", "ruluka_resident",
+#
+#                 # Roles
+#                 "elder", "villager",
+#
+#                 # Time periods
+#                 "flashback_character"
+#             ]
+#         },
+#
+#         # Ruluka Island Girl
+#         "akibi": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "akibi", "akibi_(one_piece)", "ruluka_child",
+#                 "rainbow_mist_victim", "lost_child",
+#
+#                 # Roles and positions
+#                 "missing_child", "ruluka_resident",
+#                 "mist_explorer", "ship_passenger",
+#
+#                 # Teams and affiliations
+#                 "ruluka_island", "lost_children",
+#                 "rainbow_mist_group", "wetton's_victims",
+#
+#                 # Time periods and versions
+#                 "rainbow_mist_arc", "filler_arc",
+#                 "pre_timeskip", "missing_period"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "akibi", "akibi_(one_piece)",
+#
+#                 # States
+#                 "lost_child", "rainbow_mist"
+#             ]
+#         },
+#
+#         # Goat Island Arc
+#         "yuki": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "yuki", "yuki_(one_piece)", "goat_island_resident",
+#                 "zoro's_student", "island_defender",
+#
+#                 # Roles and positions
+#                 "student_swordsman", "island_protector",
+#                 "civilian_fighter", "training_participant",
+#
+#                 # Combat abilities
+#                 "basic_swordsmanship", "defensive_skills",
+#                 "training_experience", "beginner_fighter",
+#
+#                 # Teams and affiliations
+#                 "goat_island", "zoro's_students",
+#                 "island_defenders", "civilian_militia",
+#
+#                 # Time periods and versions
+#                 "goat_island_arc", "filler_arc",
+#                 "pre_timeskip", "training_period"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "yuki", "yuki_(one_piece)",
+#
+#                 # Roles
+#                 "student", "defender",
+#
+#                 # States
+#                 "training_mode", "protective_mode"
+#             ]
+#         },
+#
+#         # Lovely Land Arc
+#         "lily": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "lily", "lily_(one_piece)", "lovely_land_resident",
+#                 "spa_island_staff", "filler_character",
+#
+#                 # Roles and positions
+#                 "spa_worker", "island_staff", "service_provider",
+#                 "resort_employee", "lovely_land_civilian",
+#
+#                 # Teams and affiliations
+#                 "spa_island", "lovely_land", "resort_staff",
+#                 "service_industry", "island_workers",
+#
+#                 # Time periods and versions
+#                 "lovely_land_arc", "filler_arc",
+#                 "pre_timeskip", "spa_island_era",
+#
+#                 # Outfits and appearances
+#                 "staff_uniform", "resort_clothes",
+#                 "service_attire", "spa_outfit"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "lily", "lily_(one_piece)",
+#
+#                 # Roles
+#                 "spa_worker", "staff_member",
+#
+#                 # States
+#                 "service_mode", "working_state"
+#             ]
+#         },
+#
+#         "shirahoshi": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "shirahoshi", "shirahoshi_(one_piece)",
+#                 "princess_shirahoshi", "mermaid_princess",
+#                 "poseidon", "ancient_weapon",
+#
+#                 # Titles and positions
+#                 "neptune's_daughter", "ryugu_princess",
+#                 "ancient_weapon_poseidon", "mermaid_princess",
+#                 "fishman_island_royalty",
+#
+#                 # Special abilities and powers
+#                 "sea_kings_control", "poseidon_powers",
+#                 "ancient_weapon_abilities", "sea_creature_communication",
+#                 "voice_of_all_things",
+#
+#                 # Physical traits
+#                 "giant_mermaid", "pink_hair", "royal_mermaid",
+#                 "giant_size", "mermaid_tail", "princess_features",
+#
+#                 # Teams and affiliations
+#                 "ryugu_kingdom", "neptune_family", "royal_family",
+#                 "fishman_island", "mermaid_cove",
+#
+#                 # Family relationships
+#                 "neptune's_daughter", "fukaboshi's_sister",
+#                 "manboshi's_sister", "ryuboshi's_sister",
+#                 "otohime's_daughter",
+#
+#                 # Time periods and versions
+#                 "childhood_shirahoshi", "tower_period",
+#                 "current_shirahoshi", "post_timeskip",
+#
+#                 # Outfits and appearances
+#                 "princess_attire", "royal_clothes", "mermaid_outfit",
+#                 "formal_dress", "casual_clothes", "tower_wear",
+#
+#                 # Emotional states
+#                 "crying_shirahoshi", "brave_shirahoshi",
+#                 "determined_princess", "scared_shirahoshi",
+#                 "happy_shirahoshi", "royal_dignity"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "shirahoshi", "shirahoshi_(one_piece)",
+#
+#                 # Titles and roles
+#                 "mermaid_princess", "poseidon",
+#
+#                 # States and forms
+#                 "giant_mermaid", "royal_princess",
+#
+#                 # Time periods
+#                 "fishman_island_arc", "post_timeskip"
+#             ]
+#         },
+#
+#         "otohime": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "otohime", "otohime_(one_piece)", "queen_otohime",
+#                 "neptune's_wife", "ryugu_queen",
+#
+#                 # Titles and positions
+#                 "ryugu_queen", "neptune's_consort",
+#                 "fishman_island_queen", "royal_family",
+#                 "peace_advocate",
+#
+#                 # Special abilities and powers
+#                 "observation_haki", "emotional_perception",
+#                 "diplomatic_skills", "royal_authority",
+#
+#                 # Family relationships
+#                 "neptune's_wife", "shirahoshi's_mother",
+#                 "fukaboshi's_mother", "ryuboshi's_mother",
+#                 "manboshi's_mother",
+#
+#                 # Teams and affiliations
+#                 "ryugu_kingdom", "neptune_family",
+#                 "royal_family", "fishman_island",
+#
+#                 # Time periods and versions
+#                 "flashback_otohime", "queen_era",
+#                 "peace_movement", "pre_death",
+#
+#                 # Outfits and appearances
+#                 "royal_attire", "queen_clothes",
+#                 "diplomatic_dress", "formal_wear",
+#
+#                 # Emotional states
+#                 "determined_otohime", "peaceful_queen",
+#                 "diplomatic_mode", "motherly_love",
+#                 "royal_dignity"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "otohime", "otohime_(one_piece)",
+#
+#                 # Roles and positions
+#                 "queen", "peace_advocate",
+#
+#                 # States and periods
+#                 "flashback_character", "royal_family"
+#             ]
+#         },
+#
+#         "madam_shyarly": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "madam_shyarly", "shyarly_(one_piece)",
+#                 "mermaid_cafe_owner", "fortune_teller",
+#
+#                 # Titles and positions
+#                 "cafe_owner", "fortune_teller", "seer",
+#                 "mermaid_cafe_proprietor", "arlong's_sister",
+#
+#                 # Special abilities and powers
+#                 "future_vision", "prophecy_ability",
+#                 "crystal_ball_reading", "prediction_power",
+#
+#                 # Special characteristics
+#                 "shark_mermaid", "business_owner",
+#                 "fortune_telling", "prophetic_vision",
+#
+#                 # Teams and affiliations
+#                 "mermaid_cafe", "fishman_island",
+#                 "coral_hill", "business_district",
+#
+#                 # Time periods and versions
+#                 "pre_timeskip", "post_timeskip",
+#                 "fishman_island_arc", "current_shyarly",
+#
+#                 # Outfits and appearances
+#                 "business_attire", "fortune_teller_clothes",
+#                 "cafe_owner_outfit", "formal_wear",
+#
+#                 # Emotional states
+#                 "professional_shyarly", "serious_fortune_teller",
+#                 "business_mode", "prophetic_state"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "madam_shyarly", "shyarly_(one_piece)",
+#
+#                 # Roles and abilities
+#                 "fortune_teller", "cafe_owner",
+#
+#                 # States and forms
+#                 "shark_mermaid", "business_owner"
+#             ]
+#         },
+#
+#         "ishilly": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "ishilly", "ishilly_(one_piece)",
+#                 "mermaid_cafe_worker", "mermaid_cove_resident",
+#
+#                 # Titles and positions
+#                 "cafe_worker", "mermaid_attendant",
+#                 "service_staff", "mermaid_cove_member",
+#
+#                 # Teams and affiliations
+#                 "mermaid_cafe", "mermaid_cove",
+#                 "fishman_island", "service_industry",
+#
+#                 # Time periods and versions
+#                 "fishman_island_arc", "post_timeskip",
+#                 "current_ishilly",
+#
+#                 # Outfits and appearances
+#                 "cafe_uniform", "mermaid_outfit",
+#                 "work_clothes", "service_attire",
+#
+#                 # Emotional states
+#                 "cheerful_ishilly", "working_mode",
+#                 "service_attitude", "friendly_demeanor"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "ishilly", "ishilly_(one_piece)",
+#
+#                 # Roles
+#                 "mermaid", "cafe_worker",
+#
+#                 # States
+#                 "service_mode", "working_state"
+#             ]
+#         },
+#
+#         "lilo": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "lilo", "lilo_(one_piece)", "bounty_hunter",
+#                 "accino_family", "ice_hunter",
+#
+#                 # Roles and positions
+#                 "bounty_hunter", "accino_family_member",
+#                 "ice_hunter_team", "phoenix_pirates_hunter",
+#
+#                 # Teams and affiliations
+#                 "accino_family", "ice_hunters", "bounty_hunters",
+#                 "don_accino's_crew", "hunting_team",
+#
+#                 # Time periods and versions
+#                 "ice_hunter_arc", "filler_arc", "pre_timeskip",
+#
+#                 # Emotional states
+#                 "hunting_mode", "family_member", "professional_hunter"
+#             ],
+#             "danbooru": [
+#                 "lilo", "lilo_(one_piece)", "bounty_hunter",
+#                 "ice_hunter", "accino_family"
+#             ]
+#         },
+#
+#         # Little East Blue Arc
+#         "daisy": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "daisy", "daisy_(one_piece)", "little_east_blue",
+#                 "island_resident", "civilian_character",
+#
+#                 # Roles and positions
+#                 "island_civilian", "local_resident",
+#                 "east_blue_settler", "community_member",
+#
+#                 # Teams and affiliations
+#                 "little_east_blue", "island_community",
+#                 "civilian_population", "east_blue_migrants",
+#
+#                 # Time periods and versions
+#                 "little_east_blue_arc", "filler_arc",
+#                 "pre_timeskip", "island_era"
+#             ],
+#             "danbooru": [
+#                 "daisy", "daisy_(one_piece)",
+#                 "little_east_blue", "civilian"
+#             ]
+#         },
+#
+#         # Z's Ambition Arc
+#         "shuzo's_wife": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "shuzo's_wife", "neo_marines_family",
+#                 "marine_relative", "filler_character",
+#
+#                 # Roles and positions
+#                 "marine_wife", "neo_marine_family",
+#                 "supporting_character", "background_role",
+#
+#                 # Teams and affiliations
+#                 "neo_marines", "marine_families",
+#                 "civilian_support", "background_character",
+#
+#                 # Time periods and versions
+#                 "z's_ambition_arc", "filler_arc",
+#                 "neo_marine_era", "flashback_character"
+#             ],
+#             "danbooru": [
+#                 "shuzo's_wife", "neo_marines",
+#                 "marine_family", "flashback_character"
+#             ]
+#         },
+#
+#         "commander_jonathan's_wife": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "jessica", "jessica_(one_piece)", "navarone_chef",
+#                 "g8_base_cook", "marine_wife",
+#
+#                 # Titles and positions
+#                 "head_chef", "marine_base_cook", "commander's_wife",
+#                 "kitchen_supervisor", "navarone_staff",
+#
+#                 # Special skills
+#                 "culinary_expertise", "kitchen_management",
+#                 "base_administration", "cooking_mastery",
+#
+#                 # Teams and affiliations
+#                 "marine_base_g8", "navarone_staff",
+#                 "marine_families", "kitchen_personnel",
+#
+#                 # Time periods and versions
+#                 "g8_arc", "navarone_arc", "filler_arc",
+#                 "pre_timeskip", "base_era"
+#             ],
+#             "danbooru": [
+#                 "jessica", "jessica_(one_piece)",
+#                 "marine_cook", "g8_arc"
+#             ]
+#         },
+#
+#         # Spa Island Arc
+#         "lina": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "lina", "lina_(one_piece)", "spa_worker",
+#                 "furo_island_staff", "service_staff",
+#
+#                 # Roles and positions
+#                 "spa_attendant", "island_staff",
+#                 "service_provider", "resort_worker",
+#
+#                 # Teams and affiliations
+#                 "spa_island", "resort_staff",
+#                 "service_industry", "furo_kingdom",
+#
+#                 # Time periods and versions
+#                 "spa_island_arc", "filler_arc",
+#                 "pre_timeskip", "resort_era",
+#
+#                 # Outfits and states
+#                 "spa_uniform", "service_attire",
+#                 "resort_clothes", "work_outfit"
+#             ],
+#             "danbooru": [
+#                 "lina", "lina_(one_piece)",
+#                 "spa_worker", "filler_character"
+#             ]
+#         },
+#
+#         # Adventure of Nebulandia
+#         "komei's_sister": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "komei's_sister", "nebulandia_character",
+#                 "marine_family", "filler_character",
+#
+#                 # Roles and positions
+#                 "marine_relative", "supporting_character",
+#                 "family_member", "background_character",
+#
+#                 # Teams and affiliations
+#                 "marine_families", "nebulandia_residents",
+#                 "komei's_family", "marine_background",
+#
+#                 # Time periods and versions
+#                 "nebulandia_arc", "filler_special",
+#                 "special_character", "marine_era"
+#             ],
+#             "danbooru": [
+#                 "komei's_sister", "nebulandia",
+#                 "marine_family", "special_character"
+#             ]
+#         },
+#
+#         # Silver Mine Arc
+#         "myskina_acier": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "myskina_acier", "acier_(one_piece)",
+#                 "silver_mine_prisoner", "resistance_member",
+#
+#                 # Roles and positions
+#                 "mine_prisoner", "resistance_fighter",
+#                 "escaped_prisoner", "rebel_leader",
+#
+#                 # Special characteristics
+#                 "resistance_skills", "leadership_ability",
+#                 "survival_expertise", "combat_experience",
+#
+#                 # Teams and affiliations
+#                 "silver_mine_resistance", "escaped_prisoners",
+#                 "rebel_faction", "prison_breakers",
+#
+#                 # Time periods and versions
+#                 "silver_mine_arc", "filler_arc",
+#                 "prison_era", "resistance_period",
+#
+#                 # Emotional states
+#                 "determined_fighter", "rebellious_spirit",
+#                 "resistance_leader", "freedom_seeker"
+#             ],
+#             "danbooru": [
+#                 "myskina_acier", "silver_mine",
+#                 "resistance_fighter", "prisoner"
+#             ]
+#         },
+#
+#         "carmel": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "carmel", "carmel_(one_piece)", "marine_rookie",
+#                 "training_graduate", "new_marine",
+#
+#                 # Titles and positions
+#                 "marine_graduate", "rookie_officer",
+#                 "training_corp", "new_recruit",
+#
+#                 # Combat abilities
+#                 "basic_training", "marine_combat",
+#                 "rookie_skills", "military_training",
+#
+#                 # Teams and affiliations
+#                 "marine_forces", "rookie_squad",
+#                 "training_division", "new_recruits",
+#
+#                 # Time periods and versions
+#                 "marine_rookie_arc", "filler_arc",
+#                 "training_period", "graduation_era",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "training_gear",
+#                 "rookie_outfit", "graduation_attire",
+#
+#                 # Emotional states
+#                 "determined_rookie", "training_mode",
+#                 "ambitious_marine", "learning_state"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "carmel", "carmel_(one_piece)",
+#
+#                 # Roles
+#                 "marine_rookie", "trainee",
+#
+#                 # States
+#                 "training_mode", "rookie_state"
+#             ]
+#         },
+#
+#         # Cidre Guild Arc
+#         "ishigo_shitemanna": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "ishigo", "ishigo_(one_piece)",
+#                 "cidre_guild_member", "female_pirate",
+#
+#                 # Titles and positions
+#                 "guild_member", "pirate_brewer",
+#                 "drink_specialist", "cidre_maker",
+#
+#                 # Special abilities
+#                 "brewing_skills", "guild_techniques",
+#                 "drink_creation", "combat_brewing",
+#
+#                 # Teams and affiliations
+#                 "cidre_guild", "brewing_pirates",
+#                 "drink_makers", "guild_forces",
+#
+#                 # Time periods and versions
+#                 "cidre_guild_arc", "filler_arc",
+#                 "guild_era", "brewing_period",
+#
+#                 # Outfits and appearances
+#                 "guild_uniform", "brewer_outfit",
+#                 "pirate_clothes", "work_gear",
+#
+#                 # Emotional states
+#                 "professional_brewer", "guild_loyalty",
+#                 "brewing_focus", "pirate_spirit"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "ishigo", "ishigo_(one_piece)",
+#
+#                 # Roles
+#                 "cidre_guild", "brewer",
+#
+#                 # States
+#                 "brewing_mode", "guild_member"
+#             ]
+#         },
+#
+#         # Marine Rookie Arc Additional
+#         "bonham": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "bonham", "bonham_(one_piece)",
+#                 "marine_instructor", "training_officer",
+#
+#                 # Titles and positions
+#                 "marine_teacher", "training_supervisor",
+#                 "drill_instructor", "veteran_marine",
+#
+#                 # Combat abilities
+#                 "instructor_skills", "combat_training",
+#                 "marine_techniques", "teaching_expertise",
+#
+#                 # Teams and affiliations
+#                 "marine_forces", "training_division",
+#                 "instructor_corps", "education_unit",
+#
+#                 # Time periods and versions
+#                 "marine_rookie_arc", "filler_arc",
+#                 "training_era", "instructor_period",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "instructor_attire",
+#                 "training_gear", "official_dress",
+#
+#                 # Emotional states
+#                 "strict_instructor", "teaching_mode",
+#                 "professional_manner", "training_focus"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "bonham", "bonham_(one_piece)",
+#
+#                 # Roles
+#                 "marine_instructor", "trainer",
+#
+#                 # States
+#                 "teaching_mode", "instructor_state"
+#             ]
+#         },
+#
+#         # Cidre Guild Additional
+#         "udetsuki": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "udetsuki", "udetsuki_(one_piece)",
+#                 "cidre_guild_executive", "female_pirate",
+#
+#                 # Titles and positions
+#                 "guild_executive", "senior_brewer",
+#                 "pirate_officer", "drink_master",
+#
+#                 # Special abilities
+#                 "advanced_brewing", "guild_mastery",
+#                 "drink_expertise", "combat_brewing",
+#
+#                 # Teams and affiliations
+#                 "cidre_guild", "brewing_pirates",
+#                 "guild_leadership", "executive_team",
+#
+#                 # Time periods and versions
+#                 "cidre_guild_arc", "filler_arc",
+#                 "guild_era", "executive_period",
+#
+#                 # Outfits and appearances
+#                 "executive_uniform", "guild_clothes",
+#                 "pirate_attire", "brewer_gear",
+#
+#                 # Emotional states
+#                 "leader_mode", "guild_pride",
+#                 "executive_manner", "brewing_focus"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "udetsuki", "udetsuki_(one_piece)",
+#
+#                 # Roles
+#                 "cidre_executive", "guild_leader",
+#
+#                 # States
+#                 "executive_mode", "leadership_state"
+#             ]
+#         },
+#
+#         "sengoku's_secretary": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "sengoku's_secretary", "marine_hq_secretary",
+#                 "fleet_admiral_staff", "headquarters_personnel",
+#
+#                 # Titles and positions
+#                 "marine_secretary", "administrative_staff",
+#                 "fleet_admiral_assistant", "hq_staff",
+#
+#                 # Roles and duties
+#                 "battlefield_reporter", "war_correspondent",
+#                 "marine_administrator", "communication_officer",
+#
+#                 # Teams and affiliations
+#                 "marine_headquarters", "administrative_division",
+#                 "fleet_admiral_office", "marine_staff",
+#
+#                 # Time periods and versions
+#                 "marineford_war", "war_arc", "marine_era",
+#                 "pre_timeskip", "headquarters_period",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "office_attire",
+#                 "staff_clothes", "formal_wear",
+#
+#                 # Emotional states
+#                 "professional_demeanor", "duty_bound",
+#                 "official_manner", "wartime_focus"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "sengoku's_secretary", "marine_staff",
+#
+#                 # Roles
+#                 "secretary", "administrator",
+#
+#                 # States
+#                 "marineford_war", "official_duty"
+#             ]
+#         },
+#
+#         "domino": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "domino", "domino_(one_piece)",
+#                 "impel_down_guard", "prison_staff",
+#
+#                 # Titles and positions
+#                 "chief_guard", "prison_officer",
+#                 "security_chief", "impel_down_staff",
+#
+#                 # Special abilities
+#                 "prison_combat", "security_expertise",
+#                 "guard_skills", "defensive_tactics",
+#
+#                 # Teams and affiliations
+#                 "impel_down", "prison_guards",
+#                 "world_government", "security_force",
+#
+#                 # Time periods and versions
+#                 "impel_down_arc", "marineford_war",
+#                 "pre_timeskip", "prison_era",
+#
+#                 # Outfits and appearances
+#                 "guard_uniform", "security_outfit",
+#                 "prison_attire", "official_uniform",
+#
+#                 # Emotional states
+#                 "professional_guard", "dutiful_officer",
+#                 "stern_demeanor", "security_focused"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "domino", "domino_(one_piece)",
+#
+#                 # Roles
+#                 "chief_guard", "prison_officer",
+#
+#                 # States
+#                 "guard_duty", "security_mode"
+#             ]
+#         },
+#
+#         "tsuru": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "tsuru", "tsuru_(one_piece)", "great_staff_officer",
+#                 "marine_vice_admiral", "legendary_marine",
+#
+#                 # Titles and positions
+#                 "vice_admiral", "great_staff_officer",
+#                 "marine_legend", "strategic_commander",
+#
+#                 # Special abilities and powers
+#                 "wash_wash_fruit", "woshu_woshu_no_mi",
+#                 "marine_haki", "strategic_genius",
+#                 "veteran_combat", "cleansing_power",
+#
+#                 # Combat specialties
+#                 "devil_fruit_master", "tactical_expert",
+#                 "marine_combat", "strategic_warfare",
+#
+#                 # Teams and affiliations
+#                 "marine_headquarters", "vice_admirals",
+#                 "marine_leadership", "strategy_division",
+#
+#                 # Time periods and versions
+#                 "marineford_war", "roger_era", "pre_timeskip",
+#                 "marine_veteran", "war_commander",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "vice_admiral_coat",
+#                 "battle_attire", "formal_uniform",
+#
+#                 # Emotional states
+#                 "strategic_mind", "veteran_composure",
+#                 "commanding_presence", "battle_focus"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "tsuru", "tsuru_(one_piece)",
+#
+#                 # Roles and powers
+#                 "vice_admiral", "wash_wash_fruit",
+#
+#                 # States and periods
+#                 "marineford_war", "veteran_marine"
+#             ]
+#         },
+#
+#         "kairen": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "kairen", "kairen_(one_piece)",
+#                 "marine_officer", "giant_squad",
+#
+#                 # Titles and positions
+#                 "marine_giant", "giant_officer",
+#                 "marine_warrior", "giant_division",
+#
+#                 # Combat abilities
+#                 "giant_strength", "marine_combat",
+#                 "size_advantage", "warrior_skills",
+#
+#                 # Teams and affiliations
+#                 "marine_forces", "giant_squad",
+#                 "marine_warriors", "headquarters_forces",
+#
+#                 # Time periods and versions
+#                 "marineford_war", "war_arc",
+#                 "pre_timeskip", "battle_era",
+#
+#                 # Outfits and appearances
+#                 "marine_uniform", "giant_armor",
+#                 "battle_gear", "warrior_attire",
+#
+#                 # Emotional states
+#                 "battle_ready", "warrior_spirit",
+#                 "marine_pride", "combat_focus"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "kairen", "kairen_(one_piece)",
+#
+#                 # Roles
+#                 "marine_giant", "warrior",
+#
+#                 # States
+#                 "battle_mode", "war_participant"
+#             ]
+#         },
+#
+#         "sadi": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "sadi", "sadi_(one_piece)", "chief_guard",
+#                 "impel_down_officer", "torture_specialist",
+#
+#                 # Titles and positions
+#                 "chief_guard", "torture_specialist",
+#                 "prison_officer", "punishment_supervisor",
+#                 "security_chief",
+#
+#                 # Special abilities and powers
+#                 "whip_mastery", "torture_techniques",
+#                 "combat_skills", "interrogation_expertise",
+#                 "security_mastery",
+#
+#                 # Combat specialties
+#                 "whip_techniques", "sadistic_combat",
+#                 "guard_combat", "restraining_skills",
+#                 "punishment_methods",
+#
+#                 # Teams and affiliations
+#                 "impel_down", "prison_staff", "jailer_beasts",
+#                 "world_government", "security_forces",
+#
+#                 # Time periods and versions
+#                 "impel_down_arc", "prison_break",
+#                 "pre_timeskip", "prison_era",
+#
+#                 # Outfits and appearances
+#                 "guard_uniform", "chief_outfit",
+#                 "prison_attire", "combat_gear",
+#                 "security_uniform",
+#
+#                 # Emotional states
+#                 "sadistic_mood", "professional_guard",
+#                 "commanding_presence", "battle_ready",
+#                 "torture_enthusiasm"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "sadi", "sadi_(one_piece)",
+#
+#                 # Roles and positions
+#                 "chief_guard", "torture_specialist",
+#
+#                 # States and actions
+#                 "guard_duty", "combat_mode"
+#             ]
+#         },
+#
+#         "sadie-chan": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "sadie-chan", "sadie_(one_piece)",
+#                 "impel_down_guard", "torture_assistant",
+#
+#                 # Titles and positions
+#                 "assistant_guard", "torture_staff",
+#                 "prison_guard", "security_officer",
+#
+#                 # Combat abilities
+#                 "guard_combat", "restraining_skills",
+#                 "prison_techniques", "security_expertise",
+#
+#                 # Teams and affiliations
+#                 "impel_down", "prison_guards",
+#                 "torture_division", "security_staff",
+#
+#                 # Time periods and versions
+#                 "impel_down_arc", "prison_break",
+#                 "pre_timeskip", "guard_era",
+#
+#                 # Outfits and appearances
+#                 "guard_uniform", "prison_gear",
+#                 "security_outfit", "staff_attire",
+#
+#                 # Emotional states
+#                 "dutiful_guard", "professional_manner",
+#                 "security_focused", "vigilant_guard"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "sadie-chan", "sadie_(one_piece)",
+#
+#                 # Roles
+#                 "prison_guard", "security_staff",
+#
+#                 # States
+#                 "guard_duty", "security_mode"
+#             ]
+#         },
+#
+#         "saldeath": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "saldeath", "saldeath_(one_piece)",
+#                 "blugori_commander", "impel_down_officer",
+#
+#                 # Titles and positions
+#                 "blugori_leader", "prison_officer",
+#                 "beast_commander", "security_supervisor",
+#
+#                 # Special abilities
+#                 "beast_control", "command_skills",
+#                 "prison_combat", "guard_expertise",
+#
+#                 # Teams and affiliations
+#                 "impel_down", "blugori_unit",
+#                 "prison_forces", "security_division",
+#
+#                 # Time periods and versions
+#                 "impel_down_arc", "prison_break",
+#                 "pre_timeskip", "command_era",
+#
+#                 # Outfits and appearances
+#                 "commander_uniform", "prison_attire",
+#                 "officer_gear", "guard_clothes",
+#
+#                 # Emotional states
+#                 "commanding_presence", "professional_demeanor",
+#                 "battle_ready", "leadership_mode"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "saldeath", "saldeath_(one_piece)",
+#
+#                 # Roles
+#                 "blugori_commander", "prison_officer",
+#
+#                 # States
+#                 "command_mode", "guard_duty"
+#             ]
+#         },
+#
+#         "charlotte_galette": {
+#             "gelbooru": ["charlotte_galette", "galette"],
+#             "danbooru": ["charlotte_galette"]
+#         },
+#         "charlotte_brulee": {
+#             "gelbooru": ["charlotte_brulee", "brulee"],
+#             "danbooru": ["charlotte_brulee"]
+#         },
+#
+#         # Vegapunk satellites
+#         "vegapunk_lilith": {
+#             "gelbooru": ["vegapunk_lilith", "satellite_evil"],
+#             "danbooru": ["vegapunk_lilith", "evil_satellite"]
+#         },
+#         "vegapunk_atlas": {
+#             "gelbooru": ["vegapunk_atlas", "satellite_combat"],
+#             "danbooru": ["vegapunk_atlas", "combat_satellite"]
+#         },
+#         "vegapunk_york": {
+#             "gelbooru": ["vegapunk_york", "satellite_analysis"],
+#             "danbooru": ["vegapunk_york", "analysis_satellite"]
+#         },
+#         "vegapunk_edison": {
+#             "gelbooru": ["vegapunk_edison", "satellite_logic"],
+#             "danbooru": ["vegapunk_edison", "logic_satellite"]
+#         },
+#
+#         # New/Additional characters
+#         "whitey_bay": {
+#             "gelbooru": ["whitey_bay", "ice_witch"],
+#             "danbooru": ["whitey_bay", "ice_witch_(one_piece)"]
+#         },
+#
+#         "shakky": {
+#             "gelbooru": ["shakky", "shakuyaku"],
+#             "danbooru": ["shakuyaku"]
+#         },
+#
+#         # New character tags
+#         "ann": {
+#             "gelbooru": ["ann_(one_piece)", "ann"],
+#             "danbooru": ["ann_(one_piece)"]
+#         },
+#
+#         "aphelandra": {
+#             "gelbooru": ["aphelandra_(one_piece)", "kuja_warrior"],
+#             "danbooru": ["aphelandra"]
+#         },
+#
+#
+#         "baccarat": {
+#             "gelbooru": ["baccarat_(one_piece)", "lucky_lucky_fruit"],
+#             "danbooru": ["baccarat"]
+#         },
+#
+#         "carina": {
+#             "gelbooru": ["carina_(one_piece)", "ghost_lady"],
+#             "danbooru": ["carina"]
+#         },
+#
+#         "ein": {
+#             "gelbooru": ["ein_(one_piece)", "neo_marine"],
+#             "danbooru": ["ein"]
+#         },
+#
+#         "honey_queen": {
+#             "gelbooru": ["honey_queen", "baroque_works"],
+#             "danbooru": ["honey_queen"]
+#         },
+#
+#         "laki": {
+#             "gelbooru": ["laki_(one_piece)", "shandian"],
+#             "danbooru": ["laki"]
+#         },
+#
+#         "lily_enstomach": {
+#             "gelbooru": ["lily_enstomach", "lily_the_glutton"],
+#             "danbooru": ["lily_enstomach"]
+#         },
+#
+#         "mero": {
+#             "gelbooru": ["mero_(one_piece)", "kuja"],
+#             "danbooru": ["mero"]
+#         },
+#
+#         "miss_valentine": {
+#             "gelbooru": ["miss_valentine", "kilo_kilo_fruit"],
+#             "danbooru": ["miss_valentine"]
+#         },
+#
+#         "moda": {
+#             "gelbooru": ["moda_(one_piece)", "thriller_bark"],
+#             "danbooru": ["moda"]
+#         },
+#
+#         "mousse": {
+#             "gelbooru": ["mousse_(one_piece)", "kuja"],
+#             "danbooru": ["mousse"]
+#         },
+#
+#         "nico_olvia": {
+#             "gelbooru": ["nico_olvia", "ohara_scholar"],
+#             "danbooru": ["nico_olvia"]
+#         },
+#
+#         "nojiko": {
+#             "gelbooru": ["nojiko", "belle-mere_daughter"],
+#             "danbooru": ["nojiko"]
+#         },
+#
+#         "ro": {
+#             "gelbooru": ["ro_(one_piece)", "kuja"],
+#             "danbooru": ["ro"]
+#         },
+#
+#         "stella": {
+#             "gelbooru": ["stella_(one_piece)", "water_7"],
+#             "danbooru": ["stella"]
+#         },
+#
+#         "tama": {
+#             "gelbooru": ["tama_(one_piece)", "wano_kunoichi"],
+#             "danbooru": ["tama"]
+#         },
+#
+#         "victoria_cindry": {
+#             "gelbooru": ["victoria_cindry", "cindry", "thriller_bark"],
+#             "danbooru": ["victoria_cindry"]
+#         },
+#
+#         "wanda": {
+#             "gelbooru": ["wanda_(one_piece)", "mink_tribe"],
+#             "danbooru": ["wanda"]
+#         },
+#
+#         "uta": {
+#             "gelbooru": ["uta_(one_piece)", "world_diva", "shanks_daughter"],
+#             "danbooru": ["uta", "world_diva"]
+#         },
+#     },
+#
+#     DOTA2_TAGS = {
+#         # Core Heroes
+#         "lina": {
+#             "gelbooru": ["lina", "lina_(dota)", "slayer"],
+#             "danbooru": ["lina_(dota)", "the_slayer"]
+#         },
+#         "crystal_maiden": {
+#             "gelbooru": ["crystal_maiden", "rylai", "cm"],
+#             "danbooru": ["crystal_maiden", "rylai"]
+#         },
+#         "windrunner": {
+#             "gelbooru": ["windranger", "windrunner", "lyralei"],
+#             "danbooru": ["windranger", "lyralei"]
+#         },
+#         "drow_ranger": {
+#             "gelbooru": ["drow_ranger", "traxex"],
+#             "danbooru": ["drow_ranger", "traxex"]
+#         },
+#         "templar_assassin": {
+#             "gelbooru": ["templar_assassin", "lanaya"],
+#             "danbooru": ["templar_assassin", "lanaya"]
+#         },
+#
+#         # Intelligence Heroes
+#         "dark_willow": {
+#             "gelbooru": ["dark_willow", "mireska"],
+#             "danbooru": ["dark_willow", "mireska_sunbreeze"]
+#         },
+#         "death_prophet": {
+#             "gelbooru": ["death_prophet", "krobelus"],
+#             "danbooru": ["death_prophet", "krobelus"]
+#         },
+#         "queen_of_pain": {
+#             "gelbooru": ["queen_of_pain", "akasha"],
+#             "danbooru": ["queen_of_pain", "akasha"]
+#         },
+#         "enchantress": {
+#             "gelbooru": ["enchantress", "aiushtha"],
+#             "danbooru": ["enchantress", "aiushtha"]
+#         },
+#         "winter_wyvern": {
+#             "gelbooru": ["winter_wyvern", "auroth"],
+#             "danbooru": ["winter_wyvern", "auroth"]
+#         },
+#
+#         # Strength Heroes
+#         "legion_commander": {
+#             "gelbooru": ["legion_commander", "tresdin"],
+#             "danbooru": ["legion_commander", "tresdin"]
+#         },
+#         "marci": {
+#             "gelbooru": ["marci", "marci_(dota)"],
+#             "danbooru": ["marci", "marci_(dota)"]
+#         },
+#         "dawnbreaker": {
+#             "gelbooru": ["dawnbreaker", "valora"],
+#             "danbooru": ["dawnbreaker", "valora"]
+#         },
+#
+#         # Agility Heroes
+#         "luna": {
+#             "gelbooru": ["luna_(dota)", "moon_rider"],
+#             "danbooru": ["luna_(dota)", "moon_rider"]
+#         },
+#         "mirana": {
+#             "gelbooru": ["mirana", "princess_of_the_moon"],
+#             "danbooru": ["mirana", "princess_of_the_moon"]
+#         },
+#         "naga_siren": {
+#             "gelbooru": ["naga_siren", "slithice"],
+#             "danbooru": ["naga_siren", "slithice"]
+#         },
+#         "phantom_assassin": {
+#             "gelbooru": ["phantom_assassin", "mortred"],
+#             "danbooru": ["phantom_assassin", "mortred"]
+#         },
+#         "spectre": {
+#             "gelbooru": ["spectre", "mercurial"],
+#             "danbooru": ["spectre", "mercurial"]
+#         },
+#         "vengeful_spirit": {
+#             "gelbooru": ["vengeful_spirit", "shendelzare"],
+#             "danbooru": ["vengeful_spirit", "shendelzare"]
+#         },
+#
+#         # Additional Heroes
+#         "broodmother": {
+#             "gelbooru": ["broodmother", "black_arachnia"],
+#             "danbooru": ["broodmother", "black_arachnia"]
+#         },
+#         "medusa": {
+#             "gelbooru": ["medusa_(dota)", "gorgon"],
+#             "danbooru": ["medusa_(dota)", "gorgon"]
+#         },
+#         "snapfire": {
+#             "gelbooru": ["snapfire", "beatrix"],
+#             "danbooru": ["snapfire", "beatrix"]
+#         },
+#         "hoodwink": {
+#             "gelbooru": ["hoodwink", "hoodwink_(dota)"],
+#             "danbooru": ["hoodwink", "hoodwink_(dota)"]
+#         },
+#
+#         # Personas
+#         "anti_mage_persona": {
+#             "gelbooru": ["anti_mage_persona", "wei"],
+#             "danbooru": ["anti_mage_persona", "wei"]
+#         },
+#         "keeper_of_the_light_persona": {
+#             "gelbooru": ["keeper_of_the_light_persona", "wraith_of_the_wilds"],
+#             "danbooru": ["kotl_persona", "wraith_persona"]
+#         },
+#         "oracle_persona": {
+#             "gelbooru": ["oracle_persona", "fortune's_tout"],
+#             "danbooru": ["oracle_persona", "fortune_tout"]
+#         }
+#     },
+#
+#     LEAGUE_OF_LEGENDS_TAGS = {
+#         # Popular champions with expanded tags
+#         "ahri": {
+#             "gelbooru": ["ahri", "ahri_%28league_of_legends%29", "nine_tailed_fox"],
+#             "danbooru": ["ahri", "nine_tailed_fox_(lol)"]
+#         },
+#         "kaisa": {
+#             "gelbooru": ["kai%27sa", "kaisa", "daughter_of_the_void"],
+#             "danbooru": ["kai'sa", "void_hunter"]
+#         },
+#         "jinx": {
+#             "gelbooru": ["jinx_%28league_of_legends%29", "loose_cannon"],
+#             "danbooru": ["jinx_(league_of_legends)", "the_loose_cannon"]
+#         },
+#
+#         # Mid lane champions
+#         "katarina": {
+#             "gelbooru": ["katarina_%28league_of_legends%29", "sinister_blade"],
+#             "danbooru": ["katarina", "the_sinister_blade"]
+#         },
+#         "leblanc": {
+#             "gelbooru": ["leblanc_%28league_of_legends%29", "the_deceiver"],
+#             "danbooru": ["leblanc", "deceiver"]
+#         },
+#         "zoe": {
+#             "gelbooru": ["zoe_%28league_of_legends%29", "aspect_of_twilight"],
+#             "danbooru": ["zoe_(league_of_legends)", "twilight_aspect"]
+#         },
+#
+#         # New/Recent champions
+#         "bel_veth": {
+#             "gelbooru": ["bel%27veth", "empress_of_the_void"],
+#             "danbooru": ["bel'veth", "void_empress"]
+#         },
+#         "nilah": {
+#             "gelbooru": ["nilah_%28league_of_legends%29", "joy_unbound"],
+#             "danbooru": ["nilah", "the_unbound_joy"]
+#         },
+#         "renata": {
+#             "gelbooru": ["renata_glasc", "chem_baroness"],
+#             "danbooru": ["renata", "glasc_industries"]
+#         },
+#         "gwen": {
+#             "gelbooru": ["gwen_%28league_of_legends%29", "hallowed_seamstress"],
+#             "danbooru": ["gwen", "the_hallowed_seamstress"]
+#         },
+#
+#         # Additional champions with expanded tags
+#         "akali": {
+#             "gelbooru": ["akali", "rogue_assassin"],
+#             "danbooru": ["akali", "the_rogue_assassin"]
+#         },
+#         "evelynn": {
+#             "gelbooru": ["evelynn_%28league_of_legends%29", "agony's_embrace"],
+#             "danbooru": ["evelynn", "agony_embrace"]
+#         },
+#         "irelia": {
+#             "gelbooru": ["irelia", "blade_dancer"],
+#             "danbooru": ["irelia", "the_blade_dancer"]
+#         },
+#         "kayle": {
+#             "gelbooru": ["kayle_%28league_of_legends%29", "righteous"],
+#             "danbooru": ["kayle", "the_righteous"]
+#         },
+#         "morgana": {
+#             "gelbooru": ["morgana_%28league_of_legends%29", "fallen"],
+#             "danbooru": ["morgana", "the_fallen"]
+#         },
+#         "neeko": {
+#             "gelbooru": ["neeko_%28league_of_legends%29", "curious_chameleon"],
+#             "danbooru": ["neeko", "the_curious_chameleon"]
+#         },
+#         "samira": {
+#             "gelbooru": ["samira_%28league_of_legends%29", "desert_rose"],
+#             "danbooru": ["samira", "the_desert_rose"]
+#         },
+#         "seraphine": {
+#             "gelbooru": ["seraphine_%28league_of_legends%29", "starry_eyed_songstress"],
+#             "danbooru": ["seraphine", "the_starry_songstress"]
+#         },
+#         "senna": {
+#             "gelbooru": ["senna_%28league_of_legends%29", "redeemer"],
+#             "danbooru": ["senna", "the_redeemer"]
+#         }
+#     },
+#
+#     POKEMON_TAGS = {
+#         # Main characters with expanded tags
+#         "misty": {
+#             "gelbooru": ["misty_%28pokemon%29", "kasumi", "water_gym_leader"],
+#             "danbooru": ["misty_(pokemon)", "kasumi_(pokemon)"]
+#         },
+#         "may": {
+#             "gelbooru": ["may_%28pokemon%29", "haruka", "hoenn_coordinator"],
+#             "danbooru": ["may_(pokemon)", "haruka_(pokemon)"]
+#         },
+#         "dawn": {
+#             "gelbooru": ["dawn_%28pokemon%29", "hikari", "sinnoh_coordinator"],
+#             "danbooru": ["dawn_(pokemon)", "hikari_(pokemon)"]
+#         },
+#
+#         # Gym Leaders
+#         "sabrina": {
+#             "gelbooru": ["sabrina_%28pokemon%29", "psychic_gym_leader"],
+#             "danbooru": ["sabrina_(pokemon)", "saffron_gym_leader"]
+#         },
+#         "elesa": {
+#             "gelbooru": ["elesa_%28pokemon%29", "electric_model"],
+#             "danbooru": ["elesa", "nimbasa_gym_leader"]
+#         },
+#         "nessa": {
+#             "gelbooru": ["nessa_%28pokemon%29", "water_model"],
+#             "danbooru": ["nessa", "hulbury_gym_leader"]
+#         },
+#
+#         # Champions and Elite Four
+#         "cynthia": {
+#             "gelbooru": ["cynthia_%28pokemon%29", "shirona"],
+#             "danbooru": ["cynthia_(pokemon)", "sinnoh_champion"]
+#         },
+#         "diantha": {
+#             "gelbooru": ["diantha_%28pokemon%29", "kalos_champion"],
+#             "danbooru": ["diantha", "carnet"]
+#         },
+#
+#         # New/Additional characters
+#         "gloria": {
+#             "gelbooru": ["gloria_%28pokemon%29", "yuuri", "sword_shield_protagonist"],
+#             "danbooru": ["gloria_(pokemon)", "female_protagonist_swsh"]
+#         },
+#         "leaf": {
+#             "gelbooru": ["leaf_%28pokemon%29", "green", "blue"],
+#             "danbooru": ["leaf_(pokemon)", "female_protagonist_rgby"]
+#         },
+#         "hilda": {
+#             "gelbooru": ["hilda_%28pokemon%29", "touko"],
+#             "danbooru": ["hilda_(pokemon)", "female_protagonist_bw"]
+#         },
+#         "rosa": {
+#             "gelbooru": ["rosa_%28pokemon%29", "mei"],
+#             "danbooru": ["rosa_(pokemon)", "female_protagonist_bw2"]
+#         },
+#         "melony": {
+#             "gelbooru": ["melony_%28pokemon%29", "ice_gym_leader"],
+#             "danbooru": ["melony", "circhester_gym_leader"]
+#         },
+#         "klara": {
+#             "gelbooru": ["klara_%28pokemon%29", "poison_gym_leader"],
+#             "danbooru": ["klara", "isle_of_armor_trainer"]
+#         },
+#         "oleana": {
+#             "gelbooru": ["oleana_%28pokemon%29", "macro_cosmos"],
+#             "danbooru": ["oleana", "rose's_secretary"]
+#         },
+#         "bea": {
+#             "gelbooru": ["bea_%28pokemon%29", "fighting_gym_leader"],
+#             "danbooru": ["bea_(pokemon)", "stow_on_side_gym_leader"]
+#         },
+#         "acerola": {
+#             "gelbooru": ["acerola_%28pokemon%29", "ghost_elite_four"],
+#             "danbooru": ["acerola", "alola_elite_four"]
+#         }
+#     },
+#
+#     NARUTO_TAGS = {
+#         # Main characters with expanded tags
+#         "tsunade": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "tsunade", "tsunade_(naruto)", "senju_tsunade", "tsunade_senju",
+#
+#                 # Official titles and positions
+#                 "godaime_hokage", "fifth_hokage", "princess_tsunade", "lady_tsunade",
+#                 "legendary_sannin", "legendary_sucker", "slug_princess",
+#
+#                 # Clan and family relationships
+#                 "senju_clan", "princess_of_the_senju", "granddaughter_of_the_first_hokage",
+#                 "tsunade_of_the_sannin", "senju_clan_head",
+#
+#                 # Special states and forms
+#                 "sage_mode_tsunade", "hundred_healings", "byakugou_seal",
+#                 "strength_of_a_hundred_seal", "creation_rebirth",
+#                 "young_tsunade", "drunken_tsunade", "angry_tsunade",
+#                 "battle_tsunade", "transformed_tsunade",
+#
+#                 # Combat abilities and powers
+#                 "medical_ninja", "super_strength", "summoning_technique",
+#                 "katsuyu_summoner", "healing_technique", "chakra_enhanced_strength",
+#                 "ninja_art_mitotic_regeneration",
+#
+#                 # Teams and affiliations
+#                 "sannin", "team_hiruzen", "konoha_council", "hokage",
+#                 "konohagakure", "allied_shinobi_forces_leader",
+#
+#                 # Personal relationships
+#                 "dan's_lover", "nawaki's_sister", "jiraiya's_teammate",
+#                 "orochimaru's_teammate", "sakura's_master", "shizune's_master",
+#
+#                 # Specific appearances and outfits
+#                 "hokage_robe", "green_jacket", "gambling_tsunade",
+#                 "casual_tsunade", "formal_tsunade", "medical_tsunade",
+#
+#                 # Time periods and ages
+#                 "young_tsunade", "first_war_tsunade", "second_war_tsunade",
+#                 "wandering_tsunade", "hokage_tsunade", "boruto_era_tsunade"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "tsunade", "senju_tsunade", "godaime_hokage",
+#                 "princess_tsunade", "legendary_sannin",
+#
+#                 # States and abilities
+#                 "hundred_healings", "byakugou_seal", "strength_of_a_hundred",
+#                 "medical_ninja", "super_strength", "summoning_jutsu",
+#
+#                 # Affiliations
+#                 "team_hiruzen", "sannin", "hokage", "konoha_ninja",
+#
+#                 # Time periods
+#                 "young_version", "classic_tsunade", "boruto_era"
+#             ]
+#         },
+#
+#         "sakura": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "haruno_sakura", "sakura_(naruto)", "sakura_haruno",
+#                 "sakura_uchiha", "uchiha_sakura",
+#
+#                 # Special forms and states
+#                 "inner_sakura", "adult_sakura", "young_sakura",
+#                 "hundred_healings_sakura", "byakugou_sakura",
+#                 "chunin_sakura", "jonin_sakura", "doctor_sakura",
+#
+#                 # Titles and positions
+#                 "konoha_medical_ninja", "tsunade's_apprentice",
+#                 "head_medical_ninja", "hospital_director",
+#
+#                 # Teams and affiliations
+#                 "team_7", "team_kakashi", "konoha_11",
+#                 "allied_shinobi_forces", "konoha_hospital",
+#                 "medical_corps", "rescue_sasuke_team",
+#
+#                 # Relationships
+#                 "sasuke's_wife", "sarada's_mother", "tsunade's_student",
+#                 "ino's_rival", "naruto's_teammate", "kakashi's_student",
+#
+#                 # Abilities and powers
+#                 "chakra_enhanced_strength", "medical_ninjutsu",
+#                 "byakugou_seal", "hundred_healings",
+#                 "cherry_blossom_impact", "chakra_control",
+#
+#                 # Emotional states
+#                 "crying_sakura", "angry_sakura", "determined_sakura",
+#                 "happy_sakura", "serious_sakura", "fighting_sakura",
+#
+#                 # Time periods and versions
+#                 "part_1_sakura", "part_2_sakura", "boruto_era_sakura",
+#                 "academy_sakura", "genin_sakura", "war_arc_sakura",
+#
+#                 # Outfits and appearances
+#                 "casual_sakura", "medical_uniform", "chunin_vest",
+#                 "battle_outfit", "formal_wear", "winter_outfit"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "haruno_sakura", "sakura_(naruto)", "uchiha_sakura",
+#
+#                 # Forms and states
+#                 "inner_sakura", "adult_sakura", "young_sakura",
+#                 "hundred_healings", "byakugou_seal",
+#
+#                 # Roles and abilities
+#                 "medical_ninja", "super_strength", "chakra_control",
+#
+#                 # Teams and affiliations
+#                 "team_seven", "konoha_11", "medical_corps",
+#
+#                 # Time periods
+#                 "classic_sakura", "shippuden_sakura", "boruto_era"
+#             ]
+#         },
+#
+#         "hinata": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "hyuuga_hinata", "hinata_hyuuga", "hinata_(naruto)",
+#                 "uzumaki_hinata", "hinata_uzumaki",
+#
+#                 # Titles and positions
+#                 "byakugan_princess", "hyuuga_heiress", "gentle_fist_master",
+#                 "naruto's_wife", "himawari's_mother", "boruto's_mother",
+#
+#                 # Clan and family relationships
+#                 "hyuuga_clan", "main_branch_member", "hanabi's_sister",
+#                 "hiashi's_daughter", "neji's_cousin", "uzumaki_family",
+#
+#                 # Special states and forms
+#                 "twin_lion_fists", "gentle_step_twin_lion_fists",
+#                 "protective_eight_trigrams_sixty-four_palms",
+#                 "byakugan_activated", "gentle_fist_stance",
+#
+#                 # Combat abilities and powers
+#                 "byakugan", "gentle_fist", "eight_trigrams",
+#                 "protective_eight_trigrams", "chakra_control",
+#                 "twin_lion_fists_mode", "air_palm",
+#
+#                 # Teams and affiliations
+#                 "team_8", "team_kurenai", "konoha_11",
+#                 "allied_shinobi_forces", "konohagakure",
+#
+#                 # Emotional states and personalities
+#                 "shy_hinata", "determined_hinata", "confident_hinata",
+#                 "fighting_hinata", "blushing_hinata", "brave_hinata",
+#
+#                 # Time periods and versions
+#                 "young_hinata", "academy_hinata", "genin_hinata",
+#                 "chunin_hinata", "war_arc_hinata", "the_last_hinata",
+#                 "adult_hinata", "boruto_era_hinata",
+#
+#                 # Outfits and appearances
+#                 "mission_outfit", "casual_hinata", "formal_kimono",
+#                 "training_outfit", "winter_coat", "wedding_dress"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "hyuuga_hinata", "hinata_(naruto)", "uzumaki_hinata",
+#
+#                 # Powers and abilities
+#                 "byakugan", "gentle_fist", "twin_lion_fists",
+#
+#                 # Relationships and roles
+#                 "hyuuga_clan", "team_eight", "naruto's_wife",
+#
+#                 # Time periods
+#                 "young_hinata", "teen_hinata", "adult_hinata",
+#                 "the_last_version", "boruto_era"
+#             ]
+#         },
+#
+#         "ino": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "yamanaka_ino", "ino_(naruto)", "ino_yamanaka",
+#                 "ino_sai", "mrs_yamanaka",
+#
+#                 # Titles and positions
+#                 "head_of_yamanaka_clan", "konoha_intelligence_division",
+#                 "interrogation_unit_leader", "sensor_type",
+#
+#                 # Clan and family relationships
+#                 "yamanaka_clan", "inoichi's_daughter", "sai's_wife",
+#                 "inojin's_mother", "ino-shika-cho",
+#
+#                 # Special abilities and techniques
+#                 "mind_transfer_jutsu", "mind_destruction_jutsu",
+#                 "chakra_transfer", "medical_ninjutsu", "sensory_abilities",
+#                 "mind_transmission", "flower_ninja_art",
+#
+#                 # Teams and affiliations
+#                 "team_10", "team_asuma", "konoha_11",
+#                 "allied_shinobi_forces", "yamanaka_flower_shop",
+#                 "konoha_barrier_team", "sensory_unit",
+#
+#                 # Emotional states and personalities
+#                 "confident_ino", "angry_ino", "determined_ino",
+#                 "flirting_ino", "serious_ino", "fighting_ino",
+#
+#                 # Time periods and versions
+#                 "young_ino", "academy_ino", "genin_ino",
+#                 "chunin_ino", "war_arc_ino", "adult_ino",
+#                 "boruto_era_ino",
+#
+#                 # Outfits and appearances
+#                 "purple_outfit", "ninja_uniform", "casual_ino",
+#                 "flower_shop_apron", "war_outfit", "formal_wear"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "yamanaka_ino", "ino_(naruto)", "ino_yamanaka",
+#
+#                 # Powers and abilities
+#                 "mind_transfer", "sensor_type", "medical_ninja",
+#
+#                 # Teams and affiliations
+#                 "team_ten", "ino-shika-cho", "yamanaka_clan",
+#
+#                 # Time periods
+#                 "young_ino", "teen_ino", "adult_ino",
+#                 "boruto_era"
+#             ]
+#         },
+#
+#         "tenten": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "tenten", "tenten_(naruto)", "ten_ten",
+#
+#                 # Titles and positions
+#                 "weapons_specialist", "tool_specialist",
+#                 "rising_twin_dragons", "konoha_weapons_expert",
+#
+#                 # Combat specialties and abilities
+#                 "weapon_summoning", "ninja_tool_specialist",
+#                 "fuinjutsu_expert", "rising_twin_dragons",
+#                 "bashosen_wielder", "sealed_weapons_master",
+#
+#                 # Teams and affiliations
+#                 "team_guy", "team_9", "konoha_11",
+#                 "allied_shinobi_forces", "konohagakure",
+#
+#                 # Fighting styles and techniques
+#                 "twin_rising_dragons", "weapon_control",
+#                 "ninja_tool_summoning", "sealing_techniques",
+#                 "bashosen_techniques", "weapon_barrage",
+#
+#                 # Emotional states and personalities
+#                 "determined_tenten", "serious_tenten", "fighting_tenten",
+#                 "cheerful_tenten", "focused_tenten",
+#
+#                 # Time periods and versions
+#                 "young_tenten", "academy_tenten", "genin_tenten",
+#                 "chunin_tenten", "war_arc_tenten", "adult_tenten",
+#                 "boruto_era_tenten",
+#
+#                 # Outfits and appearances
+#                 "chinese_style_outfit", "mission_gear", "casual_tenten",
+#                 "weapons_shop_outfit", "training_outfit", "formal_wear"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "tenten", "tenten_(naruto)",
+#
+#                 # Abilities and specialties
+#                 "weapons_master", "tool_specialist", "rising_dragons",
+#
+#                 # Teams and time periods
+#                 "team_guy", "konoha_11", "adult_version",
+#                 "young_tenten", "boruto_era"
+#             ]
+#         },
+#
+#         "kurenai": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "yuuhi_kurenai", "kurenai_yuhi", "kurenai_(naruto)",
+#                 "sarutobi_kurenai", "mirai's_mother",
+#
+#                 # Titles and positions
+#                 "genjutsu_mistress", "jonin_sensei", "team_8_leader",
+#                 "konoha_jonin", "genjutsu_specialist",
+#
+#                 # Family relationships
+#                 "asuma's_wife", "mirai's_mother", "sarutobi_clan",
+#                 "yuhi_clan", "konoha_elite",
+#
+#                 # Special abilities and techniques
+#                 "genjutsu_master", "illusion_techniques",
+#                 "demonic_illusion", "tree_binding_death",
+#                 "flower_petal_escape", "chakra_control",
+#
+#                 # Teams and affiliations
+#                 "team_8_leader", "konoha_jonin", "kurenai_squad",
+#                 "hinata's_teacher", "kiba's_teacher", "shino's_teacher",
+#
+#                 # Time periods and versions
+#                 "young_kurenai", "chunin_kurenai", "jonin_kurenai",
+#                 "pregnant_kurenai", "war_arc_kurenai", "adult_kurenai",
+#                 "boruto_era_kurenai",
+#
+#                 # States and appearances
+#                 "battle_ready", "teaching_mode", "casual_kurenai",
+#                 "formal_dress", "maternity_wear", "mourning_kurenai",
+#
+#                 # Emotional states
+#                 "serious_kurenai", "caring_kurenai", "determined_kurenai",
+#                 "grieving_kurenai", "motherly_kurenai"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "yuuhi_kurenai", "kurenai_(naruto)", "sarutobi_kurenai",
+#
+#                 # Abilities and roles
+#                 "genjutsu_master", "jonin_sensei", "team_8",
+#
+#                 # Relationships
+#                 "asuma's_wife", "mirai's_mother",
+#
+#                 # Time periods
+#                 "young_kurenai", "pregnant_kurenai", "adult_kurenai"
+#             ]
+#         },
+#
+#         "anko": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "mitarashi_anko", "anko_mitarashi", "anko_(naruto)",
+#
+#                 # Titles and positions
+#                 "special_jonin", "chunin_exam_proctor",
+#                 "torture_specialist", "snake_mistress",
+#                 "orochimaru's_former_student",
+#
+#                 # Combat specialties
+#                 "snake_summoner", "cursed_seal_bearer",
+#                 "hidden_shadow_snake_hands", "poison_specialist",
+#                 "torture_and_interrogation_force",
+#
+#                 # Special states and forms
+#                 "cursed_seal_active", "snake_form", "battle_mode",
+#                 "young_anko", "chunin_exam_anko", "adult_anko",
+#
+#                 # Techniques and abilities
+#                 "snake_techniques", "shadow_snake_hands",
+#                 "multiple_striking_shadow_snakes", "senbon_techniques",
+#                 "cursed_seal_techniques",
+#
+#                 # Teams and affiliations
+#                 "konoha_torture_and_interrogation", "exam_proctors",
+#                 "orochimaru's_students", "academy_teacher",
+#
+#                 # Time periods and versions
+#                 "young_anko", "orochimaru's_student_anko",
+#                 "special_jonin_anko", "war_arc_anko",
+#                 "academy_teacher_anko", "boruto_era_anko",
+#
+#                 # States and appearances
+#                 "battle_ready_anko", "casual_anko", "teacher_anko",
+#                 "exam_proctor_anko", "overweight_anko", "slim_anko",
+#
+#                 # Emotional states
+#                 "playful_anko", "serious_anko", "angry_anko",
+#                 "sadistic_anko", "cheerful_anko"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "mitarashi_anko", "anko_(naruto)",
+#
+#                 # Abilities and roles
+#                 "snake_summoner", "special_jonin", "exam_proctor",
+#
+#                 # States and forms
+#                 "cursed_seal", "snake_techniques",
+#
+#                 # Time periods
+#                 "young_anko", "adult_anko", "boruto_era"
+#             ]
+#         },
+#
+#         "shizune": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "shizune", "shizune_(naruto)", "kato_shizune",
+#
+#                 # Titles and positions
+#                 "medical_ninja", "tsunade's_assistant",
+#                 "hokage_assistant", "poison_expert",
+#                 "konoha_hospital_director",
+#
+#                 # Relationships and connections
+#                 "dan's_niece", "tsunade's_apprentice",
+#                 "tonton's_caretaker", "medical_corps_leader",
+#
+#                 # Special abilities and techniques
+#                 "medical_ninjutsu", "poison_techniques",
+#                 "chakra_scalpel", "healing_techniques",
+#                 "needle_techniques", "summoning_technique",
+#
+#                 # Teams and affiliations
+#                 "hokage's_office", "medical_corps",
+#                 "konoha_hospital", "tsunade's_group",
+#
+#                 # Combat specialties
+#                 "poison_specialist", "senbon_user",
+#                 "medical_techniques", "defensive_specialist",
+#
+#                 # Time periods and versions
+#                 "young_shizune", "traveling_shizune",
+#                 "hokage_assistant_shizune", "war_arc_shizune",
+#                 "boruto_era_shizune",
+#
+#                 # States and appearances
+#                 "medical_uniform", "casual_shizune",
+#                 "battle_ready", "office_attire",
+#
+#                 # Emotional states
+#                 "worried_shizune", "serious_shizune",
+#                 "caring_shizune", "professional_shizune"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "shizune", "shizune_(naruto)", "kato_shizune",
+#
+#                 # Roles and abilities
+#                 "medical_ninja", "tsunade's_assistant",
+#                 "poison_expert",
+#
+#                 # Time periods
+#                 "young_shizune", "adult_shizune", "boruto_era"
+#             ]
+#         },
+#
+#         "sarada": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "uchiha_sarada", "sarada_uchiha", "sarada_(naruto)",
+#                 "sarada_uzumaki", "sakura's_daughter",
+#
+#                 # Titles and positions
+#                 "future_hokage_candidate", "team_7_new_generation",
+#                 "uchiha_heir", "konoha_genin", "academy_top_student",
+#
+#                 # Clan and family relationships
+#                 "uchiha_clan", "sasuke's_daughter", "sakura's_daughter",
+#                 "uzumaki_boruto's_teammate", "mitsuki's_teammate",
+#                 "konohamaru's_student",
+#
+#                 # Special abilities and powers
+#                 "sharingan", "sharingan_user", "chakra_enhanced_strength",
+#                 "lightning_release", "fire_release", "chidori_user",
+#                 "cha_strength", "cop_jutsu",
+#
+#                 # Forms and states
+#                 "sharingan_activated", "glasses_on", "glasses_off",
+#                 "fighting_stance", "training_mode", "angry_sarada",
+#
+#                 # Teams and affiliations
+#                 "team_konohamaru", "new_team_7", "konoha_academy",
+#                 "konohagakure", "uchiha_survivor",
+#
+#                 # Combat specialties
+#                 "sharingan_techniques", "super_strength",
+#                 "lightning_style", "fire_style", "shuriken_jutsu",
+#
+#                 # Outfits and appearances
+#                 "ninja_outfit", "casual_clothes", "academy_uniform",
+#                 "training_gear", "uchiha_crest", "mission_outfit",
+#
+#                 # Time periods and versions
+#                 "academy_sarada", "genin_sarada", "chunin_exam_sarada",
+#                 "teen_sarada", "young_sarada",
+#
+#                 # Emotional states
+#                 "determined_sarada", "studying_sarada", "curious_sarada",
+#                 "battle_ready_sarada", "happy_sarada", "serious_sarada"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "uchiha_sarada", "sarada_(naruto)",
+#
+#                 # Powers and abilities
+#                 "sharingan", "super_strength", "glasses",
+#
+#                 # Teams and roles
+#                 "team_konohamaru", "new_team_seven",
+#
+#                 # States and forms
+#                 "sharingan_active", "training_mode", "battle_mode",
+#
+#                 # Time periods
+#                 "academy_student", "genin_sarada", "teen_sarada"
+#             ]
+#         },
+#
+#         "himawari": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "uzumaki_himawari", "himawari_uzumaki",
+#                 "himawari_(naruto)", "naruto's_daughter",
+#
+#                 # Family relationships
+#                 "uzumaki_clan", "hyuuga_clan", "naruto's_daughter",
+#                 "hinata's_daughter", "boruto's_sister", "kawaki's_sister",
+#
+#                 # Special abilities and powers
+#                 "byakugan", "gentle_fist", "prodigy",
+#                 "byakugan_princess", "gentle_fist_user",
+#
+#                 # Forms and states
+#                 "byakugan_activated", "fighting_stance",
+#                 "training_mode", "civilian_mode",
+#
+#                 # Activities and roles
+#                 "academy_student", "ninja_trainee", "artist",
+#                 "flower_pressing", "training_session",
+#
+#                 # Outfits and appearances
+#                 "casual_outfit", "training_clothes", "academy_uniform",
+#                 "festival_kimono", "summer_dress", "winter_outfit",
+#
+#                 # Time periods and versions
+#                 "young_himawari", "academy_himawari", "teen_himawari",
+#                 "child_himawari", "growing_himawari",
+#
+#                 # Emotional states
+#                 "happy_himawari", "curious_himawari", "angry_himawari",
+#                 "determined_himawari", "playful_himawari", "serious_himawari"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "uzumaki_himawari", "himawari_(naruto)",
+#
+#                 # Powers and abilities
+#                 "byakugan", "gentle_fist",
+#
+#                 # Family connections
+#                 "naruto's_daughter", "hinata's_daughter",
+#
+#                 # Time periods
+#                 "young_himawari", "academy_student", "teen_version"
+#             ]
+#         },
+#
+#         "chocho": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "akimichi_chocho", "chocho_akimichi",
+#                 "chocho_(naruto)", "butterfly_mode_user",
+#
+#                 # Clan and family relationships
+#                 "akimichi_clan", "karui's_daughter", "choji's_daughter",
+#                 "inojin's_teammate", "shikadai's_teammate",
+#
+#                 # Special abilities and powers
+#                 "butterfly_mode", "expansion_jutsu", "super_multi_size",
+#                 "lightning_release", "yang_release", "calorie_control",
+#
+#                 # Forms and states
+#                 "butterfly_mode_active", "expanded_form",
+#                 "slim_form", "fighting_stance", "training_mode",
+#
+#                 # Teams and affiliations
+#                 "team_10", "new_ino-shika-cho", "konoha_genin",
+#                 "moegi's_student", "konohagakure",
+#
+#                 # Combat specialties
+#                 "expansion_techniques", "butterfly_techniques",
+#                 "akimichi_clan_jutsu", "taijutsu_specialist",
+#
+#                 # Outfits and appearances
+#                 "ninja_outfit", "casual_clothes", "training_gear",
+#                 "mission_outfit", "chunin_exam_outfit",
+#
+#                 # Time periods and versions
+#                 "academy_chocho", "genin_chocho", "chunin_exam_chocho",
+#                 "teen_chocho", "young_chocho",
+#
+#                 # Emotional states
+#                 "confident_chocho", "determined_chocho", "happy_chocho",
+#                 "battle_ready_chocho", "relaxed_chocho", "serious_chocho"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "akimichi_chocho", "chocho_(naruto)",
+#
+#                 # Powers and abilities
+#                 "butterfly_mode", "expansion_jutsu",
+#
+#                 # Teams and roles
+#                 "team_ten", "new_ino-shika-cho",
+#
+#                 # States and forms
+#                 "butterfly_form", "expanded_form", "slim_form",
+#
+#                 # Time periods
+#                 "academy_student", "genin_chocho", "teen_chocho"
+#             ]
+#         },
+#
+#         "temari": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "temari", "temari_(naruto)", "nara_temari",
+#                 "sand_princess", "wind_mistress",
+#
+#                 # Titles and positions
+#                 "sand_ambassador", "wind_user", "jonin_commander",
+#                 "sand_siblings", "kazekage's_sister",
+#
+#                 # Family relationships
+#                 "gaara's_sister", "kankuro's_sister", "shikamaru's_wife",
+#                 "shikadai's_mother", "fourth_kazekage's_daughter",
+#
+#                 # Special abilities and powers
+#                 "wind_release", "fan_techniques", "summoning_jutsu",
+#                 "great_wind_scythe", "wind_master", "kamatari_summoner",
+#
+#                 # Combat specialties
+#                 "fan_wielder", "long-range_fighter", "strategist",
+#                 "wind_techniques", "desert_warfare_specialist",
+#
+#                 # Teams and affiliations
+#                 "sunagakure", "sand_siblings", "allied_shinobi_forces",
+#                 "nara_clan", "konoha_liaison",
+#
+#                 # Time periods and versions
+#                 "young_temari", "chunin_exam_temari", "war_arc_temari",
+#                 "adult_temari", "boruto_era_temari",
+#
+#                 # States and appearances
+#                 "battle_ready", "diplomatic_mode", "training_mode",
+#                 "casual_temari", "angry_temari", "serious_temari",
+#
+#                 # Outfits and appearances
+#                 "sand_uniform", "formal_kimono", "battle_outfit",
+#                 "jonin_vest", "casual_clothes", "winter_outfit"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "temari", "temari_(naruto)", "nara_temari",
+#
+#                 # Powers and roles
+#                 "wind_user", "fan_wielder", "sand_sister",
+#
+#                 # Time periods
+#                 "young_temari", "adult_temari", "boruto_era"
+#             ]
+#         },
+#
+#         "mei": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "terumi_mei", "mei_terumi", "mei_(naruto)",
+#                 "mizukage_mei", "fifth_mizukage",
+#
+#                 # Titles and positions
+#                 "fifth_mizukage", "godaime_mizukage", "village_leader",
+#                 "water_mistress", "lava_style_user",
+#
+#                 # Special abilities and powers
+#                 "lava_release", "boil_release", "water_release",
+#                 "lava_style", "vapor_style", "water_dragon",
+#
+#                 # Combat specialties
+#                 "kekkei_genkai_user", "multiple_bloodline_traits",
+#                 "ninjutsu_master", "long-range_fighter",
+#
+#                 # Teams and affiliations
+#                 "kirigakure", "mizukage", "allied_shinobi_forces",
+#                 "water_country", "mist_village",
+#
+#                 # Time periods and versions
+#                 "young_mei", "civil_war_mei", "mizukage_mei",
+#                 "war_arc_mei", "retired_mei", "boruto_era_mei",
+#
+#                 # States and appearances
+#                 "battle_ready", "kage_mode", "formal_attire",
+#                 "casual_mei", "serious_mei", "flirty_mei",
+#
+#                 # Outfits and appearances
+#                 "mizukage_robes", "battle_outfit", "formal_dress",
+#                 "casual_clothes", "wedding_dress"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "terumi_mei", "mei_(naruto)", "mizukage",
+#
+#                 # Powers and abilities
+#                 "lava_release", "boil_release", "water_release",
+#
+#                 # Time periods
+#                 "young_mei", "mizukage_era", "retired_mei"
+#             ]
+#         },
+#
+#         "konan": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "konan", "konan_(naruto)", "angel_of_amegakure",
+#                 "paper_angel", "origami_angel", "lady_angel",
+#
+#                 # Titles and positions
+#                 "akatsuki_member", "ame_orphan", "amegakure_leader",
+#                 "pain's_partner", "yahiko's_friend", "nagato's_companion",
+#
+#                 # Special abilities and powers
+#                 "paper_style", "paper_techniques", "angel_mode",
+#                 "paper_clone", "paper_butterfly", "paper_weapons",
+#                 "dance_of_the_shikigami", "paper_ocean",
+#
+#                 # Forms and states
+#                 "angel_form", "paper_form", "battle_mode",
+#                 "origami_form", "paper_dispersal", "winged_form",
+#
+#                 # Teams and affiliations
+#                 "akatsuki", "amegakure", "original_akatsuki",
+#                 "ame_orphans", "rain_village", "pain's_group",
+#
+#                 # Combat specialties
+#                 "paper_manipulation", "flight_capable", "long-range_fighter",
+#                 "trap_specialist", "origami_master", "paper_bombs",
+#
+#                 # Time periods and versions
+#                 "young_konan", "orphan_konan", "akatsuki_konan",
+#                 "amegakure_konan", "final_battle_konan",
+#
+#                 # Outfits and appearances
+#                 "akatsuki_cloak", "paper_dress", "casual_konan",
+#                 "battle_outfit", "origami_flower", "rain_village_attire",
+#
+#                 # Emotional states
+#                 "serious_konan", "determined_konan", "calm_konan",
+#                 "fighting_konan", "loyal_konan", "protective_konan"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "konan", "konan_(naruto)", "angel_(naruto)",
+#
+#                 # Abilities and forms
+#                 "paper_techniques", "angel_form", "origami_style",
+#
+#                 # Affiliations
+#                 "akatsuki", "amegakure", "pain's_partner",
+#
+#                 # Time periods
+#                 "young_konan", "akatsuki_era", "leader_konan"
+#             ]
+#         },
+#
+#         "guren": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "guren", "guren_(naruto)", "crystal_style_user",
+#                 "orochimaru's_subordinate", "crystal_mistress",
+#
+#                 # Special abilities and powers
+#                 "crystal_release", "crystal_style", "crystal_armor",
+#                 "crystal_mirrors", "crystal_prison", "crystal_blades",
+#
+#                 # Forms and states
+#                 "crystal_form", "battle_mode", "crystal_armor_mode",
+#                 "cursed_seal_form", "protective_mode",
+#
+#                 # Combat specialties
+#                 "crystal_manipulation", "kekkei_genkai_user",
+#                 "mid-range_fighter", "defensive_specialist",
+#
+#                 # Teams and affiliations
+#                 "sound_village", "orochimaru's_forces", "yuukimaru's_guardian",
+#
+#                 # Time periods and versions
+#                 "young_guren", "sound_ninja_guren", "reformed_guren",
+#
+#                 # Outfits and appearances
+#                 "battle_outfit", "sound_uniform", "casual_guren",
+#                 "crystal_enhanced_clothing",
+#
+#                 # Emotional states
+#                 "proud_guren", "protective_guren", "fierce_guren",
+#                 "caring_guren", "determined_guren"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "guren", "guren_(naruto)",
+#
+#                 # Powers and abilities
+#                 "crystal_release", "crystal_style",
+#
+#                 # Affiliations
+#                 "sound_village", "orochimaru's_subordinate",
+#
+#                 # States and forms
+#                 "crystal_form", "battle_mode", "protective_mode"
+#             ]
+#         },
+#
+#         "kaguya": {
+#             "gelbooru": [
+#                 # Base names and identifiers
+#                 "ootsutsuki_kaguya", "kaguya_ootsutsuki", "kaguya_(naruto)",
+#                 "rabbit_goddess", "demon_goddess", "chakra_progenitor",
+#
+#                 # Titles and positions
+#                 "rabbit_goddess", "mother_of_chakra", "progenitor_of_chakra",
+#                 "ten_tails_jinchuuriki", "first_chakra_wielder",
+#
+#                 # Special abilities and powers
+#                 "rinne_sharingan", "byakugan", "all_killing_ash_bones",
+#                 "amenominaka", "yomotsu_hirasaka", "infinite_tsukuyomi",
+#                 "chakra_absorption", "dimension_shifting", "truth-seeking_orbs",
+#
+#                 # Forms and states
+#                 "goddess_form", "ten_tails_form", "rabbit_goddess_mode",
+#                 "dimension_travel_mode", "sealed_form", "awakened_form",
+#
+#                 # Combat specialties
+#                 "dimensional_manipulation", "chakra_control",
+#                 "bone_manipulation", "gravity_manipulation",
+#                 "space-time_techniques",
+#
+#                 # Family relationships
+#                 "hagoromo's_mother", "hamura's_mother", "first_ancestor",
+#                 "chakra_ancestor", "otsutsuki_clan_member",
+#
+#                 # Time periods and versions
+#                 "human_kaguya", "goddess_kaguya", "sealed_kaguya",
+#                 "resurrected_kaguya", "prime_kaguya",
+#
+#                 # Emotional states
+#                 "wrathful_kaguya", "powerful_kaguya", "divine_kaguya",
+#                 "maternal_kaguya", "betrayed_kaguya"
+#             ],
+#             "danbooru": [
+#                 # Core identifiers
+#                 "ootsutsuki_kaguya", "kaguya_(naruto)", "rabbit_goddess",
+#
+#                 # Powers and abilities
+#                 "rinne_sharingan", "byakugan", "truth_seeking_orbs",
+#
+#                 # Forms and states
+#                 "goddess_form", "ten_tails_form", "sealed_form",
+#
+#                 # Time periods
+#                 "human_era", "goddess_era", "modern_revival"
+#             ]
+#         },
+#     },
+#
+#     DRAGON_BALL_TAGS = {
+#         # Main characters with expanded tags
+#         "bulma": {
+#             "gelbooru": ["bulma", "bulma_briefs", "capsule_corp"],
+#             "danbooru": ["bulma", "scientist"]
+#         },
+#         "chi_chi": {
+#             "gelbooru": ["chi-chi_%28dragon_ball%29", "ox_princess"],
+#             "danbooru": ["chi-chi", "son_chi-chi"]
+#         },
+#         "android_18": {
+#             "gelbooru": ["android_18", "lazuli", "cyborg_18"],
+#             "danbooru": ["android_18", "c-18"]
+#         },
+#
+#         # Universe 6 characters
+#         "caulifla": {
+#             "gelbooru": ["caulifla", "saiyan_universe_6"],
+#             "danbooru": ["caulifla", "universe_six"]
+#         },
+#         "kale": {
+#             "gelbooru": ["kale_%28dragon_ball%29", "legendary_super_saiyan"],
+#             "danbooru": ["kale", "universe_six_broly"]
+#         },
+#
+#         # New/Additional characters
+#         "cheelai": {
+#             "gelbooru": ["cheelai", "frieza_force"],
+#             "danbooru": ["cheelai", "broly_movie"]
+#         },
+#         "android_21": {
+#             "gelbooru": ["android_21", "majin_android_21", "lab_coat_21"],
+#             "danbooru": ["android_21", "a21"]
+#         },
+#         "towa": {
+#             "gelbooru": ["towa_%28dragon_ball%29", "demon_scientist"],
+#             "danbooru": ["towa", "time_breaker"]
+#         }
+#     }
+#
+#     ATTACK_ON_TITAN_TAGS = {
+#         # Main characters with expanded tags
+#         "mikasa": {
+#             "gelbooru": ["mikasa_ackerman", "survey_corps", "scarf"],
+#             "danbooru": ["mikasa_ackerman", "ackerman"]
+#         },
+#         "historia": {
+#             "gelbooru": ["historia_reiss", "christa_lenz", "queen"],
+#             "danbooru": ["historia_reiss", "christa"]
+#         },
+#         "annie": {
+#             "gelbooru": ["annie_leonhart", "female_titan", "warrior"],
+#             "danbooru": ["annie_leonhardt", "female_type"]
+#         },
+#
+#         # Warriors
+#         "pieck": {
+#             "gelbooru": ["pieck_finger", "cart_titan", "warrior"],
+#             "danbooru": ["pieck", "cart_titan"]
+#         },
+#         "gabi": {
+#             "gelbooru": ["gabi_braun", "warrior_candidate"],
+#             "danbooru": ["gabi", "warrior_cadet"]
+#         },
+#
+#         # New/Additional characters
+#         "hitch": {
+#             "gelbooru": ["hitch_dreyse", "military_police"],
+#             "danbooru": ["hitch", "mp_brigade"]
+#         },
+#         "traute": {
+#             "gelbooru": ["traute_caven", "anti_personnel"],
+#             "danbooru": ["traute", "interior_police"]
+#         }
+#     }
+#
+#     DEMON_SLAYER_TAGS = {
+#         # Hashira and main characters
+#         "shinobu": {
+#             "gelbooru": ["kochou_shinobu", "insect_hashira", "butterfly_estate"],
+#             "danbooru": ["kochou_shinobu", "insect_pillar"]
+#         },
+#         "kanao": {
+#             "gelbooru": ["tsuyuri_kanao", "flower_breathing", "butterfly_estate"],
+#             "danbooru": ["tsuyuri_kanao", "flower_breath"]
+#         },
+#         "mitsuri": {
+#             "gelbooru": ["kanroji_mitsuri", "love_hashira", "love_pillar"],
+#             "danbooru": ["kanroji_mitsuri", "love_breathing"]
+#         },
+#
+#         # Demons
+#         "daki": {
+#             "gelbooru": ["daki_%28kimetsu_no_yaiba%29", "upper_six", "oiran"],
+#             "danbooru": ["daki", "upper_moon_six"]
+#         },
+#
+#         # New/Additional characters
+#         "nakime": {
+#             "gelbooru": ["nakime", "biwa_demon", "infinity_castle"],
+#             "danbooru": ["nakime", "fortress_demon"]
+#         },
+#         "kanamori": {
+#             "gelbooru": ["kanamori_%28kimetsu_no_yaiba%29", "demon_slayer_corp"],
+#             "danbooru": ["kanamori", "kakushi"]
+#         }
+#     }
+#
+#     JUJUTSU_KAISEN_TAGS = {
+#         # Main characters
+#         "nobara": {
+#             "gelbooru": ["kugisaki_nobara", "straw_doll", "first_year"],
+#             "danbooru": ["kugisaki_nobara", "hammer_nail"]
+#         },
+#         "maki": {
+#             "gelbooru": ["zen%27in_maki", "cursed_tools", "hr"],
+#             "danbooru": ["zenin_maki", "heavenly_restriction"]
+#         },
+#
+#         # Kyoto students
+#         "miwa": {
+#             "gelbooru": ["kasumi_miwa", "simple_domain", "new_shadow_style"],
+#             "danbooru": ["miwa_kasumi", "kyoto_student"]
+#         },
+#         "momo": {
+#             "gelbooru": ["nishimiya_momo", "broom_flight", "kyoto"],
+#             "danbooru": ["nishimiya_momo", "second_year"]
+#         },
+#
+#         # New/Additional characters
+#         "rika": {
+#             "gelbooru": ["orimoto_rika", "cursed_spirit", "queen_of_curses"],
+#             "danbooru": ["orimoto_rika", "yuta_curse"]
+#         },
+#         "uraume": {
+#             "gelbooru": ["uraume", "frost_human", "sukuna_servant"],
+#             "danbooru": ["uraume", "ice_technique"]
+#         },
+#         "takako": {
+#             "gelbooru": ["takako_uro", "sky_manipulation", "thin_ice"],
+#             "danbooru": ["uro_takako", "curved_sky"]
+#         }
+#     }
+#
+#     SPY_X_FAMILY_TAGS = {
+#         "yor": {
+#             "gelbooru": ["yor_forger", "thorn_princess", "assassin"],
+#             "danbooru": ["yor_forger", "thorn_princess"]
+#         },
+#         "anya": {
+#             "gelbooru": ["anya_%28spy_x_family%29", "telepath", "peanuts"],
+#             "danbooru": ["anya_forger", "esper"]
+#         },
+#         "fiona": {
+#             "gelbooru": ["fiona_frost", "twilight_admirer", "spy"],
+#             "danbooru": ["fiona_frost", "nightfall"]
+#         },
+#
+#         # New characters
+#         "lady_in_black": {
+#             "gelbooru": ["lady_in_black_%28spy_x_family%29", "handler"],
+#             "danbooru": ["lady_in_black", "full_black"]
+#         },
+#         "sharon": {
+#             "gelbooru": ["sharon_%28spy_x_family%29", "shop_keeper"],
+#             "danbooru": ["sharon_(spy_x_family)", "store_owner"]
+#         }
+#     },
+#
+#     COWBOY_BEBOP_TAGS = {
+#         # Main characters
+#         "faye": {
+#             "gelbooru": ["faye_valentine", "bebop_crew", "poker_alice"],
+#             "danbooru": ["faye_valentine", "red_jacket"]
+#         },
+#         "ed": {
+#             "gelbooru": ["edward_wong_hau_pepelu_tivrusky_iv", "radical_ed", "hacker"],
+#             "danbooru": ["edward_wong", "ed_(cowboy_bebop)"]
+#         },
+#         "julia": {
+#             "gelbooru": ["julia_%28cowboy_bebop%29", "spike's_lover"],
+#             "danbooru": ["julia_(cowboy_bebop)", "red_dragon"]
+#         },
+#
+#         # Supporting characters
+#         "meifa": {
+#             "gelbooru": ["meifa_puzi", "feng_shui"],
+#             "danbooru": ["meifa", "fortune_teller"]
+#         },
+#         "judy": {
+#             "gelbooru": ["judy_%28cowboy_bebop%29", "punch_and_judy"],
+#             "danbooru": ["judy", "big_shot"]
+#         },
+#         "alisa": {
+#             "gelbooru": ["alisa_%28cowboy_bebop%29", "jet's_ex"],
+#             "danbooru": ["alisa", "jet_backstory"]
+#         },
+#         "v.t": {
+#             "gelbooru": ["v.t.", "victoria_terpsichore", "trucker"],
+#             "danbooru": ["vt", "space_trucker"]
+#         },
+#         "katerina": {
+#             "gelbooru": ["katerina_solensan", "environmental_activist"],
+#             "danbooru": ["katerina", "terrorist"]
+#         }
+#     }
+#
+#     HATSUNE_MIKU_TAGS = {
+#         # Main Vocaloids
+#         "miku": {
+#             "gelbooru": [
+#                 "hatsune_miku",
+#                 "miku_%28vocaloid%29",
+#                 "initial_miku",
+#                 "miku_%28project_diva%29"
+#             ],
+#             "danbooru": [
+#                 "hatsune_miku",
+#                 "miku_(vocaloid)",
+#                 "project_diva"
+#             ]
+#         },
+#         "meiko": {
+#             "gelbooru": ["meiko_%28vocaloid%29", "meiko_%28project_diva%29"],
+#             "danbooru": ["meiko_(vocaloid)", "project_diva"]
+#         },
+#         "rin": {
+#             "gelbooru": [
+#                 "kagamine_rin",
+#                 "rin_%28vocaloid%29",
+#                 "rin_%28project_diva%29"
+#             ],
+#             "danbooru": ["kagamine_rin", "rin_(vocaloid)"]
+#         },
+#
+#         # Popular derivatives
+#         "teto": {
+#             "gelbooru": ["kasane_teto", "utau", "teto_%28utau%29"],
+#             "danbooru": ["kasane_teto", "utau"]
+#         },
+#         "neru": {
+#             "gelbooru": ["akita_neru", "neru_%28derivative%29"],
+#             "danbooru": ["akita_neru", "derivative"]
+#         },
+#         "haku": {
+#             "gelbooru": ["yowane_haku", "haku_%28derivative%29"],
+#             "danbooru": ["yowane_haku", "derivative"]
+#         },
+#
+#         # Additional Vocaloids
+#         "luka": {
+#             "gelbooru": [
+#                 "megurine_luka",
+#                 "luka_%28vocaloid%29",
+#                 "luka_%28project_diva%29"
+#             ],
+#             "danbooru": ["megurine_luka", "project_diva"]
+#         },
+#         "gumi": {
+#             "gelbooru": ["gumi_%28vocaloid%29", "megpoid"],
+#             "danbooru": ["gumi", "megpoid"]
+#         },
+#         "ia": {
+#             "gelbooru": ["ia_%28vocaloid%29", "aria_planetes"],
+#             "danbooru": ["ia_(vocaloid)", "aria"]
+#         },
+#         "yukari": {
+#             "gelbooru": ["yuzuki_yukari", "yukari_%28vocaloid%29"],
+#             "danbooru": ["yuzuki_yukari", "voiceroid"]
+#         }
+#     }
+#
+#     LYCORIS_RECOIL_TAGS = {
+#         "chisato": {
+#             "gelbooru": ["nishikigi_chisato", "lycoris", "artificial_heart"],
+#             "danbooru": ["nishikigi_chisato", "blonde_hair"]
+#         },
+#         "takina": {
+#             "gelbooru": ["inoue_takina", "lycoris", "da_trainee"],
+#             "danbooru": ["inoue_takina", "black_hair"]
+#         },
+#         "mizuki": {
+#             "gelbooru": ["nakahara_mizuki", "radio_operator"],
+#             "danbooru": ["nakahara_mizuki", "commander"]
+#         },
+#         "kurumi": {
+#             "gelbooru": ["kurumi_%28lycoris_recoil%29", "walnut", "hacker"],
+#             "danbooru": ["kurumi_(lycoris_recoil)", "hacker"]
+#         },
+#         "sakura": {
+#             "gelbooru": ["otome_sakura", "lycoris"],
+#             "danbooru": ["otome_sakura", "division_commander"]
+#         },
+#         "himegama": {
+#             "gelbooru": ["himegama_%28lycoris_recoil%29", "instructor"],
+#             "danbooru": ["himegama", "teacher"]
+#         },
+#         "mika": {
+#             "gelbooru": ["mika_%28lycoris_recoil%29", "cafe_owner"],
+#             "danbooru": ["mika_(lycoris_recoil)", "cafe_manager"]
+#         }
+#     }
+#
+#     FAIRY_TAIL_TAGS = {
+#         "lucy": {
+#             "gelbooru": ["lucy_heartfilia", "celestial_wizard", "fairy_tail"],
+#             "danbooru": ["lucy_heartfilia", "celestial_spirit_mage"]
+#         },
+#         "erza": {
+#             "gelbooru": ["erza_scarlet", "titania", "requip_mage"],
+#             "danbooru": ["erza_scarlet", "knight"]
+#         },
+#         "mirajane": {
+#             "gelbooru": ["mirajane_strauss", "demon_takeover", "s_class"],
+#             "danbooru": ["mirajane_strauss", "demon_mirajane"]
+#         },
+#         "wendy": {
+#             "gelbooru": ["wendy_marvell", "sky_dragon_slayer", "dragon_force"],
+#             "danbooru": ["wendy_marvell", "sky_maiden"]
+#         },
+#         "juvia": {
+#             "gelbooru": ["juvia_lockser", "water_mage", "gray_stalker"],
+#             "danbooru": ["juvia_lockser", "water_woman"]
+#         },
+#         "mavis": {
+#             "gelbooru": ["mavis_vermillion", "fairy_tactician", "first_master"],
+#             "danbooru": ["mavis_vermillion", "founding_master"]
+#         },
+#         "brandish": {
+#             "gelbooru": ["brandish_μ", "spriggan_12", "mass_manipulation"],
+#             "danbooru": ["brandish", "country_toppler"]
+#         },
+#         "dimaria": {
+#             "gelbooru": ["dimaria_yesta", "spriggan_12", "age_seal"],
+#             "danbooru": ["dimaria_yesta", "time_goddess"]
+#         }
+#     }
+#
+#     ONE_PUNCH_MAN_TAGS = {
+#         "fubuki": {
+#             "gelbooru": ["fubuki", "blizzard", "hellish_blizzard", "b_class_hero"],
+#             "danbooru": ["fubuki", "tornado_sister"]
+#         },
+#         "tatsumaki": {
+#             "gelbooru": ["tatsumaki", "tornado_terror", "s_class_hero"],
+#             "danbooru": ["tatsumaki", "tornado"]
+#         },
+#         "psykos": {
+#             "gelbooru": ["psykos", "monster_association", "esper"],
+#             "danbooru": ["psykos", "monster_executive"]
+#         },
+#         "do_s": {
+#             "gelbooru": ["do-s", "monster_princess", "whip"],
+#             "danbooru": ["monster_princess", "dominatrix_monster"]
+#         },
+#         "lin_lin": {
+#             "gelbooru": ["lin_lin_%28one-punch_man%29", "martial_artist"],
+#             "danbooru": ["lin_lin", "super_fight"]
+#         },
+#         "suiko": {
+#             "gelbooru": ["suiko_%28one-punch_man%29", "tank_top_group"],
+#             "danbooru": ["suiko", "tank_topper"]
+#         }
+#     }
 
 # class URLs:
 #     """Central URL configuration for all scrapers and characters"""
