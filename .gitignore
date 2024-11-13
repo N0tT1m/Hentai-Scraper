@@ -3,3 +3,7 @@ include/
 lib/
 hentai/
 .venv/
+scraper.log
+scraper/__pycache__/
+__init__.pyc
+scraper.pyc
