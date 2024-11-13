@@ -13123,3 +13123,7 @@ Stacktrace:
 2024-11-12 19:07:13,396 - ERROR - Failed to initialize NSFW model: pickle data was truncated
 2024-11-12 19:07:13,396 - ERROR - Scraping failed: pickle data was truncated
 2024-11-12 19:07:13,396 - INFO - Scraping completed
+2024-11-12 19:14:01,247 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-12 19:14:04,676 - INFO - NSFW model loaded successfully
+2024-11-12 19:14:05,706 - INFO - Scraping interrupted by user
+2024-11-12 19:14:05,716 - INFO - Scraping completed

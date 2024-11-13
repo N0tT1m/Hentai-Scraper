@@ -1459,14 +1459,6 @@ class HentaiScraper:
                 self.logger.error(f"Error closing browser: {str(e)}")
 
 def main():
-    """Download and prepare NSFW model"""
-    downloader = NSFWModelDownloader()
-    try:
-        model_path = downloader.download_model()
-        print(f"Model ready at: {model_path}")
-    except Exception as e:
-        print(f"Failed to get model: {e}")
-
     """Main entry point for the scraper"""
     try:
         # Setup logging first
