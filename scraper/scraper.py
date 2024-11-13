@@ -2771,6 +2771,165 @@ class ThreadedGelbooruScraper(HentaiScraper):
             self.logger.error(f"Error expanding image on {page_url}: {str(e)}")
             return None
 
+    def _download_image(self, url: str, source_page: str = None) -> bool:
+        """
+        Download and save an image or GIF from the given URL.
+
+        Args:
+            url (str): URL of the image to download
+            source_page (str, optional): URL of the page containing the image
+
+        Returns:
+            bool: True if download was successful, False otherwise
+        """
+        try:
+            # Clean and validate URL
+            if not url:
+                self.logger.error("Invalid URL provided")
+                return False
+
+            # Get character-specific path
+            char_path = self._get_character_path(url, source_page)
+
+            # Generate filename and paths
+            filename = self._generate_filename(url)
+            temp_path = self.dirs['temp'] / f"temp_{filename}"
+            final_path = self.config.base_save_path / char_path / filename
+
+            self.logger.debug(f"Temp path: {temp_path}")
+            self.logger.debug(f"Final path: {final_path}")
+
+            # Create directories if they don't exist
+            temp_path.parent.mkdir(parents=True, exist_ok=True)
+            final_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Check if file already exists
+            if final_path.exists():
+                self.logger.info(f"File already exists at {final_path}")
+                return True
+
+            # Download file with proper headers
+            headers = {
+                'User-Agent': self.config.user_agent,
+                'Accept': 'image/webp,image/apng,image/gif,image/*,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Referer': source_page if source_page else url
+            }
+
+            response = requests.get(url, stream=True, headers=headers, timeout=self.config.request_timeout)
+            response.raise_for_status()
+
+            # Save to temporary file
+            self.logger.debug(f"Downloading to temporary file: {temp_path}")
+            with open(temp_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=self.config.chunk_size):
+                    if chunk:
+                        f.write(chunk)
+
+            # Verify the file exists and is not empty
+            if not temp_path.exists() or temp_path.stat().st_size == 0:
+                raise ValueError("Downloaded file is empty or missing")
+
+            # Verify it's a valid image/GIF file
+            try:
+                with Image.open(temp_path) as img:
+                    img.verify()
+                    is_gif = getattr(img, "is_animated", False)
+            except Exception as e:
+                self.logger.error(f"Invalid image file: {str(e)}")
+                temp_path.unlink()
+                return False
+
+            # Check if content is NSFW
+            is_nsfw, confidence = self.nsfw_detector.check_content(temp_path)
+
+            if is_nsfw:  # Keep NSFW content
+                # Calculate file hash
+                file_hash = self._get_file_hash(temp_path)
+
+                # Move file to final location
+                temp_path.rename(final_path)
+
+                # Record successful download
+                self._record_download(
+                    url=url,
+                    filename=filename,
+                    status='success',
+                    file_size=final_path.stat().st_size,
+                    md5_hash=file_hash,
+                    source_page=source_page
+                )
+
+                self.logger.info(
+                    f"Successfully downloaded NSFW {'GIF' if is_gif else 'image'}: "
+                    f"{filename} to {final_path}"
+                )
+                return True
+            else:
+                self.logger.warning(
+                    f"Skipping SFW {'GIF' if is_gif else 'image'} from {url} "
+                    f"(confidence: {confidence:.2f})"
+                )
+                temp_path.unlink()
+                return False
+
+        except Exception as e:
+            self.logger.error(f"Error downloading {url}: {str(e)}")
+            if 'temp_path' in locals() and temp_path.exists():
+                try:
+                    temp_path.unlink()
+                except Exception as cleanup_error:
+                    self.logger.error(f"Error cleaning up temporary file: {cleanup_error}")
+            return False
+
+    def _get_file_hash(self, file_path: Path) -> str:
+        """Calculate MD5 hash of file"""
+        hash_md5 = hashlib.md5()
+        with open(file_path, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
+
+    def _generate_filename(self, url: str) -> str:
+        """Generate a unique filename for the downloaded image"""
+        # Extract original extension if possible
+        ext = os.path.splitext(urlparse(url).path)[1].lower()
+        if not ext or ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
+            ext = '.jpg'  # Default to .jpg if no valid extension found
+
+        # Generate random component
+        random_suffix = ''.join(random.choices(
+            string.ascii_lowercase + string.digits,
+            k=self.config.filename_length
+        ))
+
+        # Create timestamp component
+        timestamp = time.strftime('%Y%m%d_%H%M%S')
+
+        # Combine components
+        filename = f"img_{timestamp}_{random_suffix}{ext}"
+
+        return filename
+
+    def _get_character_path(self, url: str, source_page: str) -> Path:
+        """Extract character name from URL and create appropriate path"""
+        try:
+            # Extract tags from source page URL
+            if source_page and 'tags=' in source_page:
+                tags = source_page.split('tags=')[-1].split('&')[0]
+                tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
+
+                # Use character classifier to identify character and series
+                series = self.character_classifier.identify_character(tags)
+                if series[0]:  # If we found a valid series and character
+                    return Path(series[0]) / series[1]
+
+            # Default to raw directory if no character info found
+            return Path('raw')
+        except Exception as e:
+            self.logger.error(f"Error parsing character path: {str(e)}")
+            return Path('raw')
+
     def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
         """Process multiple URLs using thread pool with fixed locking"""
         try:
