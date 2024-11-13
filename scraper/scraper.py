@@ -259,6 +259,237 @@ search_url = create_complex_search(
     }
 """
 
+def get_series_indicators():
+    """
+    Returns a dictionary of series indicators for character classification.
+    Each series has multiple possible indicators that might appear in tags.
+    """
+    return {
+        "one_piece": [
+            "one piece",
+            "one-piece",
+            "onepiece",
+            "(one piece)",
+            "one_piece",
+            "_one_piece",
+            "(one_piece)",
+            "op_",
+            "op character"
+        ],
+
+        "dota2": [
+            "dota",
+            "dota 2",
+            "dota2",
+            "(dota)",
+            "(dota 2)",
+            "defense of the ancients",
+            "dota_(series)",
+            "(dota_2)",
+            "dota_2"
+        ],
+
+        "fairy_tail": [
+            "fairy tail",
+            "fairytail",
+            "fairy_tail",
+            "(fairy tail)",
+            "(fairytail)",
+            "fairy_tail_guild",
+            "_fairy_tail",
+            "ft_"
+        ],
+
+        "dragon_ball": [
+            "dragon ball",
+            "dragonball",
+            "dragon_ball",
+            "dbz",
+            "db_",
+            "(dragon ball)",
+            "dragon ball z",
+            "dragon_ball_z",
+            "dragon ball super",
+            "dragon_ball_super",
+            "dbs",
+            "dbgt",
+            "dragon ball gt"
+        ],
+
+        "attack_on_titan": [
+            "attack on titan",
+            "shingeki no kyojin",
+            "shingekinokyojin",
+            "(shingeki no kyojin)",
+            "snk",
+            "aot",
+            "_snk_",
+            "_aot_",
+            "attack_on_titan"
+        ],
+
+        "demon_slayer": [
+            "demon slayer",
+            "kimetsu no yaiba",
+            "kimetsunoyaiba",
+            "(kimetsu no yaiba)",
+            "kimetsu_no_yaiba",
+            "demon_slayer",
+            "_kny_",
+            "kny"
+        ],
+
+        "jujutsu_kaisen": [
+            "jujutsu kaisen",
+            "jujutsukaisen",
+            "jujutsu_kaisen",
+            "(jujutsu kaisen)",
+            "_jjk_",
+            "jjk",
+            "(jjk)"
+        ],
+
+        "cowboy_bebop": [
+            "cowboy bebop",
+            "cowboybebop",
+            "cowboy_bebop",
+            "(cowboy bebop)",
+            "_bebop_",
+            "bebop"
+        ],
+
+        "spy_x_family": [
+            "spy x family",
+            "spy×family",
+            "spyxfamily",
+            "spy_x_family",
+            "spy_family",
+            "(spy x family)",
+            "sxf",
+            "_sxf_"
+        ],
+
+        "one_punch_man": [
+            "one punch man",
+            "onepunchman",
+            "one_punch_man",
+            "(one punch man)",
+            "opm",
+            "_opm_",
+            "one-punch man"
+        ],
+
+        "league_of_legends": [
+            "league of legends",
+            "leagueoflegends",
+            "league_of_legends",
+            "(league of legends)",
+            "lol",
+            "_lol_",
+            "league",
+            "(lol)"
+        ],
+
+        "hunter_x_hunter": [
+            "hunter x hunter",
+            "hunterxhunter",
+            "hunter_x_hunter",
+            "(hunter x hunter)",
+            "hxh",
+            "_hxh_",
+            "hunter hunter"
+        ],
+
+        "fullmetal_alchemist": [
+            "fullmetal alchemist",
+            "fullmetalalchemist",
+            "full metal alchemist",
+            "fullmetal_alchemist",
+            "(fullmetal alchemist)",
+            "fma",
+            "_fma_",
+            "fmab",
+            "fullmetal alchemist brotherhood",
+            "hagane no renkinjutsushi"
+        ],
+
+        "my_hero_academia": [
+            "my hero academia",
+            "boku no hero academia",
+            "myheroacademia",
+            "my_hero_academia",
+            "(my hero academia)",
+            "mha",
+            "_mha_",
+            "bnha",
+            "_bnha_",
+            "boku_no_hero_academia"
+        ],
+
+        "jojos_bizarre_adventure": [
+            "jojo's bizarre adventure",
+            "jojos bizarre adventure",
+            "jojo no kimyou na bouken",
+            "jjba",
+            "_jjba_",
+            "jojos_bizarre_adventure",
+            "(jojo)",
+            "jojo"
+        ],
+
+        "pokemon": [
+            "pokemon",
+            "pokémon",
+            "pocket monsters",
+            "_pokemon_",
+            "(pokemon)",
+            "pkmn",
+            "_pkmn_",
+            "pokemon_series"
+        ],
+
+        "hatsune_miku": [
+            "vocaloid",
+            "hatsune miku",
+            "hatsunemiku",
+            "hatsune_miku",
+            "(vocaloid)",
+            "_vocaloid_",
+            "project diva",
+            "project_diva",
+            "miku",
+            "(miku)"
+        ],
+
+        "konosuba": [
+            "konosuba",
+            "kono subarashii sekai ni shukufuku wo",
+            "_konosuba_",
+            "(konosuba)",
+            "gods blessing on this wonderful world",
+            "kono_subarashii"
+        ],
+
+        "naruto": [
+            "naruto",
+            "_naruto_",
+            "(naruto)",
+            "naruto shippuden",
+            "naruto_shippuden",
+            "naruto_series",
+            "narutoshippuden"
+        ],
+
+        "lycoris_recoil": [
+            "lycoris recoil",
+            "lycorisrecoil",
+            "lycoris_recoil",
+            "(lycoris recoil)",
+            "_lycoris_",
+            "lycoreco"
+        ]
+    }
+
 class CharacterClassifier:
     """Handles character recognition and classification"""
 
@@ -782,21 +1013,58 @@ class CharacterClassifier:
         },
     }
 
-    @classmethod
-    def identify_character(cls, tags: str) -> tuple[Optional[str], Optional[str]]:
+    def __init__(self):
+        self.series_indicators = get_series_indicators()
+
+    def identify_character(self, tags: str) -> Tuple[str, str]:
         """
-        Identify the series and character from image tags
-        Returns: (series_name, character_name) or (None, None) if not found
+        Identify a character and their series from tags.
+
+        Args:
+            tags (str): Tag string from the URL
+
+        Returns:
+            Tuple[str, str]: (series name, character name)
         """
-        tags_lower = tags.lower()
+        tags = tags.lower().replace('+', ' ').strip()
 
-        for series, characters in cls.CHARACTER_MAPPINGS.items():
-            for char_key, aliases in characters.items():
-                if any(alias in tags_lower for alias in aliases):
-                    return series, char_key
+        # First try to determine the series from the tags
+        detected_series = None
+        for series, indicators in self.series_indicators.items():
+            if any(indicator in tags for indicator in indicators):
+                detected_series = series
+                break
 
-        return None, None
+        # If we have a detected series, prioritize matching characters from that series
+        if detected_series:
+            char_mappings = self.CHARACTER_MAPPINGS[detected_series]
+            for char_name, aliases in char_mappings.items():
+                if any(alias in tags for alias in aliases):
+                    return (detected_series, char_name)
 
+        # If no series was detected or no character found in the detected series,
+        # search all series but prioritize exact matches
+        for series, char_mappings in self.CHARACTER_MAPPINGS.items():
+            for char_name, aliases in char_mappings.items():
+                # First check for exact matches
+                if any(alias == tags for alias in aliases):
+                    return (series, char_name)
+
+        # If no exact match, try partial matches
+        for series, char_mappings in self.CHARACTER_MAPPINGS.items():
+            for char_name, aliases in char_mappings.items():
+                if any(alias in tags for alias in aliases):
+                    return (series, char_name)
+
+        # If no match found
+        return ("unknown", "unknown")
+
+    def get_character_aliases(self, series: str, character: str) -> List[str]:
+        """Get all aliases for a character in a specific series."""
+        if series in self.CHARACTER_MAPPINGS:
+            if character in self.CHARACTER_MAPPINGS[series]:
+                return self.CHARACTER_MAPPINGS[series][character]
+        return []
 
 @dataclass
 class ScraperConfig:
