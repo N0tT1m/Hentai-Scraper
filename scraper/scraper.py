@@ -10336,18 +10336,18 @@ class DanbooruScraper(HentaiScraper):
 
 def main():
     """Main entry point for the scraper"""
-    try:
-        # Setup logging
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(threadName)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler('scraper.log'),
-                logging.StreamHandler()
-            ]
-        )
-        logger = logging.getLogger(__name__)
+    # Setup logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(threadName)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('scraper.log'),
+            logging.StreamHandler()
+        ]
+    )
+    logger = logging.getLogger(__name__)
 
+    try:
         # Setup configuration
         config = ScraperConfig(
             base_save_path="./hentai",
@@ -10363,7 +10363,7 @@ def main():
         logger.info(f"Starting scraper with config: {config}")
 
         # Initialize threaded scraper
-        scraper = ThreadedGelbooruScraper(config)
+        threaded_gelbooru_scraper = ThreadedGelbooruScraper(config)
 
         # Initialize and setup scraper
         # scraper = HentaiScraper(config)
@@ -10858,7 +10858,7 @@ def main():
                 # "lucy": "https://api.example.com/images/lycoris_recoil/lucy_main.jpg",
             }
 
-        gelbooru_scraper.process_urls(urls, max_pages=380)
+        threaded_gelbooru_scraper.process_urls(urls, max_pages=380)
 
         # Get URLs for each scraper
         # gelbooru_urls = URLs.URLS["gelbooru"]
@@ -10869,7 +10869,7 @@ def main():
         # danbooru_scraper.process_urls(danbooru_urls)
 
         # scraper.download_batch(urls)
-        scraper.process_urls(urls, max_pages=380, max_workers=24)
+        threaded_gelbooru_scraper.process_urls(urls, max_pages=380, max_workers=24)
 
     except KeyboardInterrupt:
         logger.info("Scraping interrupted by user")
