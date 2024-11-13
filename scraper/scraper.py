@@ -942,7 +942,6 @@ class HentaiScraper:
         model_path = "models/nsfw_model.pth"
         if not os.path.exists(model_path):
             print("Downloading NSFW model...")
-            from download_model import NSFWModelDownloader
             downloader = NSFWModelDownloader()
             model_path = downloader.download_model()
 
