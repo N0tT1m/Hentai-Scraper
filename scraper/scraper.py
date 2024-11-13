@@ -2445,7 +2445,7 @@ class ThreadedGelbooruScraper(GelbooruScraper):
     def process_urls(self, urls: Dict[str, str], max_pages: int = 380, max_workers: int = None):
         """Process multiple URLs using thread pool"""
         if max_workers is None:
-            max_workers = min(24, len(urls))  # Default to 24 threads or number of characters
+            max_workers = min(20, len(urls))  # Default to 24 threads or number of characters
 
         self.logger.info(f"Starting scraping with {max_workers} threads")
 
