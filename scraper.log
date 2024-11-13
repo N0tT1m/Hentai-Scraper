@@ -14669,3 +14669,457 @@ Stacktrace:
 2024-11-13 16:50:56,929 - MainThread - INFO - Executor shutdown complete
 2024-11-13 16:50:56,929 - MainThread - INFO - Scraping interrupted by user
 2024-11-13 16:50:56,930 - MainThread - INFO - Scraping completed
+2024-11-13 17:04:46,514 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 17:04:46,514 - MainThread - INFO - Initializing ThreadedGelbooruScraper
+2024-11-13 17:04:47,026 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 17:04:47,026 - MainThread - INFO - Starting setup...
+2024-11-13 17:04:47,026 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 17:04:47,026 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 17:04:47,026 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 17:04:47,026 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 17:04:47,026 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 17:04:47,109 - MainThread - INFO - Setup completed successfully
+2024-11-13 17:04:47,109 - MainThread - INFO - ThreadedGelbooruScraper initialized
+2024-11-13 17:04:47,110 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 17:04:47,110 - MainThread - INFO - Total characters to process: 442
+2024-11-13 17:04:47,110 - MainThread - INFO - Current memory usage: 645.62 MB
+2024-11-13 17:04:47,110 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 17:04:47,110 - MainThread - INFO - Current thread count: 1
+2024-11-13 17:04:47,110 - MainThread - INFO - Current threads: MainThread
+2024-11-13 17:04:47,110 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 17:04:47,110 - MainThread - INFO - Thread pool executor created
+2024-11-13 17:04:47,110 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 17:04:47,110 - MainThread - INFO - Processing robin
+2024-11-13 17:04:47,110 - MainThread - INFO - Submitting robin with 1 URLs
+2024-11-13 17:04:47,111 - MainThread - INFO - Lock acquired for robin
+2024-11-13 17:04:47,111 - scraper_0 - INFO - Thread scraper_0 starting robin
+2024-11-13 17:04:47,111 - scraper_0 - INFO - Thread scraper_0 processing robin
+2024-11-13 17:04:47,112 - scraper_0 - INFO - Creating new browser for thread scraper_0
+2024-11-13 17:04:47,112 - MainThread - INFO - Task submitted for robin
+2024-11-13 17:04:47,112 - MainThread - INFO - Processing baby_5
+2024-11-13 17:04:47,112 - MainThread - INFO - Submitting baby_5 with 1 URLs
+2024-11-13 17:04:47,112 - MainThread - INFO - Lock acquired for baby_5
+2024-11-13 17:04:47,113 - scraper_1 - INFO - Thread scraper_1 starting baby_5
+2024-11-13 17:04:47,113 - scraper_1 - INFO - Thread scraper_1 processing baby_5
+2024-11-13 17:04:47,113 - MainThread - INFO - Task submitted for baby_5
+2024-11-13 17:04:47,113 - MainThread - INFO - Processing nami
+2024-11-13 17:04:47,113 - MainThread - INFO - Submitting nami with 1 URLs
+2024-11-13 17:04:47,113 - MainThread - INFO - Lock acquired for nami
+2024-11-13 17:04:47,114 - scraper_2 - INFO - Thread scraper_2 starting nami
+2024-11-13 17:04:47,114 - scraper_2 - INFO - Thread scraper_2 processing nami
+2024-11-13 17:04:47,114 - MainThread - INFO - Task submitted for nami
+2024-11-13 17:04:47,127 - MainThread - INFO - Processing boa_hancock
+2024-11-13 17:04:47,128 - MainThread - INFO - Submitting boa_hancock with 1 URLs
+2024-11-13 17:04:47,129 - MainThread - INFO - Lock acquired for boa_hancock
+2024-11-13 17:04:47,130 - scraper_3 - INFO - Thread scraper_3 starting boa_hancock
+2024-11-13 17:04:47,130 - MainThread - INFO - Task submitted for boa_hancock
+2024-11-13 17:04:47,130 - scraper_3 - INFO - Thread scraper_3 processing boa_hancock
+2024-11-13 17:04:47,130 - MainThread - INFO - Submitted 4 tasks
+2024-11-13 17:04:47,948 - scraper_0 - INFO - Successfully created browser for thread scraper_0
+2024-11-13 17:04:47,948 - scraper_0 - INFO - Browser acquired for robin
+2024-11-13 17:04:47,948 - scraper_0 - INFO - Processing URL 1/1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 17:04:47,948 - scraper_0 - INFO - Processing page 1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 17:04:47,949 - scraper_1 - INFO - Creating new browser for thread scraper_1
+2024-11-13 17:04:48,837 - scraper_1 - INFO - Successfully created browser for thread scraper_1
+2024-11-13 17:04:48,837 - scraper_1 - INFO - Browser acquired for baby_5
+2024-11-13 17:04:48,837 - scraper_1 - INFO - Processing URL 1/1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 17:04:48,837 - scraper_2 - INFO - Creating new browser for thread scraper_2
+2024-11-13 17:04:48,838 - scraper_1 - INFO - Processing page 1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 17:04:49,897 - scraper_2 - INFO - Successfully created browser for thread scraper_2
+2024-11-13 17:04:49,897 - scraper_2 - INFO - Browser acquired for nami
+2024-11-13 17:04:49,898 - scraper_2 - INFO - Processing URL 1/1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 17:04:49,899 - scraper_2 - INFO - Processing page 1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 17:04:49,900 - scraper_3 - INFO - Creating new browser for thread scraper_3
+2024-11-13 17:04:51,115 - scraper_3 - INFO - Successfully created browser for thread scraper_3
+2024-11-13 17:04:51,115 - scraper_3 - INFO - Browser acquired for boa_hancock
+2024-11-13 17:04:51,115 - scraper_3 - INFO - Processing URL 1/1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 17:04:51,115 - scraper_3 - INFO - Processing page 1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 17:04:51,728 - scraper_0 - INFO - Found 42 images for robin on page 1
+2024-11-13 17:04:52,209 - scraper_1 - INFO - Found 42 images for baby_5 on page 1
+2024-11-13 17:04:53,375 - scraper_2 - INFO - Found 42 images for nami on page 1
+2024-11-13 17:04:54,826 - scraper_3 - INFO - Found 42 images for boa_hancock on page 1
+2024-11-13 17:04:57,049 - scraper_0 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/81/e3/81e3343845e7f68fbc22cb32ce20e4f1.jpg (confidence: 0.14)
+2024-11-13 17:04:57,049 - scraper_0 - WARNING - Failed to download image 1 for robin
+2024-11-13 17:04:57,108 - scraper_1 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/0c/4e/0c4e8c06cb1854524cb0bb9ef5a2c03c.jpg (confidence: 0.03)
+2024-11-13 17:04:57,108 - scraper_1 - WARNING - Failed to download image 1 for baby_5
+2024-11-13 17:04:58,106 - scraper_2 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/30/a3/30a3255b02b6fc2282300663cf0db7de.jpg (confidence: 0.07)
+2024-11-13 17:04:58,122 - scraper_2 - WARNING - Failed to download image 1 for nami
+2024-11-13 17:04:59,582 - scraper_3 - ERROR - Error downloading https://img3.gelbooru.com/images/98/d8/98d8de2ac26abee2eba43673464a07b3.jpg: name 'hashlib' is not defined
+2024-11-13 17:04:59,582 - scraper_3 - WARNING - Failed to download image 1 for boa_hancock
+2024-11-13 17:05:03,599 - scraper_1 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/33/5d/335df7782338cb031361c85389417f43.jpg (confidence: 0.02)
+2024-11-13 17:05:03,600 - scraper_1 - WARNING - Failed to download image 2 for baby_5
+2024-11-13 17:05:03,636 - scraper_0 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/b3/77/b37758141f0b0b896edaf72771507030.jpg (confidence: 0.36)
+2024-11-13 17:05:03,636 - scraper_0 - WARNING - Failed to download image 2 for robin
+2024-11-13 17:05:04,884 - scraper_2 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/eb/2e/eb2e93a9c857b5b77ea62a8f4be3c5b4.jpg (confidence: 0.01)
+2024-11-13 17:05:04,884 - scraper_2 - WARNING - Failed to download image 2 for nami
+2024-11-13 17:05:06,063 - MainThread - INFO - Shutting down executor
+2024-11-13 17:05:06,064 - MainThread - INFO - Executor shutdown complete
+2024-11-13 17:05:06,064 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 17:05:06,064 - MainThread - INFO - Scraping completed
+2024-11-13 17:05:06,097 - scraper_3 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17c0f9b20>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/423f3bb2d0e0c9746a852e91e14ba067/element
+2024-11-13 17:05:06,097 - scraper_3 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x177b6b800>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/423f3bb2d0e0c9746a852e91e14ba067/element
+2024-11-13 17:05:06,098 - scraper_3 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17c0ecbc0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/423f3bb2d0e0c9746a852e91e14ba067/element
+2024-11-13 17:05:06,098 - scraper_3 - ERROR - Error waiting for expanded image: HTTPConnectionPool(host='localhost', port=56096): Max retries exceeded with url: /session/423f3bb2d0e0c9746a852e91e14ba067/element (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17c0cb500>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:05:06,098 - scraper_3 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f54f9e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/423f3bb2d0e0c9746a852e91e14ba067/url
+2024-11-13 17:05:06,099 - scraper_3 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17c0fbec0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/423f3bb2d0e0c9746a852e91e14ba067/url
+2024-11-13 17:05:06,099 - scraper_3 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17c0fb710>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/423f3bb2d0e0c9746a852e91e14ba067/url
+2024-11-13 17:05:06,099 - scraper_3 - WARNING - Navigation attempt 1 failed: HTTPConnectionPool(host='localhost', port=56096): Max retries exceeded with url: /session/423f3bb2d0e0c9746a852e91e14ba067/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f045340>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:22,283 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 17:06:22,283 - MainThread - INFO - Initializing ThreadedGelbooruScraper
+2024-11-13 17:06:22,601 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 17:06:22,601 - MainThread - INFO - Starting setup...
+2024-11-13 17:06:22,601 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 17:06:22,601 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 17:06:22,601 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 17:06:22,601 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 17:06:22,601 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 17:06:22,620 - MainThread - INFO - Setup completed successfully
+2024-11-13 17:06:22,620 - MainThread - INFO - ThreadedGelbooruScraper initialized
+2024-11-13 17:06:22,620 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 17:06:22,620 - MainThread - INFO - Total characters to process: 442
+2024-11-13 17:06:22,620 - MainThread - INFO - Current memory usage: 642.23 MB
+2024-11-13 17:06:22,620 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 17:06:22,620 - MainThread - INFO - Current thread count: 1
+2024-11-13 17:06:22,620 - MainThread - INFO - Current threads: MainThread
+2024-11-13 17:06:22,620 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 17:06:22,620 - MainThread - INFO - Thread pool executor created
+2024-11-13 17:06:22,621 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 17:06:22,621 - MainThread - INFO - Processing robin
+2024-11-13 17:06:22,621 - MainThread - INFO - Submitting robin with 1 URLs
+2024-11-13 17:06:22,621 - MainThread - INFO - Lock acquired for robin
+2024-11-13 17:06:22,621 - scraper_0 - INFO - Thread scraper_0 starting robin
+2024-11-13 17:06:22,621 - scraper_0 - INFO - Thread scraper_0 processing robin
+2024-11-13 17:06:22,621 - scraper_0 - INFO - Creating new browser for thread scraper_0
+2024-11-13 17:06:22,621 - MainThread - INFO - Task submitted for robin
+2024-11-13 17:06:22,621 - MainThread - INFO - Processing baby_5
+2024-11-13 17:06:22,621 - MainThread - INFO - Submitting baby_5 with 1 URLs
+2024-11-13 17:06:22,621 - MainThread - INFO - Lock acquired for baby_5
+2024-11-13 17:06:22,621 - scraper_1 - INFO - Thread scraper_1 starting baby_5
+2024-11-13 17:06:22,621 - scraper_1 - INFO - Thread scraper_1 processing baby_5
+2024-11-13 17:06:22,621 - MainThread - INFO - Task submitted for baby_5
+2024-11-13 17:06:22,621 - MainThread - INFO - Processing nami
+2024-11-13 17:06:22,622 - MainThread - INFO - Submitting nami with 1 URLs
+2024-11-13 17:06:22,632 - MainThread - INFO - Lock acquired for nami
+2024-11-13 17:06:22,632 - scraper_2 - INFO - Thread scraper_2 starting nami
+2024-11-13 17:06:22,632 - MainThread - INFO - Task submitted for nami
+2024-11-13 17:06:22,632 - scraper_2 - INFO - Thread scraper_2 processing nami
+2024-11-13 17:06:22,632 - MainThread - INFO - Processing boa_hancock
+2024-11-13 17:06:22,632 - MainThread - INFO - Submitting boa_hancock with 1 URLs
+2024-11-13 17:06:22,632 - MainThread - INFO - Lock acquired for boa_hancock
+2024-11-13 17:06:22,633 - scraper_3 - INFO - Thread scraper_3 starting boa_hancock
+2024-11-13 17:06:22,633 - scraper_3 - INFO - Thread scraper_3 processing boa_hancock
+2024-11-13 17:06:22,633 - MainThread - INFO - Task submitted for boa_hancock
+2024-11-13 17:06:22,633 - MainThread - INFO - Submitted 4 tasks
+2024-11-13 17:06:23,569 - scraper_0 - INFO - Successfully created browser for thread scraper_0
+2024-11-13 17:06:23,569 - scraper_0 - INFO - Browser acquired for robin
+2024-11-13 17:06:23,569 - scraper_0 - INFO - Processing URL 1/1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 17:06:23,569 - scraper_0 - INFO - Processing page 1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 17:06:23,569 - scraper_1 - INFO - Creating new browser for thread scraper_1
+2024-11-13 17:06:24,232 - scraper_1 - INFO - Successfully created browser for thread scraper_1
+2024-11-13 17:06:24,233 - scraper_1 - INFO - Browser acquired for baby_5
+2024-11-13 17:06:24,233 - scraper_1 - INFO - Processing URL 1/1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 17:06:24,233 - scraper_1 - INFO - Processing page 1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 17:06:24,233 - scraper_2 - INFO - Creating new browser for thread scraper_2
+2024-11-13 17:06:24,994 - scraper_2 - INFO - Successfully created browser for thread scraper_2
+2024-11-13 17:06:24,995 - scraper_2 - INFO - Browser acquired for nami
+2024-11-13 17:06:24,995 - scraper_3 - INFO - Creating new browser for thread scraper_3
+2024-11-13 17:06:24,995 - scraper_2 - INFO - Processing URL 1/1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 17:06:24,995 - scraper_2 - INFO - Processing page 1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 17:06:26,199 - scraper_3 - INFO - Successfully created browser for thread scraper_3
+2024-11-13 17:06:26,200 - scraper_3 - INFO - Browser acquired for boa_hancock
+2024-11-13 17:06:26,200 - scraper_3 - INFO - Processing URL 1/1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 17:06:26,200 - scraper_3 - INFO - Processing page 1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 17:06:27,126 - scraper_0 - INFO - Found 42 images for robin on page 1
+2024-11-13 17:06:27,897 - scraper_1 - INFO - Found 42 images for baby_5 on page 1
+2024-11-13 17:06:28,405 - scraper_2 - INFO - Found 42 images for nami on page 1
+2024-11-13 17:06:29,421 - scraper_3 - INFO - Found 42 images for boa_hancock on page 1
+2024-11-13 17:06:32,047 - scraper_0 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/81/e3/81e3343845e7f68fbc22cb32ce20e4f1.jpg (confidence: 0.14)
+2024-11-13 17:06:32,047 - scraper_0 - WARNING - Failed to download image 1 for robin
+2024-11-13 17:06:32,276 - scraper_1 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/0c/4e/0c4e8c06cb1854524cb0bb9ef5a2c03c.jpg (confidence: 0.03)
+2024-11-13 17:06:32,276 - scraper_1 - WARNING - Failed to download image 1 for baby_5
+2024-11-13 17:06:33,148 - scraper_2 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/30/a3/30a3255b02b6fc2282300663cf0db7de.jpg (confidence: 0.07)
+2024-11-13 17:06:33,149 - scraper_2 - WARNING - Failed to download image 1 for nami
+2024-11-13 17:06:34,092 - scraper_3 - ERROR - Error downloading https://img3.gelbooru.com/images/98/d8/98d8de2ac26abee2eba43673464a07b3.jpg: 'ThreadedGelbooruScraper' object has no attribute '_record_download'
+2024-11-13 17:06:34,092 - scraper_3 - WARNING - Failed to download image 1 for boa_hancock
+2024-11-13 17:06:38,459 - scraper_0 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/b3/77/b37758141f0b0b896edaf72771507030.jpg (confidence: 0.36)
+2024-11-13 17:06:38,460 - scraper_0 - WARNING - Failed to download image 2 for robin
+2024-11-13 17:06:38,625 - MainThread - INFO - Shutting down executor
+2024-11-13 17:06:38,643 - MainThread - INFO - Executor shutdown complete
+2024-11-13 17:06:38,644 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 17:06:38,644 - MainThread - INFO - Scraping completed
+2024-11-13 17:06:39,475 - scraper_1 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/33/5d/335df7782338cb031361c85389417f43.jpg (confidence: 0.02)
+2024-11-13 17:06:39,476 - scraper_1 - WARNING - Failed to download image 2 for baby_5
+2024-11-13 17:06:39,790 - scraper_2 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179ef9760>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/element
+2024-11-13 17:06:39,791 - scraper_2 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179ee9640>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/element
+2024-11-13 17:06:39,793 - scraper_2 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b2c5400>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/element
+2024-11-13 17:06:39,794 - scraper_2 - ERROR - Error waiting for expanded image: HTTPConnectionPool(host='localhost', port=56353): Max retries exceeded with url: /session/83a1c701b99b20e9d3f6974d91fc075d/element (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b229eb0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:39,795 - scraper_2 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f4dd730>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/url
+2024-11-13 17:06:39,797 - scraper_2 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b224200>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/url
+2024-11-13 17:06:39,798 - scraper_2 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x16b766ff0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/url
+2024-11-13 17:06:39,799 - scraper_2 - WARNING - Navigation attempt 1 failed: HTTPConnectionPool(host='localhost', port=56353): Max retries exceeded with url: /session/83a1c701b99b20e9d3f6974d91fc075d/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179e2e270>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:40,437 - scraper_3 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179ef9fa0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/element
+2024-11-13 17:06:40,438 - scraper_3 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f626180>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/element
+2024-11-13 17:06:40,438 - scraper_3 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f625820>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/element
+2024-11-13 17:06:40,439 - scraper_3 - ERROR - Error waiting for expanded image: HTTPConnectionPool(host='localhost', port=56378): Max retries exceeded with url: /session/4db37757ec11e7d37ccd2f04a2a0b24e/element (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f5dcda0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:40,440 - scraper_3 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f5dc470>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/url
+2024-11-13 17:06:40,440 - scraper_3 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f548e60>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/url
+2024-11-13 17:06:40,441 - scraper_3 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f61bef0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/url
+2024-11-13 17:06:40,442 - scraper_3 - WARNING - Navigation attempt 1 failed: HTTPConnectionPool(host='localhost', port=56378): Max retries exceeded with url: /session/4db37757ec11e7d37ccd2f04a2a0b24e/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f4833b0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:40,462 - scraper_0 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17986c3b0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7cbce10859a673fd97b6858a320ff81c/url
+2024-11-13 17:06:40,463 - scraper_0 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f625c70>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7cbce10859a673fd97b6858a320ff81c/url
+2024-11-13 17:06:40,464 - scraper_0 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f627230>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7cbce10859a673fd97b6858a320ff81c/url
+2024-11-13 17:06:40,464 - scraper_0 - WARNING - Navigation attempt 1 failed: HTTPConnectionPool(host='localhost', port=56320): Max retries exceeded with url: /session/7cbce10859a673fd97b6858a320ff81c/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f6261b0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:41,484 - scraper_1 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179ef8ef0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/dc6074c31bb22c42969755acc62ec574/url
+2024-11-13 17:06:41,485 - scraper_1 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179a2a4e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/dc6074c31bb22c42969755acc62ec574/url
+2024-11-13 17:06:41,486 - scraper_1 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179e5e1b0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/dc6074c31bb22c42969755acc62ec574/url
+2024-11-13 17:06:41,487 - scraper_1 - WARNING - Navigation attempt 1 failed: HTTPConnectionPool(host='localhost', port=56333): Max retries exceeded with url: /session/dc6074c31bb22c42969755acc62ec574/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179ef9fa0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:41,806 - scraper_2 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x179ec9430>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/url
+2024-11-13 17:06:41,807 - scraper_2 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67e060>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/url
+2024-11-13 17:06:41,809 - scraper_2 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67c410>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/83a1c701b99b20e9d3f6974d91fc075d/url
+2024-11-13 17:06:41,810 - scraper_2 - WARNING - Navigation attempt 2 failed: HTTPConnectionPool(host='localhost', port=56353): Max retries exceeded with url: /session/83a1c701b99b20e9d3f6974d91fc075d/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67e2d0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:42,450 - scraper_3 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67ea20>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/url
+2024-11-13 17:06:42,451 - scraper_3 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67d460>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/url
+2024-11-13 17:06:42,453 - scraper_3 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67de50>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4db37757ec11e7d37ccd2f04a2a0b24e/url
+2024-11-13 17:06:42,454 - scraper_3 - WARNING - Navigation attempt 2 failed: HTTPConnectionPool(host='localhost', port=56378): Max retries exceeded with url: /session/4db37757ec11e7d37ccd2f04a2a0b24e/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f4807d0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:06:42,471 - scraper_0 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67d2e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7cbce10859a673fd97b6858a320ff81c/url
+2024-11-13 17:06:42,472 - scraper_0 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67d550>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7cbce10859a673fd97b6858a320ff81c/url
+2024-11-13 17:06:42,473 - scraper_0 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67dd00>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/7cbce10859a673fd97b6858a320ff81c/url
+2024-11-13 17:06:42,474 - scraper_0 - WARNING - Navigation attempt 2 failed: HTTPConnectionPool(host='localhost', port=56320): Max retries exceeded with url: /session/7cbce10859a673fd97b6858a320ff81c/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17f67dca0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:10:39,215 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 17:10:39,215 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 17:10:39,215 - MainThread - INFO - Total characters to process: 442
+2024-11-13 17:10:39,215 - MainThread - INFO - Current memory usage: 567.80 MB
+2024-11-13 17:10:39,215 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 17:10:39,215 - MainThread - INFO - Current thread count: 1
+2024-11-13 17:10:39,215 - MainThread - INFO - Current threads: MainThread
+2024-11-13 17:10:39,215 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 17:10:39,215 - MainThread - INFO - Thread pool executor created
+2024-11-13 17:10:39,216 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 17:10:39,216 - MainThread - INFO - Processing robin
+2024-11-13 17:10:39,216 - MainThread - INFO - Submitting robin with 1 URLs
+2024-11-13 17:10:39,216 - MainThread - INFO - Lock acquired for robin
+2024-11-13 17:10:39,220 - scraper_0 - INFO - Thread scraper_0 starting robin
+2024-11-13 17:10:39,220 - scraper_0 - INFO - Thread scraper_0 processing robin
+2024-11-13 17:10:39,221 - scraper_0 - INFO - Creating new browser for thread scraper_0
+2024-11-13 17:10:39,237 - MainThread - INFO - Task submitted for robin
+2024-11-13 17:10:39,237 - MainThread - INFO - Processing baby_5
+2024-11-13 17:10:39,238 - MainThread - INFO - Submitting baby_5 with 1 URLs
+2024-11-13 17:10:39,238 - MainThread - INFO - Lock acquired for baby_5
+2024-11-13 17:10:39,243 - scraper_1 - INFO - Thread scraper_1 starting baby_5
+2024-11-13 17:10:39,243 - scraper_1 - INFO - Thread scraper_1 processing baby_5
+2024-11-13 17:10:39,246 - MainThread - INFO - Task submitted for baby_5
+2024-11-13 17:10:39,246 - MainThread - INFO - Processing nami
+2024-11-13 17:10:39,246 - MainThread - INFO - Submitting nami with 1 URLs
+2024-11-13 17:10:39,246 - MainThread - INFO - Lock acquired for nami
+2024-11-13 17:10:39,248 - scraper_2 - INFO - Thread scraper_2 starting nami
+2024-11-13 17:10:39,248 - scraper_2 - INFO - Thread scraper_2 processing nami
+2024-11-13 17:10:39,250 - MainThread - INFO - Task submitted for nami
+2024-11-13 17:10:39,250 - MainThread - INFO - Processing boa_hancock
+2024-11-13 17:10:39,250 - MainThread - INFO - Submitting boa_hancock with 1 URLs
+2024-11-13 17:10:39,250 - MainThread - INFO - Lock acquired for boa_hancock
+2024-11-13 17:10:39,253 - scraper_3 - INFO - Thread scraper_3 starting boa_hancock
+2024-11-13 17:10:39,253 - scraper_3 - INFO - Thread scraper_3 processing boa_hancock
+2024-11-13 17:10:39,254 - MainThread - INFO - Task submitted for boa_hancock
+2024-11-13 17:10:39,254 - MainThread - INFO - Submitted 4 tasks
+2024-11-13 17:10:40,286 - scraper_0 - INFO - Successfully created browser for thread scraper_0
+2024-11-13 17:10:40,286 - scraper_0 - INFO - Browser acquired for robin
+2024-11-13 17:10:40,286 - scraper_1 - INFO - Creating new browser for thread scraper_1
+2024-11-13 17:10:40,286 - scraper_0 - INFO - Processing URL 1/1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 17:10:40,287 - scraper_0 - INFO - Processing page 1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 17:10:41,157 - scraper_1 - INFO - Successfully created browser for thread scraper_1
+2024-11-13 17:10:41,158 - scraper_1 - INFO - Browser acquired for baby_5
+2024-11-13 17:10:41,158 - scraper_1 - INFO - Processing URL 1/1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 17:10:41,158 - scraper_1 - INFO - Processing page 1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 17:10:41,159 - scraper_2 - INFO - Creating new browser for thread scraper_2
+2024-11-13 17:10:42,413 - scraper_2 - INFO - Successfully created browser for thread scraper_2
+2024-11-13 17:10:42,413 - scraper_2 - INFO - Browser acquired for nami
+2024-11-13 17:10:42,413 - scraper_2 - INFO - Processing URL 1/1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 17:10:42,414 - scraper_2 - INFO - Processing page 1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 17:10:42,415 - scraper_3 - INFO - Creating new browser for thread scraper_3
+2024-11-13 17:10:43,500 - scraper_3 - INFO - Successfully created browser for thread scraper_3
+2024-11-13 17:10:43,501 - scraper_3 - INFO - Browser acquired for boa_hancock
+2024-11-13 17:10:43,501 - scraper_3 - INFO - Processing URL 1/1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 17:10:43,501 - scraper_3 - INFO - Processing page 1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 17:10:44,333 - scraper_0 - INFO - Found 42 images for robin on page 1
+2024-11-13 17:10:44,738 - scraper_1 - INFO - Found 42 images for baby_5 on page 1
+2024-11-13 17:10:46,259 - scraper_2 - INFO - Found 42 images for nami on page 1
+2024-11-13 17:10:48,090 - scraper_3 - INFO - Found 42 images for boa_hancock on page 1
+2024-11-13 17:10:48,649 - scraper_0 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:10:48,650 - scraper_0 - ERROR - Error downloading https://img3.gelbooru.com/images/81/e3/81e3343845e7f68fbc22cb32ce20e4f1.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:10:48,650 - scraper_0 - WARNING - Failed to download image 1 for robin
+2024-11-13 17:10:49,553 - scraper_1 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:10:49,553 - scraper_1 - ERROR - Error downloading https://img3.gelbooru.com/images/0c/4e/0c4e8c06cb1854524cb0bb9ef5a2c03c.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:10:49,553 - scraper_1 - WARNING - Failed to download image 1 for baby_5
+2024-11-13 17:10:50,521 - scraper_2 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:10:50,521 - scraper_2 - ERROR - Error downloading https://img3.gelbooru.com/images/30/a3/30a3255b02b6fc2282300663cf0db7de.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:10:50,521 - scraper_2 - WARNING - Failed to download image 1 for nami
+2024-11-13 17:10:52,554 - scraper_3 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:10:52,554 - scraper_3 - ERROR - Error downloading https://img3.gelbooru.com/images/98/d8/98d8de2ac26abee2eba43673464a07b3.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:10:52,554 - scraper_3 - WARNING - Failed to download image 1 for boa_hancock
+2024-11-13 17:10:54,941 - scraper_0 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:10:54,942 - scraper_0 - ERROR - Error downloading https://img3.gelbooru.com/images/b3/77/b37758141f0b0b896edaf72771507030.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:10:54,942 - scraper_0 - WARNING - Failed to download image 2 for robin
+2024-11-13 17:10:56,108 - scraper_1 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:10:56,108 - scraper_1 - ERROR - Error downloading https://img3.gelbooru.com/images/33/5d/335df7782338cb031361c85389417f43.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:10:56,108 - scraper_1 - WARNING - Failed to download image 2 for baby_5
+2024-11-13 17:10:56,994 - scraper_2 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:10:56,994 - scraper_2 - ERROR - Error downloading https://img3.gelbooru.com/images/eb/2e/eb2e93a9c857b5b77ea62a8f4be3c5b4.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:10:56,994 - scraper_2 - WARNING - Failed to download image 2 for nami
+2024-11-13 17:10:58,964 - scraper_3 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:10:58,964 - scraper_3 - ERROR - Error downloading https://img3.gelbooru.com/images/c5/cc/c5cce8fab874f98676073a3df3dfdee3.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:10:58,964 - scraper_3 - WARNING - Failed to download image 2 for boa_hancock
+2024-11-13 17:11:01,128 - scraper_0 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:01,129 - scraper_0 - ERROR - Error downloading https://img3.gelbooru.com/images/c2/9a/c29a8d2c6be8a83089827e6d627995d4.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:01,129 - scraper_0 - WARNING - Failed to download image 3 for robin
+2024-11-13 17:11:02,264 - scraper_1 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:02,265 - scraper_1 - ERROR - Error downloading https://img3.gelbooru.com/images/9a/69/9a69c2e17fe02ba9a85b729d9727d2d9.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:02,265 - scraper_1 - WARNING - Failed to download image 3 for baby_5
+2024-11-13 17:11:03,142 - scraper_2 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:03,142 - scraper_2 - ERROR - Error downloading https://img3.gelbooru.com/images/28/92/2892e655e20a8d3775824735d08be0f0.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:03,142 - scraper_2 - WARNING - Failed to download image 3 for nami
+2024-11-13 17:11:05,332 - scraper_3 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:05,332 - scraper_3 - ERROR - Error downloading https://img3.gelbooru.com/images/8f/1c/8f1cc4396921df4c460b3cd237c46b27.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:05,332 - scraper_3 - WARNING - Failed to download image 3 for boa_hancock
+2024-11-13 17:11:07,333 - scraper_0 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:07,333 - scraper_0 - ERROR - Error downloading https://img3.gelbooru.com/images/6b/c9/6bc9ae6158d50ce5b95cd674db9304db.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:07,334 - scraper_0 - WARNING - Failed to download image 4 for robin
+2024-11-13 17:11:08,758 - scraper_1 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:08,758 - scraper_1 - ERROR - Error downloading https://img3.gelbooru.com/images/81/2f/812fc4fbd369816dbe97ccfe07ba9104.jpeg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:08,758 - scraper_1 - WARNING - Failed to download image 4 for baby_5
+2024-11-13 17:11:09,295 - scraper_2 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:09,295 - scraper_2 - ERROR - Error downloading https://img3.gelbooru.com/images/63/0b/630bd8cada5faf09de43aa28eedc3fd4.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:09,295 - scraper_2 - WARNING - Failed to download image 4 for nami
+2024-11-13 17:11:11,735 - scraper_3 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:11,735 - scraper_3 - ERROR - Error downloading https://img3.gelbooru.com/images/cb/4d/cb4d3662ae816630a4693b3825ebe81b.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:11,735 - scraper_3 - WARNING - Failed to download image 4 for boa_hancock
+2024-11-13 17:11:13,501 - scraper_0 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:13,502 - scraper_0 - ERROR - Error downloading https://img3.gelbooru.com/images/f8/ec/f8ec7290419e902afefa4ef6c3e2e4d7.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:13,502 - scraper_0 - WARNING - Failed to download image 5 for robin
+2024-11-13 17:11:15,088 - scraper_1 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:15,088 - scraper_1 - ERROR - Error downloading https://img3.gelbooru.com/images/45/33/45336304fea7f17cd2e13e7d955d50c5.jpeg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:15,088 - scraper_1 - WARNING - Failed to download image 5 for baby_5
+2024-11-13 17:11:15,778 - scraper_2 - ERROR - Error parsing character path: 'ThreadedGelbooruScraper' object has no attribute 'character_classifier'
+2024-11-13 17:11:15,778 - scraper_2 - ERROR - Error downloading https://img3.gelbooru.com/images/d5/7a/d57a5220d3dc14394a815cbb61c40f2d.jpg: 'ThreadedGelbooruScraper' object has no attribute 'dirs'
+2024-11-13 17:11:15,778 - scraper_2 - WARNING - Failed to download image 5 for nami
+2024-11-13 17:11:18,067 - scraper_2 - WARNING - Navigation attempt 1 failed: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2024-11-13 17:11:18,091 - MainThread - INFO - Shutting down executor
+2024-11-13 17:11:18,098 - MainThread - INFO - Executor shutdown complete
+2024-11-13 17:11:18,098 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 17:11:18,098 - MainThread - INFO - Scraping completed
+2024-11-13 17:11:18,308 - scraper_3 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1767ec740>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/6cfb421a83786ab22c8ab65404fae7f3/element
+2024-11-13 17:14:09,285 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 17:14:09,286 - MainThread - ERROR - Scraping failed: 'ThreadedGelbooruScraper' object has no attribute 'logger'
+2024-11-13 17:14:09,286 - MainThread - INFO - Scraping completed
+2024-11-13 17:16:24,331 - MainThread - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 17:16:24,331 - MainThread - INFO - Initializing ThreadedGelbooruScraper
+2024-11-13 17:16:25,083 - MainThread - INFO - NSFW model loaded successfully
+2024-11-13 17:16:25,084 - MainThread - INFO - Starting setup...
+2024-11-13 17:16:25,084 - MainThread - INFO - Created directory: hentai/raw
+2024-11-13 17:16:25,084 - MainThread - INFO - Created directory: hentai/processed
+2024-11-13 17:16:25,084 - MainThread - INFO - Created directory: hentai/metadata
+2024-11-13 17:16:25,084 - MainThread - INFO - Created directory: hentai/logs
+2024-11-13 17:16:25,084 - MainThread - INFO - Created directory: hentai/temp
+2024-11-13 17:16:25,215 - MainThread - INFO - Setup completed successfully
+2024-11-13 17:16:25,216 - MainThread - INFO - ThreadedGelbooruScraper initialization complete
+2024-11-13 17:16:25,216 - MainThread - INFO - Starting scraping with 20 threads
+2024-11-13 17:16:25,216 - MainThread - INFO - Total characters to process: 442
+2024-11-13 17:16:25,216 - MainThread - INFO - Current memory usage: 650.58 MB
+2024-11-13 17:16:25,216 - MainThread - INFO - Available CPU cores: 8
+2024-11-13 17:16:25,216 - MainThread - INFO - Current thread count: 1
+2024-11-13 17:16:25,216 - MainThread - INFO - Current threads: MainThread
+2024-11-13 17:16:25,216 - MainThread - INFO - Creating thread pool executor...
+2024-11-13 17:16:25,216 - MainThread - INFO - Thread pool executor created
+2024-11-13 17:16:25,216 - MainThread - INFO - Testing with first 4 characters: ['robin', 'baby_5', 'nami', 'boa_hancock']
+2024-11-13 17:16:25,216 - MainThread - INFO - Processing robin
+2024-11-13 17:16:25,216 - MainThread - INFO - Submitting robin with 1 URLs
+2024-11-13 17:16:25,222 - MainThread - INFO - Lock acquired for robin
+2024-11-13 17:16:25,222 - scraper_0 - INFO - Thread scraper_0 starting robin
+2024-11-13 17:16:25,222 - scraper_0 - INFO - Thread scraper_0 processing robin
+2024-11-13 17:16:25,222 - scraper_0 - INFO - Creating new browser for thread scraper_0
+2024-11-13 17:16:25,223 - MainThread - INFO - Task submitted for robin
+2024-11-13 17:16:25,223 - MainThread - INFO - Processing baby_5
+2024-11-13 17:16:25,223 - MainThread - INFO - Submitting baby_5 with 1 URLs
+2024-11-13 17:16:25,223 - MainThread - INFO - Lock acquired for baby_5
+2024-11-13 17:16:25,223 - scraper_1 - INFO - Thread scraper_1 starting baby_5
+2024-11-13 17:16:25,223 - MainThread - INFO - Task submitted for baby_5
+2024-11-13 17:16:25,224 - scraper_1 - INFO - Thread scraper_1 processing baby_5
+2024-11-13 17:16:25,224 - MainThread - INFO - Processing nami
+2024-11-13 17:16:25,224 - MainThread - INFO - Submitting nami with 1 URLs
+2024-11-13 17:16:25,241 - MainThread - INFO - Lock acquired for nami
+2024-11-13 17:16:25,242 - scraper_2 - INFO - Thread scraper_2 starting nami
+2024-11-13 17:16:25,242 - scraper_2 - INFO - Thread scraper_2 processing nami
+2024-11-13 17:16:25,242 - MainThread - INFO - Task submitted for nami
+2024-11-13 17:16:25,242 - MainThread - INFO - Processing boa_hancock
+2024-11-13 17:16:25,243 - MainThread - INFO - Submitting boa_hancock with 1 URLs
+2024-11-13 17:16:25,243 - MainThread - INFO - Lock acquired for boa_hancock
+2024-11-13 17:16:25,243 - scraper_3 - INFO - Thread scraper_3 starting boa_hancock
+2024-11-13 17:16:25,243 - MainThread - INFO - Task submitted for boa_hancock
+2024-11-13 17:16:25,243 - scraper_3 - INFO - Thread scraper_3 processing boa_hancock
+2024-11-13 17:16:25,243 - MainThread - INFO - Submitted 4 tasks
+2024-11-13 17:16:26,298 - scraper_0 - INFO - Successfully created browser for thread scraper_0
+2024-11-13 17:16:26,299 - scraper_0 - INFO - Browser acquired for robin
+2024-11-13 17:16:26,299 - scraper_0 - INFO - Processing URL 1/1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 17:16:26,299 - scraper_0 - INFO - Processing page 1 for robin: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 17:16:26,299 - scraper_1 - INFO - Creating new browser for thread scraper_1
+2024-11-13 17:16:27,208 - scraper_1 - INFO - Successfully created browser for thread scraper_1
+2024-11-13 17:16:27,209 - scraper_1 - INFO - Browser acquired for baby_5
+2024-11-13 17:16:27,209 - scraper_1 - INFO - Processing URL 1/1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 17:16:27,209 - scraper_1 - INFO - Processing page 1 for baby_5: https://gelbooru.com/index.php?page=post&s=list&tags=baby_5
+2024-11-13 17:16:27,209 - scraper_2 - INFO - Creating new browser for thread scraper_2
+2024-11-13 17:16:28,408 - scraper_2 - INFO - Successfully created browser for thread scraper_2
+2024-11-13 17:16:28,409 - scraper_2 - INFO - Browser acquired for nami
+2024-11-13 17:16:28,409 - scraper_2 - INFO - Processing URL 1/1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 17:16:28,409 - scraper_2 - INFO - Processing page 1 for nami: https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29
+2024-11-13 17:16:28,409 - scraper_3 - INFO - Creating new browser for thread scraper_3
+2024-11-13 17:16:29,666 - scraper_3 - INFO - Successfully created browser for thread scraper_3
+2024-11-13 17:16:29,666 - scraper_3 - INFO - Browser acquired for boa_hancock
+2024-11-13 17:16:29,666 - scraper_3 - INFO - Processing URL 1/1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 17:16:29,666 - scraper_3 - INFO - Processing page 1 for boa_hancock: https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock+
+2024-11-13 17:16:30,231 - scraper_0 - INFO - Found 42 images for robin on page 1
+2024-11-13 17:16:30,665 - scraper_1 - INFO - Found 42 images for baby_5 on page 1
+2024-11-13 17:16:32,269 - scraper_2 - INFO - Found 42 images for nami on page 1
+2024-11-13 17:16:33,774 - scraper_3 - INFO - Found 42 images for boa_hancock on page 1
+2024-11-13 17:16:36,838 - scraper_0 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/81/e3/81e3343845e7f68fbc22cb32ce20e4f1.jpg (confidence: 0.14)
+2024-11-13 17:16:36,927 - scraper_1 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/0c/4e/0c4e8c06cb1854524cb0bb9ef5a2c03c.jpg (confidence: 0.03)
+2024-11-13 17:16:36,935 - scraper_1 - WARNING - Failed to download image 1 for baby_5
+2024-11-13 17:16:36,935 - scraper_0 - WARNING - Failed to download image 1 for robin
+2024-11-13 17:16:37,494 - scraper_2 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/30/a3/30a3255b02b6fc2282300663cf0db7de.jpg (confidence: 0.07)
+2024-11-13 17:16:37,494 - scraper_2 - WARNING - Failed to download image 1 for nami
+2024-11-13 17:16:38,674 - scraper_3 - INFO - Successfully downloaded NSFW image: img_20241113_171638_alw9fa.jpg to hentai/one_piece/boa_hancock/img_20241113_171638_alw9fa.jpg
+2024-11-13 17:16:38,675 - scraper_3 - INFO - Successfully downloaded image 1 for boa_hancock
+2024-11-13 17:16:43,929 - scraper_1 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/33/5d/335df7782338cb031361c85389417f43.jpg (confidence: 0.02)
+2024-11-13 17:16:43,931 - scraper_1 - WARNING - Failed to download image 2 for baby_5
+2024-11-13 17:16:44,141 - scraper_0 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/b3/77/b37758141f0b0b896edaf72771507030.jpg (confidence: 0.36)
+2024-11-13 17:16:44,141 - scraper_0 - WARNING - Failed to download image 2 for robin
+2024-11-13 17:16:45,644 - scraper_2 - WARNING - Skipping SFW image from https://img3.gelbooru.com/images/eb/2e/eb2e93a9c857b5b77ea62a8f4be3c5b4.jpg (confidence: 0.01)
+2024-11-13 17:16:45,648 - scraper_2 - WARNING - Failed to download image 2 for nami
+2024-11-13 17:16:46,451 - scraper_3 - INFO - Successfully downloaded NSFW image: img_20241113_171645_r52z7j.jpg to hentai/one_piece/boa_hancock/img_20241113_171645_r52z7j.jpg
+2024-11-13 17:16:46,451 - scraper_3 - INFO - Successfully downloaded image 2 for boa_hancock
+2024-11-13 17:16:49,060 - MainThread - INFO - Shutting down executor
+2024-11-13 17:16:49,060 - MainThread - INFO - Executor shutdown complete
+2024-11-13 17:16:49,076 - MainThread - INFO - Scraping interrupted by user
+2024-11-13 17:16:49,078 - MainThread - INFO - Scraping completed
+2024-11-13 17:16:49,850 - scraper_2 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b901b20>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/03fd3839294ff52b3e9f272bd2502a56/element
+2024-11-13 17:16:49,851 - scraper_2 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b8fbd70>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/03fd3839294ff52b3e9f272bd2502a56/element
+2024-11-13 17:16:49,853 - scraper_2 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b900e60>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/03fd3839294ff52b3e9f272bd2502a56/element
+2024-11-13 17:16:49,854 - scraper_2 - ERROR - Error expanding image on https://gelbooru.com/index.php?page=post&s=view&id=10628990&tags=nami_%28league_of_legends%29: HTTPConnectionPool(host='localhost', port=56779): Max retries exceeded with url: /session/03fd3839294ff52b3e9f272bd2502a56/element (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x300f12330>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:16:49,855 - scraper_2 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x301287da0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/03fd3839294ff52b3e9f272bd2502a56/url
+2024-11-13 17:16:49,856 - scraper_2 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b8ed670>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/03fd3839294ff52b3e9f272bd2502a56/url
+2024-11-13 17:16:49,856 - scraper_2 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17ff292b0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/03fd3839294ff52b3e9f272bd2502a56/url
+2024-11-13 17:16:49,857 - scraper_2 - WARNING - Navigation attempt 1 failed: HTTPConnectionPool(host='localhost', port=56779): Max retries exceeded with url: /session/03fd3839294ff52b3e9f272bd2502a56/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x300e7f170>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:16:50,109 - scraper_1 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b9012e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/690d7b81564be0d09393c94aeba99b75/element
+2024-11-13 17:16:50,110 - scraper_1 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x301254380>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/690d7b81564be0d09393c94aeba99b75/element
+2024-11-13 17:16:50,111 - scraper_1 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17fd2f200>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/690d7b81564be0d09393c94aeba99b75/element
+2024-11-13 17:16:50,112 - scraper_1 - ERROR - Error waiting for expanded image: HTTPConnectionPool(host='localhost', port=56752): Max retries exceeded with url: /session/690d7b81564be0d09393c94aeba99b75/element (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17fff6480>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:16:50,113 - scraper_1 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x3012ed010>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/690d7b81564be0d09393c94aeba99b75/url
+2024-11-13 17:16:50,113 - scraper_1 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x3013460c0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/690d7b81564be0d09393c94aeba99b75/url
+2024-11-13 17:16:50,114 - scraper_1 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x301345940>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/690d7b81564be0d09393c94aeba99b75/url
+2024-11-13 17:16:50,115 - scraper_1 - WARNING - Navigation attempt 1 failed: HTTPConnectionPool(host='localhost', port=56752): Max retries exceeded with url: /session/690d7b81564be0d09393c94aeba99b75/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x301345e80>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:16:50,351 - scraper_0 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b830620>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2e889319473ac22ca10113c76f725f3a/element
+2024-11-13 17:16:50,352 - scraper_0 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x3011efe00>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2e889319473ac22ca10113c76f725f3a/element
+2024-11-13 17:16:50,353 - scraper_0 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x3012574d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2e889319473ac22ca10113c76f725f3a/element
+2024-11-13 17:16:50,354 - scraper_0 - ERROR - Error waiting for expanded image: HTTPConnectionPool(host='localhost', port=56743): Max retries exceeded with url: /session/2e889319473ac22ca10113c76f725f3a/element (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b9cac30>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2024-11-13 17:16:50,356 - scraper_0 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x301151370>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2e889319473ac22ca10113c76f725f3a/url
+2024-11-13 17:16:50,357 - scraper_0 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x3012becf0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2e889319473ac22ca10113c76f725f3a/url
+2024-11-13 17:16:50,358 - scraper_0 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17b92a120>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/2e889319473ac22ca10113c76f725f3a/url
+2024-11-13 17:16:50,359 - scraper_0 - WARNING - Navigation attempt 1 failed: HTTPConnectionPool(host='localhost', port=56743): Max retries exceeded with url: /session/2e889319473ac22ca10113c76f725f3a/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x17ff89d30>: Failed to establish a new connection: [Errno 61] Connection refused'))

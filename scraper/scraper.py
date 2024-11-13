@@ -50,6 +50,14 @@ from dataclasses import dataclass, field
 from typing import Dict, Set
 import time
 
+import hashlib
+import mimetypes
+from urllib.parse import urlparse
+import requests
+import urllib.parse
+from requests.exceptions import RequestException
+from PIL import Image
+
 """
 TODO: 
 ADD LANA'S MOTHER
@@ -2501,14 +2509,62 @@ class URLManager:
 
 class ThreadedGelbooruScraper(HentaiScraper):
     def __init__(self, config: ScraperConfig):
-        super().__init__(config)
+        # Initialize logger first, before anything else
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler('scraper.log'),
+                logging.StreamHandler()
+            ]
+        )
+        self.logger = logging.getLogger(__name__)
+
+        # Now proceed with other initialization
         self.logger.info("Initializing ThreadedGelbooruScraper")
-        self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold)
-        self.character_classifier = CharacterClassifier()
+        self.config = config
+
+        # Initialize important attributes
         self.thread_local = threading.local()
         self.state = ScraperState()
+        self.db_lock = threading.Lock()
+        self.character_classifier = CharacterClassifier()
+        self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold)
+
+        # Create base directories
+        self.dirs = {
+            'raw': self.config.base_save_path / 'raw',
+            'processed': self.config.base_save_path / 'processed',
+            'metadata': self.config.base_save_path / 'metadata',
+            'logs': self.config.base_save_path / 'logs',
+            'temp': self.config.base_save_path / 'temp'
+        }
+
+        # Run setup
         self.setup()
-        self.logger.info("ThreadedGelbooruScraper initialized")
+        self.logger.info("ThreadedGelbooruScraper initialization complete")
+
+    def _setup_logging(self):
+        """Configure logging for the scraper."""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler('scraper.log'),
+                logging.StreamHandler()
+            ]
+        )
+        return logging.getLogger(__name__)
+
+    def _setup_safety_model(self):
+        """Set up the safety classification model."""
+        try:
+            from nudenet import NudeDetector
+            self.safety_model = NudeDetector()
+            self.logger.info("Successfully loaded safety classification model")
+        except Exception as e:
+            self.logger.error(f"Failed to load safety model: {str(e)}")
+            raise
 
     def setup(self) -> bool:
         """Implementation of abstract setup method"""
@@ -2517,30 +2573,21 @@ class ThreadedGelbooruScraper(HentaiScraper):
             # Create base directory
             self.config.base_save_path.mkdir(parents=True, exist_ok=True)
 
-            # Create subdirectories for organizing content
-            self.dirs = {
-                'raw': self.config.base_save_path / 'raw',
-                'processed': self.config.base_save_path / 'processed',
-                'metadata': self.config.base_save_path / 'metadata',
-                'logs': self.config.base_save_path / 'logs',
-                'temp': self.config.base_save_path / 'temp'
-            }
-
             # Create directories
             for dir_name, path in self.dirs.items():
                 path.mkdir(exist_ok=True)
                 self.logger.info(f"Created directory: {path}")
+
+            # Validate permissions
+            for dir_path in self.dirs.values():
+                if not os.access(dir_path, os.W_OK):
+                    raise PermissionError(f"No write permission for directory: {dir_path}")
 
             # Create metadata index
             metadata_file = self.dirs['metadata'] / 'index.json'
             if not metadata_file.exists():
                 metadata_file.write_text('{}')
                 self.logger.info("Created new metadata index")
-
-            # Validate permissions
-            for dir_path in self.dirs.values():
-                if not os.access(dir_path, os.W_OK):
-                    raise PermissionError(f"No write permission for directory: {dir_path}")
 
             # Create status file
             status_file = self.dirs['metadata'] / 'status.json'
@@ -2562,27 +2609,27 @@ class ThreadedGelbooruScraper(HentaiScraper):
 
             # Create tables
             c.execute('''
-                CREATE TABLE IF NOT EXISTS downloads (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    url TEXT NOT NULL UNIQUE,
-                    filename TEXT NOT NULL,
-                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    status TEXT,
-                    file_size INTEGER,
-                    md5_hash TEXT,
-                    source_page TEXT
-                )
-            ''')
+                   CREATE TABLE IF NOT EXISTS downloads (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       url TEXT NOT NULL UNIQUE,
+                       filename TEXT NOT NULL,
+                       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                       status TEXT,
+                       file_size INTEGER,
+                       md5_hash TEXT,
+                       source_page TEXT
+                   )
+               ''')
 
             c.execute('''
-                CREATE TABLE IF NOT EXISTS failed_downloads (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    url TEXT NOT NULL,
-                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    error_message TEXT,
-                    attempts INTEGER DEFAULT 1
-                )
-            ''')
+                   CREATE TABLE IF NOT EXISTS failed_downloads (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       url TEXT NOT NULL,
+                       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                       error_message TEXT,
+                       attempts INTEGER DEFAULT 1
+                   )
+               ''')
 
             conn.commit()
             conn.close()
@@ -2593,6 +2640,99 @@ class ThreadedGelbooruScraper(HentaiScraper):
         except Exception as e:
             self.logger.error(f"Setup failed: {str(e)}")
             raise
+
+    def _init_database_connection(self):
+        """Initialize thread-local database connection and return connection object"""
+        if not hasattr(self.thread_local, 'db_connection'):
+            try:
+                # Create a new connection for this thread
+                self.thread_local.db_connection = sqlite3.connect(
+                    str(self.db_path),
+                    timeout=30.0  # Add timeout for busy database
+                )
+                # Enable WAL mode for better concurrent access
+                with self.db_lock:
+                    self.thread_local.db_connection.execute('PRAGMA journal_mode=WAL')
+                    # Set busy timeout
+                    self.thread_local.db_connection.execute('PRAGMA busy_timeout=30000')
+                self.logger.debug(f"Created new database connection for thread {threading.current_thread().name}")
+            except Exception as e:
+                self.logger.error(f"Failed to connect to database: {str(e)}")
+                raise
+
+        return self.thread_local.db_connection
+
+    def _record_download(self, url: str, filename: str, status: str, file_size: int = None,
+                         md5_hash: str = None, source_page: str = None):
+        """Record download attempt in database with thread safety"""
+        try:
+            conn = self._init_database_connection()
+
+            with self.db_lock:  # Use lock for write operations
+                c = conn.cursor()
+                try:
+                    c.execute('''
+                        INSERT INTO downloads 
+                        (url, filename, status, file_size, md5_hash, source_page)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                    ''', (url, filename, status, file_size, md5_hash, source_page))
+
+                    conn.commit()
+                    self.logger.debug(f"Thread {threading.current_thread().name} recorded download: {filename}")
+                except sqlite3.IntegrityError as e:
+                    # Handle duplicate entries
+                    self.logger.warning(f"Duplicate download record for URL: {url}")
+                    conn.rollback()
+                except Exception as e:
+                    self.logger.error(f"Database error in record_download: {str(e)}")
+                    conn.rollback()
+                    raise
+                finally:
+                    c.close()
+
+        except Exception as e:
+            self.logger.error(f"Failed to record download: {str(e)}")
+
+    def _record_failure(self, url: str, error_message: str):
+        """Record failed download attempt with thread safety"""
+        try:
+            conn = self._init_database_connection()
+
+            with self.db_lock:  # Use lock for write operations
+                c = conn.cursor()
+                try:
+                    # Check if URL already exists in failed_downloads
+                    c.execute('SELECT attempts FROM failed_downloads WHERE url = ?', (url,))
+                    result = c.fetchone()
+
+                    if result:
+                        # Update existing record
+                        c.execute('''
+                            UPDATE failed_downloads 
+                            SET attempts = attempts + 1,
+                                error_message = ?,
+                                timestamp = CURRENT_TIMESTAMP
+                            WHERE url = ?
+                        ''', (error_message, url))
+                    else:
+                        # Create new record
+                        c.execute('''
+                            INSERT INTO failed_downloads (url, error_message)
+                            VALUES (?, ?)
+                        ''', (url, error_message))
+
+                    conn.commit()
+                    self.logger.debug(f"Thread {threading.current_thread().name} recorded failure for URL: {url}")
+
+                except Exception as e:
+                    self.logger.error(f"Database error in record_failure: {str(e)}")
+                    conn.rollback()
+                    raise
+                finally:
+                    c.close()
+
+        except Exception as e:
+            self.logger.error(f"Failed to record failure: {str(e)}")
 
     def cleanup(self) -> None:
         """Implementation of abstract cleanup method"""
@@ -2635,6 +2775,19 @@ class ThreadedGelbooruScraper(HentaiScraper):
                         self.logger.error(f"Error updating status file: {str(e)}")
 
             self.logger.info("Cleanup completed successfully")
+
+            # Close thread-local database connections
+            if hasattr(self.thread_local, 'db_connection'):
+                try:
+                    self.thread_local.db_connection.close()
+                    delattr(self.thread_local, 'db_connection')
+                    self.logger.debug(f"Closed database connection for thread {threading.current_thread().name}")
+                except Exception as e:
+                    self.logger.error(f"Error closing database connection: {str(e)}")
+
+            # Call parent cleanup
+            super().cleanup()
+
 
         except Exception as e:
             self.logger.error(f"Cleanup failed: {str(e)}")
