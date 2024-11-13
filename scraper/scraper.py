@@ -1025,6 +1025,7 @@ class GelbooruScraper(HentaiScraper):
         self._setup_logging()
         self._setup_browser()
         self.setup()
+        self.character_classifier = CharacterClassifier()
 
     def _setup_safety_model(self):
         """Set up the safety classification model."""
@@ -1219,24 +1220,21 @@ class GelbooruScraper(HentaiScraper):
         try:
             # Extract tags from source page URL
             if 'tags=' in source_page:
-                tags = source_page.split('tags=')[-1].split('&')[0]
-                tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
+                for franchise, characters in self.character_classifier.CHARACTER_MAPPINGS.items():
+                    tags = source_page.split('tags=')[-1].split('&')[0]
+                    tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
 
-                # Parse character name from tags
-                character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
-                if character_tags:
-                    character = character_tags[0]
-                    series = character.split('(')[1].rstrip(')')
-                    character_name = character.split('(')[0].rstrip('_')
+                    series = self.character_classifier.identify_character(tags)
 
-                    # Check if the character name matches any of the names in the CHARACTER_MAPPINGS
-                    for franchise, characters in self.CHARACTER_MAPPINGS.items():
-                        for primary_name, aliases in characters.items():
-                            if character_name.lower() in [alias.lower() for alias in aliases]:
-                                return Path(franchise) / primary_name
-
-                    # If the character name is not found in the aliases, use the series as the folder name
-                    return Path(series) / character_name
+                    # Parse character name from tags
+                    # if '(' in tags and ')' in tags:
+                    #     # Handle tags like "uta_(one_piece)"
+                    #     character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
+                    #     if character_tags:
+                    #         character = character_tags[0]
+                    #         series = character.split('(')[1].rstrip(')')
+                    #         character_name = character.split('(')[0].rstrip('_')
+                    return Path(series[0]) / series[1]
 
             # Default to raw directory if no character info found
             return Path('raw')
@@ -1593,30 +1591,6 @@ class GelbooruScraper(HentaiScraper):
             conn.close()
         except Exception as e:
             self.logger.error(f"Failed to record failure: {str(e)}")
-
-    def _get_character_path(self, url: str, source_page: str) -> Path:
-        """Extract character name from URL and create appropriate path."""
-        try:
-            # Extract tags from source page URL
-            if 'tags=' in source_page:
-                tags = source_page.split('tags=')[-1].split('&')[0]
-                tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
-
-                # Parse character name from tags
-                if '(' in tags and ')' in tags:
-                    # Handle tags like "uta_(one_piece)"
-                    character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
-                    if character_tags:
-                        character = character_tags[0]
-                        series = character.split('(')[1].rstrip(')')
-                        character_name = character.split('(')[0].rstrip('_')
-                        return Path(series) / character_name
-
-            # Default to raw directory if no character info found
-            return Path('raw')
-        except Exception as e:
-            self.logger.error(f"Error parsing character path: {str(e)}")
-            return Path('raw')
 
     def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
         """Process multiple URLs and download images with improved error handling and timeout management."""
