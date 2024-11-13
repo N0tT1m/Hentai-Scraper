@@ -939,7 +939,13 @@ class NSFWDetector:
 class HentaiScraper:
     def __init__(self, config: ScraperConfig):
         self.config = config
-        model_path = "models/nsfw_model.pth"  # Update this path to where your model is stored
+        model_path = "models/nsfw_model.pth"
+        if not os.path.exists(model_path):
+            print("Downloading NSFW model...")
+            from download_model import NSFWModelDownloader
+            downloader = NSFWModelDownloader()
+            model_path = downloader.download_model()
+
         self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold, model_path=model_path)
         self._setup_logging()
         self._setup_browser()
