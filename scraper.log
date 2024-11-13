@@ -13127,3 +13127,218 @@ Stacktrace:
 2024-11-12 19:14:04,676 - INFO - NSFW model loaded successfully
 2024-11-12 19:14:05,706 - INFO - Scraping interrupted by user
 2024-11-12 19:14:05,716 - INFO - Scraping completed
+2024-11-13 15:06:02,848 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 15:06:03,197 - INFO - NSFW model loaded successfully
+2024-11-13 15:06:05,468 - INFO - Browser setup successful
+2024-11-13 15:06:05,468 - INFO - Starting setup...
+2024-11-13 15:06:05,469 - INFO - Created directory: hentai/raw
+2024-11-13 15:06:05,469 - INFO - Created directory: hentai/processed
+2024-11-13 15:06:05,469 - INFO - Created directory: hentai/metadata
+2024-11-13 15:06:05,469 - INFO - Created directory: hentai/logs
+2024-11-13 15:06:05,469 - INFO - Created directory: hentai/temp
+2024-11-13 15:06:05,584 - INFO - Setup completed successfully
+2024-11-13 15:06:05,584 - INFO - Processing character: robin
+2024-11-13 15:06:05,586 - WARNING - Navigation attempt 1 failed: Message: invalid argument
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000100ba55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000100b9de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100607f70 cxxbridge1$string$len + 88004
+3   chromedriver                        0x00000001005f2f8c cxxbridge1$string$len + 2016
+4   chromedriver                        0x00000001005f1a2c core::str::slice_error_fail::h1cab30ac4b13c655 + 60804
+5   chromedriver                        0x00000001005f1dd8 core::str::slice_error_fail::h1cab30ac4b13c655 + 61744
+6   chromedriver                        0x000000010060a5c0 cxxbridge1$string$len + 97812
+7   chromedriver                        0x0000000100684550 cxxbridge1$string$len + 597412
+8   chromedriver                        0x0000000100683ba8 cxxbridge1$string$len + 594940
+9   chromedriver                        0x000000010063f0fc cxxbridge1$string$len + 313680
+10  chromedriver                        0x000000010063fd4c cxxbridge1$string$len + 316832
+11  chromedriver                        0x0000000100b7064c cxxbridge1$str$ptr + 3436672
+12  chromedriver                        0x0000000100b73988 cxxbridge1$str$ptr + 3449788
+13  chromedriver                        0x0000000100b57a5c cxxbridge1$str$ptr + 3335312
+14  chromedriver                        0x0000000100b7424c cxxbridge1$str$ptr + 3452032
+15  chromedriver                        0x0000000100b48ce8 cxxbridge1$str$ptr + 3274524
+16  chromedriver                        0x0000000100b8e9dc cxxbridge1$str$ptr + 3560464
+17  chromedriver                        0x0000000100b8eb58 cxxbridge1$str$ptr + 3560844
+18  chromedriver                        0x0000000100b9dad4 cxxbridge1$str$ptr + 3622152
+19  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 15:06:07,596 - WARNING - Navigation attempt 2 failed: Message: invalid argument
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000100ba55dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000100b9de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100607f70 cxxbridge1$string$len + 88004
+3   chromedriver                        0x00000001005f2f8c cxxbridge1$string$len + 2016
+4   chromedriver                        0x00000001005f1a2c core::str::slice_error_fail::h1cab30ac4b13c655 + 60804
+5   chromedriver                        0x00000001005f1dd8 core::str::slice_error_fail::h1cab30ac4b13c655 + 61744
+6   chromedriver                        0x000000010060a5c0 cxxbridge1$string$len + 97812
+7   chromedriver                        0x0000000100684550 cxxbridge1$string$len + 597412
+8   chromedriver                        0x0000000100683ba8 cxxbridge1$string$len + 594940
+9   chromedriver                        0x000000010063f0fc cxxbridge1$string$len + 313680
+10  chromedriver                        0x000000010063fd4c cxxbridge1$string$len + 316832
+11  chromedriver                        0x0000000100b7064c cxxbridge1$str$ptr + 3436672
+12  chromedriver                        0x0000000100b73988 cxxbridge1$str$ptr + 3449788
+13  chromedriver                        0x0000000100b57a5c cxxbridge1$str$ptr + 3335312
+14  chromedriver                        0x0000000100b7424c cxxbridge1$str$ptr + 3452032
+15  chromedriver                        0x0000000100b48ce8 cxxbridge1$str$ptr + 3274524
+16  chromedriver                        0x0000000100b8e9dc cxxbridge1$str$ptr + 3560464
+17  chromedriver                        0x0000000100b8eb58 cxxbridge1$str$ptr + 3560844
+18  chromedriver                        0x0000000100b9dad4 cxxbridge1$str$ptr + 3622152
+19  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 15:06:12,660 - INFO - Browser setup successful
+2024-11-13 15:06:12,663 - WARNING - Navigation attempt 3 failed: Message: invalid argument
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001014455dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x000000010143de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100ea7f70 cxxbridge1$string$len + 88004
+3   chromedriver                        0x0000000100e92f8c cxxbridge1$string$len + 2016
+4   chromedriver                        0x0000000100e91a2c core::str::slice_error_fail::h1cab30ac4b13c655 + 60804
+5   chromedriver                        0x0000000100e91dd8 core::str::slice_error_fail::h1cab30ac4b13c655 + 61744
+6   chromedriver                        0x0000000100eaa5c0 cxxbridge1$string$len + 97812
+7   chromedriver                        0x0000000100f24550 cxxbridge1$string$len + 597412
+8   chromedriver                        0x0000000100f23ba8 cxxbridge1$string$len + 594940
+9   chromedriver                        0x0000000100edf0fc cxxbridge1$string$len + 313680
+10  chromedriver                        0x0000000100edfd4c cxxbridge1$string$len + 316832
+11  chromedriver                        0x000000010141064c cxxbridge1$str$ptr + 3436672
+12  chromedriver                        0x0000000101413988 cxxbridge1$str$ptr + 3449788
+13  chromedriver                        0x00000001013f7a5c cxxbridge1$str$ptr + 3335312
+14  chromedriver                        0x000000010141424c cxxbridge1$str$ptr + 3452032
+15  chromedriver                        0x00000001013e8ce8 cxxbridge1$str$ptr + 3274524
+16  chromedriver                        0x000000010142e9dc cxxbridge1$str$ptr + 3560464
+17  chromedriver                        0x000000010142eb58 cxxbridge1$str$ptr + 3560844
+18  chromedriver                        0x000000010143dad4 cxxbridge1$str$ptr + 3622152
+19  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 15:06:12,664 - ERROR - Failed to navigate to h after 3 attempts
+2024-11-13 15:06:13,672 - WARNING - Navigation attempt 1 failed: Message: invalid argument
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001014455dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x000000010143de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100ea7f70 cxxbridge1$string$len + 88004
+3   chromedriver                        0x0000000100e92f8c cxxbridge1$string$len + 2016
+4   chromedriver                        0x0000000100e91a2c core::str::slice_error_fail::h1cab30ac4b13c655 + 60804
+5   chromedriver                        0x0000000100e91dd8 core::str::slice_error_fail::h1cab30ac4b13c655 + 61744
+6   chromedriver                        0x0000000100eaa5c0 cxxbridge1$string$len + 97812
+7   chromedriver                        0x0000000100f24550 cxxbridge1$string$len + 597412
+8   chromedriver                        0x0000000100f23ba8 cxxbridge1$string$len + 594940
+9   chromedriver                        0x0000000100edf0fc cxxbridge1$string$len + 313680
+10  chromedriver                        0x0000000100edfd4c cxxbridge1$string$len + 316832
+11  chromedriver                        0x000000010141064c cxxbridge1$str$ptr + 3436672
+12  chromedriver                        0x0000000101413988 cxxbridge1$str$ptr + 3449788
+13  chromedriver                        0x00000001013f7a5c cxxbridge1$str$ptr + 3335312
+14  chromedriver                        0x000000010141424c cxxbridge1$str$ptr + 3452032
+15  chromedriver                        0x00000001013e8ce8 cxxbridge1$str$ptr + 3274524
+16  chromedriver                        0x000000010142e9dc cxxbridge1$str$ptr + 3560464
+17  chromedriver                        0x000000010142eb58 cxxbridge1$str$ptr + 3560844
+18  chromedriver                        0x000000010143dad4 cxxbridge1$str$ptr + 3622152
+19  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 15:06:15,683 - WARNING - Navigation attempt 2 failed: Message: invalid argument
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001014455dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x000000010143de3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100ea7f70 cxxbridge1$string$len + 88004
+3   chromedriver                        0x0000000100e92f8c cxxbridge1$string$len + 2016
+4   chromedriver                        0x0000000100e91a2c core::str::slice_error_fail::h1cab30ac4b13c655 + 60804
+5   chromedriver                        0x0000000100e91dd8 core::str::slice_error_fail::h1cab30ac4b13c655 + 61744
+6   chromedriver                        0x0000000100eaa5c0 cxxbridge1$string$len + 97812
+7   chromedriver                        0x0000000100f24550 cxxbridge1$string$len + 597412
+8   chromedriver                        0x0000000100f23ba8 cxxbridge1$string$len + 594940
+9   chromedriver                        0x0000000100edf0fc cxxbridge1$string$len + 313680
+10  chromedriver                        0x0000000100edfd4c cxxbridge1$string$len + 316832
+11  chromedriver                        0x000000010141064c cxxbridge1$str$ptr + 3436672
+12  chromedriver                        0x0000000101413988 cxxbridge1$str$ptr + 3449788
+13  chromedriver                        0x00000001013f7a5c cxxbridge1$str$ptr + 3335312
+14  chromedriver                        0x000000010141424c cxxbridge1$str$ptr + 3452032
+15  chromedriver                        0x00000001013e8ce8 cxxbridge1$str$ptr + 3274524
+16  chromedriver                        0x000000010142e9dc cxxbridge1$str$ptr + 3560464
+17  chromedriver                        0x000000010142eb58 cxxbridge1$str$ptr + 3560844
+18  chromedriver                        0x000000010143dad4 cxxbridge1$str$ptr + 3622152
+19  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 15:06:20,762 - INFO - Browser setup successful
+2024-11-13 15:06:20,766 - WARNING - Navigation attempt 3 failed: Message: invalid argument
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001014215dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000101419e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100e83f70 cxxbridge1$string$len + 88004
+3   chromedriver                        0x0000000100e6ef8c cxxbridge1$string$len + 2016
+4   chromedriver                        0x0000000100e6da2c core::str::slice_error_fail::h1cab30ac4b13c655 + 60804
+5   chromedriver                        0x0000000100e6ddd8 core::str::slice_error_fail::h1cab30ac4b13c655 + 61744
+6   chromedriver                        0x0000000100e865c0 cxxbridge1$string$len + 97812
+7   chromedriver                        0x0000000100f00550 cxxbridge1$string$len + 597412
+8   chromedriver                        0x0000000100effba8 cxxbridge1$string$len + 594940
+9   chromedriver                        0x0000000100ebb0fc cxxbridge1$string$len + 313680
+10  chromedriver                        0x0000000100ebbd4c cxxbridge1$string$len + 316832
+11  chromedriver                        0x00000001013ec64c cxxbridge1$str$ptr + 3436672
+12  chromedriver                        0x00000001013ef988 cxxbridge1$str$ptr + 3449788
+13  chromedriver                        0x00000001013d3a5c cxxbridge1$str$ptr + 3335312
+14  chromedriver                        0x00000001013f024c cxxbridge1$str$ptr + 3452032
+15  chromedriver                        0x00000001013c4ce8 cxxbridge1$str$ptr + 3274524
+16  chromedriver                        0x000000010140a9dc cxxbridge1$str$ptr + 3560464
+17  chromedriver                        0x000000010140ab58 cxxbridge1$str$ptr + 3560844
+18  chromedriver                        0x0000000101419ad4 cxxbridge1$str$ptr + 3622152
+19  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 15:06:20,766 - ERROR - Failed to navigate to h&pid=42 after 3 attempts
+2024-11-13 15:06:21,772 - WARNING - Navigation attempt 1 failed: Message: invalid argument
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001014215dc cxxbridge1$str$ptr + 3653648
+1   chromedriver                        0x0000000101419e3c cxxbridge1$str$ptr + 3623024
+2   chromedriver                        0x0000000100e83f70 cxxbridge1$string$len + 88004
+3   chromedriver                        0x0000000100e6ef8c cxxbridge1$string$len + 2016
+4   chromedriver                        0x0000000100e6da2c core::str::slice_error_fail::h1cab30ac4b13c655 + 60804
+5   chromedriver                        0x0000000100e6ddd8 core::str::slice_error_fail::h1cab30ac4b13c655 + 61744
+6   chromedriver                        0x0000000100e865c0 cxxbridge1$string$len + 97812
+7   chromedriver                        0x0000000100f00550 cxxbridge1$string$len + 597412
+8   chromedriver                        0x0000000100effba8 cxxbridge1$string$len + 594940
+9   chromedriver                        0x0000000100ebb0fc cxxbridge1$string$len + 313680
+10  chromedriver                        0x0000000100ebbd4c cxxbridge1$string$len + 316832
+11  chromedriver                        0x00000001013ec64c cxxbridge1$str$ptr + 3436672
+12  chromedriver                        0x00000001013ef988 cxxbridge1$str$ptr + 3449788
+13  chromedriver                        0x00000001013d3a5c cxxbridge1$str$ptr + 3335312
+14  chromedriver                        0x00000001013f024c cxxbridge1$str$ptr + 3452032
+15  chromedriver                        0x00000001013c4ce8 cxxbridge1$str$ptr + 3274524
+16  chromedriver                        0x000000010140a9dc cxxbridge1$str$ptr + 3560464
+17  chromedriver                        0x000000010140ab58 cxxbridge1$str$ptr + 3560844
+18  chromedriver                        0x0000000101419ad4 cxxbridge1$str$ptr + 3622152
+19  libsystem_pthread.dylib             0x000000018e52f2e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x000000018e52a0fc thread_start + 8
+
+2024-11-13 15:06:23,514 - INFO - Processed 0 images successfully
+2024-11-13 15:06:23,522 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/0bf0ed8c51728dd56ae92f280bf3bcf2
+2024-11-13 15:06:23,525 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x15b296cf0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/0bf0ed8c51728dd56ae92f280bf3bcf2
+2024-11-13 15:06:23,526 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x15b27bfe0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/0bf0ed8c51728dd56ae92f280bf3bcf2
+2024-11-13 15:06:23,527 - INFO - Scraping interrupted by user
+2024-11-13 15:06:23,527 - INFO - Scraping completed
+2024-11-13 15:10:45,670 - INFO - Starting scraper with config: ScraperConfig(base_save_path=PosixPath('hentai'), request_timeout=30, page_delay=1, download_delay=2, retry_attempts=3, chunk_size=8192, headless=False, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', filename_length=6, max_file_size=52428800, nsfw_threshold=0.5, debug=False, verbose_logging=False)
+2024-11-13 15:10:46,424 - INFO - NSFW model loaded successfully
+2024-11-13 15:10:47,775 - INFO - Browser setup successful
+2024-11-13 15:10:47,775 - INFO - Starting setup...
+2024-11-13 15:10:47,775 - INFO - Created directory: hentai/raw
+2024-11-13 15:10:47,775 - INFO - Created directory: hentai/processed
+2024-11-13 15:10:47,775 - INFO - Created directory: hentai/metadata
+2024-11-13 15:10:47,775 - INFO - Created directory: hentai/logs
+2024-11-13 15:10:47,775 - INFO - Created directory: hentai/temp
+2024-11-13 15:10:47,897 - INFO - Setup completed successfully
+2024-11-13 15:10:47,897 - INFO - Processing search term: robin
+2024-11-13 15:10:47,897 - INFO - Processing page 1: https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin_(alabasta)
+2024-11-13 15:10:51,430 - INFO - Found 42 images on page 1
+2024-11-13 15:10:51,890 - INFO - Processed 0 images successfully
+2024-11-13 15:10:51,892 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/9d23115c86121596cdc5d62ebae64cce
+2024-11-13 15:10:51,895 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x15e7bc620>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9d23115c86121596cdc5d62ebae64cce
+2024-11-13 15:10:51,896 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x15e7bc0e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9d23115c86121596cdc5d62ebae64cce
+2024-11-13 15:10:51,914 - INFO - Scraping interrupted by user
+2024-11-13 15:10:51,914 - INFO - Scraping completed

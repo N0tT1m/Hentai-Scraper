@@ -1109,8 +1109,6 @@ class GelbooruScraper(HentaiScraper):
             self.logger.error(f"Failed to initialize browser: {str(e)}")
             raise
 
-
-
     def _wait_for_page_load(self, timeout=30):
         """Wait for page to load completely."""
         try:
@@ -1232,12 +1230,7 @@ class GelbooruScraper(HentaiScraper):
                         character = character_tags[0]
                         series = character.split('(')[1].rstrip(')')
                         character_name = character.split('(')[0].rstrip('_')
-
-                        # Check if the character name matches any of the names in the CHARACTER_MAPPINGS
-                        for franchise, characters in self.CHARACTER_MAPPINGS.items():
-                            for primary_name, aliases in characters.items():
-                                if character_name.lower() in [alias.lower() for alias in aliases]:
-                                    return Path(franchise) / primary_name
+                        return Path(series) / character_name
 
             # Default to raw directory if no character info found
             return Path('raw')
@@ -1461,21 +1454,21 @@ class GelbooruScraper(HentaiScraper):
             gitignore_path = self.config.base_save_path / '.gitignore'
             if not gitignore_path.exists():
                 gitignore_content = """
-                # Ignore temporary files
-                temp/
-                *.tmp
+                   # Ignore temporary files
+                   temp/
+                   *.tmp
 
-                # Ignore logs
-                logs/
-                *.log
+                   # Ignore logs
+                   logs/
+                   *.log
 
-                # Ignore raw downloads
-                raw/
+                   # Ignore raw downloads
+                   raw/
 
-                # Ignore system files
-                .DS_Store
-                Thumbs.db
-                """
+                   # Ignore system files
+                   .DS_Store
+                   Thumbs.db
+                   """
                 gitignore_path.write_text(gitignore_content.strip())
 
             # Create status tracking file
@@ -1500,28 +1493,28 @@ class GelbooruScraper(HentaiScraper):
 
             # Create downloads tracking table
             c.execute('''
-                CREATE TABLE IF NOT EXISTS downloads (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    url TEXT NOT NULL UNIQUE,
-                    filename TEXT NOT NULL,
-                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    status TEXT,
-                    file_size INTEGER,
-                    md5_hash TEXT,
-                    source_page TEXT
-                )
-            ''')
+                   CREATE TABLE IF NOT EXISTS downloads (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       url TEXT NOT NULL UNIQUE,
+                       filename TEXT NOT NULL,
+                       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                       status TEXT,
+                       file_size INTEGER,
+                       md5_hash TEXT,
+                       source_page TEXT
+                   )
+               ''')
 
             # Create failed downloads table
             c.execute('''
-                CREATE TABLE IF NOT EXISTS failed_downloads (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    url TEXT NOT NULL,
-                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    error_message TEXT,
-                    attempts INTEGER DEFAULT 1
-                )
-            ''')
+                   CREATE TABLE IF NOT EXISTS failed_downloads (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       url TEXT NOT NULL,
+                       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                       error_message TEXT,
+                       attempts INTEGER DEFAULT 1
+                   )
+               ''')
 
             conn.commit()
             conn.close()
@@ -1554,10 +1547,10 @@ class GelbooruScraper(HentaiScraper):
             c = conn.cursor()
 
             c.execute('''
-                INSERT INTO downloads 
-                (url, filename, status, file_size, md5_hash, source_page)
-                VALUES (?, ?, ?, ?, ?, ?)
-            ''', (url, filename, status, file_size, md5_hash, source_page))
+                   INSERT INTO downloads 
+                   (url, filename, status, file_size, md5_hash, source_page)
+                   VALUES (?, ?, ?, ?, ?, ?)
+               ''', (url, filename, status, file_size, md5_hash, source_page))
 
             conn.commit()
             conn.close()
@@ -1577,18 +1570,18 @@ class GelbooruScraper(HentaiScraper):
             if result:
                 # Update existing record
                 c.execute('''
-                    UPDATE failed_downloads 
-                    SET attempts = attempts + 1,
-                        error_message = ?,
-                        timestamp = CURRENT_TIMESTAMP
-                    WHERE url = ?
-                ''', (error_message, url))
+                       UPDATE failed_downloads 
+                       SET attempts = attempts + 1,
+                           error_message = ?,
+                           timestamp = CURRENT_TIMESTAMP
+                       WHERE url = ?
+                   ''', (error_message, url))
             else:
                 # Create new record
                 c.execute('''
-                    INSERT INTO failed_downloads (url, error_message)
-                    VALUES (?, ?)
-                ''', (url, error_message))
+                       INSERT INTO failed_downloads (url, error_message)
+                       VALUES (?, ?)
+                   ''', (url, error_message))
 
             conn.commit()
             conn.close()
@@ -1619,53 +1612,74 @@ class GelbooruScraper(HentaiScraper):
             self.logger.error(f"Error parsing character path: {str(e)}")
             return Path('raw')
 
-    def _process_page(self, url: str, character: str, processed_count: int) -> int:
-        """Process a single page of results"""
-        if not self._safe_navigate(url):
-            return processed_count
-
-        try:
-            links = WebDriverWait(self.browser, 10).until(
-                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
-            )
-
-            image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
-            self.logger.info(f"Found {len(image_urls)} images on page")
-
-            for img_url in image_urls:
-                try:
-                    full_image_url = self._expand_image(img_url)
-                    if full_image_url and self._download_image(full_image_url, img_url):
-                        processed_count += 1
-                        time.sleep(self.config.download_delay)
-                except Exception as e:
-                    self.logger.error(f"Error processing {img_url}: {str(e)}")
-
-        except TimeoutException:
-            self.logger.error(f"Timeout on page for character {character}")
-            return processed_count
-
-        return processed_count
-
-    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
-        """Process Gelbooru URLs"""
+    def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
+        """Process multiple URLs and download images with improved error handling and timeout management."""
         processed_count = 0
 
         try:
-            for character, url_list in urls.items():
-                self.logger.info(f"Processing character: {character}")
+            for search_term, base_url in urls.items():
+                self.logger.info(f"Processing search term: {search_term}")
+                timeout_occurred = False
 
-                for base_url in url_list:
-                    timeout_occurred = False
+                for page_num in range(max_pages):
+                    # Check if timeout occurred for this character
+                    if timeout_occurred:
+                        self.logger.info(f"Skipping remaining pages for {search_term} due to timeout")
+                        break
 
-                    for page_num in range(max_pages):
-                        if timeout_occurred:
-                            self.logger.info(f"Skipping remaining pages for {character} due to timeout")
-                            break
+                    current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
+                    self.logger.info(f"Processing page {page_num + 1}: {current_url}")
 
-                        current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
-                        self._process_page(current_url, character, processed_count)
+                    # Navigate to page with retry logic
+                    if not self._safe_navigate(current_url):
+                        self.logger.error(f"Skipping page {page_num + 1} due to navigation failure")
+                        continue
+
+                    try:
+                        # Wait for thumbnail container to be present
+                        WebDriverWait(self.browser, 10).until(
+                            EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                        )
+
+                        # Find all image links with explicit wait
+                        links = WebDriverWait(self.browser, 10).until(
+                            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+                        )
+
+                        image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+                        self.logger.info(f"Found {len(image_urls)} images on page {page_num + 1}")
+
+                        for img_url in image_urls:
+                            try:
+                                full_image_url = self._expand_image(img_url)
+                                if full_image_url:
+                                    save_path = self.config.base_save_path
+                                    save_path.mkdir(parents=True, exist_ok=True)
+
+                                    if self._download_image(full_image_url, img_url):
+                                        processed_count += 1
+                                        time.sleep(self.config.download_delay)
+
+                            except Exception as e:
+                                self.logger.error(f"Error processing {img_url}: {str(e)}")
+                                continue
+
+                        # Add a page delay
                         time.sleep(self.config.page_delay)
+
+                    except TimeoutException:
+                        self.logger.error(f"Timeout on page {page_num + 1} for character {search_term}")
+                        timeout_occurred = True  # Set flag to skip to next character
+                        break  # Break the page loop to move to next character
+                    except Exception as e:
+                        self.logger.error(f"Error processing page {page_num + 1}: {str(e)}")
+                        continue
+
+                # Log completion or timeout for current character
+                if timeout_occurred:
+                    self.logger.info(f"Moving to next character due to timeout on {search_term}")
+                else:
+                    self.logger.info(f"Completed processing for {search_term}")
 
         except Exception as e:
             self.logger.error(f"Fatal error in process_urls: {str(e)}")
@@ -1675,6 +1689,663 @@ class GelbooruScraper(HentaiScraper):
                 self.browser.quit()
             except Exception as e:
                 self.logger.error(f"Error closing browser: {str(e)}")
+
+    # def __init__(self, config: ScraperConfig):
+    #     self.config = config
+    #     self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold)
+    #     self._setup_logging()
+    #     self._setup_browser()
+    #     self.setup()
+    #
+    # def _setup_safety_model(self):
+    #     """Set up the safety classification model."""
+    #     try:
+    #         from nudenet import NudeDetector
+    #         self.safety_model = NudeDetector()
+    #         self.logger.info("Successfully loaded safety classification model")
+    #     except Exception as e:
+    #         self.logger.error(f"Failed to load safety model: {str(e)}")
+    #         raise
+    #
+    # def _check_image_safety(self, image_path: Path) -> bool:
+    #     """
+    #     Check if image is safe for processing.
+    #
+    #     Args:
+    #         image_path (Path): Path to image file
+    #
+    #     Returns:
+    #         bool: True if image is safe, False if NSFW
+    #     """
+    #     try:
+    #         # Detect any NSFW content in the image
+    #         detections = self.safety_model.detect(str(image_path))
+    #
+    #         # If no detections, image is safe
+    #         if not detections:
+    #             return True
+    #
+    #         # Calculate the total confidence of NSFW content
+    #         total_confidence = sum(det['score'] for det in detections)
+    #         avg_confidence = total_confidence / len(detections) if detections else 0
+    #
+    #         # Log the safety check
+    #         self.logger.debug(f"Safety check for {image_path}: NSFW confidence = {avg_confidence:.3f}")
+    #         self.logger.debug(f"Detections: {detections}")
+    #
+    #         # Return True if safe (average confidence below threshold)
+    #         return avg_confidence < self.config.nsfw_threshold
+    #
+    #     except Exception as e:
+    #         self.logger.error(f"Error during safety check for {image_path}: {str(e)}")
+    #         return False  # Fail safe - reject on error
+    #
+    # def _setup_logging(self):
+    #     """Configure logging for the scraper."""
+    #     logging.basicConfig(
+    #         level=logging.INFO,
+    #         format='%(asctime)s - %(levelname)s - %(message)s',
+    #         handlers=[
+    #             logging.FileHandler('scraper.log'),
+    #             logging.StreamHandler()
+    #         ]
+    #     )
+    #     self.logger = logging.getLogger(__name__)
+    #
+    # def _setup_browser(self):
+    #     """Set up the Selenium WebDriver with proper configuration."""
+    #     options = webdriver.ChromeOptions()
+    #     if self.config.headless:
+    #         options.add_argument('--headless=new')  # Updated headless argument
+    #
+    #     # Add essential Chrome options for stability
+    #     options.add_argument('--no-sandbox')
+    #     options.add_argument('--disable-dev-shm-usage')
+    #     options.add_argument('--disable-gpu')
+    #     options.add_argument('--disable-software-rasterizer')
+    #     options.add_argument('--disable-extensions')
+    #     options.add_argument('--start-maximized')
+    #     options.add_argument(
+    #         f'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
+    #
+    #     # Create service object for Chrome
+    #     service = webdriver.ChromeService()
+    #
+    #     try:
+    #         self.browser = webdriver.Chrome(service=service, options=options)
+    #         self.browser.set_window_size(1920, 1080)
+    #         self.browser.set_page_load_timeout(30)  # Set page load timeout
+    #         self.logger.info("Browser setup successful")
+    #     except Exception as e:
+    #         self.logger.error(f"Failed to initialize browser: {str(e)}")
+    #         raise
+    #
+    #
+    #
+    # def _wait_for_page_load(self, timeout=30):
+    #     """Wait for page to load completely."""
+    #     try:
+    #         WebDriverWait(self.browser, timeout).until(
+    #             lambda driver: driver.execute_script("return document.readyState") == "complete"
+    #         )
+    #         time.sleep(2)  # Small buffer for dynamic content
+    #     except TimeoutException:
+    #         self.logger.warning("Page load timeout - proceeding anyway")
+    #
+    # def _safe_navigate(self, url: str, max_retries=3) -> bool:
+    #     """Safely navigate to a URL with retries."""
+    #     for attempt in range(max_retries):
+    #         try:
+    #             self.browser.get(url)
+    #             self._wait_for_page_load()
+    #
+    #             # Verify we actually reached the page
+    #             current_url = self.browser.current_url
+    #             if not current_url or current_url == "about:blank":
+    #                 raise Exception("Navigation failed - blank page")
+    #
+    #             return True
+    #
+    #         except Exception as e:
+    #             self.logger.warning(f"Navigation attempt {attempt + 1} failed: {str(e)}")
+    #             if attempt == max_retries - 1:
+    #                 self.logger.error(f"Failed to navigate to {url} after {max_retries} attempts")
+    #                 return False
+    #             time.sleep(2 * (attempt + 1))  # Exponential backoff
+    #
+    #             # Try to refresh the browser session if we're on the last attempt
+    #             if attempt == max_retries - 2:
+    #                 try:
+    #                     self.browser.quit()
+    #                     self._setup_browser()
+    #                 except Exception as e:
+    #                     self.logger.error(f"Failed to refresh browser session: {str(e)}")
+    #
+    #     return False
+    #
+    # def _expand_image(self, page_url: str) -> Optional[str]:
+    #     """Navigate to page and expand the image to get the full resolution URL."""
+    #     if not self._safe_navigate(page_url):
+    #         return None
+    #
+    #     try:
+    #         # Wait for the original image to be present first
+    #         WebDriverWait(self.browser, 10).until(
+    #             EC.presence_of_element_located((By.CSS_SELECTOR, "img#image"))
+    #         )
+    #
+    #         # Execute the resize transition JavaScript function
+    #         self.browser.execute_script("resizeTransition();")
+    #
+    #         # Wait for the expansion animation to complete
+    #         time.sleep(2)
+    #
+    #         try:
+    #             # Wait for the image src to contain '/images/'
+    #             def check_image_src(driver):
+    #                 img = driver.find_element(By.CSS_SELECTOR, "img#image")
+    #                 src = img.get_attribute("src")
+    #                 return src and "/images/" in src
+    #
+    #             # Wait for the condition to be true
+    #             WebDriverWait(self.browser, 10).until(check_image_src)
+    #
+    #             # Get the expanded image element and its src
+    #             image = self.browser.find_element(By.CSS_SELECTOR, "img#image")
+    #             src = image.get_attribute('src')
+    #
+    #             # Verify we got a valid full-resolution URL
+    #             if not src or not '/images/' in src or src.startswith('data:') or src.startswith('blob:'):
+    #                 self.logger.warning(f"Failed to get full resolution image URL: {src}")
+    #                 return None
+    #
+    #             # Log successful expansion
+    #             self.logger.info(f"Successfully retrieved full resolution image URL: {src}")
+    #             return src
+    #
+    #         except Exception as wait_error:
+    #             self.logger.error(f"Error waiting for expanded image: {str(wait_error)}")
+    #             return None
+    #
+    #     except Exception as e:
+    #         self.logger.error(f"Error expanding image on {page_url}: {str(e)}")
+    #
+    #         # Take a screenshot for debugging if enabled
+    #         if hasattr(self.config, 'debug') and self.config.debug:
+    #             try:
+    #                 screenshot_path = self.dirs['logs'] / f"error_screenshot_{int(time.time())}.png"
+    #                 self.browser.save_screenshot(str(screenshot_path))
+    #                 self.logger.debug(f"Error screenshot saved to {screenshot_path}")
+    #
+    #                 # Also save page source for debugging
+    #                 page_source_path = self.dirs['logs'] / f"error_source_{int(time.time())}.html"
+    #                 with open(page_source_path, 'w', encoding='utf-8') as f:
+    #                     f.write(self.browser.page_source)
+    #                 self.logger.debug(f"Error page source saved to {page_source_path}")
+    #             except Exception as screenshot_error:
+    #                 self.logger.error(f"Failed to save error screenshot: {screenshot_error}")
+    #
+    #         return None
+    #
+    # def _get_character_path(self, url: str, source_page: str) -> Path:
+    #     """Extract character name from URL and create appropriate path."""
+    #     try:
+    #         # Extract tags from source page URL
+    #         if 'tags=' in source_page:
+    #             tags = source_page.split('tags=')[-1].split('&')[0]
+    #             tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
+    #
+    #             # Parse character name from tags
+    #             if '(' in tags and ')' in tags:
+    #                 # Handle tags like "uta_(one_piece)"
+    #                 character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
+    #                 if character_tags:
+    #                     character = character_tags[0]
+    #                     series = character.split('(')[1].rstrip(')')
+    #                     character_name = character.split('(')[0].rstrip('_')
+    #
+    #                     # Check if the character name matches any of the names in the CHARACTER_MAPPINGS
+    #                     for franchise, characters in self.CHARACTER_MAPPINGS.items():
+    #                         for primary_name, aliases in characters.items():
+    #                             if character_name.lower() in [alias.lower() for alias in aliases]:
+    #                                 return Path(franchise) / primary_name
+    #
+    #         # Default to raw directory if no character info found
+    #         return Path('raw')
+    #     except Exception as e:
+    #         self.logger.error(f"Error parsing character path: {str(e)}")
+    #         return Path('raw')
+    #
+    # def _download_image(self, url: str, source_page: str = None) -> bool:
+    #     """
+    #     Download and save an image or GIF from the given URL after verifying it's not SFW.
+    #
+    #     Args:
+    #         url (str): URL of the image to download
+    #         source_page (str, optional): URL of the page containing the image
+    #
+    #     Returns:
+    #         bool: True if download was successful and content is NSFW, False otherwise
+    #     """
+    #     import hashlib
+    #     import mimetypes
+    #     from urllib.parse import urlparse
+    #     import requests
+    #     import urllib.parse
+    #     from requests.exceptions import RequestException
+    #     from PIL import Image
+    #
+    #     def _get_file_hash(file_path: Path) -> str:
+    #         """Calculate MD5 hash of file"""
+    #         hash_md5 = hashlib.md5()
+    #         with open(file_path, "rb") as f:
+    #             for chunk in iter(lambda: f.read(4096), b""):
+    #                 hash_md5.update(chunk)
+    #         return hash_md5.hexdigest()
+    #
+    #     def _verify_image_file(file_path: Path) -> bool:
+    #         """Verify if file is a valid image using PIL"""
+    #         try:
+    #             with Image.open(file_path) as img:
+    #                 img.verify()
+    #                 return True
+    #         except Exception as e:
+    #             self.logger.error(f"Image verification failed: {str(e)}")
+    #             return False
+    #
+    #     try:
+    #         # Clean and validate URL
+    #         if not url:
+    #             self.logger.error("Invalid URL provided")
+    #             return False
+    #
+    #         # Get character-specific path
+    #         char_path = self._get_character_path(url, source_page)
+    #
+    #         # Generate filename and paths
+    #         filename = self._generate_filename(url)
+    #         temp_path = self.dirs['temp'] / f"temp_{filename}"
+    #         final_path = self.config.base_save_path / char_path / filename
+    #
+    #         self.logger.debug(f"Temp path: {temp_path}")
+    #         self.logger.debug(f"Final path: {final_path}")
+    #
+    #         # Create directories if they don't exist
+    #         temp_path.parent.mkdir(parents=True, exist_ok=True)
+    #         final_path.parent.mkdir(parents=True, exist_ok=True)
+    #
+    #         # Check if file already exists
+    #         if final_path.exists():
+    #             self.logger.info(f"File already exists at {final_path}")
+    #             return True
+    #
+    #         # Download file with proper headers
+    #         headers = {
+    #             'User-Agent': self.config.user_agent,
+    #             'Accept': 'image/webp,image/apng,image/gif,image/*,*/*;q=0.8',
+    #             'Accept-Language': 'en-US,en;q=0.9',
+    #             'Referer': source_page if source_page else url
+    #         }
+    #
+    #         response = requests.get(url, stream=True, headers=headers, timeout=self.config.request_timeout)
+    #         response.raise_for_status()
+    #
+    #         # Save to temporary file
+    #         self.logger.debug(f"Downloading to temporary file: {temp_path}")
+    #         with open(temp_path, 'wb') as f:
+    #             for chunk in response.iter_content(chunk_size=self.config.chunk_size):
+    #                 if chunk:
+    #                     f.write(chunk)
+    #
+    #         # Verify the file exists and is not empty
+    #         if not temp_path.exists() or temp_path.stat().st_size == 0:
+    #             raise ValueError("Downloaded file is empty or missing")
+    #
+    #         # Verify it's a valid image/GIF file
+    #         try:
+    #             with Image.open(temp_path) as img:
+    #                 img.verify()
+    #                 is_gif = getattr(img, "is_animated", False)
+    #         except Exception as e:
+    #             self.logger.error(f"Invalid image file: {str(e)}")
+    #             temp_path.unlink()
+    #             return False
+    #
+    #         # Check if content is NSFW
+    #         is_nsfw, confidence = self.nsfw_detector.check_content(temp_path)
+    #
+    #         if is_nsfw:  # Keep NSFW content
+    #             # Calculate file hash
+    #             file_hash = _get_file_hash(temp_path)
+    #
+    #             # Move file to final location
+    #             self.logger.debug(f"Moving file to final location: {final_path}")
+    #             temp_path.rename(final_path)
+    #
+    #             # Record successful download
+    #             file_size = final_path.stat().st_size
+    #             self._record_download(
+    #                 url=url,
+    #                 filename=filename,
+    #                 status='success',
+    #                 file_size=file_size,
+    #                 md5_hash=file_hash,
+    #                 source_page=source_page
+    #             )
+    #
+    #             self.logger.info(
+    #                 f"Successfully downloaded NSFW {'GIF' if is_gif else 'image'}: "
+    #                 f"{filename} ({file_size:,} bytes) to {final_path}"
+    #             )
+    #             return True
+    #         else:
+    #             self.logger.warning(
+    #                 f"Skipping SFW {'GIF' if is_gif else 'image'} from {url} "
+    #                 f"(confidence: {confidence:.2f})"
+    #             )
+    #             temp_path.unlink()
+    #             return False
+    #
+    #     except Exception as e:
+    #         self.logger.error(f"Error downloading {url}: {str(e)}")
+    #         if 'temp_path' in locals() and temp_path.exists():
+    #             try:
+    #                 temp_path.unlink()
+    #             except Exception as cleanup_error:
+    #                 self.logger.error(f"Error cleaning up temporary file: {cleanup_error}")
+    #         return False
+    #
+    #     except Exception as e:
+    #         self.logger.error(f"Error downloading {url}: {str(e)}")
+    #         if 'temp_path' in locals() and temp_path.exists():
+    #             try:
+    #                 temp_path.unlink()
+    #             except Exception as cleanup_error:
+    #                 self.logger.error(f"Error cleaning up temporary file: {cleanup_error}")
+    #         return False
+    #
+    # def _generate_filename(self, url: str) -> str:
+    #     """
+    #     Generate a unique filename for the downloaded image.
+    #
+    #     Args:
+    #         url (str): Source URL of the image
+    #
+    #     Returns:
+    #         str: Generated filename
+    #     """
+    #     # Extract original extension if possible
+    #     ext = os.path.splitext(urlparse(url).path)[1].lower()
+    #     if not ext or ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
+    #         ext = '.jpg'  # Default to .jpg if no valid extension found
+    #
+    #     # Generate random component
+    #     random_suffix = ''.join(random.choices(
+    #         string.ascii_lowercase + string.digits,
+    #         k=self.config.filename_length
+    #     ))
+    #
+    #     # Create timestamp component
+    #     timestamp = time.strftime('%Y%m%d_%H%M%S')
+    #
+    #     # Combine components
+    #     filename = f"img_{timestamp}_{random_suffix}{ext}"
+    #
+    #     return filename
+    #
+    # def setup(self):
+    #     """
+    #     Perform initial setup operations including directory creation and validation.
+    #     Creates the base directory structure and character subdirectories.
+    #     """
+    #     self.logger.info("Starting setup...")
+    #     try:
+    #         # Create base directory
+    #         self.config.base_save_path.mkdir(parents=True, exist_ok=True)
+    #
+    #         # Create subdirectories for organizing content
+    #         subdirs = {
+    #             'raw': self.config.base_save_path / 'raw',  # Store original downloads
+    #             'processed': self.config.base_save_path / 'processed',  # Store processed images
+    #             'metadata': self.config.base_save_path / 'metadata',  # Store JSON metadata
+    #             'logs': self.config.base_save_path / 'logs',  # Store detailed logs
+    #             'temp': self.config.base_save_path / 'temp'  # Temporary storage
+    #         }
+    #
+    #         # Create each subdirectory
+    #         for dir_name, path in subdirs.items():
+    #             path.mkdir(exist_ok=True)
+    #             self.logger.info(f"Created directory: {path}")
+    #
+    #         # Create or update metadata index
+    #         metadata_file = subdirs['metadata'] / 'index.json'
+    #         if not metadata_file.exists():
+    #             metadata_file.write_text('{}')
+    #             self.logger.info("Created new metadata index")
+    #
+    #         # Validate directory permissions
+    #         for dir_path in subdirs.values():
+    #             if not os.access(dir_path, os.W_OK):
+    #                 raise PermissionError(f"No write permission for directory: {dir_path}")
+    #
+    #         # Create .gitignore if using version control
+    #         gitignore_path = self.config.base_save_path / '.gitignore'
+    #         if not gitignore_path.exists():
+    #             gitignore_content = """
+    #             # Ignore temporary files
+    #             temp/
+    #             *.tmp
+    #
+    #             # Ignore logs
+    #             logs/
+    #             *.log
+    #
+    #             # Ignore raw downloads
+    #             raw/
+    #
+    #             # Ignore system files
+    #             .DS_Store
+    #             Thumbs.db
+    #             """
+    #             gitignore_path.write_text(gitignore_content.strip())
+    #
+    #         # Create status tracking file
+    #         status_file = subdirs['metadata'] / 'status.json'
+    #         if not status_file.exists():
+    #             status_content = {
+    #                 'last_run': None,
+    #                 'total_downloads': 0,
+    #                 'successful_downloads': 0,
+    #                 'failed_downloads': 0,
+    #                 'last_processed_url': None
+    #             }
+    #             import json
+    #             with open(status_file, 'w') as f:
+    #                 json.dump(status_content, f, indent=4)
+    #
+    #         # Initialize download tracking database
+    #         import sqlite3
+    #         db_path = subdirs['metadata'] / 'downloads.db'
+    #         conn = sqlite3.connect(str(db_path))
+    #         c = conn.cursor()
+    #
+    #         # Create downloads tracking table
+    #         c.execute('''
+    #             CREATE TABLE IF NOT EXISTS downloads (
+    #                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+    #                 url TEXT NOT NULL UNIQUE,
+    #                 filename TEXT NOT NULL,
+    #                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    #                 status TEXT,
+    #                 file_size INTEGER,
+    #                 md5_hash TEXT,
+    #                 source_page TEXT
+    #             )
+    #         ''')
+    #
+    #         # Create failed downloads table
+    #         c.execute('''
+    #             CREATE TABLE IF NOT EXISTS failed_downloads (
+    #                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+    #                 url TEXT NOT NULL,
+    #                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    #                 error_message TEXT,
+    #                 attempts INTEGER DEFAULT 1
+    #             )
+    #         ''')
+    #
+    #         conn.commit()
+    #         conn.close()
+    #
+    #         # Update scraper attributes
+    #         self.dirs = subdirs
+    #         self.db_path = db_path
+    #
+    #         self.logger.info("Setup completed successfully")
+    #         return True
+    #
+    #     except Exception as e:
+    #         self.logger.error(f"Setup failed: {str(e)}")
+    #         raise
+    #
+    # def _init_database_connection(self):
+    #     """Initialize database connection and return connection object"""
+    #     try:
+    #         conn = sqlite3.connect(str(self.db_path))
+    #         return conn
+    #     except Exception as e:
+    #         self.logger.error(f"Failed to connect to database: {str(e)}")
+    #         raise
+    #
+    # def _record_download(self, url: str, filename: str, status: str, file_size: int = None,
+    #                      md5_hash: str = None, source_page: str = None):
+    #     """Record download attempt in database"""
+    #     try:
+    #         conn = self._init_database_connection()
+    #         c = conn.cursor()
+    #
+    #         c.execute('''
+    #             INSERT INTO downloads
+    #             (url, filename, status, file_size, md5_hash, source_page)
+    #             VALUES (?, ?, ?, ?, ?, ?)
+    #         ''', (url, filename, status, file_size, md5_hash, source_page))
+    #
+    #         conn.commit()
+    #         conn.close()
+    #     except Exception as e:
+    #         self.logger.error(f"Failed to record download: {str(e)}")
+    #
+    # def _record_failure(self, url: str, error_message: str):
+    #     """Record failed download attempt"""
+    #     try:
+    #         conn = self._init_database_connection()
+    #         c = conn.cursor()
+    #
+    #         # Check if URL already exists in failed_downloads
+    #         c.execute('SELECT attempts FROM failed_downloads WHERE url = ?', (url,))
+    #         result = c.fetchone()
+    #
+    #         if result:
+    #             # Update existing record
+    #             c.execute('''
+    #                 UPDATE failed_downloads
+    #                 SET attempts = attempts + 1,
+    #                     error_message = ?,
+    #                     timestamp = CURRENT_TIMESTAMP
+    #                 WHERE url = ?
+    #             ''', (error_message, url))
+    #         else:
+    #             # Create new record
+    #             c.execute('''
+    #                 INSERT INTO failed_downloads (url, error_message)
+    #                 VALUES (?, ?)
+    #             ''', (url, error_message))
+    #
+    #         conn.commit()
+    #         conn.close()
+    #     except Exception as e:
+    #         self.logger.error(f"Failed to record failure: {str(e)}")
+    #
+    # def _get_character_path(self, url: str, source_page: str) -> Path:
+    #     """Extract character name from URL and create appropriate path."""
+    #     try:
+    #         # Extract tags from source page URL
+    #         if 'tags=' in source_page:
+    #             tags = source_page.split('tags=')[-1].split('&')[0]
+    #             tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
+    #
+    #             # Parse character name from tags
+    #             if '(' in tags and ')' in tags:
+    #                 # Handle tags like "uta_(one_piece)"
+    #                 character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
+    #                 if character_tags:
+    #                     character = character_tags[0]
+    #                     series = character.split('(')[1].rstrip(')')
+    #                     character_name = character.split('(')[0].rstrip('_')
+    #                     return Path(series) / character_name
+    #
+    #         # Default to raw directory if no character info found
+    #         return Path('raw')
+    #     except Exception as e:
+    #         self.logger.error(f"Error parsing character path: {str(e)}")
+    #         return Path('raw')
+    #
+    # def _process_page(self, url: str, character: str, processed_count: int) -> int:
+    #     """Process a single page of results"""
+    #     if not self._safe_navigate(url):
+    #         return processed_count
+    #
+    #     try:
+    #         links = WebDriverWait(self.browser, 10).until(
+    #             EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+    #         )
+    #
+    #         image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+    #         self.logger.info(f"Found {len(image_urls)} images on page")
+    #
+    #         for img_url in image_urls:
+    #             try:
+    #                 full_image_url = self._expand_image(img_url)
+    #                 if full_image_url and self._download_image(full_image_url, img_url):
+    #                     processed_count += 1
+    #                     time.sleep(self.config.download_delay)
+    #             except Exception as e:
+    #                 self.logger.error(f"Error processing {img_url}: {str(e)}")
+    #
+    #     except TimeoutException:
+    #         self.logger.error(f"Timeout on page for character {character}")
+    #         return processed_count
+    #
+    #     return processed_count
+    #
+    # def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
+    #     """Process Gelbooru URLs"""
+    #     processed_count = 0
+    #
+    #     try:
+    #         for character, url_list in urls.items():
+    #             self.logger.info(f"Processing character: {character}")
+    #
+    #             for base_url in url_list:
+    #                 timeout_occurred = False
+    #
+    #                 for page_num in range(max_pages):
+    #                     if timeout_occurred:
+    #                         self.logger.info(f"Skipping remaining pages for {character} due to timeout")
+    #                         break
+    #
+    #                     current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
+    #                     self._process_page(current_url, character, processed_count)
+    #                     time.sleep(self.config.page_delay)
+    #
+    #     except Exception as e:
+    #         self.logger.error(f"Fatal error in process_urls: {str(e)}")
+    #     finally:
+    #         self.logger.info(f"Processed {processed_count} images successfully")
+    #         try:
+    #             self.browser.quit()
+    #         except Exception as e:
+    #             self.logger.error(f"Error closing browser: {str(e)}")
 
 
 class URLManager:
