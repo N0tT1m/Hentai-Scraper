@@ -30,7 +30,12 @@ import torchvision.models as models
 import requests
 import os
 import gdown
-
+import logging
+from pathlib import Path
+from typing import List, Tuple
+import opennsfw2 as n2
+from PIL import Image
+import numpy as np
 from torchvision.transforms import transforms
 from tqdm import tqdm
 
@@ -587,7 +592,7 @@ class ScraperConfig:
     user_agent: Optional[str] = None
     filename_length: int = 8
     max_file_size: int = 50 * 1024 * 1024
-    nsfw_threshold: float = 0.2
+    nsfw_threshold: float = 0.5
     debug: bool = False
     verbose_logging: bool = False
 
@@ -641,156 +646,14 @@ class ScraperConfig:
             'verbose_logging': self.verbose_logging
         }
 
-class NSFW3Classifier(nn.Module):
-    """OpenNSFW3 model architecture"""
-    def __init__(self):
-        super().__init__()
-        # Define model architecture here
-        self.features = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-        )
-        self.classifier = nn.Sequential(
-            nn.Linear(256 * 28 * 28, 1024),
-            nn.ReLU(True),
-            nn.Dropout(0.5),
-            nn.Linear(1024, 1024),
-            nn.ReLU(True),
-            nn.Dropout(0.5),
-            nn.Linear(1024, 1),
-            nn.Sigmoid()
-        )
-
-    def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)
-        x = self.classifier(x)
-        return x
-
-
-# class NSFWModelDownloader:
-#     """Downloads and converts NSFW model weights"""
-#
-#     WEIGHTS_URL = "https://github.com/yahoo/open_nsfw/raw/master/nsfw_model.caffemodel"
-#     BACKUP_URL = "https://huggingface.co/mplushnikov/OpenNSFW/resolve/main/model.pth"
-#
-#     def __init__(self, save_dir: str = "./models"):
-#         self.save_dir = save_dir
-#         os.makedirs(save_dir, exist_ok=True)
-#
-#     def download_file(self, url: str, filename: str) -> str:
-#         """Download file with progress bar"""
-#         local_path = os.path.join(self.save_dir, filename)
-#
-#         if os.path.exists(local_path):
-#             print(f"File already exists at {local_path}")
-#             return local_path
-#
-#         print(f"Downloading from {url}")
-#         response = requests.get(url, stream=True)
-#         total_size = int(response.headers.get('content-length', 0))
-#
-#         with open(local_path, 'wb') as file, tqdm(
-#                 desc=filename,
-#                 total=total_size,
-#                 unit='iB',
-#                 unit_scale=True,
-#                 unit_divisor=1024,
-#         ) as pbar:
-#             for data in response.iter_content(chunk_size=1024):
-#                 size = file.write(data)
-#                 pbar.update(size)
-#
-#         return local_path
-#
-#     def convert_to_pytorch(self, caffemodel_path: str) -> None:
-#         """Convert Caffe model to PyTorch"""
-#         # Initialize PyTorch model
-#         model = models.resnet50(pretrained=False)
-#         model.fc = nn.Linear(model.fc.in_features, 1)
-#
-#         # Load weights from Caffe model
-#         # This is a simplified version - you'd need to properly map the layers
-#         # between Caffe and PyTorch models
-#
-#         # Save PyTorch model
-#         torch_path = os.path.join(self.save_dir, "nsfw_model.pth")
-#         torch.save(model.state_dict(), torch_path)
-#         print(f"Converted model saved to {torch_path}")
-#
-#     def download_pretrained(self) -> str:
-#         """Download pre-converted PyTorch model"""
-#         try:
-#             # Try downloading from backup source
-#             model_path = self.download_file(self.BACKUP_URL, "nsfw_model.pth")
-#             print("Successfully downloaded pre-converted PyTorch model")
-#             return model_path
-#         except Exception as e:
-#             print(f"Error downloading pre-converted model: {e}")
-#             return None
-#
-#     def get_model(self) -> str:
-#         """Get model weights, downloading if necessary"""
-#         # First try to download pre-converted PyTorch model
-#         model_path = self.download_pretrained()
-#         if model_path:
-#             return model_path
-#
-#         # If that fails, try downloading and converting Caffe model
-#         try:
-#             caffemodel_path = self.download_file(self.WEIGHTS_URL, "nsfw_model.caffemodel")
-#             self.convert_to_pytorch(caffemodel_path)
-#             return os.path.join(self.save_dir, "nsfw_model.pth")
-#         except Exception as e:
-#             print(f"Error downloading/converting model: {e}")
-#             raise
-
-class NSFWModelDownloader:
-    """Downloads and prepares NSFW model weights"""
-
-    # Direct Google Drive link to the model
-    MODEL_URL = "https://drive.google.com/uc?id=1M6y8NVeIVZTP8QNP4T1xP9T3sIXAdrOt"
-
-    def __init__(self, save_dir: str = "./models"):
-        self.save_dir = save_dir
-        os.makedirs(save_dir, exist_ok=True)
-
-    def download_model(self) -> str:
-        """Download model from Google Drive"""
-        output_path = os.path.join(self.save_dir, "nsfw_model.pth")
-
-        if os.path.exists(output_path):
-            print(f"Model already exists at {output_path}")
-            return output_path
-
-        print("Downloading NSFW model...")
-        gdown.download(self.MODEL_URL, output_path, quiet=False)
-
-        if os.path.exists(output_path):
-            print(f"Model successfully downloaded to {output_path}")
-            return output_path
-        else:
-            raise Exception("Failed to download model")
-
 
 class NSFWDetector:
-    """Handles NSFW content detection using OpenNSFW3"""
+    """Handles NSFW content detection using OpenNSFW2"""
 
-    def __init__(self, threshold: float = 0.2, model_path: Optional[str] = None):
+    def __init__(self, threshold: float = 0.5):  # Increased default threshold for NSFW content
         self.threshold = threshold
         self._setup_logging()
-        self._setup_device()
-        self._setup_model(model_path)
-        self._setup_transforms()
+        self._setup_model()
 
     def _setup_logging(self):
         """Configure logging"""
@@ -804,53 +667,30 @@ class NSFWDetector:
         )
         self.logger = logging.getLogger(__name__)
 
-    def _setup_device(self):
-        """Setup CUDA device if available"""
-        try:
-            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-            if torch.cuda.is_available():
-                cuda_device = torch.cuda.get_device_properties(0)
-                self.logger.info(f"Using CUDA device: {cuda_device.name}")
-                self.logger.info(f"Total memory: {cuda_device.total_memory / 1024 ** 3:.2f} GB")
-                torch.backends.cudnn.benchmark = True
-            else:
-                self.logger.info("Using CPU for processing")
-        except Exception as e:
-            self.logger.error(f"Error setting up device: {str(e)}")
-            self.device = torch.device('cpu')
-
-    def _setup_model(self, model_path: Optional[str]):
+    def _setup_model(self):
         """Initialize the NSFW detection model"""
         try:
-            self.model = NSFW3Classifier().to(self.device)
-            if model_path:
-                state_dict = torch.load(model_path, map_location=self.device)
-                self.model.load_state_dict(state_dict)
-            self.model.eval()
+            # Model will be automatically downloaded if not present
+            self.model = n2.make_open_nsfw_model()
             self.logger.info("NSFW model loaded successfully")
         except Exception as e:
             self.logger.error(f"Failed to initialize NSFW model: {str(e)}")
             raise
 
-    def _setup_transforms(self):
-        """Setup image transforms"""
-        self.transforms = transforms.Compose([
-            transforms.Resize((224, 224)),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                 std=[0.229, 0.224, 0.225])
-        ])
-
     def _process_image(self, image: Image.Image) -> float:
         """Process a single PIL Image and return NSFW score"""
         try:
-            with torch.no_grad():
-                # Transform and prepare image
-                img_tensor = self.transforms(image).unsqueeze(0).to(self.device)
+            # Preprocess image using Yahoo's preprocessing
+            processed_image = n2.preprocess_image(image, n2.Preprocessing.YAHOO)
 
-                # Get prediction
-                score = self.model(img_tensor).item()
-                return score
+            # Add batch dimension
+            input_data = np.expand_dims(processed_image, axis=0)
+
+            # Get prediction
+            predictions = self.model.predict(input_data, verbose=0)
+
+            # Return NSFW probability (second value in prediction)
+            return float(predictions[0][1])
         except Exception as e:
             self.logger.error(f"Error processing image: {str(e)}")
             return 1.0  # Return high score on error to be safe
@@ -858,13 +698,17 @@ class NSFWDetector:
     def _process_frames(self, frames: List[Image.Image]) -> List[float]:
         """Process multiple frames in batch"""
         try:
-            with torch.no_grad():
-                # Transform all frames
-                batch = torch.stack([self.transforms(frame) for frame in frames]).to(self.device)
+            # Preprocess all frames
+            processed_frames = [n2.preprocess_image(frame, n2.Preprocessing.YAHOO) for frame in frames]
 
-                # Get predictions
-                scores = self.model(batch).squeeze().tolist()
-                return scores if isinstance(scores, list) else [scores]
+            # Stack into batch
+            batch = np.stack(processed_frames)
+
+            # Get predictions
+            predictions = self.model.predict(batch, verbose=0)
+
+            # Return NSFW probabilities
+            return [float(pred[1]) for pred in predictions]
         except Exception as e:
             self.logger.error(f"Error processing frames: {str(e)}")
             return [1.0] * len(frames)  # Return high scores on error
@@ -872,7 +716,6 @@ class NSFWDetector:
     def check_gif(self, gif_path: Path) -> Tuple[bool, float]:
         """Check if a GIF contains NSFW content"""
         try:
-            # Open GIF and extract frames
             with Image.open(str(gif_path)) as gif:
                 frames = []
                 frame_count = 0
@@ -888,8 +731,11 @@ class NSFWDetector:
                     except EOFError:
                         break
 
+                if not frames:
+                    return True, 1.0  # Err on the side of caution if no frames
+
                 # Process frames in batches
-                batch_size = 8
+                batch_size = 16
                 all_scores = []
 
                 for i in range(0, len(frames), batch_size):
@@ -902,6 +748,10 @@ class NSFWDetector:
                 avg_score = sum(all_scores) / len(all_scores)
                 high_scores = sum(1 for score in all_scores if score > self.threshold)
 
+                # Consider it NSFW if:
+                # 1. Any frame has very high NSFW score
+                # 2. Average score is high
+                # 3. Multiple frames have above-threshold NSFW scores
                 is_nsfw = (max_score > self.threshold or
                            avg_score > self.threshold * 0.8 or
                            high_scores >= 2)
@@ -915,9 +765,9 @@ class NSFWDetector:
     def check_image(self, image_path: Path) -> Tuple[bool, float]:
         """Check if a static image contains NSFW content"""
         try:
-            with Image.open(str(image_path)).convert('RGB') as img:
-                score = self._process_image(img)
-                return score > self.threshold, score
+            # For single images, we can use the simpler predict_image function
+            nsfw_score = n2.predict_image(str(image_path))
+            return nsfw_score > self.threshold, nsfw_score
         except Exception as e:
             self.logger.error(f"Error checking image {image_path}: {str(e)}")
             return True, 1.0
@@ -939,13 +789,7 @@ class NSFWDetector:
 class HentaiScraper:
     def __init__(self, config: ScraperConfig):
         self.config = config
-        model_path = "models/nsfw_model.pth"
-        if not os.path.exists(model_path):
-            print("Downloading NSFW model...")
-            downloader = NSFWModelDownloader()
-            model_path = downloader.download_model()
-
-        self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold, model_path=model_path)
+        self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold)
         self._setup_logging()
         self._setup_browser()
         self.setup()
@@ -1645,7 +1489,7 @@ def main():
             chunk_size=8192,
             filename_length=6,
             headless=False,
-            nsfw_threshold=0.2,
+            nsfw_threshold=0.5,
         )
 
         # Log configuration
