@@ -41,6 +41,14 @@ import numpy as np
 from torchvision.transforms import transforms
 from tqdm import tqdm
 
+import concurrent.futures
+from queue import Queue
+from threading import Lock
+import threading
+from dataclasses import dataclass, field
+from typing import Dict, Set
+import time
+
 """
 TODO: 
 ADD LANA'S MOTHER
@@ -1017,6 +1025,33 @@ class HentaiScraper(ABC):
     def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
         """Process URLs specific to this scraper type"""
         pass
+
+
+@dataclass
+class ScraperState:
+    """Thread-safe state tracking for the scraper"""
+    active_characters: Set[str] = field(default_factory=set)
+    completed_characters: Set[str] = field(default_factory=set)
+    lock: Lock = field(default_factory=Lock)
+
+    def is_character_available(self, character: str) -> bool:
+        """Check if character is available for scraping"""
+        with self.lock:
+            return character not in self.active_characters and character not in self.completed_characters
+
+    def start_character(self, character: str) -> bool:
+        """Mark character as being scraped"""
+        with self.lock:
+            if self.is_character_available(character):
+                self.active_characters.add(character)
+                return True
+            return False
+
+    def complete_character(self, character: str):
+        """Mark character as completed"""
+        with self.lock:
+            self.active_characters.remove(character)
+            self.completed_characters.add(character)
 
 class GelbooruScraper(HentaiScraper):
     def __init__(self, config: ScraperConfig):
@@ -2341,6 +2376,97 @@ class URLManager:
     def get_urls_for_scraper(scraper_type: str, urls: Dict[str, Dict[str, List[str]]]) -> Dict[str, List[str]]:
         """Get URLs specific to a scraper type"""
         return urls.get(scraper_type, {})
+
+class ThreadedGelbooruScraper(GelbooruScraper):
+    def __init__(self, config: ScraperConfig):
+        super().__init__(config)
+        self.state = ScraperState()
+
+    def process_character(self, character: str, url: str, max_pages: int = 380) -> None:
+        """Process a single character's URLs"""
+        try:
+            # Setup browser for this thread
+            self._setup_browser()
+
+            self.logger.info(f"Thread {threading.current_thread().name} starting to scrape {character}")
+            timeout_occurred = False
+
+            for page_num in range(max_pages):
+                if timeout_occurred:
+                    break
+
+                current_url = f"{url}&pid={page_num * 42}" if page_num > 0 else url
+                self.logger.info(f"Thread {threading.current_thread().name} processing {character} page {page_num + 1}")
+
+                if not self._safe_navigate(current_url):
+                    continue
+
+                try:
+                    # Wait for thumbnail container
+                    WebDriverWait(self.browser, 10).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                    )
+
+                    # Find all image links
+                    links = WebDriverWait(self.browser, 10).until(
+                        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+                    )
+
+                    image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+
+                    for img_url in image_urls:
+                        try:
+                            full_image_url = self._expand_image(img_url)
+                            if full_image_url:
+                                if self._download_image(full_image_url, img_url):
+                                    time.sleep(self.config.download_delay)
+                        except Exception as e:
+                            self.logger.error(f"Error processing {img_url}: {str(e)}")
+                            continue
+
+                    time.sleep(self.config.page_delay)
+
+                except TimeoutException:
+                    timeout_occurred = True
+                    break
+
+        except Exception as e:
+            self.logger.error(f"Error processing character {character}: {str(e)}")
+        finally:
+            try:
+                self.browser.quit()
+            except Exception as e:
+                self.logger.error(f"Error closing browser for {character}: {str(e)}")
+
+            # Mark character as completed
+            self.state.complete_character(character)
+            self.logger.info(f"Thread {threading.current_thread().name} completed scraping {character}")
+
+    def process_urls(self, urls: Dict[str, str], max_pages: int = 380, max_workers: int = None):
+        """Process multiple URLs using thread pool"""
+        if max_workers is None:
+            max_workers = min(24, len(urls))  # Default to 24 threads or number of characters
+
+        self.logger.info(f"Starting scraping with {max_workers} threads")
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_char = {}
+
+            for character, url in urls.items():
+                if self.state.start_character(character):
+                    future = executor.submit(self.process_character, character, url, max_pages)
+                    future_to_char[future] = character
+
+            # Wait for completion and handle results
+            for future in concurrent.futures.as_completed(future_to_char):
+                character = future_to_char[future]
+                try:
+                    future.result()  # Will raise any exceptions that occurred
+                except Exception as e:
+                    self.logger.error(f"Character {character} generated an exception: {str(e)}")
+
+        self.logger.info(f"Completed scraping {len(self.state.completed_characters)} characters")
+        self.logger.info("Completed characters: " + ", ".join(sorted(self.state.completed_characters)))
 
 
 class DanbooruScraper(HentaiScraper):
@@ -10211,10 +10337,10 @@ class DanbooruScraper(HentaiScraper):
 def main():
     """Main entry point for the scraper"""
     try:
-        # Setup logging first
+        # Setup logging
         logging.basicConfig(
             level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
+            format='%(asctime)s - %(threadName)s - %(levelname)s - %(message)s',
             handlers=[
                 logging.FileHandler('scraper.log'),
                 logging.StreamHandler()
@@ -10222,9 +10348,9 @@ def main():
         )
         logger = logging.getLogger(__name__)
 
-        # Setup configuration with proper initialization
+        # Setup configuration
         config = ScraperConfig(
-            base_save_path="./hentai",  # This will be converted to Path in __post_init__
+            base_save_path="./hentai",
             request_timeout=30,
             download_delay=2,
             page_delay=1,
@@ -10234,14 +10360,16 @@ def main():
             nsfw_threshold=0.5,
         )
 
-        # Log configuration
         logger.info(f"Starting scraper with config: {config}")
+
+        # Initialize threaded scraper
+        scraper = ThreadedGelbooruScraper(config)
 
         # Initialize and setup scraper
         # scraper = HentaiScraper(config)
         # scraper.setup()
 
-        gelbooru_scraper = GelbooruScraper(config)
+        #gelbooru_scraper = GelbooruScraper(config)
         # danbooru_scraper = DanbooruScraper(config)
 
         # https://danbooru.donmai.us/
@@ -10740,15 +10868,17 @@ def main():
         # gelbooru_scraper.process_urls(gelbooru_urls)
         # danbooru_scraper.process_urls(danbooru_urls)
 
+        # scraper.download_batch(urls)
+        scraper.process_urls(urls, max_pages=380, max_workers=24)
 
-    # scraper.download_batch(urls)
     except KeyboardInterrupt:
-        logging.info("Scraping interrupted by user")
+        logger.info("Scraping interrupted by user")
+
     except Exception as e:
-        logging.error(f"Scraping failed: {str(e)}")
+        logger.error(f"Scraping failed: {str(e)}")
         raise
     finally:
-        logging.info("Scraping completed")
+        logger.info("Scraping completed")
 
 
 
