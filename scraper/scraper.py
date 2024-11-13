@@ -2772,7 +2772,7 @@ class ThreadedGelbooruScraper(HentaiScraper):
             return None
 
     def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
-        """Process multiple URLs using thread pool with batch processing"""
+        """Process multiple URLs using thread pool with fixed locking"""
         try:
             max_workers = min(20, len(urls))
             self.logger.info(f"Starting scraping with {max_workers} threads")
@@ -2787,91 +2787,55 @@ class ThreadedGelbooruScraper(HentaiScraper):
 
             # Create thread pool
             self.logger.info("Creating thread pool executor...")
-            with concurrent.futures.ThreadPoolExecutor(
-                    max_workers=max_workers,
-                    thread_name_prefix="scraper"
-            ) as executor:
-                self.logger.info("Thread pool executor created")
+            executor = concurrent.futures.ThreadPoolExecutor(
+                max_workers=max_workers,
+                thread_name_prefix="scraper"
+            )
+            self.logger.info("Thread pool executor created")
 
-                # Process all characters in batches
-                all_items = list(urls.items())
-                total_characters = len(all_items)
-                processed_count = 0
-                batch_size = max_workers  # Process max_workers characters at a time
+            try:
+                future_to_char = {}
+                test_chars = list(urls.items())[:4]
+                self.logger.info(f"Testing with first 4 characters: {[char for char, _ in test_chars]}")
 
-                while processed_count < total_characters:
-                    # Get next batch of characters
-                    batch_start = processed_count
-                    batch_end = min(batch_start + batch_size, total_characters)
-                    current_batch = all_items[batch_start:batch_end]
+                # Submit tasks
+                for character, url_list in test_chars:
+                    self.logger.info(f"Processing {character}")
 
-                    self.logger.info(
-                        f"Processing batch of {len(current_batch)} characters ({batch_start + 1} to {batch_end} of {total_characters})")
+                    url_list = [url_list] if isinstance(url_list, str) else url_list
+                    self.logger.info(f"Submitting {character} with {len(url_list)} URLs")
 
-                    # Submit batch tasks
-                    future_to_char = {}
-                    for character, url_list in current_batch:
-                        try:
-                            self.logger.info(f"Processing {character}")
+                    if self.state.start_character(character):
+                        self.logger.info(f"Lock acquired for {character}")
+                        future = executor.submit(self._process_character_wrapper, character, url_list, max_pages)
+                        future_to_char[future] = character
+                        self.logger.info(f"Task submitted for {character}")
+                    else:
+                        self.logger.warning(f"Could not acquire lock for {character}")
 
-                            url_list = [url_list] if isinstance(url_list, str) else url_list
-                            self.logger.info(f"Submitting {character} with {len(url_list)} URLs")
+                self.logger.info(f"Submitted {len(future_to_char)} tasks")
 
-                            if self.state.start_character(character):
-                                self.logger.info(f"Lock acquired for {character}")
-                                future = executor.submit(self._process_character_wrapper, character, url_list,
-                                                         max_pages)
-                                future_to_char[future] = character
-                                self.logger.info(f"Task submitted for {character}")
-                            else:
-                                self.logger.warning(f"Could not acquire lock for {character} - skipping")
-
-                        except Exception as e:
-                            self.logger.error(f"Error submitting {character}: {str(e)}")
-                            self.logger.exception("Submission error traceback:")
-
-                    self.logger.info(f"Submitted {len(future_to_char)} tasks for current batch")
-
-                    # Process batch results
-                    completed_in_batch = []
+                # Process results
+                for future in concurrent.futures.as_completed(future_to_char):
+                    character = future_to_char[future]
                     try:
-                        for future in concurrent.futures.as_completed(future_to_char):
-                            character = future_to_char[future]
-                            try:
-                                future.result(timeout=300)  # 5-minute timeout per character
-                                completed_in_batch.append(character)
-                                self.logger.info(
-                                    f"Completed {character} ({len(completed_in_batch)}/{len(future_to_char)} in current batch)")
-                            except concurrent.futures.TimeoutError:
-                                self.logger.error(f"Timeout processing {character}")
-                            except Exception as e:
-                                self.logger.error(f"Error processing {character}: {str(e)}")
-                                self.logger.exception("Processing error traceback:")
-                            finally:
-                                self.state.complete_character(character)
-
+                        future.result(timeout=30)
+                        self.logger.info(f"Completed processing {character}")
                     except Exception as e:
-                        self.logger.error(f"Error processing batch results: {str(e)}")
-                        self.logger.exception("Batch processing error traceback:")
+                        self.logger.error(f"Error processing {character}: {str(e)}")
+                        self.logger.exception("Processing error traceback:")
+                    finally:
+                        self.state.complete_character(character)
 
-                    self.logger.info(f"Completed batch of {len(completed_in_batch)} characters")
-                    processed_count += len(current_batch)
-                    self.logger.info(f"Total progress: {processed_count}/{total_characters} characters processed")
-
-                    # Log memory usage after batch
-                    self.logger.info(f"Memory usage after batch: {process.memory_info().rss / 1024 / 1024:.2f} MB")
-
-                self.logger.info(f"All batches processed. Total characters completed: {processed_count}")
-                self.logger.info(f"Completed characters: {sorted(self.state.completed_characters)}")
+            finally:
+                self.logger.info("Shutting down executor")
+                executor.shutdown(wait=False)
+                self.logger.info("Executor shutdown complete")
 
         except Exception as e:
-            self.logger.error(f"Fatal error in process_urls: {str(e)}")
-            self.logger.exception("Fatal error traceback:")
+            self.logger.error(f"Error in process_urls: {str(e)}")
+            self.logger.exception("Error traceback:")
             raise
-        finally:
-            self.logger.info("Shutting down executor")
-            executor.shutdown(wait=False)
-            self.logger.info("Executor shutdown complete")
 
     def _process_character_wrapper(self, character: str, urls: List[str], max_pages: int) -> None:
         """Wrapper for process_character with enhanced error handling"""
