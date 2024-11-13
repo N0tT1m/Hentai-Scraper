@@ -1033,14 +1033,13 @@ class ScraperState:
     active_characters: Set[str] = field(default_factory=set)
     completed_characters: Set[str] = field(default_factory=set)
     lock: Lock = field(default_factory=Lock)
+    browser_lock: Lock = field(default_factory=Lock)
 
     def is_character_available(self, character: str) -> bool:
-        """Check if character is available for scraping"""
         with self.lock:
             return character not in self.active_characters and character not in self.completed_characters
 
     def start_character(self, character: str) -> bool:
-        """Mark character as being scraped"""
         with self.lock:
             if self.is_character_available(character):
                 self.active_characters.add(character)
@@ -1048,10 +1047,10 @@ class ScraperState:
             return False
 
     def complete_character(self, character: str):
-        """Mark character as completed"""
         with self.lock:
-            self.active_characters.remove(character)
-            self.completed_characters.add(character)
+            if character in self.active_characters:
+                self.active_characters.remove(character)
+                self.completed_characters.add(character)
 
 class GelbooruScraper(HentaiScraper):
     def __init__(self, config: ScraperConfig):
@@ -2377,97 +2376,199 @@ class URLManager:
         """Get URLs specific to a scraper type"""
         return urls.get(scraper_type, {})
 
-class ThreadedGelbooruScraper(GelbooruScraper):
+
+class ThreadedGelbooruScraper(HentaiScraper):
     def __init__(self, config: ScraperConfig):
         super().__init__(config)
+        self.nsfw_detector = NSFWDetector(threshold=config.nsfw_threshold)
         self.state = ScraperState()
+        self.thread_local = threading.local()
+        self.setup()
+        self.character_classifier = CharacterClassifier()
 
-    def process_character(self, character: str, url: str, max_pages: int = 380) -> None:
+    def _get_thread_browser(self):
+        """Get or create a browser instance for the current thread"""
+        if not hasattr(self.thread_local, 'browser'):
+            with self.state.browser_lock:
+                options = webdriver.ChromeOptions()
+                if self.config.headless:
+                    options.add_argument('--headless=new')
+
+                options.add_argument('--no-sandbox')
+                options.add_argument('--disable-dev-shm-usage')
+                options.add_argument('--disable-gpu')
+                options.add_argument('--disable-software-rasterizer')
+                options.add_argument('--disable-extensions')
+                options.add_argument('--start-maximized')
+                options.add_argument(f'user-agent={self.config.user_agent}')
+
+                service = webdriver.ChromeService()
+                self.thread_local.browser = webdriver.Chrome(service=service, options=options)
+                self.thread_local.browser.set_window_size(1920, 1080)
+                self.thread_local.browser.set_page_load_timeout(30)
+
+                self.logger.info(f"Created new browser for thread {threading.current_thread().name}")
+
+        return self.thread_local.browser
+
+    def _safe_navigate(self, url: str, max_retries=3) -> bool:
+        """Safely navigate to a URL with retries using thread-local browser"""
+        browser = self._get_thread_browser()
+
+        for attempt in range(max_retries):
+            try:
+                browser.get(url)
+                WebDriverWait(browser, self.config.request_timeout).until(
+                    lambda driver: driver.execute_script("return document.readyState") == "complete"
+                )
+                time.sleep(2)
+                return True
+
+            except Exception as e:
+                self.logger.warning(f"Navigation attempt {attempt + 1} failed: {str(e)}")
+                if attempt == max_retries - 1:
+                    self.logger.error(f"Failed to navigate to {url} after {max_retries} attempts")
+                    return False
+                time.sleep(2 * (attempt + 1))
+
+                if attempt == max_retries - 2:
+                    try:
+                        browser.quit()
+                        delattr(self.thread_local, 'browser')
+                        browser = self._get_thread_browser()
+                    except Exception as e:
+                        self.logger.error(f"Failed to refresh browser: {str(e)}")
+        return False
+
+    def process_character(self, character: str, urls: List[str], max_pages: int = 380) -> None:
         """Process a single character's URLs"""
         try:
-            # Setup browser for this thread
-            self._setup_browser()
-
             self.logger.info(f"Thread {threading.current_thread().name} starting to scrape {character}")
             timeout_occurred = False
 
-            for page_num in range(max_pages):
+            for base_url in urls:
                 if timeout_occurred:
                     break
 
-                current_url = f"{url}&pid={page_num * 42}" if page_num > 0 else url
-                self.logger.info(f"Thread {threading.current_thread().name} processing {character} page {page_num + 1}")
+                for page_num in range(max_pages):
+                    current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
+                    self.logger.info(
+                        f"Thread {threading.current_thread().name} processing {character} page {page_num + 1}")
 
-                if not self._safe_navigate(current_url):
-                    continue
+                    if not self._safe_navigate(current_url):
+                        continue
 
-                try:
-                    # Wait for thumbnail container
-                    WebDriverWait(self.browser, 10).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
-                    )
+                    browser = self._get_thread_browser()
+                    try:
+                        WebDriverWait(browser, 10).until(
+                            EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                        )
 
-                    # Find all image links
-                    links = WebDriverWait(self.browser, 10).until(
-                        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
-                    )
+                        links = WebDriverWait(browser, 10).until(
+                            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+                        )
 
-                    image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+                        image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+                        self.logger.info(f"Found {len(image_urls)} images for {character} on page {page_num + 1}")
 
-                    for img_url in image_urls:
-                        try:
-                            full_image_url = self._expand_image(img_url)
-                            if full_image_url:
-                                if self._download_image(full_image_url, img_url):
-                                    time.sleep(self.config.download_delay)
-                        except Exception as e:
-                            self.logger.error(f"Error processing {img_url}: {str(e)}")
-                            continue
+                        for img_url in image_urls:
+                            try:
+                                full_image_url = self._expand_image(img_url)
+                                if full_image_url:
+                                    if self._download_image(full_image_url, img_url):
+                                        time.sleep(self.config.download_delay)
+                            except Exception as e:
+                                self.logger.error(f"Error processing {img_url}: {str(e)}")
+                                continue
 
-                    time.sleep(self.config.page_delay)
+                        time.sleep(self.config.page_delay)
 
-                except TimeoutException:
-                    timeout_occurred = True
-                    break
+                    except TimeoutException:
+                        self.logger.error(f"Timeout on page {page_num + 1} for {character}")
+                        timeout_occurred = True
+                        break
 
         except Exception as e:
             self.logger.error(f"Error processing character {character}: {str(e)}")
         finally:
             try:
-                self.browser.quit()
+                if hasattr(self.thread_local, 'browser'):
+                    self.thread_local.browser.quit()
+                    delattr(self.thread_local, 'browser')
             except Exception as e:
                 self.logger.error(f"Error closing browser for {character}: {str(e)}")
 
-            # Mark character as completed
             self.state.complete_character(character)
             self.logger.info(f"Thread {threading.current_thread().name} completed scraping {character}")
 
-    def process_urls(self, urls: Dict[str, str], max_pages: int = 380, max_workers: int = None):
+    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
         """Process multiple URLs using thread pool"""
-        if max_workers is None:
-            max_workers = min(20, len(urls))  # Default to 24 threads or number of characters
-
+        max_workers = min(20, len(urls))  # Use 20 threads or less if fewer characters
         self.logger.info(f"Starting scraping with {max_workers} threads")
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             future_to_char = {}
 
-            for character, url in urls.items():
+            # Convert single URLs to lists if necessary
+            processed_urls = {
+                char: [url] if isinstance(url, str) else url
+                for char, url in urls.items()
+            }
+
+            for character, url_list in processed_urls.items():
                 if self.state.start_character(character):
-                    future = executor.submit(self.process_character, character, url, max_pages)
+                    future = executor.submit(self.process_character, character, url_list, max_pages)
                     future_to_char[future] = character
 
-            # Wait for completion and handle results
             for future in concurrent.futures.as_completed(future_to_char):
                 character = future_to_char[future]
                 try:
-                    future.result()  # Will raise any exceptions that occurred
+                    future.result()
                 except Exception as e:
                     self.logger.error(f"Character {character} generated an exception: {str(e)}")
 
         self.logger.info(f"Completed scraping {len(self.state.completed_characters)} characters")
         self.logger.info("Completed characters: " + ", ".join(sorted(self.state.completed_characters)))
 
+    def _expand_image(self, page_url: str) -> Optional[str]:
+        """Navigate to page and expand the image to get the full resolution URL using thread-local browser"""
+        browser = self._get_thread_browser()
+
+        if not self._safe_navigate(page_url):
+            return None
+
+        try:
+            WebDriverWait(browser, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "img#image"))
+            )
+
+            browser.execute_script("resizeTransition();")
+            time.sleep(2)
+
+            try:
+                WebDriverWait(browser, 10).until(
+                    lambda driver: driver.find_element(By.CSS_SELECTOR, "img#image").get_attribute("src")
+                                   and "/images/" in driver.find_element(By.CSS_SELECTOR, "img#image").get_attribute(
+                        "src")
+                )
+
+                image = browser.find_element(By.CSS_SELECTOR, "img#image")
+                src = image.get_attribute('src')
+
+                if not src or not '/images/' in src:
+                    return None
+
+                return src
+
+            except Exception as wait_error:
+                self.logger.error(f"Error waiting for expanded image: {str(wait_error)}")
+                return None
+
+        except Exception as e:
+            self.logger.error(f"Error expanding image on {page_url}: {str(e)}")
+            return None
+
+    # Rest of your existing methods...
 
 class DanbooruScraper(HentaiScraper):
     """Scraper specifically for Danbooru"""
