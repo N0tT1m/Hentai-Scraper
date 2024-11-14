@@ -3118,24 +3118,17 @@ class ThreadedGelbooruScraper(HentaiScraper):
         return self.thread_local.browser
 
     def _safe_navigate(self, url: str, max_retries=3) -> bool:
-        """Safely navigate to a URL with retries and better browser management"""
-        browser = None
+        """Safely navigate to a URL with retries"""
+        browser = self._get_thread_browser()
+        self.logger.debug(f"Navigating to {url}")
+
         for attempt in range(max_retries):
             try:
-                if not hasattr(self.thread_local, 'browser') or self.thread_local.browser is None:
-                    self.logger.info(f"Creating new browser for attempt {attempt + 1}")
-                    browser = self._get_thread_browser()
-                else:
-                    browser = self.thread_local.browser
-
-                self.logger.debug(f"Navigation attempt {attempt + 1} to {url}")
                 browser.get(url)
-
-                # Wait for page load
                 WebDriverWait(browser, self.config.request_timeout).until(
                     lambda driver: driver.execute_script("return document.readyState") == "complete"
                 )
-                time.sleep(2)  # Small delay to ensure stability
+                time.sleep(2)
                 return True
 
             except Exception as e:
@@ -3143,162 +3136,18 @@ class ThreadedGelbooruScraper(HentaiScraper):
                 if attempt == max_retries - 1:
                     self.logger.error(f"Failed to navigate to {url} after {max_retries} attempts")
                     return False
+                time.sleep(2 * (attempt + 1))
 
-                try:
-                    # Only recreate browser if it's the last retry attempt
-                    if attempt == max_retries - 2:
-                        self.logger.info("Attempting browser reset")
-                        if hasattr(self.thread_local, 'browser') and self.thread_local.browser is not None:
-                            try:
-                                self.thread_local.browser.quit()
-                            except Exception as quit_error:
-                                self.logger.error(f"Error quitting browser: {quit_error}")
-                            finally:
-                                self.thread_local.browser = None
-
-                finally:
-                    time.sleep(2 * (attempt + 1))  # Exponential backoff
+                if attempt == max_retries - 2:
+                    try:
+                        browser.quit()
+                        delattr(self.thread_local, 'browser')
+                        browser = self._get_thread_browser()
+                    except Exception as e:
+                        self.logger.error(f"Failed to refresh browser: {str(e)}")
 
         return False
 
-    def _get_thread_browser(self):
-        """Get or create a browser instance for the current thread with enhanced error handling"""
-        thread_name = threading.current_thread().name
-
-        if not hasattr(self.thread_local, 'browser') or self.thread_local.browser is None:
-            try:
-                with self.state.browser_lock:
-                    self.logger.info(f"Creating new browser for thread {thread_name}")
-                    options = webdriver.ChromeOptions()
-
-                    if self.config.headless:
-                        options.add_argument('--headless=new')
-
-                    # Basic options
-                    options.add_argument('--no-sandbox')
-                    options.add_argument('--disable-dev-shm-usage')
-                    options.add_argument('--disable-gpu')
-                    options.add_argument('--disable-software-rasterizer')
-                    options.add_argument('--disable-extensions')
-                    options.add_argument('--start-maximized')
-                    options.add_argument(f'user-agent={self.config.user_agent}')
-
-                    # Stability options
-                    options.add_argument('--disable-features=NetworkService')
-                    options.add_argument('--disable-features=VizDisplayCompositor')
-                    options.add_argument('--no-first-run')
-                    options.add_argument('--no-default-browser-check')
-                    options.add_argument('--disable-background-networking')
-                    options.add_argument('--disable-sync')
-                    options.add_argument('--disable-translate')
-                    options.add_argument('--hide-scrollbars')
-                    options.add_argument('--metrics-recording-only')
-                    options.add_argument('--mute-audio')
-                    options.add_argument('--safebrowsing-disable-auto-update')
-                    options.add_argument('--password-store=basic')
-
-                    # Add process management options
-                    options.add_argument('--single-process')  # Run in single process mode
-                    options.add_argument('--disable-crash-reporter')
-                    options.add_argument('--disable-in-process-stack-traces')
-
-                    service = webdriver.ChromeService()
-                    browser = webdriver.Chrome(service=service, options=options)
-
-                    # Set timeouts
-                    browser.set_page_load_timeout(30)
-                    browser.set_script_timeout(30)
-                    browser.implicitly_wait(10)
-
-                    self.thread_local.browser = browser
-                    self.logger.info(f"Successfully created browser for thread {thread_name}")
-
-            except Exception as e:
-                self.logger.error(f"Failed to create browser for thread {thread_name}: {str(e)}")
-                self.logger.exception("Full traceback:")
-                raise
-
-        return self.thread_local.browser
-
-    def process_character(self, character: str, url: str, max_pages: int = 380) -> None:
-        """Process a single character's URL with enhanced browser management"""
-        thread = threading.current_thread()
-        self.logger.info(f"Thread {thread.name} processing {character}")
-
-        try:
-            browser = self._get_thread_browser()
-            self.logger.info(f"Browser acquired for {character}")
-            timeout_occurred = False
-
-            for page_num in range(max_pages):
-                if timeout_occurred:
-                    self.logger.info(f"Timeout occurred for {character}, moving to next URL")
-                    break
-
-                current_url = f"{url}&pid={page_num * 42}" if page_num > 0 else url
-                self.logger.info(f"Processing page {page_num + 1} for {character}: {current_url}")
-
-                if not self._safe_navigate(current_url):
-                    self.logger.error(f"Navigation failed for {character} on page {page_num + 1}")
-                    break  # Break instead of continue to prevent browser thrashing
-
-                try:
-                    # Wait for thumbnail container
-                    self.logger.debug(f"Waiting for thumbnail container on {current_url}")
-                    WebDriverWait(browser, 10).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
-                    )
-
-                    # Find all image links
-                    self.logger.debug(f"Finding image links on {current_url}")
-                    links = WebDriverWait(browser, 10).until(
-                        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
-                    )
-
-                    image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
-                    self.logger.info(f"Found {len(image_urls)} images for {character} on page {page_num + 1}")
-
-                    # Process each image
-                    for img_index, img_url in enumerate(image_urls, 1):
-                        try:
-                            self.logger.debug(f"Processing image {img_index}/{len(image_urls)} from {img_url}")
-                            full_image_url = self._expand_image(img_url)
-
-                            if full_image_url:
-                                if self._download_image(full_image_url, img_url):
-                                    self.logger.info(f"Successfully downloaded image {img_index} for {character}")
-                                else:
-                                    self.logger.warning(f"Failed to download image {img_index} for {character}")
-                                time.sleep(self.config.download_delay)
-
-                        except Exception as e:
-                            self.logger.error(f"Error processing image {img_url} for {character}: {str(e)}")
-                            continue
-
-                    time.sleep(self.config.page_delay)
-
-
-                except TimeoutException:
-                    self.logger.error(f"Timeout on page {page_num + 1} for {character}")
-                    timeout_occurred = True
-                    break
-                except Exception as e:
-                    self.logger.error(f"Error processing page {page_num + 1} for {character}: {str(e)}")
-                    break  # Break instead of continue to prevent browser thrashing
-
-        except Exception as e:
-            self.logger.error(f"Fatal error processing {character}: {str(e)}")
-            self.logger.exception("Error traceback:")
-            raise
-        finally:
-            self.logger.info(f"Cleaning up browser for {character}")
-            try:
-                if hasattr(self.thread_local, 'browser') and self.thread_local.browser is not None:
-                    self.thread_local.browser.quit()
-                    self.thread_local.browser = None
-                    self.logger.info(f"Browser cleanup complete for {character}")
-            except Exception as cleanup_error:
-                self.logger.error(f"Error during browser cleanup for {character}: {cleanup_error}")
     def _expand_image(self, page_url: str) -> Optional[str]:
         """Navigate to page and expand the image to get the full resolution URL"""
         browser = self._get_thread_browser()
@@ -3503,7 +3352,7 @@ class ThreadedGelbooruScraper(HentaiScraper):
             return Path('raw')
 
     def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
-        """Process multiple URLs using thread pool with immediate task queuing"""
+        """Process multiple URLs using thread pool with proper queue management"""
         try:
             max_concurrent = 4
             self.logger.info(f"Starting scraping with {max_concurrent} concurrent characters")
@@ -3516,104 +3365,97 @@ class ThreadedGelbooruScraper(HentaiScraper):
             )
             self.logger.info("Thread pool executor created")
 
+            # Queue setup
+            character_queue = list(urls.items())  # [(character, url), ...]
+            self.logger.info(f"Initial queue size: {len(character_queue)}")
+
+            active_futures = {}
+            completed_characters = set()
+            failed_characters = set()
+
             try:
-                # Initialize queues and tracking
-                character_queue = list(urls.items())
-                self.logger.info(f"Initial queue size: {len(character_queue)}")
-                active_futures = {}
-                completed_characters = set()
+                # Submit initial batch
+                for _ in range(min(max_concurrent, len(character_queue))):
+                    if character_queue:
+                        char, url = character_queue.pop(0)
+                        if self.state.start_character(char):
+                            self.logger.info(f"Starting initial character: {char}")
+                            future = executor.submit(self.process_character, char, url, max_pages)
+                            active_futures[future] = char
+                            self.logger.info(f"Submitted task for {char}")
 
-                # Start initial batch
-                initial_batch = character_queue[:max_concurrent]
-                character_queue = character_queue[max_concurrent:]
-                self.logger.info(f"Starting first {len(initial_batch)} characters, {len(character_queue)} remaining")
-
-                # Submit initial characters
-                for character, url in initial_batch:
-                    self._submit_new_task(executor, character, url, max_pages, active_futures)
-
-                # Process completions and add new tasks immediately
+                # Main processing loop
                 while active_futures or character_queue:
                     # Wait for any task to complete
-                    completed, in_progress = concurrent.futures.wait(
-                        active_futures.keys(),
-                        timeout=0.1,  # Short timeout to check frequently
+                    done, not_done = concurrent.futures.wait(
+                        list(active_futures.keys()),
+                        timeout=1,
                         return_when=concurrent.futures.FIRST_COMPLETED
                     )
 
-                    # Process any completed tasks
-                    for future in completed:
-                        character = active_futures[future]
+                    # Process completed tasks
+                    for future in done:
+                        char = active_futures[future]
                         try:
-                            future.result(timeout=30)
-                            self.logger.info(f"✓ Completed {character}")
-                            completed_characters.add(character)
+                            future.result()  # Get result or exception
+                            self.logger.info(f"✓ Character completed: {char}")
+                            completed_characters.add(char)
                         except Exception as e:
-                            self.logger.error(f"Error processing {character}: {str(e)}")
-                            self.logger.exception("Error traceback:")
+                            self.logger.error(f"Error processing {char}: {str(e)}")
+                            failed_characters.add(char)
                         finally:
-                            # Clean up completed task
-                            self.state.complete_character(character)
+                            self.state.complete_character(char)
                             del active_futures[future]
-                            self.logger.info(f"Removed {character} from active tasks")
+                            self.logger.info(f"Removed {char} from active tasks")
 
-                        # Immediately start next task if available
-                        if character_queue:
-                            next_character, next_url = character_queue.pop(0)
-                            self._submit_new_task(executor, next_character, next_url, max_pages, active_futures)
+                            # Start next character immediately
+                            if character_queue:
+                                next_char, next_url = character_queue.pop(0)
+                                self.logger.info(f"Starting next character: {next_char}")
+                                self.logger.info(f"Queue size: {len(character_queue)} remaining")
+
+                                if self.state.start_character(next_char):
+                                    new_future = executor.submit(self.process_character, next_char, next_url, max_pages)
+                                    active_futures[new_future] = next_char
+                                    self.logger.info(f"Submitted new task for {next_char}")
+                                else:
+                                    self.logger.warning(f"Could not acquire lock for {next_char}")
+                                    character_queue.append((next_char, next_url))
+
+                    # Short sleep to prevent busy waiting if no tasks completed
+                    if active_futures and not done:
+                        time.sleep(0.1)
+
+                # Final statistics
+                self.logger.info("Queue processing complete")
+                self.logger.info(f"Successfully completed: {len(completed_characters)} characters")
+                self.logger.info(f"Failed: {len(failed_characters)} characters")
 
             finally:
-                self.logger.info("Shutting down executor")
+                self.logger.info("Shutting down executor and cleaning up")
+                for future in active_futures:
+                    future.cancel()
                 executor.shutdown(wait=True)
                 self.logger.info("Executor shutdown complete")
 
         except Exception as e:
-            self.logger.error(f"Error in process_urls: {str(e)}")
-            self.logger.exception("Error traceback:")
+            self.logger.error(f"Fatal error in process_urls: {str(e)}")
+            self.logger.exception("Full traceback:")
             raise
 
-    def _submit_new_task(self, executor, character: str, url: str, max_pages: int, active_futures: dict):
-        """Helper method to submit a new task to the executor"""
-        self.logger.info(f"Preparing to start new character: {character}")
-
-        if self.state.start_character(character):
-            self.logger.info(f"Lock acquired for {character}")
-            future = executor.submit(self._process_character_wrapper, character, url, max_pages)
-            active_futures[future] = character
-            self.logger.info(f"Task submitted for {character}")
-        else:
-            self.logger.warning(f"Could not acquire lock for {character}")
-            self.logger.warning(f"Will retry {character} later")
-            character_queue.append((character, url))  # Put back in queue to try again later
-
-    def _process_character_wrapper(self, character: str, url: str, max_pages: int) -> None:
-        """Wrapper for process_character with enhanced error handling and logging"""
+    def _process_character_wrapper(self, character: str, urls: List[str], max_pages: int) -> None:
+        """Wrapper for process_character with enhanced error handling"""
         thread = threading.current_thread()
-        self.logger.info(f"Thread {thread.name} starting {character} with URL: {url}")
+        self.logger.info(f"Thread {thread.name} starting {character}")
 
         try:
-            self.logger.info(f"Initializing browser for {character}")
-            browser = self._get_thread_browser()
-            self.logger.info(f"Browser initialized for {character} in thread {thread.name}")
-
-            result = self.process_character(character, url, max_pages)
+            result = self.process_character(character, urls, max_pages)
             self.logger.info(f"Thread {thread.name} completed {character}")
             return result
-
         except Exception as e:
             self.logger.error(f"Thread {thread.name} error processing {character}: {str(e)}")
-            self.logger.error(f"Failed URL: {url}")
-            self.logger.exception("Full error traceback:")
+            self.logger.exception("Error traceback:")
             raise
-        finally:
-            try:
-                if hasattr(self.thread_local, 'browser'):
-                    self.logger.info(f"Cleaning up browser for {character} in thread {thread.name}")
-                    self.thread_local.browser.quit()
-                    delattr(self.thread_local, 'browser')
-                    self.logger.info(f"Browser cleanup complete for {character}")
-            except Exception as cleanup_error:
-                self.logger.error(f"Error during browser cleanup for {character}: {cleanup_error}")
 
     def process_character(self, character: str, urls: List[str], max_pages: int = 380) -> None:
         """Process a single character's URLs with full implementation"""
@@ -3797,97 +3639,42 @@ class DanbooruScraper(HentaiScraper):
         else:
             return f"{current_url}&page={page + 1}"
 
-    def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
-        """Process multiple URLs using thread pool with proper queue management"""
+    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
+        """Process Danbooru URLs"""
+        processed_count = 0
+
         try:
-            max_concurrent = 4
-            self.logger.info(f"Starting scraping with {max_concurrent} concurrent characters")
-            self.logger.info(f"Total characters to process: {len(urls)}")
+            for character, url_list in urls.items():
+                self.logger.info(f"Processing character: {character}")
 
-            # Create thread pool
-            executor = concurrent.futures.ThreadPoolExecutor(
-                max_workers=max_concurrent,
-                thread_name_prefix="scraper"
-            )
-            self.logger.info("Thread pool executor created")
+                for base_url in url_list:
+                    page = 1
+                    current_url = base_url
 
-            # Queue setup
-            character_queue = list(urls.items())  # [(character, url), ...]
-            self.logger.info(f"Initial queue size: {len(character_queue)}")
+                    while page <= max_pages:
+                        self.logger.info(f"Processing page {page} for {character}")
 
-            active_futures = {}
-            completed_characters = set()
-            failed_characters = set()
+                        # Process the current page
+                        new_count = self._process_page(current_url, character, processed_count)
+                        if new_count == processed_count:  # No new images processed
+                            self.logger.info(f"No new images found for {character} on page {page}")
+                            break
 
-            try:
-                # Submit initial batch
-                for _ in range(min(max_concurrent, len(character_queue))):
-                    if character_queue:
-                        char, url = character_queue.pop(0)
-                        if self.state.start_character(char):
-                            self.logger.info(f"Starting initial character: {char}")
-                            future = executor.submit(self.process_character, char, url, max_pages)
-                            active_futures[future] = char
-                            self.logger.info(f"Submitted task for {char}")
+                        processed_count = new_count
+                        page += 1
+                        current_url = self._get_next_page_url(base_url, page)
 
-                # Main processing loop
-                while active_futures or character_queue:
-                    # Wait for any task to complete
-                    done, not_done = concurrent.futures.wait(
-                        list(active_futures.keys()),
-                        timeout=1,
-                        return_when=concurrent.futures.FIRST_COMPLETED
-                    )
-
-                    # Process completed tasks
-                    for future in done:
-                        char = active_futures[future]
-                        try:
-                            future.result()  # Get result or exception
-                            self.logger.info(f"✓ Character completed: {char}")
-                            completed_characters.add(char)
-                        except Exception as e:
-                            self.logger.error(f"Error processing {char}: {str(e)}")
-                            failed_characters.add(char)
-                        finally:
-                            self.state.complete_character(char)
-                            del active_futures[future]
-                            self.logger.info(f"Removed {char} from active tasks")
-
-                            # Start next character immediately
-                            if character_queue:
-                                next_char, next_url = character_queue.pop(0)
-                                self.logger.info(f"Starting next character: {next_char}")
-                                self.logger.info(f"Queue size: {len(character_queue)} remaining")
-
-                                if self.state.start_character(next_char):
-                                    new_future = executor.submit(self.process_character, next_char, next_url, max_pages)
-                                    active_futures[new_future] = next_char
-                                    self.logger.info(f"Submitted new task for {next_char}")
-                                else:
-                                    self.logger.warning(f"Could not acquire lock for {next_char}")
-                                    character_queue.append((next_char, next_url))
-
-                    # Short sleep to prevent busy waiting if no tasks completed
-                    if active_futures and not done:
-                        time.sleep(0.1)
-
-                # Final statistics
-                self.logger.info("Queue processing complete")
-                self.logger.info(f"Successfully completed: {len(completed_characters)} characters")
-                self.logger.info(f"Failed: {len(failed_characters)} characters")
-
-            finally:
-                self.logger.info("Shutting down executor and cleaning up")
-                for future in active_futures:
-                    future.cancel()
-                executor.shutdown(wait=True)
-                self.logger.info("Executor shutdown complete")
+                        # Respect rate limits
+                        time.sleep(self.config.page_delay)
 
         except Exception as e:
             self.logger.error(f"Fatal error in process_urls: {str(e)}")
-            self.logger.exception("Full traceback:")
-            raise
+        finally:
+            self.logger.info(f"Processed {processed_count} images successfully")
+            try:
+                self.browser.quit()
+            except Exception as e:
+                self.logger.error(f"Error closing browser: {str(e)}")
 
 # class CharacterTags:
 #     """Character tag mappings between different image boards"""
@@ -11659,10 +11446,10 @@ def main():
 
         urls = {
             # ONE PIECE
-            # "monkey_d_luffy": "https://gelbooru.com/index.php?page=post&s=list&tags=monkey_d_luffy",
-            # "roronoa_zoro": "https://gelbooru.com/index.php?page=post&s=list&tags=roronoa_zoro",
+            "monkey_d_luffy": "https://gelbooru.com/index.php?page=post&s=list&tags=monkey_d_luffy",
+            "roronoa_zoro": "https://gelbooru.com/index.php?page=post&s=list&tags=roronoa_zoro",
             "nami": "https://gelbooru.com/index.php?page=post&s=list&tags=nami_(one_piece)",
-            # "vinsmoke_sanji": "https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_sanji",
+            "vinsmoke_sanji": "https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_sanji",
             "nico_robin": "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin",
             "uta": "https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)",
             "rebecca": "https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_(one_piece)",
@@ -12194,3 +11981,130 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#
+# # gelbooru.com
+#
+# class HentaiScraper():
+#     def __init__(self):
+#         # self._nami_url = "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29"
+#         # self._robin_url = "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+"
+#         # self._baby5_url = "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+"
+#         # 'nami': "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29",
+#         # 'robin': "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+",
+#         # 'baby_5': "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+",
+#         # 'bonney': "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+",
+#         # 'carrot': "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_%28one_piece%29+"
+#         self._one_piece_urls = {'uta': 'https://gelbooru.com/index.php?page=post&s=list&tags=uta_%28one_piece%29',
+#                                 'rebecca': 'https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_%28one_piece%29+',
+#                                 'carrot': "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_%28one_piece%29+",
+#                                 'bonney': "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+",
+#                                 'baby_5': "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+",
+#                                 'robin': "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+",
+#                                 'nami': "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29",
+#
+#                                 }
+#
+#     def setup(self):
+#         print("Running setup...")
+#
+#         print("Config set...")
+#
+#         print("Setup finished...")
+#
+#     def download_one_piece(self):
+#         urls = self._one_piece_urls
+#
+#         count = True
+#
+#         number = 0
+#
+#         for k, v in urls.items():
+#             while number <= 15944:
+#                 if count == True:
+#                     print("URL: " + v)
+#                     print("KEY!!!! ", k)
+#
+#                     try:
+#                         page = requests.get(v)
+#                         soup = BeautifulSoup(page.content, 'lxml')
+#
+#                         for a in soup.find_all('a', href=True):
+#                             if "test.com" in a['href'] and "&id=" in a['href']:
+#                                 print("Found the URL:", a['href'])
+#
+#                                 page = requests.get(a['href'])
+#                                 soup = BeautifulSoup(page.content, 'lxml')
+#
+#                                 for img in soup.find_all('img', src=True):
+#                                     if "gelbooru.com" in img['src'] and "sample" in img['src']:
+#
+#                                             filename = r"/Volumes/ExternalHD/workspace/python/Monke D. Luffy/hentai/one_piece/" + k + r"/"
+#                                             # filename = r"/home/timmy/hentai/one_piece/" + k + r"/"
+#
+#                                             filename += ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6)) + '.jpg'
+#
+#                                             r = requests.get(img['src'], stream=True)
+#
+#                                             if r.status_code == 200:
+#                                                 r.raw.decode_content = True
+#                                                 with open(filename, 'wb') as f:
+#                                                     shutil.copyfileobj(r.raw, f)
+#
+#                                                 print("Image sucessfully Download:", filename)
+#
+#                                             else:
+#                                                 print("Image Couldn\'t be retreived.")
+#                     except requests.exceptions.ReadTimeout:
+#                         print("Read Timeout occurred.")
+#                     finally:
+#                         count = False
+#                         number += 42
+#
+#                         time.sleep(5)
+#                 elif count == False:
+#                     try:
+#                         print("COUNT: " + str(count))
+#                         print("URL: " + v + "&pid=" + str(number))
+#                         print("KEY!!!! ", k)
+#
+#                         print("Starting count not 0...")
+#
+#                         link = v + "&pid=" + str(number)
+#
+#                         page = requests.get(link)
+#                         soup = BeautifulSoup(page.content, 'lxml')
+#
+#                         for a in soup.find_all('a', href=True):
+#                             if "gelbooru.com" in a['href'] and "&id=" in a['href']:
+#                                 print("Found the URL:", a['href'])
+#
+#                                 page = requests.get(a['href'])
+#                                 soup = BeautifulSoup(page.content, 'lxml')
+#
+#                                 for img in soup.find_all('img', src=True):
+#                                     if "gelbooru.com" in img['src'] and "sample" in img['src']:
+#                                         filename = r"/Volumes/ExternalHD/workspace/python/Monke D. Luffy/hentai/one_piece/" + k + r"/"
+#                                         # filename = r"/home/timmy/hentai/one_piece/" + k + r"/"
+#
+#                                         filename += ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6)) + '.jpg'
+#
+#                                         r = requests.get(img['src'], stream=True)
+#
+#                                         if r.status_code == 200:
+#                                             r.raw.decode_content = True
+#                                             with open(filename, 'wb') as f:
+#                                                 shutil.copyfileobj(r.raw, f)
+#
+#                                             print("Image sucessfully Download:", filename)
+#
+#                                         else:
+#                                             print("Image Couldn\'t be retreived.")
+#
+#                     except requests.exceptions.ReadTimeout:
+#                         print("Read Timeout occurred.")
+#                     finally:
+#                         number += 42
+#
+#                         time.sleep(5)
+#         number = 0
