@@ -3797,42 +3797,97 @@ class DanbooruScraper(HentaiScraper):
         else:
             return f"{current_url}&page={page + 1}"
 
-    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
-        """Process Danbooru URLs"""
-        processed_count = 0
-
+    def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
+        """Process multiple URLs using thread pool with proper queue management"""
         try:
-            for character, url_list in urls.items():
-                self.logger.info(f"Processing character: {character}")
+            max_concurrent = 4
+            self.logger.info(f"Starting scraping with {max_concurrent} concurrent characters")
+            self.logger.info(f"Total characters to process: {len(urls)}")
 
-                for base_url in url_list:
-                    page = 1
-                    current_url = base_url
+            # Create thread pool
+            executor = concurrent.futures.ThreadPoolExecutor(
+                max_workers=max_concurrent,
+                thread_name_prefix="scraper"
+            )
+            self.logger.info("Thread pool executor created")
 
-                    while page <= max_pages:
-                        self.logger.info(f"Processing page {page} for {character}")
+            # Queue setup
+            character_queue = list(urls.items())  # [(character, url), ...]
+            self.logger.info(f"Initial queue size: {len(character_queue)}")
 
-                        # Process the current page
-                        new_count = self._process_page(current_url, character, processed_count)
-                        if new_count == processed_count:  # No new images processed
-                            self.logger.info(f"No new images found for {character} on page {page}")
-                            break
+            active_futures = {}
+            completed_characters = set()
+            failed_characters = set()
 
-                        processed_count = new_count
-                        page += 1
-                        current_url = self._get_next_page_url(base_url, page)
+            try:
+                # Submit initial batch
+                for _ in range(min(max_concurrent, len(character_queue))):
+                    if character_queue:
+                        char, url = character_queue.pop(0)
+                        if self.state.start_character(char):
+                            self.logger.info(f"Starting initial character: {char}")
+                            future = executor.submit(self.process_character, char, url, max_pages)
+                            active_futures[future] = char
+                            self.logger.info(f"Submitted task for {char}")
 
-                        # Respect rate limits
-                        time.sleep(self.config.page_delay)
+                # Main processing loop
+                while active_futures or character_queue:
+                    # Wait for any task to complete
+                    done, not_done = concurrent.futures.wait(
+                        list(active_futures.keys()),
+                        timeout=1,
+                        return_when=concurrent.futures.FIRST_COMPLETED
+                    )
+
+                    # Process completed tasks
+                    for future in done:
+                        char = active_futures[future]
+                        try:
+                            future.result()  # Get result or exception
+                            self.logger.info(f"✓ Character completed: {char}")
+                            completed_characters.add(char)
+                        except Exception as e:
+                            self.logger.error(f"Error processing {char}: {str(e)}")
+                            failed_characters.add(char)
+                        finally:
+                            self.state.complete_character(char)
+                            del active_futures[future]
+                            self.logger.info(f"Removed {char} from active tasks")
+
+                            # Start next character immediately
+                            if character_queue:
+                                next_char, next_url = character_queue.pop(0)
+                                self.logger.info(f"Starting next character: {next_char}")
+                                self.logger.info(f"Queue size: {len(character_queue)} remaining")
+
+                                if self.state.start_character(next_char):
+                                    new_future = executor.submit(self.process_character, next_char, next_url, max_pages)
+                                    active_futures[new_future] = next_char
+                                    self.logger.info(f"Submitted new task for {next_char}")
+                                else:
+                                    self.logger.warning(f"Could not acquire lock for {next_char}")
+                                    character_queue.append((next_char, next_url))
+
+                    # Short sleep to prevent busy waiting if no tasks completed
+                    if active_futures and not done:
+                        time.sleep(0.1)
+
+                # Final statistics
+                self.logger.info("Queue processing complete")
+                self.logger.info(f"Successfully completed: {len(completed_characters)} characters")
+                self.logger.info(f"Failed: {len(failed_characters)} characters")
+
+            finally:
+                self.logger.info("Shutting down executor and cleaning up")
+                for future in active_futures:
+                    future.cancel()
+                executor.shutdown(wait=True)
+                self.logger.info("Executor shutdown complete")
 
         except Exception as e:
             self.logger.error(f"Fatal error in process_urls: {str(e)}")
-        finally:
-            self.logger.info(f"Processed {processed_count} images successfully")
-            try:
-                self.browser.quit()
-            except Exception as e:
-                self.logger.error(f"Error closing browser: {str(e)}")
+            self.logger.exception("Full traceback:")
+            raise
 
 # class CharacterTags:
 #     """Character tag mappings between different image boards"""
