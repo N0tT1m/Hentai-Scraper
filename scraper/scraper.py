@@ -3352,21 +3352,13 @@ class ThreadedGelbooruScraper(HentaiScraper):
             return Path('raw')
 
     def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
-        """Process multiple URLs using thread pool with dictionary of URLs"""
+        """Process multiple URLs using thread pool with immediate task queuing"""
         try:
             max_concurrent = 4
             self.logger.info(f"Starting scraping with {max_concurrent} concurrent characters")
             self.logger.info(f"Total characters to process: {len(urls)}")
 
-            # System diagnostics
-            process = psutil.Process()
-            self.logger.info(f"Current memory usage: {process.memory_info().rss / 1024 / 1024:.2f} MB")
-            self.logger.info(f"Available CPU cores: {psutil.cpu_count()}")
-            self.logger.info(f"Current thread count: {threading.active_count()}")
-            self.logger.info("Current threads: " + ", ".join([t.name for t in threading.enumerate()]))
-
             # Create thread pool
-            self.logger.info("Creating thread pool executor...")
             executor = concurrent.futures.ThreadPoolExecutor(
                 max_workers=max_concurrent,
                 thread_name_prefix="scraper"
@@ -3374,81 +3366,50 @@ class ThreadedGelbooruScraper(HentaiScraper):
             self.logger.info("Thread pool executor created")
 
             try:
-                # Convert dictionary to list for queue management
-                character_queue = list(urls.items())  # [(character, url), ...]
+                # Initialize queues and tracking
+                character_queue = list(urls.items())
                 self.logger.info(f"Initial queue size: {len(character_queue)}")
-
                 active_futures = {}
                 completed_characters = set()
 
-                # Take first batch
+                # Start initial batch
                 initial_batch = character_queue[:max_concurrent]
                 character_queue = character_queue[max_concurrent:]
-                self.logger.info(
-                    f"Taking first {len(initial_batch)} characters, {len(character_queue)} remaining in queue")
+                self.logger.info(f"Starting first {len(initial_batch)} characters, {len(character_queue)} remaining")
 
-                # Submit initial batch
+                # Submit initial characters
                 for character, url in initial_batch:
-                    self.logger.info(f"Starting initial character: {character} with URL: {url}")
-                    if self.state.start_character(character):
-                        future = executor.submit(self._process_character_wrapper, character, url, max_pages)
-                        active_futures[future] = character
-                        self.logger.info(f"Submitted initial task for {character}")
+                    self._submit_new_task(executor, character, url, max_pages, active_futures)
 
-                # Process results and add new characters
+                # Process completions and add new tasks immediately
                 while active_futures or character_queue:
-                    self.logger.debug(f"Active futures: {len(active_futures)}, Queue size: {len(character_queue)}")
-
-                    # Wait for next completion
-                    done, _ = concurrent.futures.wait(
+                    # Wait for any task to complete
+                    completed, in_progress = concurrent.futures.wait(
                         active_futures.keys(),
-                        timeout=1,
+                        timeout=0.1,  # Short timeout to check frequently
                         return_when=concurrent.futures.FIRST_COMPLETED
                     )
 
-                    # Handle completed characters
-                    for future in done:
+                    # Process any completed tasks
+                    for future in completed:
                         character = active_futures[future]
                         try:
                             future.result(timeout=30)
-                            self.logger.info(f"✓ Character completed: {character}")
+                            self.logger.info(f"✓ Completed {character}")
                             completed_characters.add(character)
                         except Exception as e:
                             self.logger.error(f"Error processing {character}: {str(e)}")
-                            self.logger.exception("Processing error traceback:")
+                            self.logger.exception("Error traceback:")
                         finally:
+                            # Clean up completed task
                             self.state.complete_character(character)
                             del active_futures[future]
                             self.logger.info(f"Removed {character} from active tasks")
 
-                        # Start next character if available
+                        # Immediately start next task if available
                         if character_queue:
                             next_character, next_url = character_queue.pop(0)
-                            self.logger.info(f"Queue has {len(character_queue)} characters remaining")
-                            self.logger.info(f"Starting next character: {next_character} with URL: {next_url}")
-
-                            if self.state.start_character(next_character):
-                                self.logger.info(f"Submitting task for {next_character}")
-                                new_future = executor.submit(
-                                    self._process_character_wrapper,
-                                    next_character,
-                                    next_url,
-                                    max_pages
-                                )
-                                active_futures[new_future] = next_character
-                                self.logger.info(f"Successfully submitted task for {next_character}")
-                            else:
-                                self.logger.warning(f"Failed to acquire lock for {next_character}")
-                                # Put character back in queue
-                                character_queue.insert(0, (next_character, next_url))
-                                self.logger.info(f"Returned {next_character} to queue")
-
-                    # Prevent busy waiting
-                    if active_futures and not done:
-                        time.sleep(0.1)
-
-                self.logger.info(f"Queue processing complete. Processed {len(completed_characters)} characters")
-                self.logger.info("Completed characters: " + ", ".join(sorted(completed_characters)))
+                            self._submit_new_task(executor, next_character, next_url, max_pages, active_futures)
 
             finally:
                 self.logger.info("Shutting down executor")
@@ -3459,6 +3420,20 @@ class ThreadedGelbooruScraper(HentaiScraper):
             self.logger.error(f"Error in process_urls: {str(e)}")
             self.logger.exception("Error traceback:")
             raise
+
+    def _submit_new_task(self, executor, character: str, url: str, max_pages: int, active_futures: dict):
+        """Helper method to submit a new task to the executor"""
+        self.logger.info(f"Preparing to start new character: {character}")
+
+        if self.state.start_character(character):
+            self.logger.info(f"Lock acquired for {character}")
+            future = executor.submit(self._process_character_wrapper, character, url, max_pages)
+            active_futures[future] = character
+            self.logger.info(f"Task submitted for {character}")
+        else:
+            self.logger.warning(f"Could not acquire lock for {character}")
+            self.logger.warning(f"Will retry {character} later")
+            character_queue.append((character, url))  # Put back in queue to try again later
 
     def _process_character_wrapper(self, character: str, url: str, max_pages: int) -> None:
         """Wrapper for process_character with enhanced error handling and logging"""
