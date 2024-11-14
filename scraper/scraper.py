@@ -11575,159 +11575,455 @@ class CharacterTags:
     HATSUNE_MIKU_TAGS = {
         # Main Vocaloids
         "miku": {
-            "gelbooru": [
-                "hatsune_miku",
-                "miku_%28vocaloid%29",
-                "initial_miku",
-                "miku_%28project_diva%29"
-            ],
-            "danbooru": [
-                "hatsune_miku",
-                "miku_(vocaloid)",
-                "project_diva"
-            ]
+            "names": ["hatsune_miku", "miku", "initial_miku", "cv01", "virtual_diva"],
+            "titles": ["virtual_idol", "vocaloid_princess", "digital_singer", "sound_of_the_future"],
+            "forms": ["base_form", "append_form", "v3_form", "v4x_form", "nt_form"],
+            "abilities": ["perfect_pitch", "wide_vocal_range", "tempo_control", "voice_synthesis"],
+            "relationships": ["crypton_family_member", "kaito's_partner", "kagamine_twins_mentor"],
+            "outfits": ["default_outfit", "project_diva_attire", "racing_miku", "snow_miku", "magical_mirai"],
+            "gelbooru": ["hatsune_miku", "miku_%28vocaloid%29", "initial_miku", "miku_%28project_diva%29"],
+            "danbooru": ["hatsune_miku", "miku_(vocaloid)", "project_diva"]
         },
+
+        "luka": {
+            "names": ["megurine_luka", "luka", "cv03", "pink_diva"],
+            "titles": ["mature_vocaloid", "bilingual_singer", "voice_enchantress"],
+            "forms": ["base_form", "v2_form", "v4x_form", "english_voicebank"],
+            "abilities": ["dual_language_synthesis", "low_range_specialist", "smooth_transitions"],
+            "relationships": ["crypton_family_member", "miku's_mentor", "kaito's_duet_partner"],
+            "outfits": ["default_outfit", "project_diva_attire", "kimono_style", "concert_dress"],
+            "gelbooru": ["megurine_luka", "luka_%28vocaloid%29", "luka_%28project_diva%29"],
+            "danbooru": ["megurine_luka", "project_diva"]
+        },
+
         "meiko": {
+            "names": ["meiko", "cv01_meiko", "sakine_meiko", "red_diva"],
+            "titles": ["first_japanese_vocaloid", "veteran_singer", "sake_lover"],
+            "forms": ["base_form", "v3_form", "power_form", "straight_form"],
+            "abilities": ["powerful_voice", "wide_range", "mature_tonality"],
+            "relationships": ["crypton_family_senior", "kaito's_counterpart", "miku's_senior"],
+            "outfits": ["default_red_outfit", "project_diva_attire", "kimono_style"],
             "gelbooru": ["meiko_%28vocaloid%29", "meiko_%28project_diva%29"],
             "danbooru": ["meiko_(vocaloid)", "project_diva"]
         },
+
         "rin": {
-            "gelbooru": [
-                "kagamine_rin",
-                "rin_%28vocaloid%29",
-                "rin_%28project_diva%29"
-            ],
+            "names": ["kagamine_rin", "cv02_rin", "yellow_diva"],
+            "titles": ["mirror_sound", "vocal_princess", "twin_vocalist"],
+            "forms": ["base_form", "append_form", "v4x_form", "power_form"],
+            "abilities": ["high_range_vocals", "duo_synthesis", "mirror_harmonies"],
+            "relationships": ["len's_mirror", "crypton_family_member", "miku's_junior"],
+            "outfits": ["default_outfit", "project_diva_attire", "swimmer_style", "princess_form"],
+            "gelbooru": ["kagamine_rin", "rin_%28vocaloid%29", "rin_%28project_diva%29"],
             "danbooru": ["kagamine_rin", "rin_(vocaloid)"]
         },
-
-        # Popular derivatives
-        "teto": {
-            "gelbooru": ["kasane_teto", "utau", "teto_%28utau%29"],
-            "danbooru": ["kasane_teto", "utau"]
-        },
-        "neru": {
-            "gelbooru": ["akita_neru", "neru_%28derivative%29"],
-            "danbooru": ["akita_neru", "derivative"]
-        },
-        "haku": {
-            "gelbooru": ["yowane_haku", "haku_%28derivative%29"],
-            "danbooru": ["yowane_haku", "derivative"]
-        },
-
-        # Additional Vocaloids
-        "luka": {
-            "gelbooru": [
-                "megurine_luka",
-                "luka_%28vocaloid%29",
-                "luka_%28project_diva%29"
-            ],
-            "danbooru": ["megurine_luka", "project_diva"]
-        },
         "gumi": {
+            "names": ["gumi", "megpoid", "green_diva"],
+            "titles": ["internet_co_voice", "carrot_princess", "voice_veteran"],
+            "forms": ["base_form", "v3_form", "v4_form", "english_form"],
+            "abilities": ["clear_voice", "wide_range", "bilingual_synthesis"],
+            "relationships": ["internet_co_family", "lily's_companion", "cross_synthesis_specialist"],
+            "outfits": ["default_green", "native_dress", "casual_wear", "concert_attire"],
             "gelbooru": ["gumi_%28vocaloid%29", "megpoid"],
             "danbooru": ["gumi", "megpoid"]
         },
         "ia": {
+            "names": ["ia", "aria_planetes", "spiritual_diva"],
+            "titles": ["1st_place_voice", "ethereal_singer", "space_vocalist"],
+            "forms": ["base_form", "rocks_form", "spiritual_form"],
+            "abilities": ["gentle_synthesis", "clear_tones", "electronic_fusion"],
+            "relationships": ["one_place_family", "aria_successor", "vocaloid3_generation"],
+            "outfits": ["default_outfit", "rocks_attire", "concert_dress", "casual_wear"],
             "gelbooru": ["ia_%28vocaloid%29", "aria_planetes"],
             "danbooru": ["ia_(vocaloid)", "aria"]
         },
         "yukari": {
+            "names": ["yuzuki_yukari", "voiceroid_yukari", "purple_voice"],
+            "titles": ["rabbit_vocalist", "ah_software_voice", "dual_system_singer"],
+            "forms": ["base_form", "ex_form", "voiceroid_form"],
+            "abilities": ["dual_synthesis", "natural_speech", "voice_acting"],
+            "relationships": ["ah_software_family", "voiceroid_member", "vocaloid_crossover"],
+            "outfits": ["default_outfit", "rabbit_theme", "casual_wear", "voice_forms"],
             "gelbooru": ["yuzuki_yukari", "yukari_%28vocaloid%29"],
             "danbooru": ["yuzuki_yukari", "voiceroid"]
-        }
+        },
+
+        "teto": {
+            "names": ["kasane_teto", "utau_teto", "chimera_voice"],
+            "titles": ["utau_pioneer", "chimera_vocalist", "drill_hair_idol"],
+            "forms": ["base_form", "chimera_form", "append_form"],
+            "abilities": ["multi_voice_synthesis", "drill_spin", "high_pitch_mastery"],
+            "relationships": ["utau_family", "miku's_friend", "vocaloid_collaborator"],
+            "outfits": ["default_red", "concert_attire", "casual_wear"],
+            "gelbooru": ["kasane_teto", "utau", "teto_%28utau%29"],
+            "danbooru": ["kasane_teto", "utau"]
+        },
+        "neru": {
+            "names": ["akita_neru", "derivative_neru", "yellow_phone"],
+            "titles": ["phone_master", "tsundere_idol", "fanmade_diva"],
+            "forms": ["base_form", "phone_mode", "tsundere_state"],
+            "abilities": ["phone_mastery", "attitude_projection", "tsundere_power"],
+            "relationships": ["derivative_family", "miku's_rival", "fan_creation"],
+            "outfits": ["yellow_outfit", "casual_wear", "phone_costume"],
+            "gelbooru": ["akita_neru", "neru_%28derivative%29"],
+            "danbooru": ["akita_neru", "derivative"]
+        },
+        "haku": {
+            "names": ["yowane_haku", "failed_miku", "white_voice"],
+            "titles": ["failed_diva", "drinking_queen", "mirror_shadow"],
+            "forms": ["base_form", "drunk_form", "depression_mode"],
+            "abilities": ["deep_voice", "drinking_tolerance", "mirror_singing"],
+            "relationships": ["derivative_family", "miku's_shadow", "neru's_friend"],
+            "outfits": ["grey_outfit", "drinking_clothes", "mirror_costume"],
+            "gelbooru": ["yowane_haku", "haku_%28derivative%29"],
+            "danbooru": ["yowane_haku", "derivative"]
+        },
+
+        # "miku": {
+        #     "gelbooru": [
+        #         "hatsune_miku",
+        #         "miku_%28vocaloid%29",
+        #         "initial_miku",
+        #         "miku_%28project_diva%29"
+        #     ],
+        #     "danbooru": [
+        #         "hatsune_miku",
+        #         "miku_(vocaloid)",
+        #         "project_diva"
+        #     ]
+        # },
+        # "meiko": {
+        #     "gelbooru": ["meiko_%28vocaloid%29", "meiko_%28project_diva%29"],
+        #     "danbooru": ["meiko_(vocaloid)", "project_diva"]
+        # },
+        # "rin": {
+        #     "gelbooru": [
+        #         "kagamine_rin",
+        #         "rin_%28vocaloid%29",
+        #         "rin_%28project_diva%29"
+        #     ],
+        #     "danbooru": ["kagamine_rin", "rin_(vocaloid)"]
+        # },
+        #
+        # # Popular derivatives
+        # "teto": {
+        #     "gelbooru": ["kasane_teto", "utau", "teto_%28utau%29"],
+        #     "danbooru": ["kasane_teto", "utau"]
+        # },
+        # "neru": {
+        #     "gelbooru": ["akita_neru", "neru_%28derivative%29"],
+        #     "danbooru": ["akita_neru", "derivative"]
+        # },
+        # "haku": {
+        #     "gelbooru": ["yowane_haku", "haku_%28derivative%29"],
+        #     "danbooru": ["yowane_haku", "derivative"]
+        # },
+        #
+        # # Additional Vocaloids
+        # "luka": {
+        #     "gelbooru": [
+        #         "megurine_luka",
+        #         "luka_%28vocaloid%29",
+        #         "luka_%28project_diva%29"
+        #     ],
+        #     "danbooru": ["megurine_luka", "project_diva"]
+        # },
+        # "gumi": {
+        #     "gelbooru": ["gumi_%28vocaloid%29", "megpoid"],
+        #     "danbooru": ["gumi", "megpoid"]
+        # },
+        # "ia": {
+        #     "gelbooru": ["ia_%28vocaloid%29", "aria_planetes"],
+        #     "danbooru": ["ia_(vocaloid)", "aria"]
+        # },
+        # "yukari": {
+        #     "gelbooru": ["yuzuki_yukari", "yukari_%28vocaloid%29"],
+        #     "danbooru": ["yuzuki_yukari", "voiceroid"]
+        # }
     }
 
     LYCORIS_RECOIL_TAGS = {
         "chisato": {
+            "names": ["nishikigi_chisato", "chisato", "lycoris_number_08"],
+            "titles": ["former_top_lycoris", "cafe_worker", "artificial_heart_bearer"],
+            "forms": ["base_form", "combat_mode", "cafe_uniform", "civilian_disguise"],
+            "abilities": ["superhuman_reflexes", "bullet_deflection", "close_combat_mastery"],
+            "relationships": ["takina's_partner", "mizuki's_subordinate", "yoshimatsu's_patient"],
+            "outfits": ["cafe_uniform", "casual_wear", "combat_gear", "school_uniform"],
             "gelbooru": ["nishikigi_chisato", "lycoris", "artificial_heart"],
             "danbooru": ["nishikigi_chisato", "blonde_hair"]
         },
+
         "takina": {
+            "names": ["inoue_takina", "takina", "lycoris_trainee"],
+            "titles": ["former_da_member", "cafe_worker", "elite_lycoris"],
+            "forms": ["base_form", "combat_mode", "cafe_uniform", "trainee_form"],
+            "abilities": ["marksmanship", "tactical_analysis", "close_quarters_combat"],
+            "relationships": ["chisato's_partner", "mizuki's_subordinate", "da_outcast"],
+            "outfits": ["cafe_uniform", "combat_gear", "casual_wear", "school_uniform"],
             "gelbooru": ["inoue_takina", "lycoris", "da_trainee"],
             "danbooru": ["inoue_takina", "black_hair"]
         },
-        "mizuki": {
-            "gelbooru": ["nakahara_mizuki", "radio_operator"],
-            "danbooru": ["nakahara_mizuki", "commander"]
-        },
-        "kurumi": {
-            "gelbooru": ["kurumi_%28lycoris_recoil%29", "walnut", "hacker"],
-            "danbooru": ["kurumi_(lycoris_recoil)", "hacker"]
-        },
-        "sakura": {
-            "gelbooru": ["otome_sakura", "lycoris"],
-            "danbooru": ["otome_sakura", "division_commander"]
-        },
+
         "himegama": {
+            "names": ["himegama", "instructor_himegama", "training_master"],
+            "titles": ["lycoris_instructor", "combat_teacher", "training_specialist"],
+            "forms": ["base_form", "instructor_mode", "combat_form"],
+            "abilities": ["combat_training", "tactical_instruction", "leadership"],
+            "relationships": ["lycoris_trainer", "takina's_instructor", "da_member"],
+            "outfits": ["instructor_uniform", "combat_gear", "formal_wear"],
             "gelbooru": ["himegama_%28lycoris_recoil%29", "instructor"],
             "danbooru": ["himegama", "teacher"]
         },
         "mika": {
+            "names": ["mika", "cafe_owner", "lilybell_manager"],
+            "titles": ["cafe_manager", "business_owner", "lycoris_supporter"],
+            "forms": ["base_form", "manager_mode", "casual_form"],
+            "abilities": ["business_management", "coffee_brewing", "support_operations"],
+            "relationships": ["chisato's_employer", "takina's_boss", "cafe_owner"],
+            "outfits": ["cafe_uniform", "casual_wear", "business_attire"],
             "gelbooru": ["mika_%28lycoris_recoil%29", "cafe_owner"],
             "danbooru": ["mika_(lycoris_recoil)", "cafe_manager"]
-        }
+        },
+
+        # "chisato": {
+        #     "gelbooru": ["nishikigi_chisato", "lycoris", "artificial_heart"],
+        #     "danbooru": ["nishikigi_chisato", "blonde_hair"]
+        # },
+        # "takina": {
+        #     "gelbooru": ["inoue_takina", "lycoris", "da_trainee"],
+        #     "danbooru": ["inoue_takina", "black_hair"]
+        # },
+        # "mizuki": {
+        #     "gelbooru": ["nakahara_mizuki", "radio_operator"],
+        #     "danbooru": ["nakahara_mizuki", "commander"]
+        # },
+        # "kurumi": {
+        #     "gelbooru": ["kurumi_%28lycoris_recoil%29", "walnut", "hacker"],
+        #     "danbooru": ["kurumi_(lycoris_recoil)", "hacker"]
+        # },
+        # "sakura": {
+        #     "gelbooru": ["otome_sakura", "lycoris"],
+        #     "danbooru": ["otome_sakura", "division_commander"]
+        # },
+        # "himegama": {
+        #     "gelbooru": ["himegama_%28lycoris_recoil%29", "instructor"],
+        #     "danbooru": ["himegama", "teacher"]
+        # },
+        # "mika": {
+        #     "gelbooru": ["mika_%28lycoris_recoil%29", "cafe_owner"],
+        #     "danbooru": ["mika_(lycoris_recoil)", "cafe_manager"]
+        # }
     }
 
     FAIRY_TAIL_TAGS = {
-        "lucy": {
-            "gelbooru": ["lucy_heartfilia", "celestial_wizard", "fairy_tail"],
-            "danbooru": ["lucy_heartfilia", "celestial_spirit_mage"]
-        },
         "erza": {
+            "names": ["erza_scarlet", "titania", "queen_of_fairies"],
+            "titles": ["s_class_wizard", "fairy_queen", "requip_master"],
+            "forms": ["base_form", "heaven's_wheel", "black_wing", "purgatory", "clear_heart"],
+            "abilities": ["requip_magic", "sword_magic", "telekinesis", "artificial_eye"],
+            "relationships": ["jellal's_childhood_friend", "team_natsu_member", "fairy_tail_s_class"],
+            "outfits": ["heart_kreuz_armor", "heaven's_wheel_armor", "flight_armor", "casual_wear"],
             "gelbooru": ["erza_scarlet", "titania", "requip_mage"],
             "danbooru": ["erza_scarlet", "knight"]
         },
+
+        "lucy": {
+            "names": ["lucy_heartfilia", "lucky_lucy", "princess"],
+            "titles": ["celestial_wizard", "heartfilia_heiress", "fairy_tail_wizard"],
+            "forms": ["base_form", "star_dress_aquarius", "star_dress_leo", "star_dress_virgo"],
+            "abilities": ["celestial_spirit_magic", "urano_metria", "gottfried", "star_dress"],
+            "relationships": ["team_natsu_member", "heartfilia_heiress", "natsu's_partner"],
+            "outfits": ["default_outfit", "star_dress_forms", "celestial_clothes", "casual_wear"],
+            "gelbooru": ["lucy_heartfilia", "celestial_wizard", "fairy_tail"],
+            "danbooru": ["lucy_heartfilia", "celestial_spirit_mage"]
+        },
+
         "mirajane": {
+            "names": ["mirajane_strauss", "demon_mirajane", "mira"],
+            "titles": ["s_class_wizard", "she_devil", "takeover_master"],
+            "forms": ["base_form", "satan_soul", "sitri", "halphas"],
+            "abilities": ["takeover_magic", "transformation_magic", "demon_powers"],
+            "relationships": ["strauss_sibling", "fairy_tail_s_class", "model"],
+            "outfits": ["bar_dress", "demon_forms", "photo_shoot_attire", "casual_wear"],
             "gelbooru": ["mirajane_strauss", "demon_takeover", "s_class"],
             "danbooru": ["mirajane_strauss", "demon_mirajane"]
         },
         "wendy": {
+            "names": ["wendy_marvell", "sky_maiden", "sky_sorceress"],
+            "titles": ["sky_dragon_slayer", "healing_wizard", "maiden_of_the_sky"],
+            "forms": ["base_form", "dragon_force", "enchantment_mode"],
+            "abilities": ["sky_dragon_slayer_magic", "healing_magic", "support_enchantments"],
+            "relationships": ["team_natsu_member", "carla's_partner", "grandeeney's_daughter"],
+            "outfits": ["default_outfit", "dragon_force_form", "school_uniform", "casual_wear"],
             "gelbooru": ["wendy_marvell", "sky_dragon_slayer", "dragon_force"],
             "danbooru": ["wendy_marvell", "sky_maiden"]
         },
         "juvia": {
+            "names": ["juvia_lockser", "juvia_of_the_deep", "rain_woman"],
+            "titles": ["water_wizard", "former_phantom", "fairy_tail_member"],
+            "forms": ["base_form", "water_body", "rage_mode"],
+            "abilities": ["water_magic", "water_body", "water_lock"],
+            "relationships": ["gray's_admirer", "fairy_tail_member", "former_phantom_lord"],
+            "outfits": ["blue_outfit", "swimsuit", "winter_coat", "casual_wear"],
             "gelbooru": ["juvia_lockser", "water_mage", "gray_stalker"],
             "danbooru": ["juvia_lockser", "water_woman"]
         },
         "mavis": {
+            "names": ["mavis_vermillion", "fairy_tactician", "first_master"],
+            "titles": ["fairy_strategist", "founding_master", "fairy_heart"],
+            "forms": ["base_form", "astral_form", "fairy_heart_form"],
+            "abilities": ["illusion_magic", "fairy_law", "fairy_sphere"],
+            "relationships": ["zeref's_love", "fairy_tail_founder", "zera's_friend"],
+            "outfits": ["founding_dress", "fairy_wings", "casual_dress"],
             "gelbooru": ["mavis_vermillion", "fairy_tactician", "first_master"],
             "danbooru": ["mavis_vermillion", "founding_master"]
         },
+
         "brandish": {
+            "names": ["brandish_μ", "country_demolisher", "mass_manipulator"],
+            "titles": ["spriggan_12", "country_toppler", "mass_manipulation_mage"],
+            "forms": ["base_form", "battle_mode", "relaxed_form"],
+            "abilities": ["mass_manipulation", "country_level_magic", "size_alteration"],
+            "relationships": ["spriggan_12_member", "dimaria's_friend", "lucy's_admirer"],
+            "outfits": ["revealing_outfit", "swimsuit", "spriggan_uniform"],
             "gelbooru": ["brandish_μ", "spriggan_12", "mass_manipulation"],
             "danbooru": ["brandish", "country_toppler"]
         },
         "dimaria": {
+            "names": ["dimaria_yesta", "time_goddess", "valkyrie"],
+            "titles": ["spriggan_12", "chronos_avatar", "war_goddess"],
+            "forms": ["base_form", "god_soul_chronos", "valkyrie_form"],
+            "abilities": ["time_manipulation", "god_soul_takeover", "age_seal"],
+            "relationships": ["spriggan_12_member", "brandish's_friend", "chronos_vessel"],
+            "outfits": ["armor_outfit", "valkyrie_gear", "casual_wear"],
             "gelbooru": ["dimaria_yesta", "spriggan_12", "age_seal"],
             "danbooru": ["dimaria_yesta", "time_goddess"]
-        }
+        },
+
+        # "lucy": {
+        #     "gelbooru": ["lucy_heartfilia", "celestial_wizard", "fairy_tail"],
+        #     "danbooru": ["lucy_heartfilia", "celestial_spirit_mage"]
+        # },
+        # "erza": {
+        #     "gelbooru": ["erza_scarlet", "titania", "requip_mage"],
+        #     "danbooru": ["erza_scarlet", "knight"]
+        # },
+        # "mirajane": {
+        #     "gelbooru": ["mirajane_strauss", "demon_takeover", "s_class"],
+        #     "danbooru": ["mirajane_strauss", "demon_mirajane"]
+        # },
+        # "wendy": {
+        #     "gelbooru": ["wendy_marvell", "sky_dragon_slayer", "dragon_force"],
+        #     "danbooru": ["wendy_marvell", "sky_maiden"]
+        # },
+        # "juvia": {
+        #     "gelbooru": ["juvia_lockser", "water_mage", "gray_stalker"],
+        #     "danbooru": ["juvia_lockser", "water_woman"]
+        # },
+        # "mavis": {
+        #     "gelbooru": ["mavis_vermillion", "fairy_tactician", "first_master"],
+        #     "danbooru": ["mavis_vermillion", "founding_master"]
+        # },
+        # "brandish": {
+        #     "gelbooru": ["brandish_μ", "spriggan_12", "mass_manipulation"],
+        #     "danbooru": ["brandish", "country_toppler"]
+        # },
+        # "dimaria": {
+        #     "gelbooru": ["dimaria_yesta", "spriggan_12", "age_seal"],
+        #     "danbooru": ["dimaria_yesta", "time_goddess"]
+        # }
     }
 
     ONE_PUNCH_MAN_TAGS = {
         "fubuki": {
+            "names": ["fubuki", "hellish_blizzard", "blizzard_of_hell"],
+            "titles": ["b_class_rank_1", "group_leader", "esper_prodigy"],
+            "forms": ["base_form", "psychic_mode", "battle_form"],
+            "abilities": ["psychokinesis", "telekinesis", "hell_storm", "psychic_whirlwind"],
+            "relationships": ["tatsumaki's_sister", "blizzard_group_leader", "saitama_group_ally"],
+            "outfits": ["hero_dress", "casual_wear", "battle_outfit", "formal_attire"],
             "gelbooru": ["fubuki", "blizzard", "hellish_blizzard", "b_class_hero"],
             "danbooru": ["fubuki", "tornado_sister"]
         },
+
         "tatsumaki": {
+            "names": ["tatsumaki", "terrible_tornado", "tornado_of_terror"],
+            "titles": ["s_class_rank_2", "strongest_esper", "hero_association_elite"],
+            "forms": ["base_form", "full_power", "serious_mode"],
+            "abilities": ["psychokinesis", "flight", "barrier_creation", "energy_projection"],
+            "relationships": ["fubuki's_sister", "blast's_acquaintance", "hero_association_member"],
+            "outfits": ["hero_dress", "casual_wear", "battle_damaged"],
             "gelbooru": ["tatsumaki", "tornado_terror", "s_class_hero"],
             "danbooru": ["tatsumaki", "tornado"]
         },
+
         "psykos": {
+            "names": ["psykos", "monster_queen", "esper_leader"],
+            "titles": ["monster_association_executive", "esper_genius", "monster_queen"],
+            "forms": ["base_form", "monster_form", "psykos_orochi"],
+            "abilities": ["psychic_powers", "monster_transformation", "future_vision"],
+            "relationships": ["monster_association_leader", "fubuki's_former_friend", "orochi's_creator"],
+            "outfits": ["monster_form", "human_form", "battle_dress"],
             "gelbooru": ["psykos", "monster_association", "esper"],
             "danbooru": ["psykos", "monster_executive"]
         },
         "do_s": {
+            "names": ["do-s", "monster_princess", "dominatrix_monster"],
+            "titles": ["monster_princess", "demon_level_threat", "whip_master"],
+            "forms": ["base_form", "monster_form", "battle_mode"],
+            "abilities": ["mind_control", "whip_mastery", "superhuman_strength"],
+            "relationships": ["monster_association_member", "sweet_mask's_opponent"],
+            "outfits": ["monster_suit", "battle_armor", "dominatrix_gear"],
             "gelbooru": ["do-s", "monster_princess", "whip"],
             "danbooru": ["monster_princess", "dominatrix_monster"]
         },
         "lin_lin": {
+            "names": ["lin_lin", "martial_artist", "tournament_fighter"],
+            "titles": ["super_fight_contestant", "martial_artist", "fighter"],
+            "forms": ["base_form", "fighting_stance", "tournament_mode"],
+            "abilities": ["martial_arts", "combat_expertise", "fighting_techniques"],
+            "relationships": ["super_fight_participant", "martial_arts_community"],
+            "outfits": ["fighting_gear", "tournament_uniform", "training_clothes"],
             "gelbooru": ["lin_lin_%28one-punch_man%29", "martial_artist"],
             "danbooru": ["lin_lin", "super_fight"]
         },
+
         "suiko": {
+            "names": ["suiko", "tank_top_girl", "martial_artist"],
+            "titles": ["tank_top_member", "martial_arts_prodigy", "fighter"],
+            "forms": ["base_form", "fighting_stance", "training_mode"],
+            "abilities": ["martial_arts", "tank_top_magic", "combat_expertise"],
+            "relationships": ["tank_top_group", "suiryu's_sister", "martial_artist"],
+            "outfits": ["tank_top", "martial_arts_gear", "casual_wear"],
             "gelbooru": ["suiko_%28one-punch_man%29", "tank_top_group"],
             "danbooru": ["suiko", "tank_topper"]
-        }
+        },
+
+        # "fubuki": {
+        #     "gelbooru": ["fubuki", "blizzard", "hellish_blizzard", "b_class_hero"],
+        #     "danbooru": ["fubuki", "tornado_sister"]
+        # },
+        # "tatsumaki": {
+        #     "gelbooru": ["tatsumaki", "tornado_terror", "s_class_hero"],
+        #     "danbooru": ["tatsumaki", "tornado"]
+        # },
+        # "psykos": {
+        #     "gelbooru": ["psykos", "monster_association", "esper"],
+        #     "danbooru": ["psykos", "monster_executive"]
+        # },
+        # "do_s": {
+        #     "gelbooru": ["do-s", "monster_princess", "whip"],
+        #     "danbooru": ["monster_princess", "dominatrix_monster"]
+        # },
+        # "lin_lin": {
+        #     "gelbooru": ["lin_lin_%28one-punch_man%29", "martial_artist"],
+        #     "danbooru": ["lin_lin", "super_fight"]
+        # },
+        # "suiko": {
+        #     "gelbooru": ["suiko_%28one-punch_man%29", "tank_top_group"],
+        #     "danbooru": ["suiko", "tank_topper"]
+        # }
     }
 
 class URLs:
