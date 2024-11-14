@@ -3352,10 +3352,10 @@ class ThreadedGelbooruScraper(HentaiScraper):
             return Path('raw')
 
     def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380):
-        """Process multiple URLs using thread pool with fixed locking"""
+        """Process multiple URLs using thread pool with dynamic queue management"""
         try:
-            max_workers = min(20, len(urls))
-            self.logger.info(f"Starting scraping with {max_workers} threads")
+            max_concurrent = 4  # Maximum number of concurrent characters to process
+            self.logger.info(f"Starting scraping with {max_concurrent} concurrent characters")
             self.logger.info(f"Total characters to process: {len(urls)}")
 
             # System diagnostics
@@ -3368,48 +3368,84 @@ class ThreadedGelbooruScraper(HentaiScraper):
             # Create thread pool
             self.logger.info("Creating thread pool executor...")
             executor = concurrent.futures.ThreadPoolExecutor(
-                max_workers=max_workers,
+                max_workers=max_concurrent,
                 thread_name_prefix="scraper"
             )
             self.logger.info("Thread pool executor created")
 
             try:
-                future_to_char = {}
-                test_chars = list(urls.items())[:4]
-                self.logger.info(f"Testing with first 4 characters: {[char for char, _ in test_chars]}")
+                # Convert dictionary to list of tuples for easier queue management
+                character_queue = list(urls.items())
+                active_futures = {}  # Track active futures
+                completed_characters = set()  # Track completed characters
 
-                # Submit tasks
-                for character, url_list in test_chars:
-                    self.logger.info(f"Processing {character}")
+                # Initial batch of characters
+                initial_batch = character_queue[:max_concurrent]
+                character_queue = character_queue[max_concurrent:]  # Remove initial batch from queue
 
+                # Submit initial batch
+                for character, url_list in initial_batch:
+                    self.logger.info(f"Initially processing {character}")
                     url_list = [url_list] if isinstance(url_list, str) else url_list
-                    self.logger.info(f"Submitting {character} with {len(url_list)} URLs")
 
                     if self.state.start_character(character):
                         self.logger.info(f"Lock acquired for {character}")
                         future = executor.submit(self._process_character_wrapper, character, url_list, max_pages)
-                        future_to_char[future] = character
+                        active_futures[future] = character
                         self.logger.info(f"Task submitted for {character}")
                     else:
                         self.logger.warning(f"Could not acquire lock for {character}")
 
-                self.logger.info(f"Submitted {len(future_to_char)} tasks")
+                # Process results and add new characters as others complete
+                while active_futures or character_queue:
+                    # Wait for the next character to complete
+                    done, _ = concurrent.futures.wait(
+                        active_futures.keys(),
+                        timeout=1,
+                        return_when=concurrent.futures.FIRST_COMPLETED
+                    )
 
-                # Process results
-                for future in concurrent.futures.as_completed(future_to_char):
-                    character = future_to_char[future]
-                    try:
-                        future.result(timeout=30)
-                        self.logger.info(f"Completed processing {character}")
-                    except Exception as e:
-                        self.logger.error(f"Error processing {character}: {str(e)}")
-                        self.logger.exception("Processing error traceback:")
-                    finally:
-                        self.state.complete_character(character)
+                    # Process completed characters
+                    for future in done:
+                        character = active_futures[future]
+                        try:
+                            future.result(timeout=30)
+                            self.logger.info(f"Completed processing {character}")
+                            completed_characters.add(character)
+                        except Exception as e:
+                            self.logger.error(f"Error processing {character}: {str(e)}")
+                            self.logger.exception("Processing error traceback:")
+                        finally:
+                            self.state.complete_character(character)
+                            del active_futures[future]
+
+                        # Add new character from queue if available
+                        if character_queue:
+                            next_character, next_urls = character_queue.pop(0)
+                            self.logger.info(f"Starting next character: {next_character}")
+                            next_urls = [next_urls] if isinstance(next_urls, str) else next_urls
+
+                            if self.state.start_character(next_character):
+                                new_future = executor.submit(
+                                    self._process_character_wrapper,
+                                    next_character,
+                                    next_urls,
+                                    max_pages
+                                )
+                                active_futures[new_future] = next_character
+                                self.logger.info(f"New task submitted for {next_character}")
+                            else:
+                                self.logger.warning(f"Could not acquire lock for {next_character}")
+
+                    # Short sleep to prevent busy waiting
+                    if active_futures:
+                        time.sleep(0.1)
+
+                self.logger.info(f"All characters processed. Completed {len(completed_characters)} characters.")
 
             finally:
                 self.logger.info("Shutting down executor")
-                executor.shutdown(wait=False)
+                executor.shutdown(wait=True)
                 self.logger.info("Executor shutdown complete")
 
         except Exception as e:
@@ -11955,130 +11991,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-#
-# # gelbooru.com
-#
-# class HentaiScraper():
-#     def __init__(self):
-#         # self._nami_url = "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29"
-#         # self._robin_url = "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+"
-#         # self._baby5_url = "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+"
-#         # 'nami': "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29",
-#         # 'robin': "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+",
-#         # 'baby_5': "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+",
-#         # 'bonney': "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+",
-#         # 'carrot': "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_%28one_piece%29+"
-#         self._one_piece_urls = {'uta': 'https://gelbooru.com/index.php?page=post&s=list&tags=uta_%28one_piece%29',
-#                                 'rebecca': 'https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_%28one_piece%29+',
-#                                 'carrot': "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_%28one_piece%29+",
-#                                 'bonney': "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+",
-#                                 'baby_5': "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+",
-#                                 'robin': "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+",
-#                                 'nami': "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29",
-#
-#                                 }
-#
-#     def setup(self):
-#         print("Running setup...")
-#
-#         print("Config set...")
-#
-#         print("Setup finished...")
-#
-#     def download_one_piece(self):
-#         urls = self._one_piece_urls
-#
-#         count = True
-#
-#         number = 0
-#
-#         for k, v in urls.items():
-#             while number <= 15944:
-#                 if count == True:
-#                     print("URL: " + v)
-#                     print("KEY!!!! ", k)
-#
-#                     try:
-#                         page = requests.get(v)
-#                         soup = BeautifulSoup(page.content, 'lxml')
-#
-#                         for a in soup.find_all('a', href=True):
-#                             if "test.com" in a['href'] and "&id=" in a['href']:
-#                                 print("Found the URL:", a['href'])
-#
-#                                 page = requests.get(a['href'])
-#                                 soup = BeautifulSoup(page.content, 'lxml')
-#
-#                                 for img in soup.find_all('img', src=True):
-#                                     if "gelbooru.com" in img['src'] and "sample" in img['src']:
-#
-#                                             filename = r"/Volumes/ExternalHD/workspace/python/Monke D. Luffy/hentai/one_piece/" + k + r"/"
-#                                             # filename = r"/home/timmy/hentai/one_piece/" + k + r"/"
-#
-#                                             filename += ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6)) + '.jpg'
-#
-#                                             r = requests.get(img['src'], stream=True)
-#
-#                                             if r.status_code == 200:
-#                                                 r.raw.decode_content = True
-#                                                 with open(filename, 'wb') as f:
-#                                                     shutil.copyfileobj(r.raw, f)
-#
-#                                                 print("Image sucessfully Download:", filename)
-#
-#                                             else:
-#                                                 print("Image Couldn\'t be retreived.")
-#                     except requests.exceptions.ReadTimeout:
-#                         print("Read Timeout occurred.")
-#                     finally:
-#                         count = False
-#                         number += 42
-#
-#                         time.sleep(5)
-#                 elif count == False:
-#                     try:
-#                         print("COUNT: " + str(count))
-#                         print("URL: " + v + "&pid=" + str(number))
-#                         print("KEY!!!! ", k)
-#
-#                         print("Starting count not 0...")
-#
-#                         link = v + "&pid=" + str(number)
-#
-#                         page = requests.get(link)
-#                         soup = BeautifulSoup(page.content, 'lxml')
-#
-#                         for a in soup.find_all('a', href=True):
-#                             if "gelbooru.com" in a['href'] and "&id=" in a['href']:
-#                                 print("Found the URL:", a['href'])
-#
-#                                 page = requests.get(a['href'])
-#                                 soup = BeautifulSoup(page.content, 'lxml')
-#
-#                                 for img in soup.find_all('img', src=True):
-#                                     if "gelbooru.com" in img['src'] and "sample" in img['src']:
-#                                         filename = r"/Volumes/ExternalHD/workspace/python/Monke D. Luffy/hentai/one_piece/" + k + r"/"
-#                                         # filename = r"/home/timmy/hentai/one_piece/" + k + r"/"
-#
-#                                         filename += ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6)) + '.jpg'
-#
-#                                         r = requests.get(img['src'], stream=True)
-#
-#                                         if r.status_code == 200:
-#                                             r.raw.decode_content = True
-#                                             with open(filename, 'wb') as f:
-#                                                 shutil.copyfileobj(r.raw, f)
-#
-#                                             print("Image sucessfully Download:", filename)
-#
-#                                         else:
-#                                             print("Image Couldn\'t be retreived.")
-#
-#                     except requests.exceptions.ReadTimeout:
-#                         print("Read Timeout occurred.")
-#                     finally:
-#                         number += 42
-#
-#                         time.sleep(5)
-#         number = 0
