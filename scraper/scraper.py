@@ -11453,10 +11453,10 @@ def main():
 
         urls = {
             # ONE PIECE
-            "monkey_d_luffy": "https://gelbooru.com/index.php?page=post&s=list&tags=monkey_d_luffy",
-            "roronoa_zoro": "https://gelbooru.com/index.php?page=post&s=list&tags=roronoa_zoro",
+            # "monkey_d_luffy": "https://gelbooru.com/index.php?page=post&s=list&tags=monkey_d_luffy",
+            # "roronoa_zoro": "https://gelbooru.com/index.php?page=post&s=list&tags=roronoa_zoro",
             "nami": "https://gelbooru.com/index.php?page=post&s=list&tags=nami_(one_piece)",
-            "vinsmoke_sanji": "https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_sanji",
+            # "vinsmoke_sanji": "https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_sanji",
             "nico_robin": "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin",
             "uta": "https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)",
             "rebecca": "https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_(one_piece)",
