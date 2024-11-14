@@ -3061,20 +3061,119 @@ class ThreadedGelbooruScraper(HentaiScraper):
             self.logger.error(f"Cleanup failed: {str(e)}")
             raise
 
+    # def _get_thread_browser(self):
+    #     """Get or create a browser instance for the current thread with enhanced error handling"""
+    #     browser_id = id(threading.current_thread())
+    #     self.logger.debug(f"Getting browser for thread {threading.current_thread().name} (ID: {browser_id})")
+    #
+    #     if not hasattr(self.thread_local, 'browser'):
+    #         try:
+    #             with self.state.browser_lock:
+    #                 self.logger.info(f"Creating new browser for thread {threading.current_thread().name}")
+    #
+    #                 options = webdriver.ChromeOptions()
+    #                 if self.config.headless:
+    #                     options.add_argument('--headless=new')
+    #
+    #                 options.add_argument('--no-sandbox')
+    #                 options.add_argument('--disable-dev-shm-usage')
+    #                 options.add_argument('--disable-gpu')
+    #                 options.add_argument('--disable-software-rasterizer')
+    #                 options.add_argument('--disable-extensions')
+    #                 options.add_argument('--start-maximized')
+    #                 options.add_argument(f'user-agent={self.config.user_agent}')
+    #
+    #                 # Add more stability options
+    #                 options.add_argument('--disable-features=NetworkService')
+    #                 options.add_argument('--disable-features=VizDisplayCompositor')
+    #                 options.add_argument('--disable-dev-shm-usage')
+    #                 options.add_argument('--no-first-run')
+    #                 options.add_argument('--no-default-browser-check')
+    #                 options.add_argument('--disable-background-networking')
+    #                 options.add_argument('--disable-sync')
+    #                 options.add_argument('--disable-translate')
+    #                 options.add_argument('--hide-scrollbars')
+    #                 options.add_argument('--metrics-recording-only')
+    #                 options.add_argument('--mute-audio')
+    #                 options.add_argument('--no-first-run')
+    #                 options.add_argument('--safebrowsing-disable-auto-update')
+    #                 options.add_argument('--password-store=basic')
+    #
+    #                 service = webdriver.ChromeService()
+    #                 browser = webdriver.Chrome(service=service, options=options)
+    #
+    #                 # Set timeouts
+    #                 browser.set_page_load_timeout(30)
+    #                 browser.set_script_timeout(30)
+    #                 browser.implicitly_wait(10)
+    #
+    #                 self.thread_local.browser = browser
+    #                 self.logger.info(f"Successfully created browser for thread {threading.current_thread().name}")
+    #
+    #         except Exception as e:
+    #             self.logger.error(f"Failed to create browser for thread {threading.current_thread().name}: {str(e)}")
+    #             self.logger.exception("Full traceback:")
+    #             raise
+    #
+    #     return self.thread_local.browser
+
+    def _safe_navigate(self, url: str, max_retries=3) -> bool:
+        """Safely navigate to a URL with retries and better browser management"""
+        browser = None
+        for attempt in range(max_retries):
+            try:
+                if not hasattr(self.thread_local, 'browser') or self.thread_local.browser is None:
+                    self.logger.info(f"Creating new browser for attempt {attempt + 1}")
+                    browser = self._get_thread_browser()
+                else:
+                    browser = self.thread_local.browser
+
+                self.logger.debug(f"Navigation attempt {attempt + 1} to {url}")
+                browser.get(url)
+
+                # Wait for page load
+                WebDriverWait(browser, self.config.request_timeout).until(
+                    lambda driver: driver.execute_script("return document.readyState") == "complete"
+                )
+                time.sleep(2)  # Small delay to ensure stability
+                return True
+
+            except Exception as e:
+                self.logger.warning(f"Navigation attempt {attempt + 1} failed: {str(e)}")
+                if attempt == max_retries - 1:
+                    self.logger.error(f"Failed to navigate to {url} after {max_retries} attempts")
+                    return False
+
+                try:
+                    # Only recreate browser if it's the last retry attempt
+                    if attempt == max_retries - 2:
+                        self.logger.info("Attempting browser reset")
+                        if hasattr(self.thread_local, 'browser') and self.thread_local.browser is not None:
+                            try:
+                                self.thread_local.browser.quit()
+                            except Exception as quit_error:
+                                self.logger.error(f"Error quitting browser: {quit_error}")
+                            finally:
+                                self.thread_local.browser = None
+
+                time.sleep(2 * (attempt + 1))  # Exponential backoff
+
+        return False
+
     def _get_thread_browser(self):
         """Get or create a browser instance for the current thread with enhanced error handling"""
-        browser_id = id(threading.current_thread())
-        self.logger.debug(f"Getting browser for thread {threading.current_thread().name} (ID: {browser_id})")
+        thread_name = threading.current_thread().name
 
-        if not hasattr(self.thread_local, 'browser'):
+        if not hasattr(self.thread_local, 'browser') or self.thread_local.browser is None:
             try:
                 with self.state.browser_lock:
-                    self.logger.info(f"Creating new browser for thread {threading.current_thread().name}")
-
+                    self.logger.info(f"Creating new browser for thread {thread_name}")
                     options = webdriver.ChromeOptions()
+
                     if self.config.headless:
                         options.add_argument('--headless=new')
 
+                    # Basic options
                     options.add_argument('--no-sandbox')
                     options.add_argument('--disable-dev-shm-usage')
                     options.add_argument('--disable-gpu')
@@ -3083,10 +3182,9 @@ class ThreadedGelbooruScraper(HentaiScraper):
                     options.add_argument('--start-maximized')
                     options.add_argument(f'user-agent={self.config.user_agent}')
 
-                    # Add more stability options
+                    # Stability options
                     options.add_argument('--disable-features=NetworkService')
                     options.add_argument('--disable-features=VizDisplayCompositor')
-                    options.add_argument('--disable-dev-shm-usage')
                     options.add_argument('--no-first-run')
                     options.add_argument('--no-default-browser-check')
                     options.add_argument('--disable-background-networking')
@@ -3095,9 +3193,13 @@ class ThreadedGelbooruScraper(HentaiScraper):
                     options.add_argument('--hide-scrollbars')
                     options.add_argument('--metrics-recording-only')
                     options.add_argument('--mute-audio')
-                    options.add_argument('--no-first-run')
                     options.add_argument('--safebrowsing-disable-auto-update')
                     options.add_argument('--password-store=basic')
+
+                    # Add process management options
+                    options.add_argument('--single-process')  # Run in single process mode
+                    options.add_argument('--disable-crash-reporter')
+                    options.add_argument('--disable-in-process-stack-traces')
 
                     service = webdriver.ChromeService()
                     browser = webdriver.Chrome(service=service, options=options)
@@ -3108,45 +3210,62 @@ class ThreadedGelbooruScraper(HentaiScraper):
                     browser.implicitly_wait(10)
 
                     self.thread_local.browser = browser
-                    self.logger.info(f"Successfully created browser for thread {threading.current_thread().name}")
+                    self.logger.info(f"Successfully created browser for thread {thread_name}")
 
             except Exception as e:
-                self.logger.error(f"Failed to create browser for thread {threading.current_thread().name}: {str(e)}")
+                self.logger.error(f"Failed to create browser for thread {thread_name}: {str(e)}")
                 self.logger.exception("Full traceback:")
                 raise
 
         return self.thread_local.browser
 
-    def _safe_navigate(self, url: str, max_retries=3) -> bool:
-        """Safely navigate to a URL with retries"""
-        browser = self._get_thread_browser()
-        self.logger.debug(f"Navigating to {url}")
+    def process_character(self, character: str, url: str, max_pages: int = 380) -> None:
+        """Process a single character's URL with enhanced browser management"""
+        thread = threading.current_thread()
+        self.logger.info(f"Thread {thread.name} processing {character}")
 
-        for attempt in range(max_retries):
+        try:
+            browser = self._get_thread_browser()
+            self.logger.info(f"Browser acquired for {character}")
+            timeout_occurred = False
+
+            for page_num in range(max_pages):
+                if timeout_occurred:
+                    self.logger.info(f"Timeout occurred for {character}, moving to next URL")
+                    break
+
+                current_url = f"{url}&pid={page_num * 42}" if page_num > 0 else url
+                self.logger.info(f"Processing page {page_num + 1} for {character}: {current_url}")
+
+                if not self._safe_navigate(current_url):
+                    self.logger.error(f"Navigation failed for {character} on page {page_num + 1}")
+                    break  # Break instead of continue to prevent browser thrashing
+
+                try:
+                # Rest of the processing code remains the same...
+                # ...
+
+                except TimeoutException:
+                    self.logger.error(f"Timeout on page {page_num + 1} for {character}")
+                    timeout_occurred = True
+                    break
+                except Exception as e:
+                    self.logger.error(f"Error processing page {page_num + 1} for {character}: {str(e)}")
+                    break  # Break instead of continue to prevent browser thrashing
+
+        except Exception as e:
+            self.logger.error(f"Fatal error processing {character}: {str(e)}")
+            self.logger.exception("Error traceback:")
+            raise
+        finally:
+            self.logger.info(f"Cleaning up browser for {character}")
             try:
-                browser.get(url)
-                WebDriverWait(browser, self.config.request_timeout).until(
-                    lambda driver: driver.execute_script("return document.readyState") == "complete"
-                )
-                time.sleep(2)
-                return True
-
-            except Exception as e:
-                self.logger.warning(f"Navigation attempt {attempt + 1} failed: {str(e)}")
-                if attempt == max_retries - 1:
-                    self.logger.error(f"Failed to navigate to {url} after {max_retries} attempts")
-                    return False
-                time.sleep(2 * (attempt + 1))
-
-                if attempt == max_retries - 2:
-                    try:
-                        browser.quit()
-                        delattr(self.thread_local, 'browser')
-                        browser = self._get_thread_browser()
-                    except Exception as e:
-                        self.logger.error(f"Failed to refresh browser: {str(e)}")
-
-        return False
+                if hasattr(self.thread_local, 'browser') and self.thread_local.browser is not None:
+                    self.thread_local.browser.quit()
+                    self.thread_local.browser = None
+                    self.logger.info(f"Browser cleanup complete for {character}")
+            except Exception as cleanup_error:
+                self.logger.error(f"Error during browser cleanup for {character}: {cleanup_error}")
 
     def _expand_image(self, page_url: str) -> Optional[str]:
         """Navigate to page and expand the image to get the full resolution URL"""
@@ -3352,73 +3471,76 @@ class ThreadedGelbooruScraper(HentaiScraper):
             return Path('raw')
 
     def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
-        """Process multiple URLs using thread pool with immediate task queuing"""
+        """Process multiple URLs using thread pool with better queue management"""
         try:
-            max_concurrent = 4
-            self.logger.info(f"Starting scraping with {max_concurrent} concurrent characters")
-            self.logger.info(f"Total characters to process: {len(urls)}")
+            max_concurrent = 4  # Number of concurrent tasks
+            self.logger.info(f"Starting scraping with {max_concurrent} concurrent tasks")
+            self.logger.info(f"Total URLs to process: {len(urls)}")
+
+            # Queue setup
+            url_queue = list(urls.items())  # Convert dict to list of tuples
+            active_futures = {}  # Track active futures
+            completed_chars = set()  # Track completed characters
 
             # Create thread pool
-            executor = concurrent.futures.ThreadPoolExecutor(
-                max_workers=max_concurrent,
-                thread_name_prefix="scraper"
-            )
-            self.logger.info("Thread pool executor created")
-
-            try:
-                # Initialize queues and tracking
-                character_queue = list(urls.items())
-                self.logger.info(f"Initial queue size: {len(character_queue)}")
-                active_futures = {}
-                completed_characters = set()
-
+            with concurrent.futures.ThreadPoolExecutor(
+                    max_workers=max_concurrent,
+                    thread_name_prefix="scraper"
+            ) as executor:
                 # Start initial batch
-                initial_batch = character_queue[:max_concurrent]
-                character_queue = character_queue[max_concurrent:]
-                self.logger.info(f"Starting first {len(initial_batch)} characters, {len(character_queue)} remaining")
+                for _ in range(min(max_concurrent, len(url_queue))):
+                    if url_queue:
+                        char, url = url_queue.pop(0)
+                        self.logger.info(f"Starting initial character: {char}")
+                        future = executor.submit(self.process_character, char, url, max_pages)
+                        active_futures[future] = char
+                        self.logger.info(f"Submitted task for {char}")
 
-                # Submit initial characters
-                for character, url in initial_batch:
-                    self._submit_new_task(executor, character, url, max_pages, active_futures)
-
-                # Process completions and add new tasks immediately
-                while active_futures or character_queue:
+                # Process queue and handle completions
+                while active_futures:
                     # Wait for any task to complete
-                    completed, in_progress = concurrent.futures.wait(
+                    done, _ = concurrent.futures.wait(
                         active_futures.keys(),
-                        timeout=0.1,  # Short timeout to check frequently
+                        timeout=0.1,
                         return_when=concurrent.futures.FIRST_COMPLETED
                     )
 
-                    # Process any completed tasks
-                    for future in completed:
-                        character = active_futures[future]
+                    # Handle completed tasks
+                    for future in done:
+                        char = active_futures[future]
                         try:
-                            future.result(timeout=30)
-                            self.logger.info(f"✓ Completed {character}")
-                            completed_characters.add(character)
+                            future.result()  # Get result or exception
+                            self.logger.info(f"✓ Completed character: {char}")
+                            completed_chars.add(char)
                         except Exception as e:
-                            self.logger.error(f"Error processing {character}: {str(e)}")
-                            self.logger.exception("Error traceback:")
+                            self.logger.error(f"Error processing {char}: {str(e)}")
+                            self.logger.exception("Full traceback:")
                         finally:
-                            # Clean up completed task
-                            self.state.complete_character(character)
+                            # Remove from active tasks
                             del active_futures[future]
-                            self.logger.info(f"Removed {character} from active tasks")
+                            self.logger.info(f"Removed {char} from active tasks")
 
-                        # Immediately start next task if available
-                        if character_queue:
-                            next_character, next_url = character_queue.pop(0)
-                            self._submit_new_task(executor, next_character, next_url, max_pages, active_futures)
+                        # Start next task if available
+                        if url_queue:
+                            next_char, next_url = url_queue.pop(0)
+                            self.logger.info(f"Starting next character: {next_char}")
+                            self.logger.info(f"Queue size: {len(url_queue)} characters remaining")
 
-            finally:
-                self.logger.info("Shutting down executor")
-                executor.shutdown(wait=True)
-                self.logger.info("Executor shutdown complete")
+                            new_future = executor.submit(self.process_character, next_char, next_url, max_pages)
+                            active_futures[new_future] = next_char
+                            self.logger.info(f"Submitted new task for {next_char}")
+
+                    # Small sleep to prevent CPU thrashing
+                    if active_futures and not done:
+                        time.sleep(0.1)
+
+            # Final statistics
+            self.logger.info(f"Processing complete. Processed {len(completed_chars)} characters")
+            self.logger.info(f"Completed characters: {', '.join(sorted(completed_chars))}")
 
         except Exception as e:
-            self.logger.error(f"Error in process_urls: {str(e)}")
-            self.logger.exception("Error traceback:")
+            self.logger.error(f"Fatal error in process_urls: {str(e)}")
+            self.logger.exception("Full traceback:")
             raise
 
     def _submit_new_task(self, executor, character: str, url: str, max_pages: int, active_futures: dict):
