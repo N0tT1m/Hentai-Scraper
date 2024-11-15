@@ -2266,65 +2266,26 @@ class GelbooruScraper(HentaiScraper):
 
             return None
 
-    def _get_character_path(self, url: str, source_page: str) -> Path:
-        """
-        Extract character name from URL and create appropriate path.
-        Maps prefixed keys (like 'dota_luna') back to their correct series folder structure.
-
-        Args:
-            url (str): URL of the image
-            source_page (str): Source page URL containing tags
-
-        Returns:
-            Path: Correct path like 'dota2/luna' or 'one_piece/nami'
-        """
+    def _get_character_path(self, url: str, source_page: str = None) -> Path:
+        """Extract character name from URL and create appropriate path"""
         try:
-            if not source_page:
-                return Path('raw')
-
-            # Extract the key used in the URLs dictionary
-            # This will be the prefixed version (e.g., 'dota_luna', 'op_nami')
-            url_key = next(
-                (key for key, val in self.urls.items() if val == source_page),
-                None
-            )
-
-            if not url_key:
-                return Path('raw')
-
-            # Extract tags for additional context
-            tags = ""
-            if 'tags=' in source_page:
+            # Extract tags from source page URL
+            if source_page and 'tags=' in source_page:
                 tags = source_page.split('tags=')[-1].split('&')[0]
-                tags = urllib.parse.unquote(tags)
+                tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
 
-            # Find matching character and series
-            for series_name, characters in self.character_classifier.CHARACTER_MAPPINGS.items():
-                for char_name, aliases in characters.items():
-                    # Convert everything to lowercase for comparison
-                    aliases_lower = [alias.lower() for alias in aliases]
-                    url_key_lower = url_key.lower()
+                # Use character classifier to identify character and series
+                series, character = self.character_classifier.identify_character(tags, source_page)
 
-                    # Check if this character's aliases include our URL key
-                    if url_key_lower in aliases_lower:
-                        return Path(series_name) / char_name
+                if series and series != "unknown":
+                    # If it's a known series, return the appropriate path
+                    return Path(series) / character
 
-                    # Also check the tag if we have it
-                    if tags and tags.lower() in aliases_lower:
-                        return Path(series_name) / char_name
-
-            # If we get here, we couldn't find a match
-            self.logger.warning(f"Could not find character mapping for {url_key} with tags {tags}")
+            # Default to raw directory if no character info found
             return Path('raw')
-
         except Exception as e:
             self.logger.error(f"Error parsing character path: {str(e)}")
-            self.logger.exception("Full traceback:")
             return Path('raw')
-
-        finally:
-            # Clean up any resources if needed
-            pass
 
     def _download_image(self, url: str, source_page: str = None) -> bool:
         """
