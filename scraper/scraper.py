@@ -15495,7 +15495,7 @@ def main():
             "ia": "https://gelbooru.com/index.php?page=post&s=list&tags=IA_%28vocaloid%29",
             "cul": "https://gelbooru.com/index.php?page=post&s=list&tags=cul",
             "lily": "https://gelbooru.com/index.php?page=post&s=list&tags=lily_%28vocaloid%29",
-            "miki": "https://gelbooru.com/index.php?page=post&s=list&tags=sf-a2_miki",
+            "sf_a2_miki": "https://gelbooru.com/index.php?page=post&s=list&tags=sf-a2_miki",
             "yuzuki_yukari": "https://gelbooru.com/index.php?page=post&s=list&tags=chigasaki_yukari",
 
             # Konosuba
@@ -15520,13 +15520,13 @@ def main():
             "yuiyui": "https://gelbooru.com/index.php?page=post&s=list&tags=yuiyui_%28konosuba%29+",
 
             # Lycoris Recoil
-            "chisato": "https://gelbooru.com/index.php?page=post&s=list&tags=nishikigi_chisato",
-            "takina": "https://gelbooru.com/index.php?page=post&s=list&tags=inoue_takina",
-            "mizuki": "https://gelbooru.com/index.php?page=post&s=list&tags=nakahara_mizuki",
-            "kurumi": "https://gelbooru.com/index.php?page=post&s=list&tags=kurumi_%28lycoris_recoil%29+",
-            # "erika": "https://api.example.com/images/lycoris_recoil/erika_main.jpg",
-            "sakura": "https://gelbooru.com/index.php?page=post&s=list&tags=otome_sakura",
-            "himegama": "https://gelbooru.com/index.php?page=post&s=list&tags=himegama_%28lycoris_recoil%29",
+            "chisato_nishikigi": "https://gelbooru.com/index.php?page=post&s=list&tags=nishikigi_chisato",
+            "takina_inoue": "https://gelbooru.com/index.php?page=post&s=list&tags=inoue_takina",
+            "mizuki_nakahara": "https://gelbooru.com/index.php?page=post&s=list&tags=nakahara_mizuki",
+            "kurumi_shinonome": "https://gelbooru.com/index.php?page=post&s=list&tags=kurumi_%28lycoris_recoil%29+",
+            # "erika_karuizawa": "https://api.example.com/images/lycoris_recoil/erika_main.jpg",
+            "sakura_otome": "https://gelbooru.com/index.php?page=post&s=list&tags=otome_sakura",
+            "fuki_himegama": "https://gelbooru.com/index.php?page=post&s=list&tags=himegama_%28lycoris_recoil%29",
             "mika": "https://gelbooru.com/index.php?page=post&s=list&tags=mika_%28lycoris_recoil%29",
             "robota": "https://gelbooru.com/index.php?page=post&s=list&tags=robota_%28lycoris_recoil%29",
             # "lucy": "https://api.example.com/images/lycoris_recoil/lucy_main.jpg",
