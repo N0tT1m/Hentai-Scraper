@@ -2269,16 +2269,35 @@ class GelbooruScraper(HentaiScraper):
     def _get_character_path(self, url: str, source_page: str) -> Path:
         """Extract character name from URL and create appropriate path"""
         try:
+            # Extract tags from source page URL
             if source_page and 'tags=' in source_page:
                 tags = source_page.split('tags=')[-1].split('&')[0]
-                tags = urllib.parse.unquote(tags)
+                tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
 
-                # Pass source_page to identify_character
-                series = self.character_classifier.identify_character(tags, source_page)
-                if series[0]:
-                    return Path(series[0]) / series[1]
+                # Use character classifier to identify character and series
+                series, character = self.character_classifier.identify_character(tags, source_page)
 
+                # Map the prefixed key back to original character mappings
+                if series in self.character_classifier.CHARACTER_MAPPINGS:
+                    for char_key, aliases in self.character_classifier.CHARACTER_MAPPINGS[series].items():
+                        # Convert all aliases to lowercase for comparison
+                        aliases_lower = [alias.lower() for alias in aliases]
+                        # Look for any matching alias
+                        if tags.lower() in aliases_lower:
+                            return Path(series) / char_key
+
+                        # Also check for prefixed versions (e.g., "dota_luna")
+                        prefixed_key = self.character_classifier.get_url_key(char_key)
+                        if prefixed_key.lower() in aliases_lower:
+                            return Path(series) / char_key
+
+                # If we found a valid series, use it with the original character name
+                if series != "unknown":
+                    return Path(series) / character
+
+            # Default to raw directory if no character info found
             return Path('raw')
+
         except Exception as e:
             self.logger.error(f"Error parsing character path: {str(e)}")
             return Path('raw')
