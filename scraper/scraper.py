@@ -537,6 +537,7 @@ class CharacterClassifier:
                 "hina": ["hina", "hina_(one_piece)"],
                 "isuka": ["isuka", "isuka_(one_piece)"],
                 "viola": ["viola", "viola_(one_piece)"],
+                "ein": ["ein", "ain", "ein_(one_piece)", "ain_(one_piece)"],
             },
 
             "dota2": {
@@ -2309,7 +2310,7 @@ class ThreadedGelbooruScraper(HentaiScraper):
             raise
 
     def process_character(self, character: str, urls: List[str], max_pages: int = 380) -> None:
-        """Process a single character's URLs with full implementation"""
+        """Process a single character's URLs with enhanced error handling"""
         thread = threading.current_thread()
         self.logger.info(f"Thread {thread.name} processing {character}")
 
@@ -2319,62 +2320,63 @@ class ThreadedGelbooruScraper(HentaiScraper):
 
             for url_index, base_url in enumerate(urls, 1):
                 self.logger.info(f"Processing URL {url_index}/{len(urls)} for {character}: {base_url}")
-                timeout_occurred = False
 
-                for page_num in range(max_pages):
-                    if timeout_occurred:
-                        self.logger.info(f"Timeout occurred for {character}, moving to next URL")
-                        break
+                try:
+                    for page_num in range(max_pages):
+                        current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
+                        self.logger.info(f"Processing page {page_num + 1} for {character}: {current_url}")
 
-                    current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
-                    self.logger.info(f"Processing page {page_num + 1} for {character}: {current_url}")
-
-                    if not self._safe_navigate(current_url):
-                        self.logger.error(f"Navigation failed for {character} on page {page_num + 1}")
-                        continue
-
-                    try:
-                        # Wait for thumbnail container
-                        self.logger.debug(f"Waiting for thumbnail container on {current_url}")
-                        WebDriverWait(browser, 10).until(
-                            EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
-                        )
-
-                        # Find all image links
-                        self.logger.debug(f"Finding image links on {current_url}")
-                        links = WebDriverWait(browser, 10).until(
-                            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
-                        )
-
-                        image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
-                        self.logger.info(f"Found {len(image_urls)} images for {character} on page {page_num + 1}")
-
-                        # Process each image
-                        for img_index, img_url in enumerate(image_urls, 1):
-                            try:
-                                self.logger.debug(f"Processing image {img_index}/{len(image_urls)} from {img_url}")
-                                full_image_url = self._expand_image(img_url)
-
-                                if full_image_url:
-                                    if self._download_image(full_image_url, img_url):
-                                        self.logger.info(f"Successfully downloaded image {img_index} for {character}")
-                                    else:
-                                        self.logger.warning(f"Failed to download image {img_index} for {character}")
-                                    time.sleep(self.config.download_delay)
-
-                            except Exception as e:
-                                self.logger.error(f"Error processing image {img_url} for {character}: {str(e)}")
+                        try:
+                            if not self._safe_navigate(current_url):
+                                self.logger.error(f"Navigation failed for {character} on page {page_num + 1}")
                                 continue
 
-                        time.sleep(self.config.page_delay)
+                            # Wait for thumbnail container
+                            self.logger.debug(f"Waiting for thumbnail container on {current_url}")
+                            WebDriverWait(browser, 10).until(
+                                EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                            )
 
-                    except TimeoutException:
-                        self.logger.error(f"Timeout on page {page_num + 1} for {character}")
-                        timeout_occurred = True
-                        break
-                    except Exception as e:
-                        self.logger.error(f"Error processing page {page_num + 1} for {character}: {str(e)}")
-                        continue
+                            # Find all image links
+                            self.logger.debug(f"Finding image links on {current_url}")
+                            links = WebDriverWait(browser, 10).until(
+                                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+                            )
+
+                            image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+                            self.logger.info(f"Found {len(image_urls)} images for {character} on page {page_num + 1}")
+
+                            # Process each image
+                            for img_index, img_url in enumerate(image_urls, 1):
+                                try:
+                                    self.logger.debug(f"Processing image {img_index}/{len(image_urls)} from {img_url}")
+                                    full_image_url = self._expand_image(img_url)
+
+                                    if full_image_url:
+                                        if self._download_image(full_image_url, img_url):
+                                            self.logger.info(
+                                                f"Successfully downloaded image {img_index} for {character}")
+                                        else:
+                                            self.logger.warning(f"Failed to download image {img_index} for {character}")
+                                        time.sleep(self.config.download_delay)
+
+                                except Exception as e:
+                                    self.logger.error(f"Error processing image {img_url} for {character}: {str(e)}")
+                                    continue
+
+                            time.sleep(self.config.page_delay)
+
+                        except Exception as e:
+                            self.logger.error(f"Error processing page {page_num + 1} for {character}: {str(e)}")
+                            # Check if it's a connection error
+                            if "NewConnectionError" in str(e) or "ConnectionError" in str(e):
+                                self.logger.info(f"Connection error detected for {character}, moving to next character")
+                                return  # Exit the function entirely, moving to next character
+                            continue
+
+                except Exception as e:
+                    self.logger.error(f"Error processing URL {base_url} for {character}: {str(e)}")
+                    continue
 
         except Exception as e:
             self.logger.error(f"Fatal error processing {character}: {str(e)}")
@@ -2389,7 +2391,6 @@ class ThreadedGelbooruScraper(HentaiScraper):
                     self.logger.info(f"Browser cleanup complete for {character}")
             except Exception as e:
                 self.logger.error(f"Error cleaning up browser for {character}: {str(e)}")
-
 
 class ThreadedDanbooruScraper(HentaiScraper):
     def __init__(self, config: ScraperConfig):
@@ -2747,44 +2748,77 @@ class ThreadedDanbooruScraper(HentaiScraper):
             raise
 
     def process_character(self, character: str, urls: List[str], max_pages: int = 380) -> None:
-        """Process a single character's URLs"""
+        """Process a single character's URLs with enhanced error handling"""
         thread = threading.current_thread()
         self.logger.info(f"Thread {thread.name} processing {character}")
 
         try:
             browser = self._get_thread_browser()
+            self.logger.info(f"Browser acquired for {character}")
 
             for url_index, base_url in enumerate(urls, 1):
                 self.logger.info(f"Processing URL {url_index}/{len(urls)} for {character}: {base_url}")
-                page = 1
 
-                while page <= max_pages:
-                    current_url = f"{base_url}&page={page}" if 'page=' not in base_url else base_url.replace(
-                        f'page={page - 1}', f'page={page}')
+                try:
+                    for page_num in range(max_pages):
+                        current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
+                        self.logger.info(f"Processing page {page_num + 1} for {character}: {current_url}")
 
-                    if not self._safe_navigate(current_url):
-                        break
+                        try:
+                            if not self._safe_navigate(current_url):
+                                self.logger.error(f"Navigation failed for {character} on page {page_num + 1}")
+                                continue
 
-                    try:
-                        image_urls = self._extract_image_urls(browser)
-                        if not image_urls:
-                            break
+                            # Wait for thumbnail container
+                            self.logger.debug(f"Waiting for thumbnail container on {current_url}")
+                            WebDriverWait(browser, 10).until(
+                                EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                            )
 
-                        for img_url in image_urls:
-                            if self._download_image(img_url, current_url):
-                                time.sleep(self.config.download_delay)
+                            # Find all image links
+                            self.logger.debug(f"Finding image links on {current_url}")
+                            links = WebDriverWait(browser, 10).until(
+                                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+                            )
 
-                                page += 1
-                                time.sleep(self.config.page_delay)
-                    except TimeoutException:
-                        self.logger.error(f"Timeout on page {page} for {character}")
-                        break
-                    except Exception as e:
-                        self.logger.error(f"Error processing page {page} for {character}: {str(e)}")
-                        continue
+                            image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
+                            self.logger.info(f"Found {len(image_urls)} images for {character} on page {page_num + 1}")
+
+                            # Process each image
+                            for img_index, img_url in enumerate(image_urls, 1):
+                                try:
+                                    self.logger.debug(f"Processing image {img_index}/{len(image_urls)} from {img_url}")
+                                    full_image_url = self._expand_image(img_url)
+
+                                    if full_image_url:
+                                        if self._download_image(full_image_url, img_url):
+                                            self.logger.info(
+                                                f"Successfully downloaded image {img_index} for {character}")
+                                        else:
+                                            self.logger.warning(f"Failed to download image {img_index} for {character}")
+                                        time.sleep(self.config.download_delay)
+
+                                except Exception as e:
+                                    self.logger.error(f"Error processing image {img_url} for {character}: {str(e)}")
+                                    continue
+
+                            time.sleep(self.config.page_delay)
+
+                        except Exception as e:
+                            self.logger.error(f"Error processing page {page_num + 1} for {character}: {str(e)}")
+                            # Check if it's a connection error
+                            if "NewConnectionError" in str(e) or "ConnectionError" in str(e):
+                                self.logger.info(f"Connection error detected for {character}, moving to next character")
+                                return  # Exit the function entirely, moving to next character
+                            continue
+
+                except Exception as e:
+                    self.logger.error(f"Error processing URL {base_url} for {character}: {str(e)}")
+                    continue
 
         except Exception as e:
             self.logger.error(f"Fatal error processing {character}: {str(e)}")
+            self.logger.exception("Error traceback:")
             raise
         finally:
             try:
@@ -2795,7 +2829,6 @@ class ThreadedDanbooruScraper(HentaiScraper):
                     self.logger.info(f"Browser cleanup complete for {character}")
             except Exception as e:
                 self.logger.error(f"Error cleaning up browser for {character}: {str(e)}")
-
 
     def cleanup(self) -> None:
         """Cleanup resources"""
@@ -2979,171 +3012,171 @@ class ThreadedDanbooruScraper(HentaiScraper):
         timestamp = time.strftime('%Y%m%d_%H%M%S')
         return f"danbooru_{timestamp}_{random_suffix}{ext}"
 
-class CharacterSearchUtility:
-    """Utility class for searching character content using tags and URLs"""
-
-    def __init__(self, character_tags: Dict, character_urls: Dict):
-        self.character_tags = character_tags
-        self.character_urls = character_urls
-
-    def get_character_tags(self, franchise: str, character: str, site: str = "gelbooru") -> List[str]:
-        """Get all tags for a specific character from a franchise"""
-        try:
-            franchise_tags = self.character_tags.get(franchise, {})
-            character_info = franchise_tags.get(character, {})
-
-            # Get tags specific to the site
-            if isinstance(character_info, dict):
-                return character_info.get(site, [])
-            # Handle direct tag lists
-            elif isinstance(character_info, list):
-                return character_info
-            return []
-        except (KeyError, AttributeError):
-            return []
-
-    def get_character_urls(self, franchise: str, character: str, site: str = "gelbooru") -> List[str]:
-        """Get all search URLs for a specific character from a franchise"""
-        try:
-            franchise_urls = self.character_urls.get(franchise, {})
-            site_urls = franchise_urls.get(site, {})
-            return site_urls.get(character, [])
-        except (KeyError, AttributeError):
-            return []
-
-    def get_expanded_tags(self, franchise: str, character: str) -> Dict[str, List[str]]:
-        """Get all expanded tag categories for a character if available"""
-        try:
-            franchise_tags = self.character_tags.get(franchise, {})
-            character_info = franchise_tags.get(character, {})
-
-            expanded_tags = {}
-            tag_categories = ['names', 'titles', 'forms', 'abilities', 'relationships', 'outfits', 'weapons']
-
-            for category in tag_categories:
-                if category in character_info:
-                    expanded_tags[category] = character_info[category]
-
-            return expanded_tags
-        except (KeyError, AttributeError):
-            return {}
-
-    def search_character(self, franchise: str, character: str, site: str = "gelbooru",
-                         include_expanded: bool = False) -> Dict[str, Any]:
-        """Comprehensive search for a character returning both tags and URLs"""
-        result = {
-            'basic_tags': self.get_character_tags(franchise, character, site),
-            'search_urls': self.get_character_urls(franchise, character, site),
-        }
-
-        if include_expanded:
-            result['expanded_tags'] = self.get_expanded_tags(franchise, character)
-
-        return result
-
-    def format_search_string(self, tags: List[str], separator: str = "+") -> str:
-        """Format a list of tags into a search string"""
-        return separator.join(filter(None, tags))
-
-    def clean_tag(self, tag: str) -> str:
-        """Clean a tag string for consistent formatting"""
-        # Remove special characters and normalize spaces
-        cleaned = re.sub(r'[^\w\s-]', '', tag)
-        cleaned = re.sub(r'\s+', '_', cleaned.strip())
-        return cleaned.lower()
-
-
-# Helper function to create search URLs
-def create_search_url(base_url: str, tags: List[str], separator: str = "+") -> str:
-    utility = CharacterSearchUtility(CharacterTags, URLs)
-    search_string = utility.format_search_string(tags, separator)
-    return f"{base_url}{search_string}"
-
-
-class GelbooruURLGenerator:
-    """Utility class to generate Gelbooru URLs from character tags"""
-
-    def __init__(self, base_url: str = "https://gelbooru.com/index.php?page=post&s=list&tags="):
-        self.base_url = base_url
-
-    def generate_urls(self, character_tags: Dict, existing_urls: Dict) -> Dict:
-        """Generate URLs for characters that have tags but no URLs"""
-        generated_urls = {}
-
-        # Iterate through franchises in character tags
-        for franchise, characters in character_tags.items():
-            # Skip if not a dictionary (some may be string constants)
-            if not isinstance(characters, dict):
-                continue
-
-            # Process each character
-            for char_name, char_data in characters.items():
-                # Skip if character already has URLs
-                if char_name in existing_urls.get(franchise, {}):
-                    continue
-
-                # Get gelbooru tags
-                gelbooru_tags = []
-
-                # Handle different tag formats
-                if isinstance(char_data, dict):
-                    # If it's a dictionary with 'gelbooru' key
-                    if 'gelbooru' in char_data:
-                        gelbooru_tags = char_data['gelbooru']
-                    # If it has detailed tag categories
-                    elif 'names' in char_data:
-                        gelbooru_tags = char_data.get('names', [])
-                elif isinstance(char_data, list):
-                    # If it's a direct list of tags
-                    gelbooru_tags = char_data
-
-                # Generate URLs from tags
-                if gelbooru_tags:
-                    char_urls = []
-                    for tag in gelbooru_tags:
-                        # Clean and format tag
-                        clean_tag = tag.replace(' ', '_').replace('(', '%28').replace(')', '%29')
-                        url = f"{self.base_url}{clean_tag}"
-                        char_urls.append(url)
-
-                    # Add to generated URLs if we found any
-                    if char_urls:
-                        if franchise not in generated_urls:
-                            generated_urls[franchise] = {}
-                        generated_urls[franchise][char_name] = char_urls
-
-        return generated_urls
-
-
-def merge_character_urls():
-    """Merge existing URLs with generated ones"""
-    # Initialize URL generator
-    url_gen = GelbooruURLGenerator()
-
-    # Generate URLs for characters with tags but no URLs
-    additional_urls = url_gen.generate_urls(CharacterTags, URLs)
-
-    # Create merged URL dictionary
-    merged_urls = {}
-
-    # Include existing URLs
-    for franchise, chars in URLs.items():
-        merged_urls[franchise] = chars.copy()
-
-    # Add generated URLs
-    for franchise, chars in additional_urls.items():
-        if franchise not in merged_urls:
-            merged_urls[franchise] = {}
-
-        # Add new character URLs
-        for char_name, urls in chars.items():
-            if char_name not in merged_urls[franchise]:
-                merged_urls[franchise][char_name] = urls
-
-    return merged_urls
-
-
-# class CharacterTags:
+# class CharacterSearchUtility:
+#     """Utility class for searching character content using tags and URLs"""
+#
+#     def __init__(self, character_tags: Dict, character_urls: Dict):
+#         self.character_tags = character_tags
+#         self.character_urls = character_urls
+#
+#     def get_character_tags(self, franchise: str, character: str, site: str = "gelbooru") -> List[str]:
+#         """Get all tags for a specific character from a franchise"""
+#         try:
+#             franchise_tags = self.character_tags.get(franchise, {})
+#             character_info = franchise_tags.get(character, {})
+#
+#             # Get tags specific to the site
+#             if isinstance(character_info, dict):
+#                 return character_info.get(site, [])
+#             # Handle direct tag lists
+#             elif isinstance(character_info, list):
+#                 return character_info
+#             return []
+#         except (KeyError, AttributeError):
+#             return []
+#
+#     def get_character_urls(self, franchise: str, character: str, site: str = "gelbooru") -> List[str]:
+#         """Get all search URLs for a specific character from a franchise"""
+#         try:
+#             franchise_urls = self.character_urls.get(franchise, {})
+#             site_urls = franchise_urls.get(site, {})
+#             return site_urls.get(character, [])
+#         except (KeyError, AttributeError):
+#             return []
+#
+#     def get_expanded_tags(self, franchise: str, character: str) -> Dict[str, List[str]]:
+#         """Get all expanded tag categories for a character if available"""
+#         try:
+#             franchise_tags = self.character_tags.get(franchise, {})
+#             character_info = franchise_tags.get(character, {})
+#
+#             expanded_tags = {}
+#             tag_categories = ['names', 'titles', 'forms', 'abilities', 'relationships', 'outfits', 'weapons']
+#
+#             for category in tag_categories:
+#                 if category in character_info:
+#                     expanded_tags[category] = character_info[category]
+#
+#             return expanded_tags
+#         except (KeyError, AttributeError):
+#             return {}
+#
+#     def search_character(self, franchise: str, character: str, site: str = "gelbooru",
+#                          include_expanded: bool = False) -> Dict[str, Any]:
+#         """Comprehensive search for a character returning both tags and URLs"""
+#         result = {
+#             'basic_tags': self.get_character_tags(franchise, character, site),
+#             'search_urls': self.get_character_urls(franchise, character, site),
+#         }
+#
+#         if include_expanded:
+#             result['expanded_tags'] = self.get_expanded_tags(franchise, character)
+#
+#         return result
+#
+#     def format_search_string(self, tags: List[str], separator: str = "+") -> str:
+#         """Format a list of tags into a search string"""
+#         return separator.join(filter(None, tags))
+#
+#     def clean_tag(self, tag: str) -> str:
+#         """Clean a tag string for consistent formatting"""
+#         # Remove special characters and normalize spaces
+#         cleaned = re.sub(r'[^\w\s-]', '', tag)
+#         cleaned = re.sub(r'\s+', '_', cleaned.strip())
+#         return cleaned.lower()
+#
+#
+# # Helper function to create search URLs
+# def create_search_url(base_url: str, tags: List[str], separator: str = "+") -> str:
+#     utility = CharacterSearchUtility(CharacterTags, URLs)
+#     search_string = utility.format_search_string(tags, separator)
+#     return f"{base_url}{search_string}"
+#
+#
+# class GelbooruURLGenerator:
+#     """Utility class to generate Gelbooru URLs from character tags"""
+#
+#     def __init__(self, base_url: str = "https://gelbooru.com/index.php?page=post&s=list&tags="):
+#         self.base_url = base_url
+#
+#     def generate_urls(self, character_tags: Dict, existing_urls: Dict) -> Dict:
+#         """Generate URLs for characters that have tags but no URLs"""
+#         generated_urls = {}
+#
+#         # Iterate through franchises in character tags
+#         for franchise, characters in character_tags.items():
+#             # Skip if not a dictionary (some may be string constants)
+#             if not isinstance(characters, dict):
+#                 continue
+#
+#             # Process each character
+#             for char_name, char_data in characters.items():
+#                 # Skip if character already has URLs
+#                 if char_name in existing_urls.get(franchise, {}):
+#                     continue
+#
+#                 # Get gelbooru tags
+#                 gelbooru_tags = []
+#
+#                 # Handle different tag formats
+#                 if isinstance(char_data, dict):
+#                     # If it's a dictionary with 'gelbooru' key
+#                     if 'gelbooru' in char_data:
+#                         gelbooru_tags = char_data['gelbooru']
+#                     # If it has detailed tag categories
+#                     elif 'names' in char_data:
+#                         gelbooru_tags = char_data.get('names', [])
+#                 elif isinstance(char_data, list):
+#                     # If it's a direct list of tags
+#                     gelbooru_tags = char_data
+#
+#                 # Generate URLs from tags
+#                 if gelbooru_tags:
+#                     char_urls = []
+#                     for tag in gelbooru_tags:
+#                         # Clean and format tag
+#                         clean_tag = tag.replace(' ', '_').replace('(', '%28').replace(')', '%29')
+#                         url = f"{self.base_url}{clean_tag}"
+#                         char_urls.append(url)
+#
+#                     # Add to generated URLs if we found any
+#                     if char_urls:
+#                         if franchise not in generated_urls:
+#                             generated_urls[franchise] = {}
+#                         generated_urls[franchise][char_name] = char_urls
+#
+#         return generated_urls
+#
+#
+# def merge_character_urls():
+#     """Merge existing URLs with generated ones"""
+#     # Initialize URL generator
+#     url_gen = GelbooruURLGenerator()
+#
+#     # Generate URLs for characters with tags but no URLs
+#     additional_urls = url_gen.generate_urls(CharacterTags, URLs)
+#
+#     # Create merged URL dictionary
+#     merged_urls = {}
+#
+#     # Include existing URLs
+#     for franchise, chars in URLs.items():
+#         merged_urls[franchise] = chars.copy()
+#
+#     # Add generated URLs
+#     for franchise, chars in additional_urls.items():
+#         if franchise not in merged_urls:
+#             merged_urls[franchise] = {}
+#
+#         # Add new character URLs
+#         for char_name, urls in chars.items():
+#             if char_name not in merged_urls[franchise]:
+#                 merged_urls[franchise][char_name] = urls
+#
+#     return merged_urls
+#
+#
+# wclass CharacterTags:
 #     """Character tag mappings between different image boards"""
 #
 #     ONE_PIECE_TAGS = {
@@ -11670,16 +11703,16 @@ def merge_character_urls():
 #                 f"{GELBOORU_BASE}boa_marigold",
 #             ],
 #             "danbooru": [
-#                 f"{DANBOORU_BASE}boa_marigold+",
+#                 f"{DANBOORU_BASE}boa_marigold",
 #             ]
 #         },
 #
 #         "marguerite": {
 #             "gelbooru": [
-#                 f"{GELBOORU_BASE}marguerite_(one_piece)+",
+#                 f"{GELBOORU_BASE}marguerite_(one_piece)",
 #             ],
 #             "danbooru": [
-#                 f"{DANBOORU_BASE}marguerite_(one_piece)+",
+#                 f"{DANBOORU_BASE}marguerite_(one_piece)",
 #             ]
 #         },
 #
@@ -11690,6 +11723,7 @@ def merge_character_urls():
 #             ],
 #         },
 #
+#         """TODO: ADD DRESSROSA TO THE CONTENT. LOTS OF HOT WAIFUS"""
 #         "dressrosa": {
 #             "gelbooru": [
 #                 f"{GELBOORU_BASE}dressrosa"
@@ -11824,57 +11858,38 @@ def merge_character_urls():
 #
 #         "isuka": {
 #             "gelbooru": [
-#                 f"{GELBOORU_BASE}isuka+",
 #                 f"{GELBOORU_BASE}isuka_(one_piece)+",
-#                 f"{GELBOORU_BASE}marine_captain+isuka+",
-#                 f"{GELBOORU_BASE}smoke_smoke_fruit+isuka+"
 #             ],
 #             "danbooru": [
-#                 f"{DANBOORU_BASE}isuka+",
 #                 f"{DANBOORU_BASE}isuka_(one_piece)+",
-#                 f"{DANBOORU_BASE}marine_captain+"
 #             ]
 #         },
 #
 #         "ain": {
 #             "gelbooru": [
-#                 f"{GELBOORU_BASE}ain+",
-#                 f"{GELBOORU_BASE}ain_(one_piece)+",
-#                 f"{GELBOORU_BASE}neo_marines+ain+",
-#                 f"{GELBOORU_BASE}modo_modo_no_mi+"
+#                 f"{GELBOORU_BASE}ein_(one_piece)+",
 #             ],
 #             "danbooru": [
-#                 f"{DANBOORU_BASE}ain+",
-#                 f"{DANBOORU_BASE}ain_(one_piece)+",
-#                 f"{DANBOORU_BASE}neo_marines+"
+#                 f"{DANBOORU_BASE}ein_(one_piece)+",
 #             ]
 #         },
 #
 #         "sadi": {
 #             "gelbooru": [
-#                 f"{GELBOORU_BASE}sadi+",
-#                 f"{GELBOORU_BASE}sadi_(one_piece)+",
-#                 f"{GELBOORU_BASE}chief_guard+sadi+",
-#                 f"{GELBOORU_BASE}impel_down+sadi+"
+#                 f"{GELBOORU_BASE}onepiece sadi-chan",
+#                 f"{GELBOORU_BASE}sadi-chan",
 #             ],
 #             "danbooru": [
-#                 f"{DANBOORU_BASE}sadi+",
-#                 f"{DANBOORU_BASE}sadi_(one_piece)+",
-#                 f"{DANBOORU_BASE}impel_down+"
+#                 f"{DANBOORU_BASE}sadi-chan",
 #             ]
 #         },
 #
 #         "domino": {
 #             "gelbooru": [
-#                 f"{GELBOORU_BASE}domino+",
 #                 f"{GELBOORU_BASE}domino_(one_piece)+",
-#                 f"{GELBOORU_BASE}vice_chief_guard+",
-#                 f"{GELBOORU_BASE}impel_down+domino+"
 #             ],
 #             "danbooru": [
-#                 f"{DANBOORU_BASE}domino+",
 #                 f"{DANBOORU_BASE}domino_(one_piece)+",
-#                 f"{DANBOORU_BASE}impel_down+"
 #             ]
 #         },
 #
@@ -14366,8 +14381,8 @@ def merge_character_urls():
 #             # Mirror structure with danbooru base URLs
 #         }
 #     },
-#
-#
+
+
 # def main():
 #     """Main function to run both scrapers with merged URLs"""
 #     config = ScraperConfig(
