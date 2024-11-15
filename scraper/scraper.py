@@ -1547,7 +1547,7 @@ class HentaiScraper(ABC):
             # Create thread pool with exactly 4 workers
             self.logger.info("Creating thread pool executor...")
             executor = concurrent.futures.ThreadPoolExecutor(
-                max_workers=4,
+                max_workers=24,
                 thread_name_prefix="scraper"
             )
             self.logger.info("Thread pool executor created")
@@ -2215,7 +2215,7 @@ class ThreadedGelbooruScraper(HentaiScraper):
             # Create thread pool with exactly 4 workers
             self.logger.info("Creating thread pool executor...")
             executor = concurrent.futures.ThreadPoolExecutor(
-                max_workers=4,
+                max_workers=24,
                 thread_name_prefix="scraper"
             )
             self.logger.info("Thread pool executor created")
@@ -2684,7 +2684,7 @@ class ThreadedDanbooruScraper(HentaiScraper):
             self.logger.info(f"Total characters to process: {len(urls)}")
 
             # Create thread pool
-            with concurrent.futures.ThreadPoolExecutor(max_workers=4,
+            with concurrent.futures.ThreadPoolExecutor(max_workers=24,
                                                        thread_name_prefix="danbooru") as executor:
                 # Setup processing queues
                 remaining_chars = list(urls.items())
@@ -2692,8 +2692,8 @@ class ThreadedDanbooruScraper(HentaiScraper):
                 completed_count = 0
 
                 # Start initial characters
-                initial_chars = remaining_chars[:4]
-                remaining_chars = remaining_chars[4:]
+                initial_chars = remaining_chars[:6]
+                remaining_chars = remaining_chars[6:]
 
                 for character, url_list in initial_chars:
                     if self.state.start_character(character):
@@ -14497,46 +14497,6 @@ def main():
         # https://danbooru.donmai.us/
 
         urls = {
-            # ONE PIECE
-            # "monkey_d_luffy": "https://gelbooru.com/index.php?page=post&s=list&tags=monkey_d_luffy",
-            # "roronoa_zoro": "https://gelbooru.com/index.php?page=post&s=list&tags=roronoa_zoro",
-            # "op_nami": "https://gelbooru.com/index.php?page=post&s=list&tags=nami_(one_piece)",
-            # "vinsmoke_sanji": "https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_sanji",
-            # "nico_robin": "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin",
-            # "uta": "https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)",
-            # "rebecca": "https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_(one_piece)",
-            # 'viola': "https://gelbooru.com/index.php?page=post&s=list&tags=viola_%28one_piece%29",  # Need to add
-            # "carrot": "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_(one_piece)",
-            # "jewelry_bonney": "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney",
-            # "baby_5": "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5",
-            # "boa_hancock": "https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock",
-            # "nefertari_vivi": "https://gelbooru.com/index.php?page=post&s=list&tags=nefertari_vivi",
-            # "vinsmoke_reiju": "https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_reiju",
-            # "charlotte_linlin": "https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_linlin",
-            # "shimotsuki_kuina": "https://gelbooru.com/index.php?page=post&s=list&tags=shimotsuki_kuina",
-            # "charlotte_smoothie": "https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_smoothie",
-            # "shirahoshi": "https://gelbooru.com/index.php?page=post&s=list&tags=shirahoshi",
-            # "kouzuki_hiyori": "https://gelbooru.com/index.php?page=post&s=list&tags=kouzuki_hiyori",
-            # "catarina_devon": "https://gelbooru.com/index.php?page=post&s=list&tags=catarina_devon",
-            # "perona": "https://gelbooru.com/index.php?page=post&s=list&tags=perona",
-            # "charlotte_flampe": "https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_flampe",
-            # "kouzuki_toki": "https://gelbooru.com/index.php?page=post&s=list&tags=kouzuki_toki",
-            # "alvida": "https://gelbooru.com/index.php?page=post&s=list&tags=alvida_(one_piece)",
-            # "kikunojo": "https://gelbooru.com/index.php?page=post&s=list&tags=kikunojo_(one_piece)",
-            # "vegapunk_lilith": "https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_lilith",
-            # "kaya": "https://gelbooru.com/index.php?page=post&s=list&tags=kaya_(one_piece)",
-            # "monet": "https://gelbooru.com/index.php?page=post&s=list&tags=monet_(one_piece)",
-            # "wanda": "https://gelbooru.com/index.php?page=post&s=list&tags=wanda_(one_piece)",
-            # "nico_olvia": "https://gelbooru.com/index.php?page=post&s=list&tags=nico_olvia",
-            # "nojiko": "https://gelbooru.com/index.php?page=post&s=list&tags=nojiko",
-            # "charlotte_pudding": "https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_pudding",
-            # "vegapunk_atlas": "https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_atlas",
-            # "vegapunk_york": "https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_york",
-            # "stussy": "https://gelbooru.com/index.php?page=post&s=list&tags=stussy_(one_piece)",
-            # "tashigi": "https://gelbooru.com/index.php?page=post&s=list&tags=tashigi",
-            # "hina": "https://gelbooru.com/index.php?page=post&s=list&tags=hina_(one_piece)",
-            # "isuka": "https://gelbooru.com/index.php?page=post&s=list&tags=isuka_(one_piece)",
-
             # DOTA 2
             # "lina": "https://gelbooru.com/index.php?page=post&s=list&tags=lina_%28dota_2%29+",
             # "lina": "https://gelbooru.com/index.php?page=post&s=list&tags=lina_%28dota%29+",
@@ -14683,6 +14643,46 @@ def main():
             "mirai_sarutobi": "https://gelbooru.com/index.php?page=post&s=list&tags=sarutobi_mirai",
             "wasabi_izuno": "https://gelbooru.com/index.php?page=post&s=list&tags=izuno_wasabi",
             "namida_suzumeno": "https://gelbooru.com/index.php?page=post&s=list&tags=namida",# Note: URL uses first name only
+
+            # ONE PIECE
+            # "monkey_d_luffy": "https://gelbooru.com/index.php?page=post&s=list&tags=monkey_d_luffy",
+            # "roronoa_zoro": "https://gelbooru.com/index.php?page=post&s=list&tags=roronoa_zoro",
+            "op_nami": "https://gelbooru.com/index.php?page=post&s=list&tags=nami_(one_piece)",
+            # "vinsmoke_sanji": "https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_sanji",
+            "nico_robin": "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin",
+            # "uta": "https://gelbooru.com/index.php?page=post&s=list&tags=uta_(one_piece)",
+            # "rebecca": "https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_(one_piece)",
+            # 'viola': "https://gelbooru.com/index.php?page=post&s=list&tags=viola_%28one_piece%29",  # Need to add
+            # "carrot": "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_(one_piece)",
+            # "jewelry_bonney": "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney",
+            # "baby_5": "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5",
+            # "boa_hancock": "https://gelbooru.com/index.php?page=post&s=list&tags=boa_hancock",
+            # "nefertari_vivi": "https://gelbooru.com/index.php?page=post&s=list&tags=nefertari_vivi",
+            # "vinsmoke_reiju": "https://gelbooru.com/index.php?page=post&s=list&tags=vinsmoke_reiju",
+            # "charlotte_linlin": "https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_linlin",
+            # "shimotsuki_kuina": "https://gelbooru.com/index.php?page=post&s=list&tags=shimotsuki_kuina",
+            # "charlotte_smoothie": "https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_smoothie",
+            # "shirahoshi": "https://gelbooru.com/index.php?page=post&s=list&tags=shirahoshi",
+            # "kouzuki_hiyori": "https://gelbooru.com/index.php?page=post&s=list&tags=kouzuki_hiyori",
+            # "catarina_devon": "https://gelbooru.com/index.php?page=post&s=list&tags=catarina_devon",
+            # "perona": "https://gelbooru.com/index.php?page=post&s=list&tags=perona",
+            # "charlotte_flampe": "https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_flampe",
+            # "kouzuki_toki": "https://gelbooru.com/index.php?page=post&s=list&tags=kouzuki_toki",
+            # "alvida": "https://gelbooru.com/index.php?page=post&s=list&tags=alvida_(one_piece)",
+            # "kikunojo": "https://gelbooru.com/index.php?page=post&s=list&tags=kikunojo_(one_piece)",
+            # "vegapunk_lilith": "https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_lilith",
+            # "kaya": "https://gelbooru.com/index.php?page=post&s=list&tags=kaya_(one_piece)",
+            # "monet": "https://gelbooru.com/index.php?page=post&s=list&tags=monet_(one_piece)",
+            # "wanda": "https://gelbooru.com/index.php?page=post&s=list&tags=wanda_(one_piece)",
+            # "nico_olvia": "https://gelbooru.com/index.php?page=post&s=list&tags=nico_olvia",
+            # "nojiko": "https://gelbooru.com/index.php?page=post&s=list&tags=nojiko",
+            # "charlotte_pudding": "https://gelbooru.com/index.php?page=post&s=list&tags=charlotte_pudding",
+            # "vegapunk_atlas": "https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_atlas",
+            # "vegapunk_york": "https://gelbooru.com/index.php?page=post&s=list&tags=vegapunk_york",
+            # "stussy": "https://gelbooru.com/index.php?page=post&s=list&tags=stussy_(one_piece)",
+            # "tashigi": "https://gelbooru.com/index.php?page=post&s=list&tags=tashigi",
+            # "hina": "https://gelbooru.com/index.php?page=post&s=list&tags=hina_(one_piece)",
+            # "isuka": "https://gelbooru.com/index.php?page=post&s=list&tags=isuka_(one_piece)",
 
             # FAIRY TAIL
             "lucy_heartfilia": "https://gelbooru.com/index.php?page=post&s=list&tags=lucy_heartfilia",
