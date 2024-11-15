@@ -2227,8 +2227,8 @@ class ThreadedGelbooruScraper(HentaiScraper):
                 completed_count = 0
 
                 # Initial launch of first 4 characters
-                initial_chars = remaining_chars[:4]
-                remaining_chars = remaining_chars[4:]
+                initial_chars = remaining_chars[:6]
+                remaining_chars = remaining_chars[6:]
 
                 self.logger.info(f"Starting initial 4 characters: {[char for char, _ in initial_chars]}")
 
