@@ -798,7 +798,7 @@ class CharacterClassifier:
                 "lillia": ["lillia"],
                 "lissandra": ["lissandra"],
                 "morgana": ["morgana"],
-                "nami": ["nami"],
+                "nami": ["nami", "nami_(league_of_legends)"],
                 "neeko": ["neeko"],
                 "nidalee": ["nidalee"],
                 "nilah": ["nilah"],
@@ -15241,7 +15241,7 @@ def main():
             "lillia": "https://gelbooru.com/index.php?page=post&s=list&tags=lillia_%28league_of_legends%29",
             "lissandra": "https://gelbooru.com/index.php?page=post&s=list&tags=lissandra_%28league_of_legends%29",
             "morgana": "https://gelbooru.com/index.php?page=post&s=list&tags=morgana_%28league_of_legends%29",
-            "nami": "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28league_of_legends%29",
+            "lol_nami": "https://gelbooru.com/index.php?page=post&s=list&tags=nami_(league_of_legends)",  # Renamed key for LoL Nami
             "neeko": "https://gelbooru.com/index.php?page=post&s=list&tags=neeko_%28league_of_legends%29",
             "nidalee": "https://gelbooru.com/index.php?page=post&s=list&tags=nidalee",
             "nilah": "https://gelbooru.com/index.php?page=post&s=list&tags=nilah_%28league_of_legends%29",
