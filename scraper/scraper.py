@@ -11607,317 +11607,218 @@ class URLs:
 
         "okiku": {
             "gelbooru": [
-                f"{GELBOORU_BASE}kikunojo+",
-                f"{GELBOORU_BASE}o_kiku+",
                 f"{GELBOORU_BASE}kiku_(one_piece)+",
-                f"{GELBOORU_BASE}red_scabbard+kiku+",
-                f"{GELBOORU_BASE}samurai+kiku+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}kikunojo+",
-                f"{DANBOORU_BASE}o_kiku+",
                 f"{DANBOORU_BASE}kiku_(one_piece)+"
             ]
         },
 
         "otoko": {
             "gelbooru": [
-                f"{GELBOORU_BASE}toko+",
-                f"{GELBOORU_BASE}o_toko+",
                 f"{GELBOORU_BASE}toko_(one_piece)+",
-                f"{GELBOORU_BASE}kamuro+toko+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}toko+",
-                f"{DANBOORU_BASE}o_toko+",
                 f"{DANBOORU_BASE}toko_(one_piece)+"
             ]
         },
 
-        "otsuru": {
+        "tsurujo": {
             "gelbooru": [
-                f"{GELBOORU_BASE}tsuru+wano+",
-                f"{GELBOORU_BASE}o_tsuru+",
                 f"{GELBOORU_BASE}tsuru_(one_piece_wano)+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}tsuru+wano+",
-                f"{DANBOORU_BASE}o_tsuru+",
                 f"{DANBOORU_BASE}tsuru_(one_piece_wano)+"
             ]
         },
 
         "speed": {
             "gelbooru": [
-                f"{GELBOORU_BASE}speed+",
                 f"{GELBOORU_BASE}speed_(one_piece)+",
-                f"{GELBOORU_BASE}headliner+speed+",
-                f"{GELBOORU_BASE}horse_smile+speed+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}speed+",
                 f"{DANBOORU_BASE}speed_(one_piece)+",
-                f"{DANBOORU_BASE}smile_user+speed+"
             ]
         },
 
         "boa_hancock": {
             "gelbooru": [
                 f"{GELBOORU_BASE}boa_hancock+",
-                f"{GELBOORU_BASE}hancock_(one_piece)+",
-                f"{GELBOORU_BASE}pirate_empress+",
-                f"{GELBOORU_BASE}snake_princess+",
-                f"{GELBOORU_BASE}love_love_fruit+hancock+",
-                f"{GELBOORU_BASE}shichibukai+hancock+",
-                f"{GELBOORU_BASE}kuja_pirates+hancock+"
+                f"{GELBOORU_BASE}shichibukai",
+                f"{GELBOORU_BASE}kuja_pirates_jolly_roger",
             ],
             "danbooru": [
                 f"{DANBOORU_BASE}boa_hancock+",
-                f"{DANBOORU_BASE}hancock_(one_piece)+",
-                f"{DANBOORU_BASE}pirate_empress+",
-                f"{DANBOORU_BASE}snake_princess+"
+                f"{DANBOORU_BASE}kuja_pirates_jolly_roger",
+                f"{DANBOORU_BASE}shichibukai"
             ]
         },
 
         "sandersonia": {
             "gelbooru": [
-                f"{GELBOORU_BASE}boa_sandersonia+",
-                f"{GELBOORU_BASE}sandersonia_(one_piece)+",
-                f"{GELBOORU_BASE}gorgon_sister+sandersonia+",
-                f"{GELBOORU_BASE}snake_form+sandersonia+"
+                f"{GELBOORU_BASE}boa_sandersonia",
+                f"{GELBOORU_BASE}kuja_pirates_jolly_roger"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}boa_sandersonia+",
-                f"{DANBOORU_BASE}sandersonia_(one_piece)+",
-                f"{DANBOORU_BASE}gorgon_sister+"
+                f"{GELBOORU_BASE}boa_sandersonia",
+                f"{GELBOORU_BASE}kuja_pirates_jolly_roger"
             ]
         },
 
         "marigold": {
             "gelbooru": [
-                f"{GELBOORU_BASE}boa_marigold+",
-                f"{GELBOORU_BASE}marigold_(one_piece)+",
-                f"{GELBOORU_BASE}gorgon_sister+marigold+",
-                f"{GELBOORU_BASE}snake_form+marigold+"
+                f"{GELBOORU_BASE}boa_marigold",
             ],
             "danbooru": [
                 f"{DANBOORU_BASE}boa_marigold+",
-                f"{DANBOORU_BASE}marigold_(one_piece)+",
-                f"{DANBOORU_BASE}gorgon_sister+"
             ]
         },
 
         "marguerite": {
             "gelbooru": [
-                f"{GELBOORU_BASE}marguerite+",
                 f"{GELBOORU_BASE}marguerite_(one_piece)+",
-                f"{GELBOORU_BASE}kuja_warrior+marguerite+",
-                f"{GELBOORU_BASE}amazon_lily+marguerite+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}marguerite+",
                 f"{DANBOORU_BASE}marguerite_(one_piece)+",
-                f"{DANBOORU_BASE}kuja_warrior+"
             ]
+        },
+
+        """TODO: ADD AMAZON LILY TO THE CONTENT. LOTS OF HOT WAIFUS"""
+        "amazon_lily": {
+            "gelbooru": [
+                f"{GELBOORU_BASE}amazon_lily",
+            ],
+        },
+
+        "dressrosa": {
+            "gelbooru": [
+                f"{GELBOORU_BASE}dressrosa"
+            ],
         },
 
         "viola": {
             "gelbooru": [
-                f"{GELBOORU_BASE}viola+",
                 f"{GELBOORU_BASE}viola_(one_piece)+",
-                f"{GELBOORU_BASE}violet+one_piece+",
-                f"{GELBOORU_BASE}princess_viola+",
-                f"{GELBOORU_BASE}dancing_queen+viola+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}viola+",
                 f"{DANBOORU_BASE}viola_(one_piece)+",
-                f"{DANBOORU_BASE}violet_(one_piece)+"
             ]
         },
 
         "rebecca": {
             "gelbooru": [
-                f"{GELBOORU_BASE}rebecca+",
                 f"{GELBOORU_BASE}rebecca_(one_piece)+",
-                f"{GELBOORU_BASE}gladiator_rebecca+",
-                f"{GELBOORU_BASE}princess_rebecca+",
-                f"{GELBOORU_BASE}undefeated_woman+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}rebecca+",
                 f"{DANBOORU_BASE}rebecca_(one_piece)+",
-                f"{DANBOORU_BASE}gladiator_rebecca+"
             ]
         },
 
         "scarlett": {
             "gelbooru": [
-                f"{GELBOORU_BASE}scarlett+",
                 f"{GELBOORU_BASE}scarlett_(one_piece)+",
-                f"{GELBOORU_BASE}princess_scarlett+",
-                f"{GELBOORU_BASE}rebecca's_mother+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}scarlett+",
                 f"{DANBOORU_BASE}scarlett_(one_piece)+",
-                f"{DANBOORU_BASE}kyros'_wife+"
             ]
         },
 
         "baby_5": {
             "gelbooru": [
                 f"{GELBOORU_BASE}baby_5+",
-                f"{GELBOORU_BASE}baby_5_(one_piece)+",
-                f"{GELBOORU_BASE}baby_five+",
-                f"{GELBOORU_BASE}arms_arms_fruit+baby_5+",
-                f"{GELBOORU_BASE}weapon_form+baby_5+"
             ],
             "danbooru": [
                 f"{DANBOORU_BASE}baby_5+",
-                f"{DANBOORU_BASE}baby_5_(one_piece)+",
-                f"{DANBOORU_BASE}arms_arms_fruit+"
             ]
         },
 
         "tashigi": {
             "gelbooru": [
                 f"{GELBOORU_BASE}tashigi+",
-                f"{GELBOORU_BASE}tashigi_(one_piece)+",
-                f"{GELBOORU_BASE}marine_captain+tashigi+",
-                f"{GELBOORU_BASE}sword_master+tashigi+",
-                f"{GELBOORU_BASE}g-5+tashigi+"
             ],
             "danbooru": [
                 f"{DANBOORU_BASE}tashigi+",
-                f"{DANBOORU_BASE}tashigi_(one_piece)+",
-                f"{DANBOORU_BASE}marine_captain+"
             ]
         },
 
         "hina": {
             "gelbooru": [
-                f"{GELBOORU_BASE}hina+",
                 f"{GELBOORU_BASE}hina_(one_piece)+",
-                f"{GELBOORU_BASE}black_cage+hina+",
-                f"{GELBOORU_BASE}marine_captain+hina+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}hina+",
                 f"{DANBOORU_BASE}hina_(one_piece)+",
-                f"{DANBOORU_BASE}black_cage+"
             ]
         },
 
-        "momousagi": {
+        "gion": {
             "gelbooru": [
-                f"{GELBOORU_BASE}momousagi+",
-                f"{GELBOORU_BASE}gion+",
-                f"{GELBOORU_BASE}vice_admiral+momousagi+",
-                f"{GELBOORU_BASE}pink_rabbit+"
+                f"{GELBOORU_BASE}gion_(one_piece)",
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}momousagi+",
-                f"{DANBOORU_BASE}gion+",
-                f"{DANBOORU_BASE}vice_admiral+"
+                f"{DANBOORU_BASE}gion_(one_piece)",
             ]
         },
 
         "tsuru": {
             "gelbooru": [
-                f"{GELBOORU_BASE}tsuru+",
                 f"{GELBOORU_BASE}tsuru_(one_piece)+",
-                f"{GELBOORU_BASE}great_staff_officer+",
-                f"{GELBOORU_BASE}marine_legend+tsuru+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}tsuru+",
                 f"{DANBOORU_BASE}tsuru_(one_piece)+",
-                f"{DANBOORU_BASE}vice_admiral+tsuru+"
             ]
         },
 
         "stussy": {
             "gelbooru": [
-                f"{GELBOORU_BASE}stussy+",
                 f"{GELBOORU_BASE}stussy_(one_piece)+",
-                f"{GELBOORU_BASE}cp0+stussy+",
-                f"{GELBOORU_BASE}agent+stussy+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}stussy+",
                 f"{DANBOORU_BASE}stussy_(one_piece)+",
-                f"{DANBOORU_BASE}cp0+stussy+"
             ]
         },
 
         "koala": {
             "gelbooru": [
-                f"{GELBOORU_BASE}koala+",
                 f"{GELBOORU_BASE}koala_(one_piece)+",
-                f"{GELBOORU_BASE}revolutionary_army+koala+",
-                f"{GELBOORU_BASE}fishman_karate+koala+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}koala+",
                 f"{DANBOORU_BASE}koala_(one_piece)+",
-                f"{DANBOORU_BASE}revolutionary_army+"
             ]
         },
 
         "belo_betty": {
             "gelbooru": [
                 f"{GELBOORU_BASE}belo_betty+",
-                f"{GELBOORU_BASE}betty_(one_piece)+",
-                f"{GELBOORU_BASE}east_army_commander+",
-                f"{GELBOORU_BASE}pump_pump_fruit+"
             ],
             "danbooru": [
                 f"{DANBOORU_BASE}belo_betty+",
-                f"{DANBOORU_BASE}betty_(one_piece)+",
-                f"{DANBOORU_BASE}revolutionary_commander+"
             ]
         },
 
         "lindbergh": {
             "gelbooru": [
-                f"{GELBOORU_BASE}lindbergh+",
                 f"{GELBOORU_BASE}lindbergh_(one_piece)+",
-                f"{GELBOORU_BASE}north_army_commander+",
-                f"{GELBOORU_BASE}revolutionary_inventor+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}lindbergh+",
                 f"{DANBOORU_BASE}lindbergh_(one_piece)+",
-                f"{DANBOORU_BASE}revolutionary_army+"
             ]
         },
 
         "karasu": {
             "gelbooru": [
-                f"{GELBOORU_BASE}karasu+",
                 f"{GELBOORU_BASE}karasu_(one_piece)+",
-                f"{GELBOORU_BASE}crow_commander+",
-                f"{GELBOORU_BASE}revolutionary_commander+"
             ],
             "danbooru": [
-                f"{DANBOORU_BASE}karasu+",
                 f"{DANBOORU_BASE}karasu_(one_piece)+",
-                f"{DANBOORU_BASE}revolutionary_army+"
             ]
         },
 
         "bellemere": {
             "gelbooru": [
                 f"{GELBOORU_BASE}bellemere+",
-                f"{GELBOORU_BASE}bell-mère+",
-                f"{GELBOORU_BASE}belle_mere_(one_piece)+",
-                f"{GELBOORU_BASE}marine_bellemere+"
             ],
             "danbooru": [
                 f"{DANBOORU_BASE}bellemere+",
-                f"{DANBOORU_BASE}bell-mère+",
-                f"{DANBOORU_BASE}belle_mere_(one_piece)+"
             ]
         },
 
@@ -12112,20 +12013,6 @@ class URLs:
                 f"{DANBOORU_BASE}porche+",
                 f"{DANBOORU_BASE}porche_(one_piece)+",
                 f"{DANBOORU_BASE}foxy_pirates+"
-            ]
-        },
-
-        "marguerite": {
-            "gelbooru": [
-                f"{GELBOORU_BASE}marguerite+",
-                f"{GELBOORU_BASE}marguerite_(one_piece)+",
-                f"{GELBOORU_BASE}kuja_warrior+marguerite+",
-                f"{GELBOORU_BASE}amazon_lily+marguerite+"
-            ],
-            "danbooru": [
-                f"{DANBOORU_BASE}marguerite+",
-                f"{DANBOORU_BASE}marguerite_(one_piece)+",
-                f"{DANBOORU_BASE}kuja_warrior+"
             ]
         },
 
