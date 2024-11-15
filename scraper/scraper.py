@@ -2317,6 +2317,15 @@ class GelbooruScraper(HentaiScraper):
             self.logger.warning(f"Could not find character mapping for {url_key} with tags {tags}")
             return Path('raw')
 
+        except Exception as e:
+            self.logger.error(f"Error parsing character path: {str(e)}")
+            self.logger.exception("Full traceback:")
+            return Path('raw')
+
+        finally:
+            # Clean up any resources if needed
+            pass
+
     def _download_image(self, url: str, source_page: str = None) -> bool:
         """
         Download and save an image or GIF from the given URL after verifying it's not SFW.
