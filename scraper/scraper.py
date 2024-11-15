@@ -1018,433 +1018,6 @@ class CharacterClassifier:
             },
         }
 
-    def get_url_key(self, input_name: str) -> str:
-        """
-        Match a character name to its correct prefixed URL key.
-
-        Args:
-            input_name (str): Original character name from the CHARACTER_MAPPINGS
-
-        Returns:
-            str: The prefixed key to use for URL lookup (e.g., "op_nami", "hxh_shizuku")
-        """
-        input_name = input_name.lower().strip()
-
-        # If input is already in prefixed format, return it
-        prefixes = {
-            "op_", "dota_", "opm_", "lr_", "ds_", "jjk_", "lol_",
-            "db_", "cb_", "kono_", "sxf_", "poke_", "hxh_", "voca_"
-        }
-
-        if any(input_name.startswith(prefix) for prefix in prefixes):
-            return input_name
-
-        # Check character mappings for matching aliases
-        for series_name, chars in self.CHARACTER_MAPPINGS.items():
-            for char_key, aliases in chars.items():
-                if input_name in [alias.lower() for alias in aliases]:
-                    # Find the prefixed alias if it exists
-                    prefixed = next(
-                        (alias for alias in aliases if any(alias.startswith(p) for p in prefixes)),
-                        None
-                    )
-                    if prefixed:
-                        return prefixed.lower()
-
-        return input_name
-
-    def find_prefixed_key(input_name: str, character_mappings: dict) -> str:
-        """
-        Find the prefixed URL key for a character by checking all their aliases.
-
-        Args:
-            input_name (str): The name or alias to look up (e.g., "shizuku" or "hxh_shizuku")
-            character_mappings (dict): The CHARACTER_MAPPINGS dictionary
-
-        Returns:
-            str: The prefixed key (e.g., "hxh_shizuku") or original input if no match found
-        """
-        # Normalize input
-        input_name = input_name.lower().strip()
-
-        # First check if input is already a prefixed key
-        prefix_patterns = {
-            "op_": "one_piece",
-            "dota_": "dota2",
-            "opm_": "one_punch_man",
-            "lr_": "lycoris_recoil",
-            "ds_": "demon_slayer",
-            "jjk_": "jujutsu_kaisen",
-            "lol_": "league_of_legends",
-            "db_": "dragon_ball",
-            "cb_": "cowboy_bebop",
-            "kono_": "konosuba",
-            "sxf_": "spy_x_family",
-            "poke_": "pokemon",
-            "hxh_": "hunter_x_hunter",
-            "voca_": "hatsune_miku"
-        }
-
-        # If input is already a prefixed key, return it
-        for prefix in prefix_patterns.keys():
-            if input_name.startswith(prefix):
-                return input_name
-
-        # Search through all character mappings
-        for series, characters in character_mappings.items():
-            for char_key, aliases in characters.items():
-                # Convert all aliases to lowercase for comparison
-                aliases_lower = [alias.lower() for alias in aliases]
-
-                if input_name in aliases_lower:
-                    # Find the prefixed alias from the original aliases list
-                    for alias in aliases:
-                        for prefix in prefix_patterns.keys():
-                            if alias.lower().startswith(prefix):
-                                return alias
-
-        return input_name
-
-    # Example usage:
-    def test_character_matcher():
-        # Test cases
-        test_mappings = {
-            "hunter_x_hunter": {
-                "shizuku": ["shizuku", "shizuku_(hunter_x_hunter)", "hxh_shizuku"],
-            },
-            "one_piece": {
-                "nami": ["nami", "nami_(one_piece)", "op_nami"],
-            },
-            "league_of_legends": {
-                "annie": ["annie", "annie_(league_of_legends)", "lol_annie"],
-            }
-        }
-
-        test_cases = [
-            ("shizuku", "hxh_shizuku"),
-            ("shizuku_(hunter_x_hunter)", "hxh_shizuku"),
-            ("hxh_shizuku", "hxh_shizuku"),
-            ("nami", "op_nami"),
-            ("nami_(one_piece)", "op_nami"),
-            ("op_nami", "op_nami"),
-            ("annie", "lol_annie"),
-            ("annie_(league_of_legends)", "lol_annie"),
-            ("lol_annie", "lol_annie"),
-            ("unknown_character", "unknown_character")  # Should return original input
-        ]
-
-        print("Testing character matcher:")
-        print("-" * 50)
-        for input_name, expected in test_cases:
-            result = find_prefixed_key(input_name, test_mappings)
-            status = "✓" if result == expected else "✗"
-            print(f"{status} Input: {input_name:<30} Output: {result:<20} Expected: {expected}")
-
-    def get_character_url(character_name: str, character_mappings: dict, urls: dict) -> str:
-        """
-        Get the URL for a character using any of their aliases.
-
-        Args:
-            character_name (str): Any form of the character's name
-            character_mappings (dict): The CHARACTER_MAPPINGS dictionary
-            urls (dict): The URLs dictionary
-
-        Returns:
-            str: The URL for the character or None if not found
-        """
-        prefixed_key = find_prefixed_key(character_name, character_mappings)
-        return urls.get(prefixed_key)
-
-    def _create_name_conflicts(self):
-        """Create comprehensive mapping of all conflicting character names"""
-        self.name_conflicts = {
-            # Core name conflicts across series
-            "nami": {
-                "one_piece": ["nami_(one_piece)", "nami one piece", "nami"],
-                "league_of_legends": ["nami_(league_of_legends)", "nami lol", "nami_(lol)"]
-            },
-            "sakura": {
-                "lycoris_recoil": ["otome sakura", "sakura otome", "sakura_(lycoris_recoil)"],
-                "naruto": ["haruno sakura", "sakura haruno", "sakura_(naruto)"]
-            },
-            "lily": {
-                "one_punch_man": ["sansetsukon no lily", "lily of the three section staff", "lily_(one_punch_man)"],
-                "vocaloid": ["lily_(vocaloid)", "lily vocaloid"],
-                "pokemon": ["lillie_(pokemon)", "lillie pokemon"]
-            },
-            "luna": {
-                "konosuba": ["luna_(konosuba)", "luna konosuba"],
-                "dota2": ["luna_(dota)", "luna dota", "luna_(dota_2)"]
-            },
-            "amane": {
-                "demon_slayer": ["ubuyashiki amane", "amane_(kimetsu_no_yaiba)"],
-                "hunter_x_hunter": ["amane_(hunter_x_hunter)", "amane hxh"]
-            },
-            "mei": {
-                "naruto": ["terumi mei", "mei terumi", "mei_(naruto)"],
-                "jujutsu_kaisen": ["mei mei", "mei_(jujutsu_kaisen)"]
-            },
-            "maki": {
-                "jujutsu_kaisen": ["zen'in maki", "maki zenin", "maki_(jujutsu_kaisen)"],
-                "fire_force": ["maki_(fire_force)", "maki oze"]
-            },
-            "annie": {
-                "attack_on_titan": ["annie leonhart", "annie leonhardt", "annie_(shingeki)"],
-                "league_of_legends": ["annie_(league_of_legends)", "annie_(lol)"]
-            },
-            "robin": {
-                "one_piece": ["nico robin", "robin_(one_piece)", "robin_(alabasta)"],
-                "fire_emblem": ["robin_(fire_emblem)", "robin fe"]
-            },
-            "alice": {
-                "sword_art_online": ["alice_(sao)", "alice zuberg"],
-                "queens_blade": ["alice_(queens_blade)"]
-            },
-            "mai": {
-                "dragon_ball": ["mai_(dragon_ball)", "mai db"],
-                "jujutsu_kaisen": ["zenin mai", "mai zenin", "mai_(jujutsu_kaisen)"]
-            },
-            "yuki": {
-                "jujutsu_kaisen": ["tsukumo yuki", "yuki_(jujutsu_kaisen)"],
-                "vampire_knight": ["yuki cross", "yuki_(vampire_knight)"]
-            },
-            "aria": {
-                "vocaloid": ["ia_(vocaloid)", "aria on the planetes"],
-                "aria_the_scarlet_ammo": ["aria h kanzaki", "aria_(ammo)"]
-            },
-            "rika": {
-                "jujutsu_kaisen": ["orimoto rika", "rika_(jujutsu_kaisen)"],
-                "higurashi": ["rika furude", "rika_(higurashi)"]
-            },
-            "julia": {
-                "cowboy_bebop": ["julia_(cowboy_bebop)", "julia bebop"],
-                "fairy_tail": ["julia_(fairy_tail)"]
-            },
-            "claire": {
-                "konosuba": ["claire_(konosuba)"],
-                "claymore": ["claire_(claymore)", "clare"]
-            },
-            "momo": {
-                "my_hero_academia": ["yaoyorozu momo", "momo_(my_hero_academia)"],
-                "jujutsu_kaisen": ["nishimiya momo", "momo_(jujutsu_kaisen)"]
-            },
-            "ruka": {
-                "demon_slayer": ["rengoku ruka", "ruka_(demon_slayer)"],
-                "steins_gate": ["ruka_(steins_gate)", "ruka urushibara"]
-            },
-            "sylvia": {
-                "konosuba": ["sylvia_(konosuba)"],
-                "princess_connect": ["sylvia_(princess_connect)"]
-            },
-            "camilla": {
-                "spy_x_family": ["camilla_(spy_x_family)"],
-                "fire_emblem": ["camilla_(fire_emblem)"]
-            },
-            "martha": {
-                "spy_x_family": ["martha_(spy_x_family)"],
-                "fate": ["martha_(fate)"]
-            },
-            "marie": {
-                "persona": ["marie_(persona)"],
-                "pokemon": ["marie_(pokemon)"]
-            },
-            "iris": {
-                "konosuba": ["iris_(konosuba)", "iris stylish sword"],
-                "pokemon": ["iris_(pokemon)"]
-            },
-            "marnie": {
-                "pokemon": ["marnie_(pokemon)"],
-                "stardew_valley": ["marnie_(stardew)"]
-            },
-            "sonia": {
-                "pokemon": ["sonia_(pokemon)"],
-                "danganronpa": ["sonia_(danganronpa)"]
-            },
-            "towa": {
-                "dragon_ball": ["towa_(dragon_ball)"],
-                "danganronpa": ["towa_(danganronpa)"]
-            },
-            "eliza": {
-                "hunter_x_hunter": ["eliza_(hunter_x_hunter)"],
-                "skullgirls": ["eliza_(skullgirls)"]
-            },
-            "katrina": {
-                "cowboy_bebop": ["katerina solensan", "katrina_(cowboy_bebop)"],
-                "animal_crossing": ["katrina_(animal_crossing)"]
-            },
-            "sena": {
-                "konosuba": ["sena_(konosuba)"],
-                "haganai": ["sena kashiwazaki", "sena_(haganai)"]
-            },
-            "fiona": {
-                "spy_x_family": ["fiona frost", "fiona_(spy_x_family)"],
-                "shrek": ["fiona_(shrek)"]
-            },
-            "dominic": {
-                "spy_x_family": ["dominic_(spy_x_family)", "handler"],
-                "fast_and_furious": ["dominic toretto"]
-            },
-            "canary": {
-                "hunter_x_hunter": ["canary_(hunter_x_hunter)"],
-                "princess_principal": ["canary_(princess_principal)"]
-            },
-            "melody": {
-                "hunter_x_hunter": ["melody_(hunter_x_hunter)", "senritsu"],
-                "my_melody": ["melody_(sanrio)"]
-            },
-            "lucia": {
-                "fairy_tail": ["lucia_(fairy_tail)"],
-                "devil_may_cry": ["lucia_(dmc)"]
-            },
-            "karen": {
-                "spy_x_family": ["karen gloomy", "karen_(spy_x_family)"],
-                "karen_(monogatari)": ["karen araragi"]
-            },
-            "shizuku": {
-                "hunter_x_hunter": ["shizuku_(hunter_x_hunter)"],
-                "my_little_monster": ["shizuku_(monster)"]
-            }
-        }
-
-    def _create_url_series_map(self):
-        """Create complete mapping of URL patterns to series"""
-        self.url_patterns = {
-            # Main series identifiers in URLs
-            "_(one_piece)": "one_piece",
-            "_(league_of_legends)": "league_of_legends",
-            "lol_": "league_of_legends",
-            "_(dota)": "dota2",
-            "_(dota_2)": "dota2",
-            "_(naruto)": "naruto",
-            "_(fairy_tail)": "fairy_tail",
-            "_(dragon_ball)": "dragon_ball",
-            "_(shingeki_no_kyojin)": "attack_on_titan",
-            "attack on titan": "attack_on_titan",
-            "_(kimetsu_no_yaiba)": "demon_slayer",
-            "_(jujutsu_kaisen)": "jujutsu_kaisen",
-            "_(cowboy_bebop)": "cowboy_bebop",
-            "_(spy_x_family)": "spy_x_family",
-            "_(one-punch_man)": "one_punch_man",
-            "_(hunter_x_hunter)": "hunter_x_hunter",
-            "_(fma)": "fullmetal_alchemist",
-            "_(boku_no_hero_academia)": "my_hero_academia",
-            "_(jojo)": "jojos_bizarre_adventure",
-            "_(sbr)": "jojos_bizarre_adventure",  # Steel Ball Run
-            "_(pokemon)": "pokemon",
-            "_(vocaloid)": "hatsune_miku",
-            "_(konosuba)": "konosuba",
-            "_(lycoris_recoil)": "lycoris_recoil",
-
-            # Alternative naming patterns
-            "one piece": "one_piece",
-            "league of legends": "league_of_legends",
-            "dota 2": "dota2",
-            "dota_": "dota2",
-            "naruto": "naruto",
-            "fairy tail": "fairy_tail",
-            "dragon ball": "dragon_ball",
-            "dragonball": "dragon_ball",
-            "shingeki": "attack_on_titan",
-            "kimetsu": "demon_slayer",
-            "jujutsu": "jujutsu_kaisen",
-            "bebop": "cowboy_bebop",
-            "spy x family": "spy_x_family",
-            "one punch man": "one_punch_man",
-            "one-punch man": "one_punch_man",
-            "hunter x hunter": "hunter_x_hunter",
-            "hxh": "hunter_x_hunter",
-            "fullmetal": "fullmetal_alchemist",
-            "fma": "fullmetal_alchemist",
-            "hagane": "fullmetal_alchemist",
-            "my hero academia": "my_hero_academia",
-            "boku no hero": "my_hero_academia",
-            "jojo": "jojos_bizarre_adventure",
-            "pokemon": "pokemon",
-            "pocket monsters": "pokemon",
-            "vocaloid": "hatsune_miku",
-            "konosuba": "konosuba",
-            "kono subarashii": "konosuba",
-            "lycoris": "lycoris_recoil",
-
-            # Specific character indicators that can help identify series
-            "monkey_d": "one_piece",
-            "roronoa": "one_piece",
-            "vinsmoke": "one_piece",
-            "charlotte_": "one_piece",
-            "shichibukai": "one_piece",
-
-            "uchiha": "naruto",
-            "hyuuga": "naruto",
-            "uzumaki": "naruto",
-            "hokage": "naruto",
-
-            "heartfilia": "fairy_tail",
-            "dragneel": "fairy_tail",
-            "strauss": "fairy_tail",
-
-            "saiyan": "dragon_ball",
-            "android_": "dragon_ball",
-
-            "ackerman": "attack_on_titan",
-            "yeager": "attack_on_titan",
-
-            "kamado": "demon_slayer",
-            "hashira": "demon_slayer",
-            "kochou": "demon_slayer",
-
-            "gojo": "jujutsu_kaisen",
-            "zenin": "jujutsu_kaisen",
-
-            "hatsune": "hatsune_miku",
-            "megurine": "hatsune_miku",
-            "kagamine": "hatsune_miku",
-
-            "dustiness": "konosuba",
-            "satou": "konosuba",
-
-            # Series-specific location/organization indicators
-            "soul_society": "bleach",
-            "shinigami": "bleach",
-            "UA_": "my_hero_academia",
-            "Survey_Corps": "attack_on_titan",
-            "hidden_leaf": "naruto",
-            "fairy_tail_guild": "fairy_tail"
-        }
-
-        # Create reverse lookup for faster checking
-        self.series_by_pattern = {}
-        for pattern, series in self.url_patterns.items():
-            if series not in self.series_by_pattern:
-                self.series_by_pattern[series] = []
-            self.series_by_pattern[series].append(pattern.lower())
-
-    def _detect_url_series(self, url: str) -> str:
-        """
-        Extract series from URL using patterns with improved accuracy
-
-        Args:
-            url (str): The URL to analyze
-
-        Returns:
-            str: Detected series name or None if no match
-        """
-        if not url:
-            return None
-
-        url = url.lower()
-
-        # First check for explicit series tags
-        for pattern, series in self.url_patterns.items():
-            if pattern.lower() in url:
-                return series
-
-        # Then check for character name patterns that strongly indicate a series
-        for series, patterns in self.series_by_pattern.items():
-            if any(pattern in url for pattern in patterns):
-                return series
-
-        return None
-
     def _extract_series_from_url(self, url: str) -> str:
         """
         Extract series information from the URL if possible.
@@ -1455,31 +1028,11 @@ class CharacterClassifier:
         Returns:
             str: Series identifier or None
         """
-        if not url:
-            return None
-
         url = url.lower()
         series_markers = {
             "one_piece": ["_(one_piece)", "one piece"],
             "league_of_legends": ["_(league_of_legends)", "league of legends", "lol"],
-            "naruto": ["_(naruto)", "naruto", "shippuden"],
-            "fairy_tail": ["_(fairy_tail)", "fairy tail"],
-            "dragon_ball": ["_(dragon_ball)", "dragon ball", "dragonball"],
-            "attack_on_titan": ["_(shingeki_no_kyojin)", "shingeki_no_kyojin", "attack on titan"],
-            "demon_slayer": ["_(kimetsu_no_yaiba)", "kimetsu_no_yaiba"],
-            "jujutsu_kaisen": ["_(jujutsu_kaisen)", "jujutsu kaisen"],
-            "cowboy_bebop": ["_(cowboy_bebop)", "cowboy bebop"],
-            "spy_x_family": ["_(spy_x_family)", "spy x family"],
-            "one_punch_man": ["_(one-punch_man)", "one punch man", "one_punch_man"],
-            "hunter_x_hunter": ["_(hunter_x_hunter)", "hunter x hunter", "hunter_x_hunter"],
-            "fullmetal_alchemist": ["_(fma)", "fullmetal alchemist", "fma", "hagane"],
-            "my_hero_academia": ["_(boku_no_hero_academia)", "boku_no_hero_academia", "my hero academia"],
-            "jojos_bizarre_adventure": ["_(jojo)", "jojo", "jojos bizarre adventure"],
-            "pokemon": ["_(pokemon)", "pokemon", "pocket monsters"],
-            "hatsune_miku": ["_(vocaloid)", "vocaloid", "hatsune miku"],
-            "konosuba": ["_(konosuba)", "konosuba", "kono subarashii"],
-            "lycoris_recoil": ["_(lycoris_recoil)", "lycoris recoil"],
-            "dota2": ["_(dota)", "_(dota_2)", "dota 2", "dota"]
+            # Add other series markers as needed
         }
 
         for series, markers in series_markers.items():
@@ -1489,36 +1042,19 @@ class CharacterClassifier:
 
     def identify_character(self, tags: str, source_url: str = None) -> Tuple[str, str]:
         """
-        Enhanced character identification with better disambiguation
-        """
-        if not tags:
-            return ("unknown", "unknown")
+        Identify a character and their series from tags with improved disambiguation.
 
+        Args:
+            tags (str): Tag string from the URL
+            source_url (str, optional): The original source URL for additional context
+
+        Returns:
+            Tuple[str, str]: (series name, character name)
+        """
         tags = tags.lower().replace('+', ' ').strip()
 
-        # Get series from URL first
-        url_series = self._detect_url_series(source_url) if source_url else None
-
-        # Check for name conflicts
-        for base_name, series_dict in self.name_conflicts.items():
-            if base_name in tags:
-                # If we have a URL series and it matches a conflict entry
-                if url_series and url_series in series_dict:
-                    for alias in series_dict[url_series]:
-                        if alias in tags:
-                            # Find the matching character name from our mappings
-                            char_mappings = self.CHARACTER_MAPPINGS[url_series]
-                            for char_name, char_aliases in char_mappings.items():
-                                if any(alias.lower() in a.lower() for a in char_aliases):
-                                    return (url_series, char_name)
-
-                # Check all conflict variations if no URL match
-                for series, aliases in series_dict.items():
-                    if any(alias in tags for alias in aliases):
-                        char_mappings = self.CHARACTER_MAPPINGS[series]
-                        for char_name, char_aliases in char_mappings.items():
-                            if any(alias in tags for alias in char_aliases):
-                                return (series, char_name)
+        # First try to determine series from the source URL
+        url_series = self._extract_series_from_url(source_url) if source_url else None
 
         # If we have a series from URL, prioritize that series first
         if url_series and url_series in self.CHARACTER_MAPPINGS:
@@ -1547,16 +1083,20 @@ class CharacterClassifier:
                 if any(alias == tags for alias in aliases):
                     return (series, char_name)
 
-        # Finally, try partial matches with series context
+        # Finally, try partial matches
         for series, char_mappings in self.CHARACTER_MAPPINGS.items():
             for char_name, aliases in char_mappings.items():
                 if any(alias in tags for alias in aliases):
-                    # Double check if this match makes sense with URL context
-                    if url_series and series != url_series:
-                        continue
                     return (series, char_name)
 
         return ("unknown", "unknown")
+
+    def get_character_aliases(self, series: str, character: str) -> List[str]:
+        """Get all aliases for a character in a specific series."""
+        if series in self.CHARACTER_MAPPINGS:
+            if character in self.CHARACTER_MAPPINGS[series]:
+                return self.CHARACTER_MAPPINGS[series][character]
+        return []
 
     # def identify_character(self, tags: str, source_url: str = None) -> Tuple[str, str]:
     #     """
