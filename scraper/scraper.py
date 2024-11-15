@@ -539,7 +539,7 @@ class CharacterClassifier:
                 "viola": ["viola", "viola_(one_piece)"],
             },
 
-            "dota_2": {
+            "dota2": {
                 "lina": ["lina", "lina inverse"],
                 "crystal_maiden": ["crystal maiden", "crystal_maiden", "rylai"],
                 "invoker": ["invoker", "kael"],
@@ -1017,6 +1017,16 @@ class CharacterClassifier:
             },
         }
 
+    def _create_reverse_index(self):
+        """Create a reverse lookup index mapping aliases to (series, character) pairs"""
+        self.alias_index = {}
+        for series, char_mappings in self.CHARACTER_MAPPINGS.items():
+            for char_name, aliases in char_mappings.items():
+                for alias in aliases:
+                    if alias not in self.alias_index:
+                        self.alias_index[alias] = []
+                    self.alias_index[alias].append((series, char_name))
+
     def _extract_series_from_url(self, url: str) -> str:
         """
         Extract series information from the URL if possible.
@@ -1027,11 +1037,31 @@ class CharacterClassifier:
         Returns:
             str: Series identifier or None
         """
+        if not url:
+            return None
+
         url = url.lower()
         series_markers = {
             "one_piece": ["_(one_piece)", "one piece"],
             "league_of_legends": ["_(league_of_legends)", "league of legends", "lol"],
-            # Add other series markers as needed
+            "naruto": ["_(naruto)", "naruto", "shippuden"],
+            "fairy_tail": ["_(fairy_tail)", "fairy tail"],
+            "dragon_ball": ["_(dragon_ball)", "dragon ball", "dragonball"],
+            "attack_on_titan": ["_(shingeki_no_kyojin)", "shingeki_no_kyojin", "attack on titan"],
+            "demon_slayer": ["_(kimetsu_no_yaiba)", "kimetsu_no_yaiba"],
+            "jujutsu_kaisen": ["_(jujutsu_kaisen)", "jujutsu kaisen"],
+            "cowboy_bebop": ["_(cowboy_bebop)", "cowboy bebop"],
+            "spy_x_family": ["_(spy_x_family)", "spy x family"],
+            "one_punch_man": ["_(one-punch_man)", "one punch man", "one_punch_man"],
+            "hunter_x_hunter": ["_(hunter_x_hunter)", "hunter x hunter", "hunter_x_hunter"],
+            "fullmetal_alchemist": ["_(fma)", "fullmetal alchemist", "fma", "hagane"],
+            "my_hero_academia": ["_(boku_no_hero_academia)", "boku_no_hero_academia", "my hero academia"],
+            "jojos_bizarre_adventure": ["_(jojo)", "jojo", "jojos bizarre adventure"],
+            "pokemon": ["_(pokemon)", "pokemon", "pocket monsters"],
+            "hatsune_miku": ["_(vocaloid)", "vocaloid", "hatsune miku"],
+            "konosuba": ["_(konosuba)", "konosuba", "kono subarashii"],
+            "lycoris_recoil": ["_(lycoris_recoil)", "lycoris recoil"],
+            "dota2": ["_(dota)", "_(dota_2)", "dota 2", "dota"]
         }
 
         for series, markers in series_markers.items():
@@ -1050,10 +1080,61 @@ class CharacterClassifier:
         Returns:
             Tuple[str, str]: (series name, character name)
         """
+        if not tags:
+            return ("unknown", "unknown")
+
         tags = tags.lower().replace('+', ' ').strip()
+
+        # Special case handling for characters with similar names across series
+        name_conflicts = {
+            "sakura": {
+                "lycoris_recoil": ["otome sakura", "sakura otome"],
+                "naruto": ["haruno sakura", "sakura haruno"]
+            },
+            "nami": {
+                "one_piece": ["nami_(one_piece)", "nami one piece"],
+                "league_of_legends": ["nami_(league_of_legends)", "nami lol"]
+            },
+            "annie": {
+                "league_of_legends": ["annie_(league_of_legends)", "annie lol"],
+                "attack_on_titan": ["annie leonhart", "annie leonhardt"]
+            },
+            "luna": {
+                "konosuba": ["luna_(konosuba)"],
+                "dota2": ["luna_(dota)"]
+            },
+            "lily": {
+                "one_punch_man": ["lily of the three section staff"],
+                "vocaloid": ["lily_(vocaloid)"]
+            },
+            "robin": {
+                "one_piece": ["nico robin", "robin_(alabasta)"],
+                "fire_emblem": ["robin_(fire_emblem)"]
+            }
+        }
 
         # First try to determine series from the source URL
         url_series = self._extract_series_from_url(source_url) if source_url else None
+
+        # Check for name conflicts first
+        for base_name, series_dict in name_conflicts.items():
+            if base_name in tags:
+                # If we have a URL series and it's in the conflicts, use that
+                if url_series and url_series in series_dict:
+                    for alias in series_dict[url_series]:
+                        if alias in tags:
+                            char_mappings = self.CHARACTER_MAPPINGS[url_series]
+                            for char_name, char_aliases in char_mappings.items():
+                                if any(a in alias for a in char_aliases):
+                                    return (url_series, char_name)
+
+                # Otherwise check all conflict variations
+                for series, aliases in series_dict.items():
+                    if any(alias in tags for alias in aliases):
+                        char_mappings = self.CHARACTER_MAPPINGS[series]
+                        for char_name, char_aliases in char_mappings.items():
+                            if any(alias in tags for alias in char_aliases):
+                                return (series, char_name)
 
         # If we have a series from URL, prioritize that series first
         if url_series and url_series in self.CHARACTER_MAPPINGS:
@@ -1082,19 +1163,21 @@ class CharacterClassifier:
                 if any(alias == tags for alias in aliases):
                     return (series, char_name)
 
-        # Finally, try partial matches
+        # Finally, try partial matches with series context
         for series, char_mappings in self.CHARACTER_MAPPINGS.items():
             for char_name, aliases in char_mappings.items():
                 if any(alias in tags for alias in aliases):
+                    # Double check if this match makes sense with URL context
+                    if url_series and series != url_series:
+                        continue
                     return (series, char_name)
 
         return ("unknown", "unknown")
 
     def get_character_aliases(self, series: str, character: str) -> List[str]:
         """Get all aliases for a character in a specific series."""
-        if series in self.CHARACTER_MAPPINGS:
-            if character in self.CHARACTER_MAPPINGS[series]:
-                return self.CHARACTER_MAPPINGS[series][character]
+        if series in self.CHARACTER_MAPPINGS and character in self.CHARACTER_MAPPINGS[series]:
+            return self.CHARACTER_MAPPINGS[series][character]
         return []
 
 @dataclass
