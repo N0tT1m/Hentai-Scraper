@@ -501,7 +501,7 @@ class CharacterClassifier:
             "one_piece": {
                 "monkey_d_luffy": ["monkey d luffy", "monkey_d_luffy", "luffy", "strawhat"],
                 "roronoa_zoro": ["roronoa zoro", "roronoa_zoro", "zoro"],
-                "nami": ["nami", "nami_(one_piece)", "op_nami"],
+                "nami": ["nami", "nami_(one_piece)"],
                 "vinsmoke_sanji": ["vinsmoke sanji", "vinsmoke_sanji", "sanji", "black leg"],
                 "nico_robin": ["nico robin", "nico_robin", "robin", "robin_(alabasta)", "robin_(cosplay)"],
                 "uta": ["uta", "uta_(one_piece)"],
@@ -552,15 +552,14 @@ class CharacterClassifier:
                 "death_prophet": ["death prophet", "death_prophet_(dota)"],
                 "enchantress": ["enchantress", "enchantress_(dota)", "enchantress_(dota_2)"],
                 "legion_commander": ["legion commander", "legion_commander_(dota)"],
-                "op_nami": ["luna", "luna_(dota)"],
+                "luna": ["luna", "luna_(dota)"],
                 "naga_siren": ["naga siren", "naga_siren_(dota)"],
                 "phantom_assassin": ["phantom assassin", "phantom_assassin_(dota)"],
                 "queen_of_pain": ["queen of pain", "queen_of_pain_(dota)"],
                 "snapfire": ["snapfire"],
                 "spectre": ["spectre", "spectre_(dota)"],
                 "templar_assassin": ["templar assassin", "templar_assassin_(dota)"],
-                "vengeful_spirit": ["vengeful spirit", "vengeful_spirit_(dota_2)"],
-                "luna": ["luna", "luna_(dota)", "dota_luna"],
+                "vengeful_spirit": ["vengeful spirit", "vengeful_spirit_(dota_2)"]
             },
 
             "naruto": {
@@ -641,7 +640,7 @@ class CharacterClassifier:
                 "bulla_briefs": ["bulla", "bra"],
                 "launch": ["launch", "lunch"],
                 "marron": ["marron"],
-                "mai": ["mai", "mai_(dragon_ball)", "db_mai"],
+                "mai": ["mai"],
                 "ranfan": ["ranfan"],
                 "vados": ["vados"],
                 "caulifla": ["caulifla"],
@@ -651,7 +650,7 @@ class CharacterClassifier:
                 "gine": ["gine"],
                 "fasha": ["fasha", "selypa"],
                 "zangya": ["zangya"],
-                "towa": ["towa", "towa_(dragon_ball)", "db_towa"],
+                "towa": ["towa"],
                 "chronoa": ["supreme kai of time", "chronoa"],
                 "arale_norimaki": ["arale norimaki", "arale_norimaki"]
             },
@@ -695,9 +694,9 @@ class CharacterClassifier:
                 "sumi_nakahara": ["sumi nakahara", "sumi_nakahara"],
                 "naho_takada": ["naho takada", "naho_takada"],
                 "goto": ["goto", "goto_san"],
-                "amane": ["amane", "ubuyashiki_amane", "ds_amane"],
+                "amane": ["amane"],
                 "mukago": ["mukago"],
-                "ruka": ["ruka", "rengoku_ruka", "ds_ruka"],
+                "ruka": ["ruka"],
                 "hinaki_ubuyashiki": ["hinaki ubuyashiki", "hinaki_ubuyashiki"],
                 "nichika_ubuyashiki": ["nichika ubuyashiki", "nichika_ubuyashiki"],
                 "kuina_ubuyashiki": ["kuina ubuyashiki", "kuina_ubuyashiki"]
@@ -724,7 +723,7 @@ class CharacterClassifier:
             "cowboy_bebop": {
                 "faye_valentine": ["faye valentine", "faye_valentine"],
                 "edward_wong": ["edward wong", "radical ed", "edward"],
-                "julia": ["julia", "julia_(cowboy_bebop)", "cb_julia"],
+                "julia": ["julia"],
                 "meifa": ["meifa puzi", "meifa_puzi"],
                 "judy": ["judy"],
                 "annie": ["anastasia"],
@@ -743,10 +742,10 @@ class CharacterClassifier:
                 "becky_blackbell": ["becky blackbell", "becky_blackbell"],
                 "sharon": ["sharon", "shop_keeper"],
                 "melinda_desmond": ["melinda desmond", "melinda_desmond"],
-                "camilla": ["camilla", "shopkeeper_sister", "sxf_camilla"],
+                "camilla": ["camilla", "shopkeeper_sister"],
                 "karen_gloomy": ["karen gloomy", "karen_gloomy"],
                 "dominic": ["dominic", "handler"],
-                "martha": ["martha", "landlady", "sxf_martha"],
+                "martha": ["martha", "landlady"]
             },
 
             "one_punch_man": {
@@ -755,7 +754,7 @@ class CharacterClassifier:
                 "psykos": ["psykos"],
                 "suiko": ["suiko"],
                 "lin_lin": ["lin lin"],
-                "lily": ["lily of the three section staff", "lily", "opm_lily"],
+                "lily": ["lily of the three section staff", "lily"],
                 "do_s": ["do-s", "monster princess"],
                 "mosquito_girl": ["mosquito girl"],
                 "captain_mizuki": ["captain mizuki", "mizuki"],
@@ -780,7 +779,7 @@ class CharacterClassifier:
                 "miss_fortune": ["miss fortune", "sarah fortune"],
                 "akali": ["akali"],
                 "anivia": ["anivia"],
-                "annie": ["annie", "annie_(league_of_legends)", "lol_annie"],
+                "annie": ["annie"],
                 "bel_veth": ["bel'veth", "belveth"],
                 "briar": ["briar"],
                 "cassiopeia": ["cassiopeia"],
@@ -833,14 +832,14 @@ class CharacterClassifier:
                 "biscuit_krueger": ["biscuit krueger", "bisky"],
                 "palm_siberia": ["palm siberia"],
                 "machi": ["machi"],
-                "shizuku": ["shizuku", "shizuku_(hunter_x_hunter)", "hxh_shizuku"],
-                "canary": ["canary", "canary_(hunter_x_hunter)", "hxh_canary"],
+                "shizuku": ["shizuku"],
+                "canary": ["canary"],
                 "neferpitou": ["neferpitou", "pitou"],
                 "komugi": ["komugi"],
                 "pakunoda": ["pakunoda"],
-                "melody": ["melody", "senritsu", "melody_(hunter_x_hunter)", "hxh_melody"],
+                "melody": ["melody", "senritsu"],
                 "zazan": ["zazan"],
-                "eliza": ["eliza", "eliza_(hunter_x_hunter)", "hxh_eliza"],
+                "eliza": ["eliza"],
                 "amane": ["amane"],
                 "tsubone": ["tsubone"],
                 "kalluto_zoldyck": ["kalluto zoldyck", "kalluto_zoldyck"],
@@ -953,8 +952,8 @@ class CharacterClassifier:
                 "mallow": ["mallow"],
                 "lana": ["lana"],
                 "nessa": ["nessa"],
-                "marnie": ["marnie", "marnie_(pokemon)", "poke_marnie"],
-                "sonia": ["sonia", "sonia_(pokemon)", "poke_sonia"],
+                "marnie": ["marnie"],
+                "sonia": ["sonia"],
                 "professor_juniper": ["professor juniper", "professor_juniper"],
                 "nurse_joy": ["nurse joy", "joy"],
                 "officer_jenny": ["officer jenny", "jenny"],
@@ -964,7 +963,8 @@ class CharacterClassifier:
             },
 
             "hatsune_miku": {
-                "hatsune_miku": ["hatsune miku", "hatsune_miku", "miku", "initial miku", "initial_miku", "miku_(vocaloid)",
+                "hatsune_miku": ["hatsune miku", "hatsune_miku", "miku", "initial miku", "initial_miku",
+                                 "miku_(vocaloid)",
                                  "miku_(project_diva)"],
                 "meiko": ["meiko", "meiko_(vocaloid)", "meiko_(project_diva)"],
                 "kagamine_rin": ["kagamine rin", "kagamine_rin", "rin", "rin_(vocaloid)", "rin_(project_diva)"],
@@ -990,13 +990,13 @@ class CharacterClassifier:
                 "yunyun": ["yunyun", "yun yun", "yun_yun", "yunyun_(konosuba)"],
                 "chris": ["chris", "chris_(konosuba)", "eris", "eris_(konosuba)", "assistant_goddess"],
                 "luna": ["luna", "luna_(konosuba)", "guild_receptionist"],
-                "sena": ["sena", "sena_(konosuba)", "kono_sena"],
+                "sena": ["sena", "sena_(konosuba)"],
                 "wolbach": ["wolbach", "goddess_wolbach", "wolbach_(konosuba)"],
-                "iris": ["iris", "iris_stylish_sword", "iris_(konosuba)", "kono_iris"],
+                "iris": ["iris", "iris_stylish_sword", "iris_(konosuba)"],
                 "komekko": ["komekko", "komekko_(konosuba)", "megumin_sister"],
                 "cecily": ["cecily", "cecily_(konosuba)", "axis_cult_cecily"],
                 "arue": ["arue", "arue_(konosuba)"],
-                "claire": ["claire", "claire_(konosuba)", "kono_claire"],
+                "claire": ["claire", "claire_(konosuba)"],
                 "sylvia": ["sylvia", "sylvia_(konosuba)"],
                 "lean": ["lean", "lean_(konosuba)"],
                 "verdia": ["verdia", "verdia_(konosuba)"],
@@ -2939,7 +2939,6 @@ class ThreadedGelbooruScraper(HentaiScraper):
                 logging.StreamHandler()
             ]
         )
-        self.character_classifier = CharacterClassifier()
         self.logger = logging.getLogger(__name__)
 
         # Now proceed with other initialization
