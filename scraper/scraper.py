@@ -493,571 +493,601 @@ def get_series_indicators():
 class CharacterClassifier:
     """Handles character recognition and classification"""
 
-    # Character mappings by series
-    CHARACTER_MAPPINGS = {
-        "one_piece": {
-            "monkey_d_luffy": ["monkey d luffy", "monkey_d_luffy", "luffy", "strawhat"],
-            "roronoa_zoro": ["roronoa zoro", "roronoa_zoro", "zoro"],
-            "nami": ["nami", "nami_(one_piece)"],
-            "vinsmoke_sanji": ["vinsmoke sanji", "vinsmoke_sanji", "sanji", "black leg"],
-            "nico_robin": ["nico robin", "nico_robin", "robin", "robin_(alabasta)", "robin_(cosplay)"],
-            "uta": ["uta", "uta_(one_piece)"],
-            "rebecca": ["rebecca", "rebecca_(one_piece)"],
-            "carrot": ["carrot", "carrot_(one_piece)"],
-            "jewelry_bonney": ["jewelry bonney", "jewelry_bonney", "bonney"],
-            "baby_5": ["baby 5", "baby_5", "baby five", "baby_five"],
-            "boa_hancock": ["boa hancock", "boa_hancock", "hancock"],
-            "nefertari_vivi": ["nefertari vivi", "nefertari_vivi", "vivi"],
-            "vinsmoke_reiju": ["vinsmoke reiju", "vinsmoke_reiju", "reiju"],
-            "charlotte_linlin": ["big mom", "big_mom", "charlotte_linlin", "charlotte linlin", "linlin"],
-            "shimotsuki_kuina": ["shimotsuki kuina", "shimotsuki_kuina", "kuina"],
-            "charlotte_smoothie": ["charlotte_smoothie", "charlotte smoothie", "smoothie"],
-            "shirahoshi": ["shirahoshi", "princess shirahoshi", "princess_shirahoshi"],
-            "kouzuki_hiyori": ["kouzuki hiyori", "kouzuki_hiyori", "hiyori"],
-            "catarina_devon": ["catarina devon", "catarina_devon", "devon"],
-            "perona": ["perona", "'ghost princess' perona", "ghost princess perona"],
-            "charlotte_flampe": ["charlotte_flampe", "charlotte flampe", "flampe"],
-            "kouzuki_toki": ["kouzuki toki", "kouzuki_toki", "toki"],
-            "alvida": ["alvida", "alvida_(one_piece)"],
-            "kikunojo": ["kikunojo", "kikunojo_(one_piece)", "kiku"],
-            "vegapunk_lilith": ["vegapunk lilith", "vegapunk_lilith", "lilith"],
-            "kaya": ["kaya", "kaya_(one_piece)"],
-            "monet": ["monet", "monet_(one_piece)"],
-            "wanda": ["wanda", "wanda_(one_piece)"],
-            "nico_olvia": ["nico olvia", "nico_olvia", "olvia"],
-            "nojiko": ["nojiko"],
-            "charlotte_pudding": ["charlotte pudding", "charlotte_pudding", "pudding"],
-            "vegapunk_atlas": ["vegapunk atlas", "vegapunk_atlas", "atlas"],
-            "vegapunk_york": ["vegapunk york", "vegapunk_york", "york"],
-            "stussy": ["stussy", "stussy_(one_piece)"],
-            "tashigi": ["tashigi"],
-            "hina": ["hina", "hina_(one_piece)"],
-            "isuka": ["isuka", "isuka_(one_piece)"],
-            "viola": ["viola", "viola_(one_piece)"],
-        },
-
-        "dota2": {
-            "lina": ["lina", "lina inverse"],
-            "crystal_maiden": ["crystal maiden", "crystal_maiden", "rylai"],
-            "invoker": ["invoker", "kael"],
-            "windrunner": ["windranger", "windrunner", "lyralei", "windranger_(dota)"],
-            "marci": ["marci", "marci_(dota)"],
-            "dark_willow": ["dark willow", "dark_willow"],
-            "mirana": ["mirana", "mirana_(dota)"],
-            "broodmother": ["broodmother", "broodmother_(dota)"],
-            "dawnbreaker": ["dawnbreaker", "dawnbreaker_(dota)", "dawnbreaker_(dota_2)"],
-            "death_prophet": ["death prophet", "death_prophet_(dota)"],
-            "enchantress": ["enchantress", "enchantress_(dota)", "enchantress_(dota_2)"],
-            "legion_commander": ["legion commander", "legion_commander_(dota)"],
-            "luna": ["luna", "luna_(dota)"],
-            "naga_siren": ["naga siren", "naga_siren_(dota)"],
-            "phantom_assassin": ["phantom assassin", "phantom_assassin_(dota)"],
-            "queen_of_pain": ["queen of pain", "queen_of_pain_(dota)"],
-            "snapfire": ["snapfire"],
-            "spectre": ["spectre", "spectre_(dota)"],
-            "templar_assassin": ["templar assassin", "templar_assassin_(dota)"],
-            "vengeful_spirit": ["vengeful spirit", "vengeful_spirit_(dota_2)"]
-        },
-
-        "naruto": {
-            "tsunade_senju": ["tsunade senju", "tsunade", "lady tsunade", "princess tsunade"],
-            "sakura_haruno": ["sakura haruno", "sakura_haruno"],
-            "hinata_hyuga": ["hinata hyuga", "hinata_hyuga"],
-            "tenten": ["tenten"],
-            "temari": ["temari"],
-            "kushina_uzumaki": ["kushina uzumaki", "kushina_uzumaki"],
-            "sarada_uchiha": ["sarada uchiha", "sarada_uchiha"],
-            "himawari_uzumaki": ["himawari uzumaki", "himawari_uzumaki"],
-            "ino_yamanaka": ["ino yamanaka", "ino_yamanaka"],
-            "kurenai_yuhi": ["kurenai yuhi", "kurenai_yuhi"],
-            "anko_mitarashi": ["anko mitarashi", "anko_mitarashi"],
-            "shizune": ["shizune"],
-            "karin_uzumaki": ["karin uzumaki", "karin_uzumaki"],
-            "konan": ["konan"],
-            "mei_terumi": ["mei terumi", "mei_terumi"],
-            "samui": ["samui"],
-            "karui": ["karui"],
-            "mabui": ["mabui"],
-            "yugao_uzuki": ["yugao uzuki", "yugao_uzuki"],
-            "tsume_inuzuka": ["tsume inuzuka", "tsume_inuzuka"],
-            "hana_inuzuka": ["hana inuzuka", "hana_inuzuka"],
-            "natsu_hyuga": ["natsu hyuga", "natsu_hyuga"],
-            "yakumo_kurama": ["yakumo kurama", "yakumo_kurama"],
-            "tsunami": ["tsunami"],
-            "ayame": ["ayame"],
-            "yugito_nii": ["yugito nii", "yugito_nii"],
-            "fuu": ["fuu"],
-            "hokuto": ["hokuto"],
-            "hanabi_hyuga": ["hanabi hyuga", "hanabi_hyuga"],
-            "moegi": ["moegi"],
-            "sumire_kakei": ["sumire kakei", "sumire_kakei"],
-            "chocho_akimichi": ["chocho akimichi", "chocho_akimichi"],
-            "mirai_sarutobi": ["mirai sarutobi", "mirai_sarutobi"],
-            "wasabi_izuno": ["wasabi izuno", "wasabi_izuno"],
-            "namida_suzumeno": ["namida suzumeno", "namida_suzumeno"]
-        },
-
-        "fairy_tail": {
-            "lucy_heartfilia": ["lucy heartfilia", "lucy_heartfilia"],
-            "erza_scarlet": ["erza scarlet", "erza_scarlet", "titania"],
-            "wendy_marvell": ["wendy marvell", "wendy_marvell"],
-            "juvia_lockser": ["juvia lockser", "juvia_lockser"],
-            "levy_mcgarden": ["levy mcgarden", "levy_mcgarden"],
-            "mirajane_strauss": ["mirajane strauss", "mirajane_strauss"],
-            "lisanna_strauss": ["lisanna strauss", "lisanna_strauss"],
-            "cana_alberona": ["cana alberona", "cana_alberona"],
-            "evergreen": ["evergreen"],
-            "bisca_connell": ["bisca connell", "bisca_connell"],
-            "laki_olietta": ["laki olietta", "laki_olietta"],
-            "kinana": ["kinana"],
-            "mavis_vermillion": ["mavis vermillion", "mavis_vermillion"],
-            "meredy": ["meredy"],
-            "ultear_milkovich": ["ultear milkovich", "ultear_milkovich"],
-            "yukino_agria": ["yukino agria", "yukino_agria"],
-            "minerva_orlando": ["minerva orlando", "minerva_orlando"],
-            "kagura_mikazuchi": ["kagura mikazuchi", "kagura_mikazuchi"],
-            "milliana": ["milliana"],
-            "flare_corona": ["flare corona", "flare_corona"],
-            "jenny_realight": ["jenny realight", "jenny_realight"],
-            "sherry_blendy": ["sherry blendy", "sherry_blendy"],
-            "chelia_blendy": ["chelia blendy", "chelia_blendy"],
-            "sorano_agria": ["sorano agria", "sorano_agria", "angel"],
-            "brandish_mu": ["brandish μ", "brandish mu"],
-            "dimaria_yesta": ["dimaria yesta", "dimaria_yesta"],
-            "irene_belserion": ["irene belserion", "irene_belserion"],
-            "hisui_fiore": ["hisui e fiore", "hisui_e_fiore"]
-        },
-
-        "dragon_ball": {
-            "bulma_briefs": ["bulma briefs", "bulma_briefs"],
-            "chi_chi": ["chi chi", "chi_chi", "chi-chi"],
-            "videl_satan": ["videl"],
-            "pan": ["pan"],
-            "android_18": ["android 18", "c-18", "lazuli"],
-            "bulla_briefs": ["bulla", "bra"],
-            "launch": ["launch", "lunch"],
-            "marron": ["marron"],
-            "mai": ["mai"],
-            "ranfan": ["ranfan"],
-            "vados": ["vados"],
-            "caulifla": ["caulifla"],
-            "kale": ["kale"],
-            "ribrianne": ["ribrianne", "brianne de chateau"],
-            "oceanus_shenron": ["oceanus shenron", "princess oto"],
-            "gine": ["gine"],
-            "fasha": ["fasha", "selypa"],
-            "zangya": ["zangya"],
-            "towa": ["towa"],
-            "chronoa": ["supreme kai of time", "chronoa"],
-            "arale_norimaki": ["arale norimaki", "arale_norimaki"]
-        },
-
-        "attack_on_titan": {
-            "mikasa_ackerman": ["mikasa ackerman", "mikasa_ackerman"],
-            "annie_leonhart": ["annie leonhart", "annie_leonhart"],
-            "historia_reiss": ["historia reiss", "historia_reiss", "christa"],
-            "sasha_braus": ["sasha braus", "sasha_braus"],
-            "hange_zoe": ["hange zoe", "hanji"],
-            "ymir": ["ymir", "freckled ymir"],
-            "pieck_finger": ["pieck finger", "pieck_finger"],
-            "gabi_braun": ["gabi braun", "gabi_braun"],
-            "frieda_reiss": ["frieda reiss", "frieda_reiss"],
-            "carla_yeager": ["carla yeager", "carla_yeager"],
-            "dina_fritz": ["dina fritz", "dina_fritz"],
-            "petra_ral": ["petra ral", "petra_ral"],
-            "rico_brzenska": ["rico brzenska", "rico_brzenska"],
-            "yelena": ["yelena"],
-            "kiyomi_azumabito": ["kiyomi azumabito", "kiyomi_azumabito"],
-            "louise": ["louise"],
-            "nifa": ["nifa"],
-            "lynne": ["lynne"],
-            "ilse_langnar": ["ilse langnar", "ilse_langnar"],
-            "nanaba": ["nanaba"]
-        },
-
-        "demon_slayer": {
-            "nezuko_kamado": ["nezuko kamado", "nezuko_kamado"],
-            "kanao_tsuyuri": ["kanao tsuyuri", "kanao_tsuyuri"],
-            "shinobu_kocho": ["shinobu kocho", "shinobu_kocho"],
-            "kanae_kocho": ["kanae kocho", "kanae_kocho"],
-            "mitsuri_kanroji": ["mitsuri kanroji", "mitsuri_kanroji"],
-            "daki": ["daki", "ume"],
-            "tamayo": ["tamayo"],
-            "makio": ["makio"],
-            "suma": ["suma"],
-            "hinatsuru": ["hinatsuru"],
-            "aoi_kanzaki": ["aoi kanzaki", "aoi_kanzaki"],
-            "kiyo_terauchi": ["kiyo terauchi", "kiyo_terauchi"],
-            "sumi_nakahara": ["sumi nakahara", "sumi_nakahara"],
-            "naho_takada": ["naho takada", "naho_takada"],
-            "goto": ["goto", "goto_san"],
-            "amane": ["amane"],
-            "mukago": ["mukago"],
-            "ruka": ["ruka"],
-            "hinaki_ubuyashiki": ["hinaki ubuyashiki", "hinaki_ubuyashiki"],
-            "nichika_ubuyashiki": ["nichika ubuyashiki", "nichika_ubuyashiki"],
-            "kuina_ubuyashiki": ["kuina ubuyashiki", "kuina_ubuyashiki"]
-        },
-
-        "jujutsu_kaisen": {
-            "nobara_kugisaki": ["nobara kugisaki", "nobara_kugisaki"],
-            "maki_zenin": ["maki zenin", "maki_zenin"],
-            "mei_mei": ["mei mei", "mei_mei"],
-            "kasumi_miwa": ["kasumi miwa", "kasumi_miwa"],
-            "momo_nishimiya": ["momo nishimiya", "momo_nishimiya"],
-            "mai_zenin": ["mai zenin", "mai_zenin"],
-            "yuki_tsukumo": ["yuki tsukumo", "yuki_tsukumo"],
-            "rika_orimoto": ["rika orimoto", "rika_orimoto"],
-            "utahime_iori": ["utahime iori", "utahime_iori"],
-            "tsumiki_fushiguro": ["tsumiki fushiguro", "tsumiki_fushiguro"],
-            "manami_suda": ["manami suda", "manami_suda"],
-            "saori_rokujo": ["saori rokujo", "saori_rokujo"],
-            "shoko_ieiri": ["shoko ieiri", "shoko_ieiri"],
-            "mimiko_hasaba": ["mimiko hasaba", "mimiko_hasaba"],
-            "nanako_hasaba": ["nanako hasaba", "nanako_hasaba"]
-        },
-
-        "cowboy_bebop": {
-            "faye_valentine": ["faye valentine", "faye_valentine"],
-            "edward_wong": ["edward wong", "radical ed", "edward"],
-            "julia": ["julia"],
-            "meifa": ["meifa puzi", "meifa_puzi"],
-            "judy": ["judy"],
-            "annie": ["anastasia"],
-            "alisa": ["alisa"],
-            "victoria_terraforming": ["v.t.", "victoria terraforming"],
-            "stella_bonnaro": ["stella bonnaro", "stella_bonnaro"],
-            "coffee": ["coffee"],
-            "katrina_solensan": ["katrina solensan", "katrina_solensan"]
-        },
-
-        "spy_x_family": {
-            "yor_forger": ["yor forger", "yor_forger", "thorn princess"],
-            "anya_forger": ["anya forger", "anya_forger"],
-            "sylvia_sherwood": ["sylvia sherwood", "sylvia_sherwood"],
-            "fiona_frost": ["fiona frost", "fiona_frost"],
-            "becky_blackbell": ["becky blackbell", "becky_blackbell"],
-            "sharon": ["sharon", "shop_keeper"],
-            "melinda_desmond": ["melinda desmond", "melinda_desmond"],
-            "camilla": ["camilla", "shopkeeper_sister"],
-            "karen_gloomy": ["karen gloomy", "karen_gloomy"],
-            "dominic": ["dominic", "handler"],
-            "martha": ["martha", "landlady"]
-        },
-
-        "one_punch_man": {
-            "fubuki": ["fubuki", "blizzard", "hellish blizzard"],
-            "tatsumaki": ["tatsumaki", "tornado", "tornado of terror"],
-            "psykos": ["psykos"],
-            "suiko": ["suiko"],
-            "lin_lin": ["lin lin"],
-            "lily": ["lily of the three section staff", "lily"],
-            "do_s": ["do-s", "monster princess"],
-            "mosquito_girl": ["mosquito girl"],
-            "captain_mizuki": ["captain mizuki", "mizuki"],
-            "shadow_ring": ["shadow ring"],
-            "zenko": ["zenko", "metal bat's sister"],
-            "madame_shibabawa": ["madame shibabawa"],
-            "goddess_glasses": ["goddess glasses"],
-            "swim": ["swim"],
-            "pai": ["pai"]
-        },
-
-        "league_of_legends": {
-            "ahri": ["ahri"],
-            "lux": ["lux", "luxanna crownguard"],
-            "jinx": ["jinx"],
-            "vi": ["vi"],
-            "caitlyn": ["caitlyn"],
-            "leona": ["leona"],
-            "diana": ["diana"],
-            "ashe": ["ashe"],
-            "katarina": ["katarina"],
-            "miss_fortune": ["miss fortune", "sarah fortune"],
-            "akali": ["akali"],
-            "anivia": ["anivia"],
-            "annie": ["annie"],
-            "bel_veth": ["bel'veth", "belveth"],
-            "briar": ["briar"],
-            "cassiopeia": ["cassiopeia"],
-            "elise": ["elise"],
-            "evelynn": ["evelynn"],
-            "fiora": ["fiora"],
-            "gwen": ["gwen"],
-            "illaoi": ["illaoi"],
-            "irelia": ["irelia"],
-            "janna": ["janna"],
-            "kai_sa": ["kai'sa", "kaisa"],
-            "kalista": ["kalista"],
-            "karma": ["karma"],
-            "kindred": ["kindred"],
-            "leblanc": ["leblanc"],
-            "lillia": ["lillia"],
-            "lissandra": ["lissandra"],
-            "morgana": ["morgana"],
-            "nami": ["nami"],
-            "neeko": ["neeko"],
-            "nidalee": ["nidalee"],
-            "nilah": ["nilah"],
-            "orianna": ["orianna"],
-            "poppy": ["poppy"],
-            "qiyana": ["qiyana"],
-            "rell": ["rell"],
-            "riven": ["riven"],
-            "samira": ["samira"],
-            "senna": ["senna"],
-            "seraphine": ["seraphine"],
-            "sejuani": ["sejuani"],
-            "senna": ["senna"],
-            "shyvana": ["shyvana"],
-            "sivir": ["sivir"],
-            "sona": ["sona"],
-            "soraka": ["soraka"],
-            "syndra": ["syndra"],
-            "taliyah": ["taliyah"],
-            "tristana": ["tristana"],
-            "vayne": ["vayne"],
-            "vex": ["vex"],
-            "xayah": ["xayah"],
-            "yuumi": ["yuumi"],
-            "zeri": ["zeri"],
-            "zoe": ["zoe"],
-            "zyra": ["zyra"]
-        },
-
-        "hunter_x_hunter": {
-            "biscuit_krueger": ["biscuit krueger", "bisky"],
-            "palm_siberia": ["palm siberia"],
-            "machi": ["machi"],
-            "shizuku": ["shizuku"],
-            "canary": ["canary"],
-            "neferpitou": ["neferpitou", "pitou"],
-            "komugi": ["komugi"],
-            "pakunoda": ["pakunoda"],
-            "melody": ["melody", "senritsu"],
-            "zazan": ["zazan"],
-            "eliza": ["eliza"],
-            "amane": ["amane"],
-            "tsubone": ["tsubone"],
-            "kalluto_zoldyck": ["kalluto zoldyck", "kalluto_zoldyck"],
-            "kikyo_zoldyck": ["kikyo zoldyck", "kikyo_zoldyck"],
-            "alluka_zoldyck": ["alluka zoldyck", "alluka_zoldyck"],
-            "cheadle_yorkshire": ["cheadle yorkshire", "cheadle_yorkshire"],
-            "menchi": ["menchi"],
-            "ponzu": ["ponzu"]
-        },
-
-        "fullmetal_alchemist": {
-            "winry_rockbell": ["winry rockbell", "winry_rockbell"],
-            "riza_hawkeye": ["riza hawkeye", "riza_hawkeye"],
-            "olivier_armstrong": ["olivier armstrong", "olivier_armstrong"],
-            "izumi_curtis": ["izumi curtis", "izumi_curtis"],
-            "mei_chang": ["mei chang", "mei_chang"],
-            "maria_ross": ["maria ross", "maria_ross"],
-            "gracia_hughes": ["gracia hughes", "gracia_hughes"],
-            "elicia_hughes": ["elicia hughes", "elicia_hughes"],
-            "lan_fan": ["lan fan", "lan_fan"],
-            "paninya": ["paninya"],
-            "sheska": ["sheska", "sciezka"],
-            "rose_thomas": ["rose thomas", "rose_thomas"],
-            "catherine_armstrong": ["catherine elle armstrong", "catherine_armstrong"],
-            "martel": ["martel"],
-            "trisha_elric": ["trisha elric", "trisha_elric"],
-            "pinako_rockbell": ["pinako rockbell", "pinako_rockbell"],
-            "lust": ["lust"],
-            "dante": ["dante"],
-            "clara": ["clara", "psiren"]
-        },
-
-        "my_hero_academia": {
-            "ochaco_uraraka": ["ochaco uraraka", "ochaco_uraraka"],
-            "tsuyu_asui": ["tsuyu asui", "tsuyu_asui", "froppy"],
-            "momo_yaoyorozu": ["momo yaoyorozu", "momo_yaoyorozu"],
-            "kyoka_jirou": ["kyoka jirou", "kyoka_jirou"],
-            "toru_hagakure": ["toru hagakure", "toru_hagakure"],
-            "mina_ashido": ["mina ashido", "mina_ashido", "pinky"],
-            "yu_takeyama": ["mount lady", "yu takeyama"],
-            "nemuri_kayama": ["midnight", "nemuri kayama"],
-            "rumi_usagiyama": ["mirko", "rumi usagiyama"],
-            "ryuko_tatsuma": ["ryuku", "ryuko tatsuma"],
-            "nejire_hado": ["nejire hado", "nejire_hado"],
-            "shino_sosaki": ["mandalay", "shino sosaki"],
-            "ryuko_tsuchikawa": ["pixie-bob", "ryuko tsuchikawa"],
-            "tomoko_shiretoko": ["ragdoll", "tomoko shiretoko"],
-            "itsuka_kendo": ["itsuka kendo", "itsuka_kendo"],
-            "pony_tsunotori": ["pony tsunotori", "pony_tsunotori"],
-            "kinoko_komori": ["kinoko komori", "kinoko_komori"],
-            "yui_kodai": ["yui kodai", "yui_kodai"],
-            "reiko_yanagi": ["reiko yanagi", "reiko_yanagi"],
-            "setsuna_tokage": ["setsuna tokage", "setsuna_tokage"],
-            "melissa_shield": ["melissa shield", "melissa_shield"],
-            "inko_midoriya": ["inko midoriya", "inko_midoriya"],
-            "fuyumi_todoroki": ["fuyumi todoroki", "fuyumi_todoroki"],
-            "eri": ["eri"],
-            "nana_shimura": ["nana shimura", "nana_shimura"],
-            "himiko_toga": ["himiko toga", "himiko_toga"]
-        },
-
-        "jojos_bizarre_adventure": {
-            "jolyne_cujoh": ["jolyne cujoh", "jolyne_cujoh"],
-            "lisa_lisa": ["lisa lisa", "lisa_lisa"],
-            "erina_pendleton": ["erina pendleton", "erina_pendleton"],
-            "trish_una": ["trish una", "trish_una"],
-            "suzi_q": ["suzi q", "suzi_q"],
-            "holly_kujo": ["holly kujo", "holly_kujo", "seiko"],
-            "yukako_yamagishi": ["yukako yamagishi", "yukako_yamagishi"],
-            "reimi_sugimoto": ["reimi sugimoto", "reimi_sugimoto"],
-            "hot_pants": ["hot pants", "hot_pants"],
-            "lucy_steel": ["lucy steel", "lucy_steel"],
-            "yasuho_hirose": ["yasuho hirose", "yasuho_hirose"],
-            "hermes_costello": ["hermes costello", "hermes_costello"],
-            "foo_fighters": ["foo fighters", "f.f.", "ff"],
-            "ermes_costello": ["ermes costello", "ermes_costello"],
-            "gwess": ["gwess"],
-            "mariah": ["mariah"],
-            "midler": ["midler", "rose"],
-            "anne": ["anne"],
-            "tomoko_higashikata": ["tomoko higashikata", "tomoko_higashikata"]
-        },
-
-        "pokemon": {
-            "misty_waterflower": ["misty", "kasumi"],
-            "may_maple": ["may", "haruka"],
-            "dawn_berlitz": ["dawn", "hikari"],
-            "serena": ["serena"],
-            "iris": ["iris"],
-            "lillie": ["lillie"],
-            "cynthia": ["cynthia", "shirona"],
-            "diantha": ["diantha"],
-            "lusamine": ["lusamine"],
-            "sabrina": ["sabrina"],
-            "erika": ["erika"],
-            "whitney": ["whitney"],
-            "jasmine": ["jasmine"],
-            "clair": ["clair"],
-            "flannery": ["flannery"],
-            "winona": ["winona"],
-            "roxanne": ["roxanne"],
-            "gardenia": ["gardenia"],
-            "candice": ["candice"],
-            "fantina": ["fantina"],
-            "elesa": ["elesa"],
-            "skyla": ["skyla"],
-            "korrina": ["korrina"],
-            "valerie": ["valerie"],
-            "olympia": ["olympia"],
-            "mallow": ["mallow"],
-            "lana": ["lana"],
-            "nessa": ["nessa"],
-            "marnie": ["marnie"],
-            "sonia": ["sonia"],
-            "professor_juniper": ["professor juniper", "professor_juniper"],
-            "nurse_joy": ["nurse joy", "joy"],
-            "officer_jenny": ["officer jenny", "jenny"],
-            "jessie": ["jessie", "musashi"],
-            "bonnie": ["bonnie", "eureka"],
-            "rosa": ["rosa"]
-        },
-
-        "hatsune_miku": {
-            "hatsune_miku": ["hatsune miku", "hatsune_miku", "miku", "initial miku", "initial_miku", "miku_(vocaloid)",
-                             "miku_(project_diva)"],
-            "meiko": ["meiko", "meiko_(vocaloid)", "meiko_(project_diva)"],
-            "kagamine_rin": ["kagamine rin", "kagamine_rin", "rin", "rin_(vocaloid)", "rin_(project_diva)"],
-            "megurine_luka": ["megurine luka", "megurine_luka", "luka", "luka_(vocaloid)", "luka_(project_diva)"],
-            "megpoid_gumi": ["gumi", "megpoid", "gumi_(vocaloid)", "gumi_(project_diva)"],
-            "kasane_teto": ["kasane teto", "kasane_teto", "teto", "teto_(utau)"],
-            "akita_neru": ["akita neru", "akita_neru", "neru", "neru_(derivative)"],
-            "yowane_haku": ["yowane haku", "yowane_haku", "haku", "haku_(derivative)"],
-            "otomachi_una": ["otomachi una", "otomachi_una", "una", "una_(vocaloid)"],
-            "ia": ["ia", "ia_(vocaloid)", "aria on the planetes"],
-            "cul": ["cul", "cul_(vocaloid)"],
-            "lily": ["lily", "lily_(vocaloid)"],
-            "sf_a2_miki": ["sf-a2 miki", "sf_a2_miki", "miki", "miki_(vocaloid)"],
-            "yuzuki_yukari": ["yuzuki yukari", "yuzuki_yukari", "yukari", "yukari_(vocaloid)"]
-        },
-
-        "konosuba": {
-            "aqua": ["aqua", "aqua_(konosuba)", "goddess_aqua", "useless_goddess"],
-            "megumin": ["megumin", "megumin_(konosuba)", "explosion_girl", "crimson_demon_megumin"],
-            "lalatina_dustiness": ["darkness", "darkness_(konosuba)", "dustiness_ford_lalatina", "lalatina",
-                                   "crusader_darkness"],
-            "wiz": ["wiz", "wiz_(konosuba)", "lich_wiz"],
-            "yunyun": ["yunyun", "yun yun", "yun_yun", "yunyun_(konosuba)"],
-            "chris": ["chris", "chris_(konosuba)", "eris", "eris_(konosuba)", "assistant_goddess"],
-            "luna": ["luna", "luna_(konosuba)", "guild_receptionist"],
-            "sena": ["sena", "sena_(konosuba)"],
-            "wolbach": ["wolbach", "goddess_wolbach", "wolbach_(konosuba)"],
-            "iris": ["iris", "iris_stylish_sword", "iris_(konosuba)"],
-            "komekko": ["komekko", "komekko_(konosuba)", "megumin_sister"],
-            "cecily": ["cecily", "cecily_(konosuba)", "axis_cult_cecily"],
-            "arue": ["arue", "arue_(konosuba)"],
-            "claire": ["claire", "claire_(konosuba)"],
-            "sylvia": ["sylvia", "sylvia_(konosuba)"],
-            "lean": ["lean", "lean_(konosuba)"],
-            "verdia": ["verdia", "verdia_(konosuba)"],
-            "hans": ["hans", "hans_(konosuba)"],
-            "yuiyui": ["yuiyui", "crimson_demon_yuiyui", "yuiyui_(konosuba)"]
-        },
-
-        "lycoris_recoil": {
-            "chisato_nishikigi": ["chisato nishikigi", "chisato_nishikigi", "chisato", "nishikigi"],
-            "takina_inoue": ["takina inoue", "takina_inoue", "takina"],
-            "mizuki_nakahara": ["mizuki nakahara", "mizuki_nakahara", "mizuki"],
-            "kurumi_shinonome": ["kurumi shinonome", "kurumi_shinonome", "walnut", "kurumi"],
-            "erika_karuizawa": ["erika karuizawa", "erika_karuizawa", "erika"],
-            "sakura_otome": ["sakura otome", "sakura_otome", "sakura"],
-            "fuki_himegama": ["fuki himegama", "fuki_himegama", "himegama"],
-            "mika": ["mika"],
-            "robota": ["robota"],
-            "lucy": ["lucy"]
-        },
-    }
-
     def __init__(self):
         self.series_indicators = get_series_indicators()
 
-    def identify_character(self, tags: str) -> Tuple[str, str]:
+        # Character mappings by series
+        self.CHARACTER_MAPPINGS = {
+            "one_piece": {
+                "monkey_d_luffy": ["monkey d luffy", "monkey_d_luffy", "luffy", "strawhat"],
+                "roronoa_zoro": ["roronoa zoro", "roronoa_zoro", "zoro"],
+                "nami": ["nami", "nami_(one_piece)"],
+                "vinsmoke_sanji": ["vinsmoke sanji", "vinsmoke_sanji", "sanji", "black leg"],
+                "nico_robin": ["nico robin", "nico_robin", "robin", "robin_(alabasta)", "robin_(cosplay)"],
+                "uta": ["uta", "uta_(one_piece)"],
+                "rebecca": ["rebecca", "rebecca_(one_piece)"],
+                "carrot": ["carrot", "carrot_(one_piece)"],
+                "jewelry_bonney": ["jewelry bonney", "jewelry_bonney", "bonney"],
+                "baby_5": ["baby 5", "baby_5", "baby five", "baby_five"],
+                "boa_hancock": ["boa hancock", "boa_hancock", "hancock"],
+                "nefertari_vivi": ["nefertari vivi", "nefertari_vivi", "vivi"],
+                "vinsmoke_reiju": ["vinsmoke reiju", "vinsmoke_reiju", "reiju"],
+                "charlotte_linlin": ["big mom", "big_mom", "charlotte_linlin", "charlotte linlin", "linlin"],
+                "shimotsuki_kuina": ["shimotsuki kuina", "shimotsuki_kuina", "kuina"],
+                "charlotte_smoothie": ["charlotte_smoothie", "charlotte smoothie", "smoothie"],
+                "shirahoshi": ["shirahoshi", "princess shirahoshi", "princess_shirahoshi"],
+                "kouzuki_hiyori": ["kouzuki hiyori", "kouzuki_hiyori", "hiyori"],
+                "catarina_devon": ["catarina devon", "catarina_devon", "devon"],
+                "perona": ["perona", "'ghost princess' perona", "ghost princess perona"],
+                "charlotte_flampe": ["charlotte_flampe", "charlotte flampe", "flampe"],
+                "kouzuki_toki": ["kouzuki toki", "kouzuki_toki", "toki"],
+                "alvida": ["alvida", "alvida_(one_piece)"],
+                "kikunojo": ["kikunojo", "kikunojo_(one_piece)", "kiku"],
+                "vegapunk_lilith": ["vegapunk lilith", "vegapunk_lilith", "lilith"],
+                "kaya": ["kaya", "kaya_(one_piece)"],
+                "monet": ["monet", "monet_(one_piece)"],
+                "wanda": ["wanda", "wanda_(one_piece)"],
+                "nico_olvia": ["nico olvia", "nico_olvia", "olvia"],
+                "nojiko": ["nojiko"],
+                "charlotte_pudding": ["charlotte pudding", "charlotte_pudding", "pudding"],
+                "vegapunk_atlas": ["vegapunk atlas", "vegapunk_atlas", "atlas"],
+                "vegapunk_york": ["vegapunk york", "vegapunk_york", "york"],
+                "stussy": ["stussy", "stussy_(one_piece)"],
+                "tashigi": ["tashigi"],
+                "hina": ["hina", "hina_(one_piece)"],
+                "isuka": ["isuka", "isuka_(one_piece)"],
+                "viola": ["viola", "viola_(one_piece)"],
+            },
+
+            "dota2": {
+                "lina": ["lina", "lina inverse"],
+                "crystal_maiden": ["crystal maiden", "crystal_maiden", "rylai"],
+                "invoker": ["invoker", "kael"],
+                "windrunner": ["windranger", "windrunner", "lyralei", "windranger_(dota)"],
+                "marci": ["marci", "marci_(dota)"],
+                "dark_willow": ["dark willow", "dark_willow"],
+                "mirana": ["mirana", "mirana_(dota)"],
+                "broodmother": ["broodmother", "broodmother_(dota)"],
+                "dawnbreaker": ["dawnbreaker", "dawnbreaker_(dota)", "dawnbreaker_(dota_2)"],
+                "death_prophet": ["death prophet", "death_prophet_(dota)"],
+                "enchantress": ["enchantress", "enchantress_(dota)", "enchantress_(dota_2)"],
+                "legion_commander": ["legion commander", "legion_commander_(dota)"],
+                "luna": ["luna", "luna_(dota)"],
+                "naga_siren": ["naga siren", "naga_siren_(dota)"],
+                "phantom_assassin": ["phantom assassin", "phantom_assassin_(dota)"],
+                "queen_of_pain": ["queen of pain", "queen_of_pain_(dota)"],
+                "snapfire": ["snapfire"],
+                "spectre": ["spectre", "spectre_(dota)"],
+                "templar_assassin": ["templar assassin", "templar_assassin_(dota)"],
+                "vengeful_spirit": ["vengeful spirit", "vengeful_spirit_(dota_2)"]
+            },
+
+            "naruto": {
+                "tsunade_senju": ["tsunade senju", "tsunade", "lady tsunade", "princess tsunade"],
+                "sakura_haruno": ["sakura haruno", "sakura_haruno"],
+                "hinata_hyuga": ["hinata hyuga", "hinata_hyuga"],
+                "tenten": ["tenten"],
+                "temari": ["temari"],
+                "kushina_uzumaki": ["kushina uzumaki", "kushina_uzumaki"],
+                "sarada_uchiha": ["sarada uchiha", "sarada_uchiha"],
+                "himawari_uzumaki": ["himawari uzumaki", "himawari_uzumaki"],
+                "ino_yamanaka": ["ino yamanaka", "ino_yamanaka"],
+                "kurenai_yuhi": ["kurenai yuhi", "kurenai_yuhi"],
+                "anko_mitarashi": ["anko mitarashi", "anko_mitarashi"],
+                "shizune": ["shizune"],
+                "karin_uzumaki": ["karin uzumaki", "karin_uzumaki"],
+                "konan": ["konan"],
+                "mei_terumi": ["mei terumi", "mei_terumi"],
+                "samui": ["samui"],
+                "karui": ["karui"],
+                "mabui": ["mabui"],
+                "yugao_uzuki": ["yugao uzuki", "yugao_uzuki"],
+                "tsume_inuzuka": ["tsume inuzuka", "tsume_inuzuka"],
+                "hana_inuzuka": ["hana inuzuka", "hana_inuzuka"],
+                "natsu_hyuga": ["natsu hyuga", "natsu_hyuga"],
+                "yakumo_kurama": ["yakumo kurama", "yakumo_kurama"],
+                "tsunami": ["tsunami"],
+                "ayame": ["ayame"],
+                "yugito_nii": ["yugito nii", "yugito_nii"],
+                "fuu": ["fuu"],
+                "hokuto": ["hokuto"],
+                "hanabi_hyuga": ["hanabi hyuga", "hanabi_hyuga"],
+                "moegi": ["moegi"],
+                "sumire_kakei": ["sumire kakei", "sumire_kakei"],
+                "chocho_akimichi": ["chocho akimichi", "chocho_akimichi"],
+                "mirai_sarutobi": ["mirai sarutobi", "mirai_sarutobi"],
+                "wasabi_izuno": ["wasabi izuno", "wasabi_izuno"],
+                "namida_suzumeno": ["namida suzumeno", "namida_suzumeno"]
+            },
+
+            "fairy_tail": {
+                "lucy_heartfilia": ["lucy heartfilia", "lucy_heartfilia"],
+                "erza_scarlet": ["erza scarlet", "erza_scarlet", "titania"],
+                "wendy_marvell": ["wendy marvell", "wendy_marvell"],
+                "juvia_lockser": ["juvia lockser", "juvia_lockser"],
+                "levy_mcgarden": ["levy mcgarden", "levy_mcgarden"],
+                "mirajane_strauss": ["mirajane strauss", "mirajane_strauss"],
+                "lisanna_strauss": ["lisanna strauss", "lisanna_strauss"],
+                "cana_alberona": ["cana alberona", "cana_alberona"],
+                "evergreen": ["evergreen"],
+                "bisca_connell": ["bisca connell", "bisca_connell"],
+                "laki_olietta": ["laki olietta", "laki_olietta"],
+                "kinana": ["kinana"],
+                "mavis_vermillion": ["mavis vermillion", "mavis_vermillion"],
+                "meredy": ["meredy"],
+                "ultear_milkovich": ["ultear milkovich", "ultear_milkovich"],
+                "yukino_agria": ["yukino agria", "yukino_agria"],
+                "minerva_orlando": ["minerva orlando", "minerva_orlando"],
+                "kagura_mikazuchi": ["kagura mikazuchi", "kagura_mikazuchi"],
+                "milliana": ["milliana"],
+                "flare_corona": ["flare corona", "flare_corona"],
+                "jenny_realight": ["jenny realight", "jenny_realight"],
+                "sherry_blendy": ["sherry blendy", "sherry_blendy"],
+                "chelia_blendy": ["chelia blendy", "chelia_blendy"],
+                "sorano_agria": ["sorano agria", "sorano_agria", "angel"],
+                "brandish_mu": ["brandish μ", "brandish mu"],
+                "dimaria_yesta": ["dimaria yesta", "dimaria_yesta"],
+                "irene_belserion": ["irene belserion", "irene_belserion"],
+                "hisui_fiore": ["hisui e fiore", "hisui_e_fiore"]
+            },
+
+            "dragon_ball": {
+                "bulma_briefs": ["bulma briefs", "bulma_briefs"],
+                "chi_chi": ["chi chi", "chi_chi", "chi-chi"],
+                "videl_satan": ["videl"],
+                "pan": ["pan"],
+                "android_18": ["android 18", "c-18", "lazuli"],
+                "bulla_briefs": ["bulla", "bra"],
+                "launch": ["launch", "lunch"],
+                "marron": ["marron"],
+                "mai": ["mai"],
+                "ranfan": ["ranfan"],
+                "vados": ["vados"],
+                "caulifla": ["caulifla"],
+                "kale": ["kale"],
+                "ribrianne": ["ribrianne", "brianne de chateau"],
+                "oceanus_shenron": ["oceanus shenron", "princess oto"],
+                "gine": ["gine"],
+                "fasha": ["fasha", "selypa"],
+                "zangya": ["zangya"],
+                "towa": ["towa"],
+                "chronoa": ["supreme kai of time", "chronoa"],
+                "arale_norimaki": ["arale norimaki", "arale_norimaki"]
+            },
+
+            "attack_on_titan": {
+                "mikasa_ackerman": ["mikasa ackerman", "mikasa_ackerman"],
+                "annie_leonhart": ["annie leonhart", "annie_leonhart"],
+                "historia_reiss": ["historia reiss", "historia_reiss", "christa"],
+                "sasha_braus": ["sasha braus", "sasha_braus"],
+                "hange_zoe": ["hange zoe", "hanji"],
+                "ymir": ["ymir", "freckled ymir"],
+                "pieck_finger": ["pieck finger", "pieck_finger"],
+                "gabi_braun": ["gabi braun", "gabi_braun"],
+                "frieda_reiss": ["frieda reiss", "frieda_reiss"],
+                "carla_yeager": ["carla yeager", "carla_yeager"],
+                "dina_fritz": ["dina fritz", "dina_fritz"],
+                "petra_ral": ["petra ral", "petra_ral"],
+                "rico_brzenska": ["rico brzenska", "rico_brzenska"],
+                "yelena": ["yelena"],
+                "kiyomi_azumabito": ["kiyomi azumabito", "kiyomi_azumabito"],
+                "louise": ["louise"],
+                "nifa": ["nifa"],
+                "lynne": ["lynne"],
+                "ilse_langnar": ["ilse langnar", "ilse_langnar"],
+                "nanaba": ["nanaba"]
+            },
+
+            "demon_slayer": {
+                "nezuko_kamado": ["nezuko kamado", "nezuko_kamado"],
+                "kanao_tsuyuri": ["kanao tsuyuri", "kanao_tsuyuri"],
+                "shinobu_kocho": ["shinobu kocho", "shinobu_kocho"],
+                "kanae_kocho": ["kanae kocho", "kanae_kocho"],
+                "mitsuri_kanroji": ["mitsuri kanroji", "mitsuri_kanroji"],
+                "daki": ["daki", "ume"],
+                "tamayo": ["tamayo"],
+                "makio": ["makio"],
+                "suma": ["suma"],
+                "hinatsuru": ["hinatsuru"],
+                "aoi_kanzaki": ["aoi kanzaki", "aoi_kanzaki"],
+                "kiyo_terauchi": ["kiyo terauchi", "kiyo_terauchi"],
+                "sumi_nakahara": ["sumi nakahara", "sumi_nakahara"],
+                "naho_takada": ["naho takada", "naho_takada"],
+                "goto": ["goto", "goto_san"],
+                "amane": ["amane"],
+                "mukago": ["mukago"],
+                "ruka": ["ruka"],
+                "hinaki_ubuyashiki": ["hinaki ubuyashiki", "hinaki_ubuyashiki"],
+                "nichika_ubuyashiki": ["nichika ubuyashiki", "nichika_ubuyashiki"],
+                "kuina_ubuyashiki": ["kuina ubuyashiki", "kuina_ubuyashiki"]
+            },
+
+            "jujutsu_kaisen": {
+                "nobara_kugisaki": ["nobara kugisaki", "nobara_kugisaki"],
+                "maki_zenin": ["maki zenin", "maki_zenin"],
+                "mei_mei": ["mei mei", "mei_mei"],
+                "kasumi_miwa": ["kasumi miwa", "kasumi_miwa"],
+                "momo_nishimiya": ["momo nishimiya", "momo_nishimiya"],
+                "mai_zenin": ["mai zenin", "mai_zenin"],
+                "yuki_tsukumo": ["yuki tsukumo", "yuki_tsukumo"],
+                "rika_orimoto": ["rika orimoto", "rika_orimoto"],
+                "utahime_iori": ["utahime iori", "utahime_iori"],
+                "tsumiki_fushiguro": ["tsumiki fushiguro", "tsumiki_fushiguro"],
+                "manami_suda": ["manami suda", "manami_suda"],
+                "saori_rokujo": ["saori rokujo", "saori_rokujo"],
+                "shoko_ieiri": ["shoko ieiri", "shoko_ieiri"],
+                "mimiko_hasaba": ["mimiko hasaba", "mimiko_hasaba"],
+                "nanako_hasaba": ["nanako hasaba", "nanako_hasaba"]
+            },
+
+            "cowboy_bebop": {
+                "faye_valentine": ["faye valentine", "faye_valentine"],
+                "edward_wong": ["edward wong", "radical ed", "edward"],
+                "julia": ["julia"],
+                "meifa": ["meifa puzi", "meifa_puzi"],
+                "judy": ["judy"],
+                "annie": ["anastasia"],
+                "alisa": ["alisa"],
+                "victoria_terraforming": ["v.t.", "victoria terraforming"],
+                "stella_bonnaro": ["stella bonnaro", "stella_bonnaro"],
+                "coffee": ["coffee"],
+                "katrina_solensan": ["katrina solensan", "katrina_solensan"]
+            },
+
+            "spy_x_family": {
+                "yor_forger": ["yor forger", "yor_forger", "thorn princess"],
+                "anya_forger": ["anya forger", "anya_forger"],
+                "sylvia_sherwood": ["sylvia sherwood", "sylvia_sherwood"],
+                "fiona_frost": ["fiona frost", "fiona_frost"],
+                "becky_blackbell": ["becky blackbell", "becky_blackbell"],
+                "sharon": ["sharon", "shop_keeper"],
+                "melinda_desmond": ["melinda desmond", "melinda_desmond"],
+                "camilla": ["camilla", "shopkeeper_sister"],
+                "karen_gloomy": ["karen gloomy", "karen_gloomy"],
+                "dominic": ["dominic", "handler"],
+                "martha": ["martha", "landlady"]
+            },
+
+            "one_punch_man": {
+                "fubuki": ["fubuki", "blizzard", "hellish blizzard"],
+                "tatsumaki": ["tatsumaki", "tornado", "tornado of terror"],
+                "psykos": ["psykos"],
+                "suiko": ["suiko"],
+                "lin_lin": ["lin lin"],
+                "lily": ["lily of the three section staff", "lily"],
+                "do_s": ["do-s", "monster princess"],
+                "mosquito_girl": ["mosquito girl"],
+                "captain_mizuki": ["captain mizuki", "mizuki"],
+                "shadow_ring": ["shadow ring"],
+                "zenko": ["zenko", "metal bat's sister"],
+                "madame_shibabawa": ["madame shibabawa"],
+                "goddess_glasses": ["goddess glasses"],
+                "swim": ["swim"],
+                "pai": ["pai"]
+            },
+
+            "league_of_legends": {
+                "ahri": ["ahri"],
+                "lux": ["lux", "luxanna crownguard"],
+                "jinx": ["jinx"],
+                "vi": ["vi"],
+                "caitlyn": ["caitlyn"],
+                "leona": ["leona"],
+                "diana": ["diana"],
+                "ashe": ["ashe"],
+                "katarina": ["katarina"],
+                "miss_fortune": ["miss fortune", "sarah fortune"],
+                "akali": ["akali"],
+                "anivia": ["anivia"],
+                "annie": ["annie"],
+                "bel_veth": ["bel'veth", "belveth"],
+                "briar": ["briar"],
+                "cassiopeia": ["cassiopeia"],
+                "elise": ["elise"],
+                "evelynn": ["evelynn"],
+                "fiora": ["fiora"],
+                "gwen": ["gwen"],
+                "illaoi": ["illaoi"],
+                "irelia": ["irelia"],
+                "janna": ["janna"],
+                "kai_sa": ["kai'sa", "kaisa"],
+                "kalista": ["kalista"],
+                "karma": ["karma"],
+                "kindred": ["kindred"],
+                "leblanc": ["leblanc"],
+                "lillia": ["lillia"],
+                "lissandra": ["lissandra"],
+                "morgana": ["morgana"],
+                "nami": ["nami"],
+                "neeko": ["neeko"],
+                "nidalee": ["nidalee"],
+                "nilah": ["nilah"],
+                "orianna": ["orianna"],
+                "poppy": ["poppy"],
+                "qiyana": ["qiyana"],
+                "rell": ["rell"],
+                "riven": ["riven"],
+                "samira": ["samira"],
+                "senna": ["senna"],
+                "seraphine": ["seraphine"],
+                "sejuani": ["sejuani"],
+                "senna": ["senna"],
+                "shyvana": ["shyvana"],
+                "sivir": ["sivir"],
+                "sona": ["sona"],
+                "soraka": ["soraka"],
+                "syndra": ["syndra"],
+                "taliyah": ["taliyah"],
+                "tristana": ["tristana"],
+                "vayne": ["vayne"],
+                "vex": ["vex"],
+                "xayah": ["xayah"],
+                "yuumi": ["yuumi"],
+                "zeri": ["zeri"],
+                "zoe": ["zoe"],
+                "zyra": ["zyra"]
+            },
+
+            "hunter_x_hunter": {
+                "biscuit_krueger": ["biscuit krueger", "bisky"],
+                "palm_siberia": ["palm siberia"],
+                "machi": ["machi"],
+                "shizuku": ["shizuku"],
+                "canary": ["canary"],
+                "neferpitou": ["neferpitou", "pitou"],
+                "komugi": ["komugi"],
+                "pakunoda": ["pakunoda"],
+                "melody": ["melody", "senritsu"],
+                "zazan": ["zazan"],
+                "eliza": ["eliza"],
+                "amane": ["amane"],
+                "tsubone": ["tsubone"],
+                "kalluto_zoldyck": ["kalluto zoldyck", "kalluto_zoldyck"],
+                "kikyo_zoldyck": ["kikyo zoldyck", "kikyo_zoldyck"],
+                "alluka_zoldyck": ["alluka zoldyck", "alluka_zoldyck"],
+                "cheadle_yorkshire": ["cheadle yorkshire", "cheadle_yorkshire"],
+                "menchi": ["menchi"],
+                "ponzu": ["ponzu"]
+            },
+
+            "fullmetal_alchemist": {
+                "winry_rockbell": ["winry rockbell", "winry_rockbell"],
+                "riza_hawkeye": ["riza hawkeye", "riza_hawkeye"],
+                "olivier_armstrong": ["olivier armstrong", "olivier_armstrong"],
+                "izumi_curtis": ["izumi curtis", "izumi_curtis"],
+                "mei_chang": ["mei chang", "mei_chang"],
+                "maria_ross": ["maria ross", "maria_ross"],
+                "gracia_hughes": ["gracia hughes", "gracia_hughes"],
+                "elicia_hughes": ["elicia hughes", "elicia_hughes"],
+                "lan_fan": ["lan fan", "lan_fan"],
+                "paninya": ["paninya"],
+                "sheska": ["sheska", "sciezka"],
+                "rose_thomas": ["rose thomas", "rose_thomas"],
+                "catherine_armstrong": ["catherine elle armstrong", "catherine_armstrong"],
+                "martel": ["martel"],
+                "trisha_elric": ["trisha elric", "trisha_elric"],
+                "pinako_rockbell": ["pinako rockbell", "pinako_rockbell"],
+                "lust": ["lust"],
+                "dante": ["dante"],
+                "clara": ["clara", "psiren"]
+            },
+
+            "my_hero_academia": {
+                "ochaco_uraraka": ["ochaco uraraka", "ochaco_uraraka"],
+                "tsuyu_asui": ["tsuyu asui", "tsuyu_asui", "froppy"],
+                "momo_yaoyorozu": ["momo yaoyorozu", "momo_yaoyorozu"],
+                "kyoka_jirou": ["kyoka jirou", "kyoka_jirou"],
+                "toru_hagakure": ["toru hagakure", "toru_hagakure"],
+                "mina_ashido": ["mina ashido", "mina_ashido", "pinky"],
+                "yu_takeyama": ["mount lady", "yu takeyama"],
+                "nemuri_kayama": ["midnight", "nemuri kayama"],
+                "rumi_usagiyama": ["mirko", "rumi usagiyama"],
+                "ryuko_tatsuma": ["ryuku", "ryuko tatsuma"],
+                "nejire_hado": ["nejire hado", "nejire_hado"],
+                "shino_sosaki": ["mandalay", "shino sosaki"],
+                "ryuko_tsuchikawa": ["pixie-bob", "ryuko tsuchikawa"],
+                "tomoko_shiretoko": ["ragdoll", "tomoko shiretoko"],
+                "itsuka_kendo": ["itsuka kendo", "itsuka_kendo"],
+                "pony_tsunotori": ["pony tsunotori", "pony_tsunotori"],
+                "kinoko_komori": ["kinoko komori", "kinoko_komori"],
+                "yui_kodai": ["yui kodai", "yui_kodai"],
+                "reiko_yanagi": ["reiko yanagi", "reiko_yanagi"],
+                "setsuna_tokage": ["setsuna tokage", "setsuna_tokage"],
+                "melissa_shield": ["melissa shield", "melissa_shield"],
+                "inko_midoriya": ["inko midoriya", "inko_midoriya"],
+                "fuyumi_todoroki": ["fuyumi todoroki", "fuyumi_todoroki"],
+                "eri": ["eri"],
+                "nana_shimura": ["nana shimura", "nana_shimura"],
+                "himiko_toga": ["himiko toga", "himiko_toga"]
+            },
+
+            "jojos_bizarre_adventure": {
+                "jolyne_cujoh": ["jolyne cujoh", "jolyne_cujoh"],
+                "lisa_lisa": ["lisa lisa", "lisa_lisa"],
+                "erina_pendleton": ["erina pendleton", "erina_pendleton"],
+                "trish_una": ["trish una", "trish_una"],
+                "suzi_q": ["suzi q", "suzi_q"],
+                "holly_kujo": ["holly kujo", "holly_kujo", "seiko"],
+                "yukako_yamagishi": ["yukako yamagishi", "yukako_yamagishi"],
+                "reimi_sugimoto": ["reimi sugimoto", "reimi_sugimoto"],
+                "hot_pants": ["hot pants", "hot_pants"],
+                "lucy_steel": ["lucy steel", "lucy_steel"],
+                "yasuho_hirose": ["yasuho hirose", "yasuho_hirose"],
+                "hermes_costello": ["hermes costello", "hermes_costello"],
+                "foo_fighters": ["foo fighters", "f.f.", "ff"],
+                "ermes_costello": ["ermes costello", "ermes_costello"],
+                "gwess": ["gwess"],
+                "mariah": ["mariah"],
+                "midler": ["midler", "rose"],
+                "anne": ["anne"],
+                "tomoko_higashikata": ["tomoko higashikata", "tomoko_higashikata"]
+            },
+
+            "pokemon": {
+                "misty_waterflower": ["misty", "kasumi"],
+                "may_maple": ["may", "haruka"],
+                "dawn_berlitz": ["dawn", "hikari"],
+                "serena": ["serena"],
+                "iris": ["iris"],
+                "lillie": ["lillie"],
+                "cynthia": ["cynthia", "shirona"],
+                "diantha": ["diantha"],
+                "lusamine": ["lusamine"],
+                "sabrina": ["sabrina"],
+                "erika": ["erika"],
+                "whitney": ["whitney"],
+                "jasmine": ["jasmine"],
+                "clair": ["clair"],
+                "flannery": ["flannery"],
+                "winona": ["winona"],
+                "roxanne": ["roxanne"],
+                "gardenia": ["gardenia"],
+                "candice": ["candice"],
+                "fantina": ["fantina"],
+                "elesa": ["elesa"],
+                "skyla": ["skyla"],
+                "korrina": ["korrina"],
+                "valerie": ["valerie"],
+                "olympia": ["olympia"],
+                "mallow": ["mallow"],
+                "lana": ["lana"],
+                "nessa": ["nessa"],
+                "marnie": ["marnie"],
+                "sonia": ["sonia"],
+                "professor_juniper": ["professor juniper", "professor_juniper"],
+                "nurse_joy": ["nurse joy", "joy"],
+                "officer_jenny": ["officer jenny", "jenny"],
+                "jessie": ["jessie", "musashi"],
+                "bonnie": ["bonnie", "eureka"],
+                "rosa": ["rosa"]
+            },
+
+            "hatsune_miku": {
+                "hatsune_miku": ["hatsune miku", "hatsune_miku", "miku", "initial miku", "initial_miku", "miku_(vocaloid)",
+                                 "miku_(project_diva)"],
+                "meiko": ["meiko", "meiko_(vocaloid)", "meiko_(project_diva)"],
+                "kagamine_rin": ["kagamine rin", "kagamine_rin", "rin", "rin_(vocaloid)", "rin_(project_diva)"],
+                "megurine_luka": ["megurine luka", "megurine_luka", "luka", "luka_(vocaloid)", "luka_(project_diva)"],
+                "megpoid_gumi": ["gumi", "megpoid", "gumi_(vocaloid)", "gumi_(project_diva)"],
+                "kasane_teto": ["kasane teto", "kasane_teto", "teto", "teto_(utau)"],
+                "akita_neru": ["akita neru", "akita_neru", "neru", "neru_(derivative)"],
+                "yowane_haku": ["yowane haku", "yowane_haku", "haku", "haku_(derivative)"],
+                "otomachi_una": ["otomachi una", "otomachi_una", "una", "una_(vocaloid)"],
+                "ia": ["ia", "ia_(vocaloid)", "aria on the planetes"],
+                "cul": ["cul", "cul_(vocaloid)"],
+                "lily": ["lily", "lily_(vocaloid)"],
+                "sf_a2_miki": ["sf-a2 miki", "sf_a2_miki", "miki", "miki_(vocaloid)"],
+                "yuzuki_yukari": ["yuzuki yukari", "yuzuki_yukari", "yukari", "yukari_(vocaloid)"]
+            },
+
+            "konosuba": {
+                "aqua": ["aqua", "aqua_(konosuba)", "goddess_aqua", "useless_goddess"],
+                "megumin": ["megumin", "megumin_(konosuba)", "explosion_girl", "crimson_demon_megumin"],
+                "lalatina_dustiness": ["darkness", "darkness_(konosuba)", "dustiness_ford_lalatina", "lalatina",
+                                       "crusader_darkness"],
+                "wiz": ["wiz", "wiz_(konosuba)", "lich_wiz"],
+                "yunyun": ["yunyun", "yun yun", "yun_yun", "yunyun_(konosuba)"],
+                "chris": ["chris", "chris_(konosuba)", "eris", "eris_(konosuba)", "assistant_goddess"],
+                "luna": ["luna", "luna_(konosuba)", "guild_receptionist"],
+                "sena": ["sena", "sena_(konosuba)"],
+                "wolbach": ["wolbach", "goddess_wolbach", "wolbach_(konosuba)"],
+                "iris": ["iris", "iris_stylish_sword", "iris_(konosuba)"],
+                "komekko": ["komekko", "komekko_(konosuba)", "megumin_sister"],
+                "cecily": ["cecily", "cecily_(konosuba)", "axis_cult_cecily"],
+                "arue": ["arue", "arue_(konosuba)"],
+                "claire": ["claire", "claire_(konosuba)"],
+                "sylvia": ["sylvia", "sylvia_(konosuba)"],
+                "lean": ["lean", "lean_(konosuba)"],
+                "verdia": ["verdia", "verdia_(konosuba)"],
+                "hans": ["hans", "hans_(konosuba)"],
+                "yuiyui": ["yuiyui", "crimson_demon_yuiyui", "yuiyui_(konosuba)"]
+            },
+
+            "lycoris_recoil": {
+                "chisato_nishikigi": ["chisato nishikigi", "chisato_nishikigi", "chisato", "nishikigi"],
+                "takina_inoue": ["takina inoue", "takina_inoue", "takina"],
+                "mizuki_nakahara": ["mizuki nakahara", "mizuki_nakahara", "mizuki"],
+                "kurumi_shinonome": ["kurumi shinonome", "kurumi_shinonome", "walnut", "kurumi"],
+                "erika_karuizawa": ["erika karuizawa", "erika_karuizawa", "erika"],
+                "sakura_otome": ["sakura otome", "sakura_otome", "sakura"],
+                "fuki_himegama": ["fuki himegama", "fuki_himegama", "himegama"],
+                "mika": ["mika"],
+                "robota": ["robota"],
+                "lucy": ["lucy"]
+            },
+        }
+
+    def _extract_series_from_url(self, url: str) -> str:
         """
-        Identify a character and their series from tags.
+        Extract series information from the URL if possible.
+
+        Args:
+            url (str): The source URL
+
+        Returns:
+            str: Series identifier or None
+        """
+        url = url.lower()
+        series_markers = {
+            "one_piece": ["_(one_piece)", "one piece"],
+            "league_of_legends": ["_(league_of_legends)", "league of legends", "lol"],
+            # Add other series markers as needed
+        }
+
+        for series, markers in series_markers.items():
+            if any(marker in url for marker in markers):
+                return series
+        return None
+
+    def identify_character(self, tags: str, source_url: str = None) -> Tuple[str, str]:
+        """
+        Identify a character and their series from tags with improved disambiguation.
 
         Args:
             tags (str): Tag string from the URL
+            source_url (str, optional): The original source URL for additional context
 
         Returns:
             Tuple[str, str]: (series name, character name)
         """
         tags = tags.lower().replace('+', ' ').strip()
 
-        # First try to determine the series from the tags
+        # First try to determine series from the source URL
+        url_series = self._extract_series_from_url(source_url) if source_url else None
+
+        # If we have a series from URL, prioritize that series first
+        if url_series and url_series in self.CHARACTER_MAPPINGS:
+            char_mappings = self.CHARACTER_MAPPINGS[url_series]
+            for char_name, aliases in char_mappings.items():
+                if any(alias in tags for alias in aliases):
+                    return (url_series, char_name)
+
+        # Try to determine series from tags
         detected_series = None
         for series, indicators in self.series_indicators.items():
             if any(indicator in tags for indicator in indicators):
                 detected_series = series
                 break
 
-        # If we have a detected series, prioritize matching characters from that series
+        # If we found a series in the tags, try matching characters from that series
         if detected_series:
             char_mappings = self.CHARACTER_MAPPINGS[detected_series]
             for char_name, aliases in char_mappings.items():
                 if any(alias in tags for alias in aliases):
                     return (detected_series, char_name)
 
-        # If no series was detected or no character found in the detected series,
-        # search all series but prioritize exact matches
+        # If no specific series match, look for exact character matches
         for series, char_mappings in self.CHARACTER_MAPPINGS.items():
             for char_name, aliases in char_mappings.items():
-                # First check for exact matches
                 if any(alias == tags for alias in aliases):
                     return (series, char_name)
 
-        # If no exact match, try partial matches
+        # Finally, try partial matches
         for series, char_mappings in self.CHARACTER_MAPPINGS.items():
             for char_name, aliases in char_mappings.items():
                 if any(alias in tags for alias in aliases):
                     return (series, char_name)
 
-        # If no match found
         return ("unknown", "unknown")
 
     def get_character_aliases(self, series: str, character: str) -> List[str]:
@@ -1649,27 +1679,17 @@ class GelbooruScraper(HentaiScraper):
             return None
 
     def _get_character_path(self, url: str, source_page: str) -> Path:
-        """Extract character name from URL and create appropriate path."""
+        """Extract character name from URL and create appropriate path"""
         try:
-            # Extract tags from source page URL
-            if 'tags=' in source_page:
-                for franchise, characters in self.character_classifier.CHARACTER_MAPPINGS.items():
-                    tags = source_page.split('tags=')[-1].split('&')[0]
-                    tags = urllib.parse.unquote(tags)  # Decode URL-encoded characters
+            if source_page and 'tags=' in source_page:
+                tags = source_page.split('tags=')[-1].split('&')[0]
+                tags = urllib.parse.unquote(tags)
 
-                    series = self.character_classifier.identify_character(tags)
-
-                    # Parse character name from tags
-                    # if '(' in tags and ')' in tags:
-                    #     # Handle tags like "uta_(one_piece)"
-                    #     character_tags = [tag for tag in tags.split() if '(' in tag and ')' in tag]
-                    #     if character_tags:
-                    #         character = character_tags[0]
-                    #         series = character.split('(')[1].rstrip(')')
-                    #         character_name = character.split('(')[0].rstrip('_')
+                # Pass source_page to identify_character
+                series = self.character_classifier.identify_character(tags, source_page)
+                if series[0]:
                     return Path(series[0]) / series[1]
 
-            # Default to raw directory if no character info found
             return Path('raw')
         except Exception as e:
             self.logger.error(f"Error parsing character path: {str(e)}")
@@ -15456,129 +15476,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-#
-# # gelbooru.com
-#
-# class HentaiScraper():
-#     def __init__(self):
-#         # self._nami_url = "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29"
-#         # self._robin_url = "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+"
-#         # self._baby5_url = "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+"
-#         # 'nami': "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29",
-#         # 'robin': "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+",
-#         # 'baby_5': "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+",
-#         # 'bonney': "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+",
-#         # 'carrot': "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_%28one_piece%29+"
-#         self._one_piece_urls = {'uta': 'https://gelbooru.com/index.php?page=post&s=list&tags=uta_%28one_piece%29',
-#                                 'rebecca': 'https://gelbooru.com/index.php?page=post&s=list&tags=rebecca_%28one_piece%29+',
-#                                 'carrot': "https://gelbooru.com/index.php?page=post&s=list&tags=carrot_%28one_piece%29+",
-#                                 'bonney': "https://gelbooru.com/index.php?page=post&s=list&tags=jewelry_bonney+",
-#                                 'baby_5': "https://gelbooru.com/index.php?page=post&s=list&tags=baby_5+",
-#                                 'robin': "https://gelbooru.com/index.php?page=post&s=list&tags=nico_robin+",
-#                                 'nami': "https://gelbooru.com/index.php?page=post&s=list&tags=nami_%28one_piece%29",
-#
-#                                 }
-#
-#     def setup(self):
-#         print("Running setup...")
-#
-#         print("Config set...")
-#
-#         print("Setup finished...")
-#
-#     def download_one_piece(self):
-#         urls = self._one_piece_urls
-#
-#         count = True
-#
-#         number = 0
-#
-#         for k, v in urls.items():
-#             while number <= 15944:
-#                 if count == True:
-#                     print("URL: " + v)
-#                     print("KEY!!!! ", k)
-#
-#                     try:
-#                         page = requests.get(v)
-#                         soup = BeautifulSoup(page.content, 'lxml')
-#
-#                         for a in soup.find_all('a', href=True):
-#                             if "test.com" in a['href'] and "&id=" in a['href']:
-#                                 print("Found the URL:", a['href'])
-#
-#                                 page = requests.get(a['href'])
-#                                 soup = BeautifulSoup(page.content, 'lxml')
-#
-#                                 for img in soup.find_all('img', src=True):
-#                                     if "gelbooru.com" in img['src'] and "sample" in img['src']:
-#
-#                                             filename = r"/Volumes/ExternalHD/workspace/python/Monke D. Luffy/hentai/one_piece/" + k + r"/"
-#                                             # filename = r"/home/timmy/hentai/one_piece/" + k + r"/"
-#
-#                                             filename += ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6)) + '.jpg'
-#
-#                                             r = requests.get(img['src'], stream=True)
-#
-#                                             if r.status_code == 200:
-#                                                 r.raw.decode_content = True
-#                                                 with open(filename, 'wb') as f:
-#                                                     shutil.copyfileobj(r.raw, f)
-#
-#                                                 print("Image sucessfully Download:", filename)
-#
-#                                             else:
-#                                                 print("Image Couldn\'t be retreived.")
-#                     except requests.exceptions.ReadTimeout:
-#                         print("Read Timeout occurred.")
-#                     finally:
-#                         count = False
-#                         number += 42
-#
-#                         time.sleep(5)
-#                 elif count == False:
-#                     try:
-#                         print("COUNT: " + str(count))
-#                         print("URL: " + v + "&pid=" + str(number))
-#                         print("KEY!!!! ", k)
-#
-#                         print("Starting count not 0...")
-#
-#                         link = v + "&pid=" + str(number)
-#
-#                         page = requests.get(link)
-#                         soup = BeautifulSoup(page.content, 'lxml')
-#
-#                         for a in soup.find_all('a', href=True):
-#                             if "gelbooru.com" in a['href'] and "&id=" in a['href']:
-#                                 print("Found the URL:", a['href'])
-#
-#                                 page = requests.get(a['href'])
-#                                 soup = BeautifulSoup(page.content, 'lxml')
-#
-#                                 for img in soup.find_all('img', src=True):
-#                                     if "gelbooru.com" in img['src'] and "sample" in img['src']:
-#                                         filename = r"/Volumes/ExternalHD/workspace/python/Monke D. Luffy/hentai/one_piece/" + k + r"/"
-#                                         # filename = r"/home/timmy/hentai/one_piece/" + k + r"/"
-#
-#                                         filename += ''.join(random.choices(string.ascii_uppercase + string.digits, k = 6)) + '.jpg'
-#
-#                                         r = requests.get(img['src'], stream=True)
-#
-#                                         if r.status_code == 200:
-#                                             r.raw.decode_content = True
-#                                             with open(filename, 'wb') as f:
-#                                                 shutil.copyfileobj(r.raw, f)
-#
-#                                             print("Image sucessfully Download:", filename)
-#
-#                                         else:
-#                                             print("Image Couldn\'t be retreived.")
-#
-#                     except requests.exceptions.ReadTimeout:
-#                         print("Read Timeout occurred.")
-#                     finally:
-#                         number += 42
-#
-#                         time.sleep(5)
-#         number = 0
