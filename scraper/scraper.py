@@ -14621,6 +14621,30 @@ def main():
             "zoe": "https://gelbooru.com/index.php?page=post&s=list&tags=zoe_%28league_of_legends%29",
             "zyra": "https://gelbooru.com/index.php?page=post&s=list&tags=zyra+league_of_legends",
 
+            # DRAGON BALL
+            "bulma_briefs": "https://gelbooru.com/index.php?page=post&s=list&tags=bulma",
+            "chi_chi": "https://gelbooru.com/index.php?page=post&s=list&tags=chi-chi_(dragon_ball)",
+            "videl_satan": "https://ja.gelbooru.com/index.php?page=post&s=list&tags=videl",
+            "pan": "https://gelbooru.com/index.php?page=post&s=list&tags=pan_(dragon_ball)",
+            "android_18": "https://gelbooru.com/index.php?page=post&s=list&tags=android_18",
+            "bulla_briefs": "https://gelbooru.com/index.php?page=post&s=list&tags=bra_(dragon_ball)",
+            # Note: Uses alternate name
+            "launch": "https://gelbooru.com/index.php?page=post&s=list&tags=launch_(dragon_ball)",
+            "marron": "https://gelbooru.com/index.php?page=post&s=list&tags=marron_(dragon_ball)",
+            "db_mai": "https://gelbooru.com/index.php?page=post&s=list&tags=mai_(dragon_ball)",
+            "ranfan": "https://gelbooru.com/index.php?page=post&s=list&tags=ranfan",
+            "vados": "https://gelbooru.com/index.php?page=post&s=list&tags=vados_(dragon_ball)",
+            "caulifla": "https://gelbooru.com/index.php?page=post&s=list&tags=caulifla",
+            "kale": "https://gelbooru.com/index.php?page=post&s=list&tags=kale_(dragon_ball)",
+            "ribrianne": "https://gelbooru.com/index.php?page=post&s=list&tags=ribrianne",
+            "oceanus_shenron": "https://gelbooru.com/index.php?page=post&s=list&tags=oceanus_shenron",
+            "gine": "https://gelbooru.com/index.php?page=post&s=list&tags=gine",
+            "fasha": "https://gelbooru.com/index.php?page=post&s=list&tags=fasha",
+            "zangya": "https://gelbooru.com/index.php?page=post&s=list&tags=zangya",
+            "towa": "https://gelbooru.com/index.php?page=post&s=list&tags=towa_(dragon_ball)",
+            "chronoa": "https://gelbooru.com/index.php?page=post&s=list&tags=supreme_kai_of_time",
+            "arale_norimaki": "https://gelbooru.com/index.php?page=post&s=list&tags=norimaki_arale",
+
             # NARUTO
             "tsunade_senju": "https://gelbooru.com/index.php?page=post&s=list&tags=tsunade",
             "sakura_haruno": "https://gelbooru.com/index.php?page=post&s=list&tags=haruno_sakura",
@@ -14691,30 +14715,6 @@ def main():
             "dimaria_yesta": "https://gelbooru.com/index.php?page=post&s=list&tags=dimaria_yesta",
             "irene_belserion": "https://gelbooru.com/index.php?page=post&s=list&tags=irene_belserion",
             "hisui_fiore": "https://gelbooru.com/index.php?page=post&s=list&tags=hisui_e._fiore", # Note: Different format
-
-            # DRAGON BALL
-            "bulma_briefs": "https://gelbooru.com/index.php?page=post&s=list&tags=bulma",
-            "chi_chi": "https://gelbooru.com/index.php?page=post&s=list&tags=chi-chi_(dragon_ball)",
-            "videl_satan": "https://ja.gelbooru.com/index.php?page=post&s=list&tags=videl",
-            "pan": "https://gelbooru.com/index.php?page=post&s=list&tags=pan_(dragon_ball)",
-            "android_18": "https://gelbooru.com/index.php?page=post&s=list&tags=android_18",
-            "bulla_briefs": "https://gelbooru.com/index.php?page=post&s=list&tags=bra_(dragon_ball)",
-            # Note: Uses alternate name
-            "launch": "https://gelbooru.com/index.php?page=post&s=list&tags=launch_(dragon_ball)",
-            "marron": "https://gelbooru.com/index.php?page=post&s=list&tags=marron_(dragon_ball)",
-            "db_mai": "https://gelbooru.com/index.php?page=post&s=list&tags=mai_(dragon_ball)",
-            "ranfan": "https://gelbooru.com/index.php?page=post&s=list&tags=ranfan",
-            "vados": "https://gelbooru.com/index.php?page=post&s=list&tags=vados_(dragon_ball)",
-            "caulifla": "https://gelbooru.com/index.php?page=post&s=list&tags=caulifla",
-            "kale": "https://gelbooru.com/index.php?page=post&s=list&tags=kale_(dragon_ball)",
-            "ribrianne": "https://gelbooru.com/index.php?page=post&s=list&tags=ribrianne",
-            "oceanus_shenron": "https://gelbooru.com/index.php?page=post&s=list&tags=oceanus_shenron",
-            "gine": "https://gelbooru.com/index.php?page=post&s=list&tags=gine",
-            "fasha": "https://gelbooru.com/index.php?page=post&s=list&tags=fasha",
-            "zangya": "https://gelbooru.com/index.php?page=post&s=list&tags=zangya",
-            "towa": "https://gelbooru.com/index.php?page=post&s=list&tags=towa_(dragon_ball)",
-            "chronoa": "https://gelbooru.com/index.php?page=post&s=list&tags=supreme_kai_of_time",
-            "arale_norimaki": "https://gelbooru.com/index.php?page=post&s=list&tags=norimaki_arale",
 
             # ATTACK ON TITAN
             "mikasa_ackerman": "https://gelbooru.com/index.php?page=post&s=list&tags=mikasa_ackerman",
