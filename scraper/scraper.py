@@ -1382,9 +1382,41 @@ class CharacterClassifier:
                             if any(alias in tags for alias in char_aliases):
                                 return (series, char_name)
 
-        # Rest of the identification logic remains the same...
-        [Previous logic
-        from before]
+        # If we have a series from URL, prioritize that series first
+        if url_series and url_series in self.CHARACTER_MAPPINGS:
+            char_mappings = self.CHARACTER_MAPPINGS[url_series]
+            for char_name, aliases in char_mappings.items():
+                if any(alias in tags for alias in aliases):
+                    return (url_series, char_name)
+
+        # Try to determine series from tags
+        detected_series = None
+        for series, indicators in self.series_indicators.items():
+            if any(indicator in tags for indicator in indicators):
+                detected_series = series
+                break
+
+        # If we found a series in the tags, try matching characters from that series
+        if detected_series:
+            char_mappings = self.CHARACTER_MAPPINGS[detected_series]
+            for char_name, aliases in char_mappings.items():
+                if any(alias in tags for alias in aliases):
+                    return (detected_series, char_name)
+
+        # If no specific series match, look for exact character matches
+        for series, char_mappings in self.CHARACTER_MAPPINGS.items():
+            for char_name, aliases in char_mappings.items():
+                if any(alias == tags for alias in aliases):
+                    return (series, char_name)
+
+        # Finally, try partial matches with series context
+        for series, char_mappings in self.CHARACTER_MAPPINGS.items():
+            for char_name, aliases in char_mappings.items():
+                if any(alias in tags for alias in aliases):
+                    # Double check if this match makes sense with URL context
+                    if url_series and series != url_series:
+                        continue
+                    return (series, char_name)
 
         return ("unknown", "unknown")
 
