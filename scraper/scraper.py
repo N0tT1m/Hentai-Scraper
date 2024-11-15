@@ -1018,6 +1018,143 @@ class CharacterClassifier:
             },
         }
 
+    def get_url_key(self, input_name: str) -> str:
+        """
+        Match a character name to its correct prefixed URL key.
+
+        Args:
+            input_name (str): Original character name from the CHARACTER_MAPPINGS
+
+        Returns:
+            str: The prefixed key to use for URL lookup (e.g., "op_nami", "hxh_shizuku")
+        """
+        input_name = input_name.lower().strip()
+
+        # If input is already in prefixed format, return it
+        prefixes = {
+            "op_", "dota_", "opm_", "lr_", "ds_", "jjk_", "lol_",
+            "db_", "cb_", "kono_", "sxf_", "poke_", "hxh_", "voca_"
+        }
+
+        if any(input_name.startswith(prefix) for prefix in prefixes):
+            return input_name
+
+        # Check character mappings for matching aliases
+        for series_name, chars in self.CHARACTER_MAPPINGS.items():
+            for char_key, aliases in chars.items():
+                if input_name in [alias.lower() for alias in aliases]:
+                    # Find the prefixed alias if it exists
+                    prefixed = next(
+                        (alias for alias in aliases if any(alias.startswith(p) for p in prefixes)),
+                        None
+                    )
+                    if prefixed:
+                        return prefixed.lower()
+
+        return input_name
+
+    def find_prefixed_key(input_name: str, character_mappings: dict) -> str:
+        """
+        Find the prefixed URL key for a character by checking all their aliases.
+
+        Args:
+            input_name (str): The name or alias to look up (e.g., "shizuku" or "hxh_shizuku")
+            character_mappings (dict): The CHARACTER_MAPPINGS dictionary
+
+        Returns:
+            str: The prefixed key (e.g., "hxh_shizuku") or original input if no match found
+        """
+        # Normalize input
+        input_name = input_name.lower().strip()
+
+        # First check if input is already a prefixed key
+        prefix_patterns = {
+            "op_": "one_piece",
+            "dota_": "dota2",
+            "opm_": "one_punch_man",
+            "lr_": "lycoris_recoil",
+            "ds_": "demon_slayer",
+            "jjk_": "jujutsu_kaisen",
+            "lol_": "league_of_legends",
+            "db_": "dragon_ball",
+            "cb_": "cowboy_bebop",
+            "kono_": "konosuba",
+            "sxf_": "spy_x_family",
+            "poke_": "pokemon",
+            "hxh_": "hunter_x_hunter",
+            "voca_": "hatsune_miku"
+        }
+
+        # If input is already a prefixed key, return it
+        for prefix in prefix_patterns.keys():
+            if input_name.startswith(prefix):
+                return input_name
+
+        # Search through all character mappings
+        for series, characters in character_mappings.items():
+            for char_key, aliases in characters.items():
+                # Convert all aliases to lowercase for comparison
+                aliases_lower = [alias.lower() for alias in aliases]
+
+                if input_name in aliases_lower:
+                    # Find the prefixed alias from the original aliases list
+                    for alias in aliases:
+                        for prefix in prefix_patterns.keys():
+                            if alias.lower().startswith(prefix):
+                                return alias
+
+        return input_name
+
+    # Example usage:
+    def test_character_matcher():
+        # Test cases
+        test_mappings = {
+            "hunter_x_hunter": {
+                "shizuku": ["shizuku", "shizuku_(hunter_x_hunter)", "hxh_shizuku"],
+            },
+            "one_piece": {
+                "nami": ["nami", "nami_(one_piece)", "op_nami"],
+            },
+            "league_of_legends": {
+                "annie": ["annie", "annie_(league_of_legends)", "lol_annie"],
+            }
+        }
+
+        test_cases = [
+            ("shizuku", "hxh_shizuku"),
+            ("shizuku_(hunter_x_hunter)", "hxh_shizuku"),
+            ("hxh_shizuku", "hxh_shizuku"),
+            ("nami", "op_nami"),
+            ("nami_(one_piece)", "op_nami"),
+            ("op_nami", "op_nami"),
+            ("annie", "lol_annie"),
+            ("annie_(league_of_legends)", "lol_annie"),
+            ("lol_annie", "lol_annie"),
+            ("unknown_character", "unknown_character")  # Should return original input
+        ]
+
+        print("Testing character matcher:")
+        print("-" * 50)
+        for input_name, expected in test_cases:
+            result = find_prefixed_key(input_name, test_mappings)
+            status = "✓" if result == expected else "✗"
+            print(f"{status} Input: {input_name:<30} Output: {result:<20} Expected: {expected}")
+
+    def get_character_url(character_name: str, character_mappings: dict, urls: dict) -> str:
+        """
+        Get the URL for a character using any of their aliases.
+
+        Args:
+            character_name (str): Any form of the character's name
+            character_mappings (dict): The CHARACTER_MAPPINGS dictionary
+            urls (dict): The URLs dictionary
+
+        Returns:
+            str: The URL for the character or None if not found
+        """
+        prefixed_key = find_prefixed_key(character_name, character_mappings)
+        return urls.get(prefixed_key)
+
     def _create_name_conflicts(self):
         """Create comprehensive mapping of all conflicting character names"""
         self.name_conflicts = {
@@ -1846,49 +1983,71 @@ class HentaiScraper(ABC):
         """
         pass
 
-    def process_urls(self, urls: Dict[str, List[str]], max_pages: int = 380, max_workers: Optional[int] = None) -> None:
-        """
-        Process multiple URLs using thread pool
+    def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
+        """Process multiple URLs using thread pool with rolling queue of 4 concurrent scrapers"""
+        try:
+            self.logger.info(f"Starting scraping with 4 concurrent scrapers")
+            self.logger.info(f"Total characters to process: {len(urls)}")
 
-        Args:
-            urls (Dict[str, List[str]]): Dictionary mapping character names to lists of URLs
-            max_pages (int): Maximum number of pages to process per URL
-            max_workers (Optional[int]): Maximum number of worker threads to use
-        """
-        if max_workers is None:
-            max_workers = min(20, len(urls))  # Default to 20 threads or number of characters if less
+            # Create processed URLs dictionary with correct keys
+            processed_urls = {}
+            for char_key, url in urls.items():
+                # Get the correct prefixed key for each character
+                prefixed_key = self.character_classifier.get_url_key(char_key)
+                if prefixed_key != char_key:
+                    self.logger.info(f"Remapping character key from {char_key} to {prefixed_key}")
+                processed_urls[prefixed_key] = url
 
-        self.logger.info(f"Starting scraping with {max_workers} threads")
+            # System diagnostics
+            process = psutil.Process()
+            self.logger.info(f"Current memory usage: {process.memory_info().rss / 1024 / 1024:.2f} MB")
+            self.logger.info(f"Current thread count: {threading.active_count()}")
+            self.logger.info("Current threads: " + ", ".join([t.name for t in threading.enumerate()]))
 
-        # Ensure URLs are in correct format
-        processed_urls = {
-            char: [url] if isinstance(url, str) else url
-            for char, url in urls.items()
-        }
+            # Create thread pool with exactly 4 workers
+            self.logger.info("Creating thread pool executor...")
+            executor = concurrent.futures.ThreadPoolExecutor(
+                max_workers=4,
+                thread_name_prefix="scraper"
+            )
+            self.logger.info("Thread pool executor created")
 
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            future_to_char = {}
+            try:
+                # Convert all items to list for easier queueing
+                remaining_chars = list(processed_urls.items())
+                active_futures = {}  # Track active futures
+                completed_count = 0
 
-            # Submit jobs to thread pool
-            for character, url_list in processed_urls.items():
-                if self.state.start_character(character):
-                    future = executor.submit(self.process_character, character, url_list, max_pages)
-                    future_to_char[future] = character
+                # Initial launch of first 4 characters
+                initial_chars = remaining_chars[:4]
+                remaining_chars = remaining_chars[4:]
 
-            # Process completed jobs
-            for future in concurrent.futures.as_completed(future_to_char):
-                character = future_to_char[future]
-                try:
-                    future.result()
-                    self.logger.info(f"Completed processing for {character}")
-                except Exception as e:
-                    self.logger.error(f"Error processing {character}: {str(e)}")
-                finally:
-                    self.state.complete_character(character)
+                self.logger.info(f"Starting initial 4 characters: {[char for char, _ in initial_chars]}")
 
-        self.logger.info(f"Completed scraping {len(self.state.completed_characters)} characters")
-        self.logger.info("Completed characters: " + ", ".join(sorted(self.state.completed_characters)))
+                # Submit initial tasks
+                for character, url_list in initial_chars:
+                    self.logger.info(f"Processing {character}")
+                    url_list = [url_list] if isinstance(url_list, str) else url_list
 
+                    if self.state.start_character(character):
+                        self.logger.info(f"Lock acquired for {character}")
+                        future = executor.submit(self._process_character_wrapper, character, url_list, max_pages)
+                        active_futures[future] = character
+                        self.logger.info(f"Task submitted for {character}")
+                    else:
+                        self.logger.warning(f"Could not acquire lock for {character}")
+
+                # Rest of the existing process_urls code...
+
+            finally:
+                self.logger.info("Shutting down executor")
+                executor.shutdown(wait=True)
+                self.logger.info("Executor shutdown complete")
+
+        except Exception as e:
+            self.logger.error(f"Error in process_urls: {str(e)}")
+            self.logger.exception("Error traceback:")
+            raise
     @abstractmethod
     def cleanup(self) -> None:
         """
@@ -3236,6 +3395,7 @@ class ThreadedGelbooruScraper(HentaiScraper):
                 logging.StreamHandler()
             ]
         )
+        self.character_classifier = CharacterClassifier()
         self.logger = logging.getLogger(__name__)
 
         # Now proceed with other initialization
