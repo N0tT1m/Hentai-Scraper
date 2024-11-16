@@ -2201,7 +2201,7 @@ class ThreadedGelbooruScraper(HentaiScraper):
             self.logger.error(f"Error parsing character path: {str(e)}")
             return Path('raw')
 
-    def process_urls(self, urls: Dict[str, str], max_pages: int = 380):
+    def process_urls(self, urls: Dict[str, str], max_pages: int = 1000):
         """Process multiple URLs using thread pool with rolling queue of 4 concurrent scrapers"""
         try:
             self.logger.info(f"Starting scraping with 4 concurrent scrapers")
@@ -2309,7 +2309,7 @@ class ThreadedGelbooruScraper(HentaiScraper):
             self.logger.exception("Error traceback:")
             raise
 
-    def process_character(self, character: str, urls: List[str], max_pages: int = 380) -> None:
+    def process_character(self, character: str, urls: List[str], max_pages: int = 1000) -> None:
         """Process a single character's URLs with enhanced error handling"""
         thread = threading.current_thread()
         self.logger.info(f"Thread {thread.name} processing {character}")
@@ -2322,6 +2322,31 @@ class ThreadedGelbooruScraper(HentaiScraper):
                 self.logger.info(f"Processing URL {url_index}/{len(urls)} for {character}: {base_url}")
 
                 try:
+                    # Check first page for images before processing
+                    if not self._safe_navigate(base_url):
+                        self.logger.error(f"Initial navigation failed for {character}")
+                        continue
+
+                    # Wait for thumbnail container
+                    try:
+                        self.logger.debug(f"Checking for thumbnails on initial page for {character}")
+                        WebDriverWait(browser, 10).until(
+                            EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                        )
+
+                        # Find all image links on first page
+                        links = WebDriverWait(browser, 10).until(
+                            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
+                        )
+
+                        if not links:
+                            self.logger.warning(f"No images found for {character} on initial page, skipping character")
+                            return  # Skip to next character if no images found
+                    except Exception as e:
+                        self.logger.warning(f"No images found for {character}, skipping character: {str(e)}")
+                        return  # Skip to next character if no thumbnails found
+
+                    # Process pages only if initial check passed
                     for page_num in range(max_pages):
                         current_url = f"{base_url}&pid={page_num * 42}" if page_num > 0 else base_url
                         self.logger.info(f"Processing page {page_num + 1} for {character}: {current_url}")
@@ -2333,15 +2358,24 @@ class ThreadedGelbooruScraper(HentaiScraper):
 
                             # Wait for thumbnail container
                             self.logger.debug(f"Waiting for thumbnail container on {current_url}")
-                            WebDriverWait(browser, 10).until(
-                                EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
-                            )
+                            try:
+                                WebDriverWait(browser, 10).until(
+                                    EC.presence_of_element_located((By.CSS_SELECTOR, "div.thumbnail-container"))
+                                )
+                            except Exception as e:
+                                self.logger.info(
+                                    f"No more images found for {character} after page {page_num}, moving to next URL")
+                                break  # Break the page loop if no more thumbnails found
 
                             # Find all image links
-                            self.logger.debug(f"Finding image links on {current_url}")
                             links = WebDriverWait(browser, 10).until(
                                 EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.thumbnail-preview a"))
                             )
+
+                            if not links:
+                                self.logger.info(
+                                    f"No more images found for {character} after page {page_num}, moving to next URL")
+                                break  # Break the page loop if no more images found
 
                             image_urls = [link.get_attribute('href') for link in links if link.get_attribute('href')]
                             self.logger.info(f"Found {len(image_urls)} images for {character} on page {page_num + 1}")
@@ -2368,10 +2402,9 @@ class ThreadedGelbooruScraper(HentaiScraper):
 
                         except Exception as e:
                             self.logger.error(f"Error processing page {page_num + 1} for {character}: {str(e)}")
-                            # Check if it's a connection error
                             if "NewConnectionError" in str(e) or "ConnectionError" in str(e):
                                 self.logger.info(f"Connection error detected for {character}, moving to next character")
-                                return  # Exit the function entirely, moving to next character
+                                return
                             continue
 
                 except Exception as e:
