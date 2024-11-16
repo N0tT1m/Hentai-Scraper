@@ -1548,7 +1548,7 @@ class HentaiScraper(ABC):
             # Create thread pool with exactly 4 workers
             self.logger.info("Creating thread pool executor...")
             executor = concurrent.futures.ThreadPoolExecutor(
-                max_workers=24,
+                max_workers=4,
                 thread_name_prefix="scraper"
             )
             self.logger.info("Thread pool executor created")
@@ -2216,7 +2216,7 @@ class ThreadedGelbooruScraper(HentaiScraper):
             # Create thread pool with exactly 4 workers
             self.logger.info("Creating thread pool executor...")
             executor = concurrent.futures.ThreadPoolExecutor(
-                max_workers=24,
+                max_workers=4,
                 thread_name_prefix="scraper"
             )
             self.logger.info("Thread pool executor created")
@@ -2718,7 +2718,7 @@ class ThreadedDanbooruScraper(HentaiScraper):
             self.logger.info(f"Total characters to process: {len(urls)}")
 
             # Create thread pool
-            with concurrent.futures.ThreadPoolExecutor(max_workers=24,
+            with concurrent.futures.ThreadPoolExecutor(max_workers=4,
                                                        thread_name_prefix="danbooru") as executor:
                 # Setup processing queues
                 remaining_chars = list(urls.items())
